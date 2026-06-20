@@ -191,7 +191,7 @@ export default function ChatModal() {
         onClick={() => setOpen(true)}
         aria-label="Open concierge chat"
         aria-expanded={open}
-        className="fixed bottom-6 right-6 z-[80] flex h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+        className="fixed right-6 z-[80] flex h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine bottom-[max(1.5rem,env(safe-area-inset-bottom))]"
       >
         <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.6} />
       </button>
@@ -213,7 +213,7 @@ export default function ChatModal() {
                    max-md:inset-0 max-md:bottom-0 max-md:right-0 max-md:left-0 max-md:top-0
                    max-md:h-[100dvh] max-md:w-screen max-md:rounded-none max-md:border-0"
       >
-        <header className="flex items-center justify-between px-5 py-4 border-b border-ink/10 shrink-0">
+        <header className="flex items-center justify-between px-5 py-4 border-b border-ink/10 shrink-0 max-md:pt-[max(1rem,env(safe-area-inset-top))]">
           <span
             className="text-[15px] text-ink"
             style={{
@@ -229,7 +229,7 @@ export default function ChatModal() {
             type="button"
             onClick={close}
             aria-label="Close chat"
-            className="flex h-9 w-9 items-center justify-center rounded-[8px] text-ink/55 transition-colors hover:bg-ink/[0.05] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+            className="flex h-9 w-9 max-md:h-11 max-md:w-11 items-center justify-center rounded-[8px] text-ink/55 transition-colors hover:bg-ink/[0.05] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
           >
             <X className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -278,13 +278,13 @@ export default function ChatModal() {
             type="text"
             placeholder="Type a message..."
             aria-label="Message"
-            className="h-10 flex-1 rounded-[8px] border border-transparent bg-ink/[0.04] px-3 text-[13px] font-medium text-ink placeholder:text-ink/45 outline-none transition-colors focus:border-ink/20 focus:bg-white"
+            className="h-10 max-md:h-11 flex-1 rounded-[8px] border border-transparent bg-ink/[0.04] px-3 text-[13px] max-md:text-[16px] font-medium text-ink placeholder:text-ink/45 outline-none transition-colors focus:border-ink/20 focus:bg-white"
             style={{ fontFamily: "var(--font-sans)" }}
           />
           <button
             type="submit"
             aria-label="Send message"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-marine text-white transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+            className="flex h-10 w-10 max-md:h-11 max-md:w-11 shrink-0 items-center justify-center rounded-[8px] bg-marine text-white transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
           >
             <Send className="h-4 w-4" strokeWidth={1.75} />
           </button>

@@ -56,7 +56,10 @@ export default function Footer() {
             <ul className="flex flex-col gap-3 font-sans text-[15px] text-white/75">
               {navigateLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="hover:text-cream transition-colors">
+                  <a
+                    href={link.href}
+                    className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -70,25 +73,34 @@ export default function Footer() {
             </p>
             <ul className="flex flex-col gap-3 font-sans text-[15px] text-white/75">
               <li>
-                <a href="#" className="hover:text-cream transition-colors">
+                <a
+                  href="#"
+                  className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
+                >
                   Instagram
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-cream transition-colors">
+                <a
+                  href="#"
+                  className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
+                >
                   Journal
                 </a>
               </li>
               <li>
                 <a
                   href="mailto:reservations@maisondoree.fr"
-                  className="hover:text-cream transition-colors"
+                  className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
                 >
                   reservations@maisondoree.fr
                 </a>
               </li>
               <li>
-                <a href="tel:+33493000000" className="hover:text-cream transition-colors">
+                <a
+                  href="tel:+33493000000"
+                  className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
+                >
                   +33 4 93 00 00 00
                 </a>
               </li>

@@ -26,8 +26,10 @@ const personOptions = Array.from({ length: 10 }, (_, i) => i + 1);
 // of its own. The vertical dividers between fields are drawn on the wrapper
 // divs. `!h-16` is needed for the shadcn SelectTrigger because its
 // `data-[size=default]:h-8` rule outweighs an unsuffixed `h-16` on specificity.
+// On mobile the field collapses to 48px so the four-row stack doesn't crowd
+// the hero composition.
 const fieldTrigger =
-  "relative !h-16 w-full px-5 bg-transparent text-left flex flex-col items-start justify-center gap-0.5 font-sans transition-colors hover:bg-ink/[0.035] focus-visible:bg-ink/[0.05] focus-visible:outline-none";
+  "relative !h-16 max-md:!h-12 w-full px-5 max-md:px-4 bg-transparent text-left flex flex-col items-start justify-center gap-0.5 font-sans transition-colors hover:bg-ink/[0.035] focus-visible:bg-ink/[0.05] focus-visible:outline-none";
 
 const fieldLabel =
   "text-[10px] uppercase tracking-[0.2em] text-ink/55 font-sans leading-none";
@@ -37,7 +39,7 @@ const fieldValueBase = "text-[14px] font-sans leading-tight truncate";
 // Pure-ink CTA. Slightly lifted on hover with a hint of bronze warmth; ink/90
 // over the white bar's edge reads as a softer black, not a different colour.
 const ctaButton =
-  "h-16 w-full md:w-56 inline-flex items-center justify-center gap-2 bg-ink text-white font-sans text-[14px] font-medium tracking-[0.04em] transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  "h-16 max-md:h-12 w-full md:w-56 inline-flex items-center justify-center gap-2 bg-ink text-white font-sans text-[14px] font-medium tracking-[0.04em] transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 // Refined-ledger calendar overrides. The classNames are spread last inside
 // shadcn's Calendar so these win over the defaults; --cell-size sets each
@@ -114,7 +116,7 @@ export default function Hero() {
       <section
         ref={sectionRef}
         id="top"
-        className="bg-white h-[100dvh] flex flex-col"
+        className="bg-white h-[100dvh] min-h-[640px] flex flex-col"
       >
         <h1 className="sr-only">
           Maison Dorée — coastal hotel in Saint-Jean-Cap-Ferrat
@@ -154,7 +156,7 @@ export default function Hero() {
                 centering. Inner pill handles visual styling + the load
                 animation (Y + opacity only), so the entrance can never
                 fight the parent's translateX. */}
-            <div className="absolute left-1/2 bottom-6 sm:bottom-10 w-[94%] sm:w-[88%] lg:w-[80%] max-w-[1180px] -translate-x-1/2">
+            <div className="absolute left-1/2 bottom-3 sm:bottom-10 w-[94%] sm:w-[88%] lg:w-[80%] max-w-[1180px] -translate-x-1/2">
               <div className="rounded-2xl bg-white border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.25)] overflow-hidden">
               <form
                 onSubmit={(e) => e.preventDefault()}
@@ -189,7 +191,7 @@ export default function Hero() {
                       align="start"
                       sideOffset={10}
                       alignItemWithTrigger={false}
-                      className="min-w-[--anchor-width] min-h-[280px] max-h-[280px] p-1.5 scroll-dark"
+                      className="min-w-[--anchor-width] md:min-h-[280px] max-h-[280px] max-md:max-h-[220px] p-1.5 scroll-dark"
                     >
                       {personOptions.map((n) => {
                         const isSelected = persons === String(n);

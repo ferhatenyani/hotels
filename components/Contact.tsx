@@ -105,7 +105,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="grain relative bg-cream px-4 sm:px-6 lg:px-10 py-20 md:py-[120px] overflow-hidden"
+      className="grain relative bg-cream px-4 sm:px-6 lg:px-10 py-14 md:py-[120px] overflow-hidden"
     >
       {/* Decorative coastal ornament — a thin horizon line with a small disc,
           tucked at the lower-right. Hidden on small screens to keep the
@@ -135,7 +135,7 @@ export default function Contact() {
       </svg>
 
       <div className="max-w-[1280px] mx-auto relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 lg:gap-20">
           {/* Letterhead column */}
           <div className="contact-letterhead lg:col-span-5 lg:pt-2">
             <p className="contact-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
@@ -151,7 +151,7 @@ export default function Contact() {
               className="contact-rule mt-7 block h-px w-14 bg-marine"
             />
 
-            <ul className="mt-12 md:mt-14 flex flex-col gap-8 md:gap-10">
+            <ul className="mt-8 md:mt-14 flex flex-col gap-5 md:gap-10">
               {ledger.map((item, i) => (
                 <li
                   key={item.label}
@@ -190,8 +190,8 @@ export default function Contact() {
                 className="absolute left-0 right-0 top-0 h-[2px] bg-marine"
               />
 
-              <div className="p-8 sm:p-10 lg:p-12">
-                <div className="flex items-baseline justify-between gap-4 mb-10">
+              <div className="p-6 sm:p-10 lg:p-12">
+                <div className="flex items-baseline justify-between gap-4 mb-6 md:mb-10">
                   <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
                     A letter to the desk
                   </p>
@@ -205,13 +205,13 @@ export default function Contact() {
 
                 {!sent ? (
                   <form
-                    className="flex flex-col gap-9"
+                    className="flex flex-col gap-6 md:gap-9"
                     onSubmit={(e) => {
                       e.preventDefault();
                       setSent(true);
                     }}
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-9">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-9">
                       <Field
                         index="01"
                         id="fullname"
@@ -350,7 +350,7 @@ function Field({
             autoComplete={autoComplete}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            className="w-full bg-transparent font-sans font-normal text-[16px] text-ink placeholder:text-ink/30 outline-none pb-3"
+            className="w-full bg-transparent font-sans font-normal text-[16px] text-ink placeholder:text-ink/30 outline-none pb-3 max-md:min-h-[44px] max-md:pt-2"
           />
         )}
         <span

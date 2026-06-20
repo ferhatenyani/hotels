@@ -22,6 +22,9 @@ type Tile = {
 // `grid-rows-2`. Pattern is T S S T S where T = tall (one tile spanning
 // both rows) and S = stacked pair (two tiles, one per row). Column widths
 // vary deliberately so no two adjacent columns share a rhythm.
+//
+// Mobile sizes (max-md) are ~55% of desktop so the rhythm reads at phone
+// scale. Row-span-2 mobile height = 2 * single_h + mobile_gap(16) = 296.
 const tiles: Tile[] = [
   // Col 1 — tall portrait
   {
@@ -29,7 +32,7 @@ const tiles: Tile[] = [
     alt: "Hotel suite at dawn",
     w: 300,
     h: 484,
-    classes: "w-[300px] h-[484px] row-span-2",
+    classes: "w-[300px] h-[484px] max-md:w-[170px] max-md:h-[296px] row-span-2",
   },
   // Col 2 — wide landscape stack
   {
@@ -37,14 +40,14 @@ const tiles: Tile[] = [
     alt: "The terrace pool",
     w: 440,
     h: 230,
-    classes: "w-[440px] h-[230px]",
+    classes: "w-[440px] h-[230px] max-md:w-[244px] max-md:h-[140px]",
   },
   {
     src: "/images/exhibit-spa.jpg",
     alt: "The spa",
     w: 440,
     h: 230,
-    classes: "w-[440px] h-[230px]",
+    classes: "w-[440px] h-[230px] max-md:w-[244px] max-md:h-[140px]",
   },
   // Col 3 — tighter landscape stack
   {
@@ -52,14 +55,14 @@ const tiles: Tile[] = [
     alt: "The salon",
     w: 320,
     h: 230,
-    classes: "w-[320px] h-[230px]",
+    classes: "w-[320px] h-[230px] max-md:w-[180px] max-md:h-[140px]",
   },
   {
     src: "/images/exhibit-guest-room.jpg",
     alt: "A guest room",
     w: 320,
     h: 230,
-    classes: "w-[320px] h-[230px]",
+    classes: "w-[320px] h-[230px] max-md:w-[180px] max-md:h-[140px]",
   },
   // Col 4 — tall portrait
   {
@@ -67,7 +70,7 @@ const tiles: Tile[] = [
     alt: "The dining room",
     w: 280,
     h: 484,
-    classes: "w-[280px] h-[484px] row-span-2",
+    classes: "w-[280px] h-[484px] max-md:w-[160px] max-md:h-[296px] row-span-2",
   },
   // Col 5 — landscape stack
   {
@@ -75,14 +78,14 @@ const tiles: Tile[] = [
     alt: "The saltwater pool",
     w: 400,
     h: 230,
-    classes: "w-[400px] h-[230px]",
+    classes: "w-[400px] h-[230px] max-md:w-[220px] max-md:h-[140px]",
   },
   {
     src: "/images/exhibit-corner-suite.jpg",
     alt: "The corner suite",
     w: 400,
     h: 230,
-    classes: "w-[400px] h-[230px]",
+    classes: "w-[400px] h-[230px] max-md:w-[220px] max-md:h-[140px]",
   },
 ];
 
@@ -94,6 +97,8 @@ export default function Exhibit() {
   const trackRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
   const hoveredRef = useRef(false);
+  const inViewRef = useRef(true);
+  const tabVisibleRef = useRef(true);
   const lenis = useLenis();
 
   // Heading reveal + marquee tween.
@@ -147,6 +152,39 @@ export default function Exhibit() {
     };
   }, []);
 
+  // Pause the marquee when off-screen or on a hidden tab — saves mobile
+  // battery and avoids a runaway timeScale building up while we're not
+  // looking. We only resume if the user isn't hovering the track.
+  useEffect(() => {
+    const sync = () => {
+      const shouldRun =
+        inViewRef.current && tabVisibleRef.current && !hoveredRef.current;
+      if (!tweenRef.current) return;
+      if (shouldRun) tweenRef.current.play();
+      else tweenRef.current.pause();
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inViewRef.current = entry.isIntersecting;
+        sync();
+      },
+      { rootMargin: "200px 0px" },
+    );
+    if (sectionRef.current) io.observe(sectionRef.current);
+
+    const onVisibility = () => {
+      tabVisibleRef.current = document.visibilityState === "visible";
+      sync();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
   // Couple marquee speed to Lenis scroll velocity. Idle = 1×, scrolling fast
   // = up to ~2.6×. Returns to 1 with a soft decay when scrolling stops.
   useEffect(() => {
@@ -164,7 +202,9 @@ export default function Exhibit() {
     const tick = () => {
       current += (target - current) * 0.08;
       target += (1 - target) * 0.02;
-      if (!hoveredRef.current) tweenRef.current?.timeScale(current);
+      if (!hoveredRef.current && inViewRef.current && tabVisibleRef.current) {
+        tweenRef.current?.timeScale(current);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -181,7 +221,9 @@ export default function Exhibit() {
   };
   const onLeave = () => {
     hoveredRef.current = false;
-    tweenRef.current?.play();
+    if (inViewRef.current && tabVisibleRef.current) {
+      tweenRef.current?.play();
+    }
   };
 
   return (
@@ -204,7 +246,7 @@ export default function Exhibit() {
           ref={trackRef}
           onMouseEnter={onEnter}
           onMouseLeave={onLeave}
-          className="grid grid-flow-col grid-rows-2 auto-cols-max gap-6 px-4 sm:px-6 w-max will-change-transform"
+          className="grid grid-flow-col grid-rows-2 auto-cols-max gap-4 md:gap-6 px-4 sm:px-6 w-max will-change-transform"
         >
           {grid.map((tile, i) => (
             <div

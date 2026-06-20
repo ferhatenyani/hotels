@@ -161,7 +161,7 @@ export default function Rooms() {
                 <p className="font-sans font-normal text-[15px] leading-[1.7] text-graybase mt-4">
                   {room.description}
                 </p>
-                <div className="mt-auto pt-6 border-t border-ink/10 flex items-end justify-between gap-4">
+                <div className="mt-auto pt-6 border-t border-ink/10 flex flex-wrap items-end justify-between gap-4">
                   <div>
                     <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55">
                       From
@@ -175,7 +175,7 @@ export default function Rooms() {
                   </div>
                   <a
                     href="#contact"
-                    className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/25 rounded-full px-5 py-2.5 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+                    className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/25 rounded-full px-5 py-2.5 max-md:min-h-[44px] max-md:px-6 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
                   >
                     Reserve
                   </a>

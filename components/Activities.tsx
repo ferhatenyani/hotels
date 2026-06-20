@@ -146,7 +146,7 @@ export default function Activities() {
           </h2>
         </div>
 
-        <div className="activities-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 md:gap-x-12 lg:gap-x-14 gap-y-14 md:gap-y-20">
+        <div className="activities-grid grid grid-cols-2 md:grid-cols-3 gap-x-4 sm:gap-x-8 md:gap-x-12 lg:gap-x-14 gap-y-10 sm:gap-y-14 md:gap-y-20">
           {activities.map((a) => (
             <article key={a.name} className="activity-card group/card flex flex-col">
               <div className="overflow-hidden">
@@ -156,12 +156,12 @@ export default function Activities() {
                   width={1200}
                   height={900}
                   className="w-full aspect-[4/3] object-cover transition-transform duration-500 ease-out group-hover/card:scale-[1.03]"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, 33vw"
                 />
               </div>
-              <div className="flex items-center justify-between gap-5 pt-6">
+              <div className="flex items-center justify-between gap-3 sm:gap-5 pt-4 sm:pt-6">
                 <div className="flex-1 min-w-0">
-                  <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-ink/55 inline-flex items-center gap-2">
+                  <p className="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-ink/55 inline-flex items-center gap-2">
                     <span>{a.duration}</span>
                     <span
                       aria-hidden
@@ -169,10 +169,10 @@ export default function Activities() {
                     />
                     <span>{a.price}</span>
                   </p>
-                  <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-tight tracking-tight text-ink mt-3 transition-colors duration-300 ease-out group-hover/card:text-marine">
+                  <h3 className="font-display font-semibold text-[14px] sm:text-[22px] md:text-[24px] leading-tight tracking-tight text-ink mt-2 sm:mt-3 transition-colors duration-300 ease-out group-hover/card:text-marine">
                     {a.name}
                   </h3>
-                  <p className="font-sans font-normal text-[15px] leading-[1.7] text-graybase mt-3">
+                  <p className="hidden sm:block font-sans font-normal text-[15px] leading-[1.7] text-graybase mt-3">
                     {a.description}
                   </p>
                 </div>

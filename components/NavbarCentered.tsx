@@ -38,7 +38,7 @@ export default function NavbarCentered() {
         </div>
 
         {/* Center wordmark + subscript */}
-        <div className="flex-1 flex flex-col items-center">
+        <div className="flex-1 flex flex-col items-center max-md:px-14">
           <a
             href="#top"
             className="font-display font-semibold text-base sm:text-lg tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
@@ -88,13 +88,13 @@ export default function NavbarCentered() {
       </nav>
 
       {open && (
-        <div className="absolute left-3 right-3 top-full z-40 mt-2 flex flex-col gap-3 rounded-2xl bg-white px-6 py-5 text-sm shadow-[0_10px_28px_-12px_rgba(21,19,22,0.22)] md:hidden">
+        <div className="absolute left-3 right-3 top-full z-40 mt-2 flex flex-col gap-1 rounded-2xl bg-white px-6 py-3 text-sm shadow-[0_10px_28px_-12px_rgba(21,19,22,0.22)] md:hidden">
           {[...leftLinks, ...rightLinks].map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block py-3 text-[12px] uppercase tracking-[0.18em] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
+              className="flex min-h-[44px] items-center py-2 text-[12px] uppercase tracking-[0.18em] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
             >
               {link.label}
             </a>
@@ -102,7 +102,7 @@ export default function NavbarCentered() {
           <a
             href="#contact"
             onClick={() => setOpen(false)}
-            className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.18em] font-semibold text-ink py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
+            className="inline-flex min-h-[44px] items-center gap-1.5 py-2 text-[12px] uppercase tracking-[0.18em] font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
           >
             Reserve
             <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
