@@ -83,7 +83,24 @@
   }
 
   .animate-marquee {
-    animation: marquee 55s linear infinite;
+    animation: marquee 80s linear infinite;
+  }
+
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
   }
 
   /* Slim, ink-tinted scrollbar for popover lists (Guests dropdown). */
