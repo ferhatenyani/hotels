@@ -37,6 +37,7 @@ export default function Hero() {
   const [checkOut, setCheckOut] = useState<Date>();
 
   return (
+    <>
     <section id="top" className="bg-white h-[100dvh] flex flex-col">
       <Navbar />
 
@@ -108,6 +109,16 @@ export default function Hero() {
         </div>
       </div>
     </section>
+
+    {/* Spacer between the hero and the next section. Sits OUTSIDE the
+        100dvh hero so the hero still fits exactly one viewport, while the
+        next section starts well below the fold and Exhibit's negative top
+        margin can't cause an overlap. */}
+    <div
+      aria-hidden
+      className="bg-white h-44 sm:h-56 lg:h-72"
+    />
+    </>
   );
 }
 
