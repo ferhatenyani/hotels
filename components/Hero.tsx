@@ -201,9 +201,6 @@ export default function Hero() {
           </div>
         </div>
       </section>
-
-      {/* Spacer between the hero and the next section. */}
-      <div aria-hidden className="bg-white h-44 sm:h-56 lg:h-72" />
     </>
   );
 }

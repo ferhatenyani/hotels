@@ -4,8 +4,9 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 const leftLinks = [
-  { label: "Exhibit", href: "#exhibit" },
+  { label: "Rooms", href: "#rooms" },
   { label: "Activities", href: "#activities" },
+  { label: "Exhibit", href: "#exhibit" },
 ];
 
 const rightLinks = [{ label: "Contact", href: "#contact" }];

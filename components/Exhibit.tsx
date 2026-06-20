@@ -90,14 +90,14 @@ export default function Exhibit() {
   return (
     <section
       id="exhibit"
-      className="relative z-10 -mt-10 sm:-mt-16 lg:-mt-24 overflow-x-clip bg-white pb-20 md:pb-[120px]"
+      className="relative overflow-x-clip bg-white py-20 md:py-[120px]"
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pb-10 md:pb-14">
         <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
-          Within
+          A look around
         </p>
         <h2 className="font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-2xl">
-          Rooms and quiet corners
+          Spaces and quiet corners
         </h2>
       </div>
 
