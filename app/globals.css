@@ -7,12 +7,12 @@
 @theme {
   --color-ink: #151316;
   --color-cream: #e8e0d5;
-  /* "Lac Vert" emerald — the brand accent, replacing the off-brand marine
-     blue. Kept as `marine`/`navy`/`accent` aliases so existing utility
+  /* "Lac Vert" deep forest green — the brand accent, replacing the off-brand
+     marine blue. Kept as `marine`/`navy`/`accent` aliases so existing utility
      classes (bg-marine, text-navy, …) retheme without churn. */
-  --color-marine: #265a4a;
-  --color-accent: #265a4a;
-  --color-navy: #265a4a;
+  --color-marine: #1f4a37;
+  --color-accent: #1f4a37;
+  --color-navy: #1f4a37;
   --color-graybase: #3d3d3d;
   --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Erode", ui-serif, Georgia, serif;
