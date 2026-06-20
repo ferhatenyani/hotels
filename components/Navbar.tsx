@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 const navLinks = [
   { label: "Exhibit", href: "#exhibit" },
@@ -8,9 +9,11 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-// Single source of truth for navy CTA so Navbar + mobile menu stay in lock-step.
 const navyCta =
-  "inline-flex items-center justify-center rounded-[14px] bg-navy text-white font-sans text-[13px] font-medium tracking-wide transition-colors hover:bg-navy-light";
+  "inline-flex items-center gap-2 rounded-[14px] bg-navy text-white font-sans text-[13px] font-medium tracking-wide transition-colors hover:bg-navy-light";
+
+const outlinedPill =
+  "inline-flex h-9 items-center gap-2 rounded-full border border-ink/10 bg-transparent px-4 font-sans text-[13px] text-ink transition-colors hover:border-ink/25 hover:bg-ink/[0.03]";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -27,16 +30,17 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-2">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="inline-flex h-9 items-center rounded-full bg-ink/[0.05] px-4 font-sans text-[13px] text-ink transition-colors hover:bg-ink/[0.09]"
-            >
+            <a key={link.href} href={link.href} className={outlinedPill}>
+              <span
+                aria-hidden
+                className="h-1 w-1 rounded-full bg-ink/40"
+              />
               {link.label}
             </a>
           ))}
-          <a href="#contact" className={`${navyCta} ml-1 h-11 px-5`}>
+          <a href="#contact" className={`${navyCta} ml-1 h-11 pl-5 pr-4`}>
             Reserve
+            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
           </a>
         </div>
 
@@ -58,8 +62,8 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="block py-1"
               onClick={() => setOpen(false)}
+              className="block py-1"
             >
               {link.label}
             </a>
@@ -67,9 +71,10 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={() => setOpen(false)}
-            className={`${navyCta} mt-2 h-11 self-start px-5`}
+            className={`${navyCta} mt-2 h-11 self-start pl-5 pr-4`}
           >
             Reserve
+            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
           </a>
         </div>
       )}
