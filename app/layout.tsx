@@ -20,7 +20,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=general-sans-italic@400&f[]=general-serif@400,500,600&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=erode@400,500,600,700&display=swap"
         />
       </head>
       <body className="bg-white text-ink font-sans font-semibold">

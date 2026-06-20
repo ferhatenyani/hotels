@@ -52,7 +52,7 @@ const calendarClassNames = {
     "h-(--cell-size) w-full select-none rounded-md text-[13px] hover:bg-ink/[0.05] data-[selected-single=true]:bg-ink data-[selected-single=true]:text-white data-[selected-single=true]:hover:bg-ink",
 } as const;
 
-// Editorial-ledger row: Quicksand numeral on the left, small-caps label on
+// Editorial-ledger row: display-serif numeral on the left, small-caps label on
 // the right. Selected state mirrors the calendar's selected day (ink fill +
 // white text); `[&>span.absolute]:hidden` removes shadcn's default check icon
 // since the ink fill already makes selection unmistakable.

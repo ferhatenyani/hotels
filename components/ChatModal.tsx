@@ -10,9 +10,6 @@ import {
 import { gsap } from "gsap";
 import { MessageCircle, Send, X } from "lucide-react";
 
-const QUICKSAND_HREF =
-  "https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap";
-
 export default function ChatModal() {
   const [open, setOpen] = useState(false);
 
@@ -21,17 +18,9 @@ export default function ChatModal() {
   const backdropRef = useRef<HTMLDivElement>(null);
   const isMobileRef = useRef(false);
 
-  // One-time side effects: load Quicksand for the header and the dot-pulse
-  // keyframes. Both are scoped via a data-attribute so we never inject twice
-  // if the component remounts.
+  // One-time side effect: inject the dot-pulse keyframes. Scoped via a
+  // data-attribute so we never inject twice if the component remounts.
   useEffect(() => {
-    if (!document.querySelector("link[data-chat-quicksand]")) {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = QUICKSAND_HREF;
-      link.setAttribute("data-chat-quicksand", "true");
-      document.head.appendChild(link);
-    }
     if (!document.querySelector("style[data-chat-keyframes]")) {
       const style = document.createElement("style");
       style.setAttribute("data-chat-keyframes", "true");
@@ -215,13 +204,7 @@ export default function ChatModal() {
       >
         <header className="flex items-center justify-between px-5 py-4 border-b border-ink/10 shrink-0 max-md:pt-[max(1rem,env(safe-area-inset-top))]">
           <span
-            className="text-[15px] text-ink"
-            style={{
-              fontFamily:
-                '"Quicksand", ui-sans-serif, system-ui, sans-serif',
-              fontWeight: 600,
-              letterSpacing: "0.02em",
-            }}
+            className="font-display text-[16px] font-medium tracking-tight text-ink"
           >
             Concierge
           </span>
