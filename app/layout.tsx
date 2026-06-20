@@ -1,23 +1,5 @@
 import type { Metadata } from "next";
-import { Quicksand, Hanken_Grotesk, Geist } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
-
-const quicksand = Quicksand({
-  variable: "--font-quicksand",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Maison Dorée",
@@ -30,8 +12,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(quicksand.variable, hanken.variable, "font-sans", geist.variable)}>
-      <body className="bg-white text-ink font-sans">{children}</body>
+    <html lang="en" className="font-sans">
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=general-sans-italic@400&f[]=general-serif@400,500,600&display=swap"
+        />
+      </head>
+      <body className="bg-white text-ink font-sans font-semibold">{children}</body>
     </html>
   );
 }

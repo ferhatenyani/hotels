@@ -84,7 +84,7 @@ export default function Contact() {
           {!sent ? (
             <button
               type="submit"
-              className="w-full bg-accent text-ink font-display font-semibold text-sm tracking-wide rounded-[4px] py-4"
+              className="w-full bg-marine text-white font-display font-semibold text-sm tracking-wide rounded-[4px] py-4 transition-colors hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
               Send message
             </button>

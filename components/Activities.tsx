@@ -99,9 +99,15 @@ export default function Activities() {
                 </span>
                 <a
                   href="#contact"
-                  className="font-sans text-[12px] uppercase tracking-[0.16em] text-accent"
+                  className="group/cta inline-flex items-center gap-1.5 font-sans text-[12px] font-semibold uppercase tracking-[0.16em] text-marine underline decoration-marine/30 decoration-1 underline-offset-[6px] transition-colors hover:text-ink hover:decoration-ink/70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine rounded-sm"
                 >
-                  Reserve →
+                  Reserve
+                  <span
+                    aria-hidden
+                    className="inline-block transition-transform group-hover/cta:translate-x-0.5"
+                  >
+                    →
+                  </span>
                 </a>
               </div>
             </article>

@@ -24,7 +24,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3 font-sans text-[15px] text-white/75">
               {navigateLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="hover:text-accent">
+                  <a href={link.href} className="hover:text-cream transition-colors">
                     {link.label}
                   </a>
                 </li>
@@ -38,25 +38,25 @@ export default function Footer() {
             </p>
             <ul className="flex flex-col gap-3 font-sans text-[15px] text-white/75">
               <li>
-                <a href="#" className="hover:text-accent">
+                <a href="#" className="hover:text-cream transition-colors">
                   Instagram
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-accent">
+                <a href="#" className="hover:text-cream transition-colors">
                   Journal
                 </a>
               </li>
               <li>
                 <a
                   href="mailto:reservations@maisondoree.fr"
-                  className="hover:text-accent"
+                  className="hover:text-cream transition-colors"
                 >
                   reservations@maisondoree.fr
                 </a>
               </li>
               <li>
-                <a href="tel:+33493000000" className="hover:text-accent">
+                <a href="tel:+33493000000" className="hover:text-cream transition-colors">
                   +33 4 93 00 00 00
                 </a>
               </li>
@@ -64,7 +64,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-graybase/50 mt-16 md:mt-24 pt-8">
+        <div className="border-t border-white/15 mt-16 md:mt-24 pt-8">
           <p className="font-sans text-[12px] text-white/35">
             © 2026 Maison Dorée — Saint-Jean-Cap-Ferrat. All rights reserved.
           </p>
