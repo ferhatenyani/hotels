@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { gsap } from "gsap";
 
 import NavbarCentered from "./NavbarCentered";
 import { Calendar } from "@/components/ui/calendar";
@@ -60,6 +61,36 @@ export default function Hero() {
   const [persons, setPersons] = useState("");
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      // Desktop-only video parallax. mm.add gates by media query and tears
+      // down its triggers when the query no longer matches.
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px) and (pointer: fine)", () => {
+        if (!videoRef.current || !sectionRef.current) return;
+        gsap.to(videoRef.current, {
+          yPercent: 12,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const personsNum = persons ? Number.parseInt(persons, 10) : 0;
   const personsLabel = persons
@@ -68,7 +99,11 @@ export default function Hero() {
 
   return (
     <>
-      <section id="top" className="bg-white h-[100dvh] flex flex-col">
+      <section
+        ref={sectionRef}
+        id="top"
+        className="bg-white h-[100dvh] flex flex-col"
+      >
         <h1 className="sr-only">
           Maison Dorée — coastal hotel in Saint-Jean-Cap-Ferrat
         </h1>
@@ -77,8 +112,9 @@ export default function Hero() {
         <div className="flex-1 flex flex-col min-h-0 px-3 sm:px-4 lg:px-6 pt-3 sm:pt-4 lg:pt-5 pb-3 sm:pb-4 lg:pb-5">
           <div className="flex-1 relative w-full overflow-hidden rounded-2xl bg-ink min-h-0 shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)]">
             <video
+              ref={videoRef}
               aria-hidden
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover will-change-transform"
               autoPlay
               loop
               muted

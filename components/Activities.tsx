@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
 
 type Activity = {
   src: string;
@@ -61,27 +65,90 @@ const activities: Activity[] = [
 ];
 
 export default function Activities() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      const headTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".activities-head",
+          start: "top 82%",
+          once: true,
+        },
+      });
+      headTl
+        .from(".activities-rule", {
+          scaleX: 0,
+          transformOrigin: "left center",
+          duration: 0.7,
+          ease: "expo.out",
+        })
+        .from(
+          ".activities-eyebrow",
+          {
+            autoAlpha: 0,
+            x: -8,
+            duration: 0.55,
+            ease: "expo.out",
+          },
+          "-=0.4",
+        )
+        .from(
+          ".activities-heading",
+          {
+            autoAlpha: 0,
+            y: 18,
+            duration: 0.75,
+            ease: "expo.out",
+          },
+          "-=0.35",
+        );
+
+      gsap.from(".activity-card", {
+        autoAlpha: 0,
+        y: 28,
+        stagger: { each: 0.08, from: "start" },
+        duration: 0.85,
+        ease: "expo.out",
+        clearProps: "all",
+        scrollTrigger: {
+          trigger: ".activities-grid",
+          start: "top 80%",
+          once: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="activities"
       className="bg-white px-4 sm:px-6 lg:px-10 py-20 md:py-[120px]"
     >
       <div className="max-w-[1280px] mx-auto">
-        <div className="mb-14 md:mb-20 max-w-2xl">
+        <div className="activities-head mb-14 md:mb-20 max-w-2xl">
           <div className="inline-flex items-center gap-3 mb-4">
-            <span aria-hidden className="h-px w-8 bg-marine" />
-            <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase">
+            <span aria-hidden className="activities-rule h-px w-8 bg-marine" />
+            <p className="activities-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase">
               Things to do
             </p>
           </div>
-          <h2 className="font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance">
+          <h2 className="activities-heading font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance">
             Activities around the house
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 md:gap-x-12 lg:gap-x-14 gap-y-14 md:gap-y-20">
+        <div className="activities-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 md:gap-x-12 lg:gap-x-14 gap-y-14 md:gap-y-20">
           {activities.map((a) => (
-            <article key={a.name} className="group/card flex flex-col">
+            <article key={a.name} className="activity-card group/card flex flex-col">
               <div className="overflow-hidden">
                 <Image
                   src={a.src}

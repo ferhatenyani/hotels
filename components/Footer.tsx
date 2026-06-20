@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+
 const navigateLinks = [
   { label: "Exhibit", href: "#exhibit" },
   { label: "Activities", href: "#activities" },
@@ -6,18 +11,45 @@ const navigateLinks = [
 ];
 
 export default function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".footer-col", {
+        autoAlpha: 0,
+        y: 18,
+        stagger: 0.1,
+        duration: 0.7,
+        ease: "expo.out",
+        clearProps: "all",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 85%",
+          once: true,
+        },
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="grain relative bg-ink text-white">
+    <footer ref={footerRef} className="grain relative bg-ink text-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pt-20 md:pt-[120px] pb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-          <div>
+          <div className="footer-col">
             <p className="font-display font-semibold text-2xl">Maison Dorée</p>
             <p className="font-sans text-[15px] text-white/55 mt-4 max-w-xs">
               A small house on the Riviera, kept for the unhurried.
             </p>
           </div>
 
-          <div className="md:justify-self-center">
+          <div className="footer-col md:justify-self-center">
             <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-white/40 mb-5">
               Navigate
             </p>
@@ -32,7 +64,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="md:justify-self-end">
+          <div className="footer-col md:justify-self-end">
             <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-white/40 mb-5">
               Connect
             </p>

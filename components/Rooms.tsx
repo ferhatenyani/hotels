@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
 
 type Room = {
   src: string;
@@ -44,27 +48,93 @@ const rooms: Room[] = [
 ];
 
 export default function Rooms() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      const headTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".rooms-head",
+          start: "top 82%",
+          once: true,
+        },
+      });
+      headTl
+        .from(".rooms-eyebrow", {
+          autoAlpha: 0,
+          y: 10,
+          duration: 0.55,
+          ease: "expo.out",
+        })
+        .from(
+          ".rooms-heading",
+          {
+            autoAlpha: 0,
+            y: 18,
+            duration: 0.75,
+            ease: "expo.out",
+          },
+          "-=0.3",
+        )
+        .from(
+          ".rooms-rule",
+          {
+            scaleX: 0,
+            transformOrigin: "left center",
+            duration: 0.8,
+            ease: "expo.out",
+          },
+          "-=0.45",
+        );
+
+      gsap.from(".room-card", {
+        autoAlpha: 0,
+        y: 28,
+        stagger: 0.12,
+        duration: 0.9,
+        ease: "expo.out",
+        clearProps: "all",
+        scrollTrigger: {
+          trigger: ".rooms-grid",
+          start: "top 80%",
+          once: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="rooms"
       className="bg-white px-4 sm:px-6 lg:px-10 py-20 md:py-[120px]"
     >
       <div className="max-w-[1280px] mx-auto">
-        <div className="mb-14 md:mb-20 max-w-2xl">
-          <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
+        <div className="rooms-head mb-14 md:mb-20 max-w-2xl">
+          <p className="rooms-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
             Rooms
           </p>
-          <h2 className="font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance">
+          <h2 className="rooms-heading font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance">
             Where to stay the night
           </h2>
-          <span aria-hidden className="mt-6 block h-px w-14 bg-marine" />
+          <span
+            aria-hidden
+            className="rooms-rule mt-6 block h-px w-14 bg-marine"
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 lg:gap-14">
+        <div className="rooms-grid grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 lg:gap-14">
           {rooms.map((room) => (
             <article
               key={room.name}
-              className="group/card flex flex-col bg-white border border-ink/10 overflow-hidden transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_22px_44px_-22px_rgba(21,19,22,0.28)] hover:border-ink/15 focus-within:shadow-[0_22px_44px_-22px_rgba(21,19,22,0.28)]"
+              className="room-card group/card flex flex-col bg-white border border-ink/10 overflow-hidden transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_22px_44px_-22px_rgba(21,19,22,0.28)] hover:border-ink/15 focus-within:shadow-[0_22px_44px_-22px_rgba(21,19,22,0.28)]"
             >
               <div className="overflow-hidden">
                 <Image

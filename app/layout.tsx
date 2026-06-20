@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
   title: "Maison Dorée",
@@ -21,7 +22,9 @@ export default function RootLayout({
           href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=general-sans-italic@400&f[]=general-serif@400,500,600&display=swap"
         />
       </head>
-      <body className="bg-white text-ink font-sans font-semibold">{children}</body>
+      <body className="bg-white text-ink font-sans font-semibold">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
