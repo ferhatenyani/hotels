@@ -18,6 +18,7 @@ export default function ChatModal() {
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   const isMobileRef = useRef(false);
 
   // One-time side effects: load Quicksand for the header and the dot-pulse
@@ -56,6 +57,9 @@ export default function ChatModal() {
       transformOrigin: "100% 100%",
       pointerEvents: "none",
     });
+    if (backdropRef.current) {
+      gsap.set(backdropRef.current, { opacity: 0, pointerEvents: "none" });
+    }
   }, []);
 
   // Open / close transitions. Desktop morphs from the button's corner via a
@@ -73,6 +77,14 @@ export default function ChatModal() {
     const ctx = gsap.context(() => {
       if (open) {
         gsap.set(modalRef.current, { pointerEvents: "auto" });
+        if (backdropRef.current && !isMobile) {
+          gsap.set(backdropRef.current, { pointerEvents: "auto" });
+          gsap.to(backdropRef.current, {
+            opacity: 1,
+            duration: prefersReduced ? 0.01 : 0.3,
+            ease: "power2.out",
+          });
+        }
         if (isMobile) {
           gsap.fromTo(
             modalRef.current,
@@ -107,11 +119,23 @@ export default function ChatModal() {
           transformOrigin: "100% 100%",
         });
       } else {
+        if (backdropRef.current) {
+          gsap.to(backdropRef.current, {
+            opacity: 0,
+            duration: prefersReduced ? 0.01 : 0.25,
+            ease: "power2.in",
+            onComplete: () => {
+              if (backdropRef.current) {
+                gsap.set(backdropRef.current, { pointerEvents: "none" });
+              }
+            },
+          });
+        }
         if (isMobile) {
           gsap.to(modalRef.current, {
             y: "100%",
-            duration: prefersReduced ? 0.01 : 0.45,
-            ease: "power3.in",
+            duration: prefersReduced ? 0.01 : 0.55,
+            ease: "power3.inOut",
             onComplete: () => {
               if (modalRef.current) {
                 gsap.set(modalRef.current, { pointerEvents: "none" });
@@ -122,8 +146,8 @@ export default function ChatModal() {
           gsap.to(modalRef.current, {
             scale: 0,
             opacity: 0,
-            duration: prefersReduced ? 0.01 : 0.4,
-            ease: "power3.in",
+            duration: prefersReduced ? 0.01 : 0.6,
+            ease: "back.in(1.4)",
             transformOrigin: "100% 100%",
             onComplete: () => {
               if (modalRef.current) {
@@ -167,10 +191,17 @@ export default function ChatModal() {
         onClick={() => setOpen(true)}
         aria-label="Open concierge chat"
         aria-expanded={open}
-        className="fixed bottom-6 right-6 z-[80] flex h-12 w-12 items-center justify-center rounded-full border border-ink/15 bg-white text-ink transition-transform duration-300 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+        className="fixed bottom-6 right-6 z-[80] flex h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
       >
-        <MessageCircle className="h-[18px] w-[18px]" strokeWidth={1.6} />
+        <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.6} />
       </button>
+
+      <div
+        ref={backdropRef}
+        onClick={close}
+        aria-hidden
+        className="fixed inset-0 z-[85] bg-ink/[0.04] max-md:hidden"
+      />
 
       <div
         ref={modalRef}

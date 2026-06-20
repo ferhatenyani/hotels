@@ -6,15 +6,11 @@ import { gsap } from "gsap";
 const ledger = [
   {
     label: "The house",
-    lines: ["12 Chemin du Cap-Ferrat", "06230 Saint-Jean-Cap-Ferrat, France"],
+    lines: ["Saint-Jean-Cap-Ferrat, France"],
   },
   {
     label: "Reservations",
     lines: ["reservations@maisondoree.fr", "+33 4 93 00 00 00"],
-  },
-  {
-    label: "The desk is kept",
-    lines: ["Daily, 8h — 21h", "Replies within the day"],
   },
 ];
 
@@ -64,16 +60,6 @@ export default function Contact() {
           "-=0.4",
         )
         .from(
-          ".contact-lede",
-          {
-            autoAlpha: 0,
-            y: 12,
-            duration: 0.55,
-            ease: "expo.out",
-          },
-          "-=0.4",
-        )
-        .from(
           ".contact-ledger-item",
           {
             autoAlpha: 0,
@@ -82,7 +68,7 @@ export default function Contact() {
             duration: 0.55,
             ease: "expo.out",
           },
-          "-=0.3",
+          "-=0.35",
         );
 
       gsap.from(".contact-field", {
@@ -164,10 +150,6 @@ export default function Contact() {
               aria-hidden
               className="contact-rule mt-7 block h-px w-14 bg-marine"
             />
-            <p className="contact-lede font-sans font-normal text-[16px] leading-[1.7] text-graybase mt-7 max-w-md">
-              A short note is enough — a date, a number of guests, a quiet
-              wish. The desk reads each letter by hand and answers in kind.
-            </p>
 
             <ul className="mt-12 md:mt-14 flex flex-col gap-8 md:gap-10">
               {ledger.map((item, i) => (
