@@ -39,22 +39,22 @@ const ctaButton =
   "h-16 w-full md:w-56 inline-flex items-center justify-center gap-2 bg-ink text-white font-sans text-[14px] font-medium tracking-[0.04em] transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 // Refined-ledger calendar overrides. The classNames are spread last inside
-// shadcn's Calendar so these win over the defaults; --cell-size bumps each
-// day cell to 44 px for comfortable touch + breathing room.
+// shadcn's Calendar so these win over the defaults; --cell-size sets each
+// day cell to 36 px — compact, still touch-friendly.
 const calendarClassNames = {
-  caption_label: "font-display text-[15px] font-medium select-none",
+  caption_label: "font-display text-[13px] font-medium select-none",
   weekday:
     "flex-1 text-[10px] uppercase tracking-[0.2em] font-medium text-ink/55 select-none",
   day_button:
-    "h-(--cell-size) w-full select-none rounded-md hover:bg-ink/[0.05] data-[selected-single=true]:bg-ink data-[selected-single=true]:text-white data-[selected-single=true]:hover:bg-ink",
+    "h-(--cell-size) w-full select-none rounded-md text-[13px] hover:bg-ink/[0.05] data-[selected-single=true]:bg-ink data-[selected-single=true]:text-white data-[selected-single=true]:hover:bg-ink",
 } as const;
 
-// Editorial-ledger row: big Quicksand numeral on the left, small-caps label on
+// Editorial-ledger row: Quicksand numeral on the left, small-caps label on
 // the right. Selected state mirrors the calendar's selected day (ink fill +
 // white text); `[&>span.absolute]:hidden` removes shadcn's default check icon
 // since the ink fill already makes selection unmistakable.
 const selectItemBase =
-  "group/item flex w-full items-center rounded-md px-4 py-3 transition-colors cursor-pointer [&>span.absolute]:hidden";
+  "group/item flex w-full items-center rounded-md px-3 py-2.5 transition-colors cursor-pointer [&>span.absolute]:hidden";
 
 export default function Hero() {
   const [persons, setPersons] = useState("");
@@ -133,7 +133,7 @@ export default function Hero() {
                       align="start"
                       sideOffset={10}
                       alignItemWithTrigger={false}
-                      className="min-w-[--anchor-width] min-h-[360px] max-h-[360px] p-2 scroll-dark"
+                      className="min-w-[--anchor-width] min-h-[280px] max-h-[280px] p-1.5 scroll-dark"
                     >
                       {personOptions.map((n) => {
                         const isSelected = persons === String(n);
@@ -149,7 +149,7 @@ export default function Hero() {
                             )}
                           >
                             <span className="flex w-full items-center justify-between">
-                              <span className="font-display text-[22px] font-semibold leading-none tracking-tight">
+                              <span className="font-display text-[18px] font-semibold leading-none tracking-tight">
                                 {n}
                               </span>
                               <span
@@ -243,7 +243,7 @@ function DateField({
           mode="single"
           selected={value}
           onSelect={onSelect}
-          className="[--cell-size:--spacing(11)] p-3"
+          className="[--cell-size:--spacing(9)] p-2"
           classNames={calendarClassNames}
         />
       </PopoverContent>
