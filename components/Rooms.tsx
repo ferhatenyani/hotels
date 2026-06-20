@@ -14,36 +14,39 @@ type Room = {
   price: string;
 };
 
+// TODO(demo): replace `src` with real Hôtel du Lac room photography. Sizes,
+// prices (DA) and types are from the hotel's own listings; the Double's exact
+// m² is unpublished, so we show its defining feature (lake view) instead.
 const rooms: Room[] = [
   {
-    src: "/images/exhibit-suite-dawn.jpg",
-    alt: "The Riviera Suite at dawn",
-    name: "The Riviera Suite",
+    src: "/images/exhibit-corner-suite.jpg",
+    alt: "The Suite Senior's living corner, overlooking the lake",
+    name: "Suite Senior",
     description:
-      "Eastern light, the sea on the horizon, a small private terrace for early coffee.",
+      "Fifty-two square metres of calm — a living corner, a dressing room, and a wide window over Lac Mézaïa and Gouraya.",
     sleeps: 2,
-    size: "48m²",
-    price: "€820",
+    size: "52 m²",
+    price: "12 500 DA",
   },
   {
     src: "/images/exhibit-guest-room.jpg",
-    alt: "The Garden Room interior",
-    name: "The Garden Room",
+    alt: "A Chambre Double with a view of Lac Mézaïa",
+    name: "Chambre Double — Vue Lac",
     description:
-      "Quiet, low-slung, with shutters that open straight onto the citrus garden.",
+      "A bright, modern room with a lounge corner and a walk-in shower, the lake at the window — the everyday comfort guests come back for.",
     sleeps: 2,
-    size: "28m²",
-    price: "€380",
+    size: "Lake view",
+    price: "8 300 DA",
   },
   {
-    src: "/images/exhibit-corner-suite.jpg",
-    alt: "The Corner Suite interior",
-    name: "The Corner Suite",
+    src: "/images/exhibit-suite-dawn.jpg",
+    alt: "The Appartement at dawn, above the water",
+    name: "Appartement",
     description:
-      "Two aspects of the coastline and a long reading bench beneath the window.",
-    sleeps: 3,
-    size: "56m²",
-    price: "€1,040",
+      "Our largest space — one hundred and two square metres, with a full bathtub and room for the whole family, above the water.",
+    sleeps: 4,
+    size: "102 m²",
+    price: "15 500 DA",
   },
 ];
 
@@ -119,10 +122,10 @@ export default function Rooms() {
       <div className="max-w-[1280px] mx-auto">
         <div className="rooms-head mb-14 md:mb-20 max-w-2xl">
           <p className="rooms-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
-            Rooms
+            Rooms &amp; Suites
           </p>
           <h2 className="rooms-heading font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance">
-            Where to stay the night
+            Where to rest, above the lake
           </h2>
           <span
             aria-hidden

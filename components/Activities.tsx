@@ -13,54 +13,63 @@ type Activity = {
   price: string;
 };
 
+// Authentic attractions around Béjaïa, presented as concierge recommendations
+// (not paid hotel tours). The two meta chips read as "context · category".
+// TODO(demo): replace `src` with real photos of each Béjaïa landmark.
 const activities: Activity[] = [
   {
-    src: "/images/activity-sea-bathing.jpg",
-    alt: "Sea bathing off the rocks",
-    name: "Sea Bathing",
-    description: "Saltwater swims off the private rock terrace.",
-    duration: "2 hrs",
-    price: "€40",
-  },
-  {
     src: "/images/activity-vineyard-walk.jpg",
-    alt: "A walk through the coastal terraces",
-    name: "Vineyard Walk",
-    description: "A guided morning through the coastal terraces.",
-    duration: "Half day",
-    price: "€120",
-  },
-  {
-    src: "/images/activity-hammam.jpg",
-    alt: "The hammam ritual",
-    name: "Hammam Ritual",
-    description: "Steam, cold plunge and oil, taken in silence.",
-    duration: "90 min",
-    price: "€180",
-  },
-  {
-    src: "/images/activity-sunset-sailing.jpg",
-    alt: "A sloop along the cape",
-    name: "Sunset Sailing",
-    description: "A wooden sloop along the cape at golden hour.",
-    duration: "3 hrs",
-    price: "€260",
-  },
-  {
-    src: "/images/activity-garden-breakfast.jpg",
-    alt: "Breakfast in the garden",
-    name: "Garden Breakfast",
-    description: "A slow table among the citrus and herbs.",
-    duration: "1 hr",
-    price: "€55",
+    alt: "The green slopes of Gouraya National Park",
+    name: "Gouraya National Park",
+    description:
+      "Cedar slopes, sea panoramas and the Pic des Singes rising above the bay.",
+    duration: "~15 min",
+    price: "Nature",
   },
   {
     src: "/images/activity-cliff-path.jpg",
-    alt: "The customs path to the lighthouse",
-    name: "Cliff Path Hike",
-    description: "The old customs trail out to the lighthouse.",
+    alt: "The headland path to Cap Carbon lighthouse",
+    name: "Cap Carbon Lighthouse",
+    description:
+      "One of the Mediterranean's highest lighthouses, on a dramatic headland.",
     duration: "Half day",
-    price: "€70",
+    price: "Coast",
+  },
+  {
+    src: "/images/activity-sea-bathing.jpg",
+    alt: "The protected waters of Lac Mézaïa",
+    name: "Lac Mézaïa",
+    description:
+      "A protected wetland of birdlife and stillness, right outside the hotel.",
+    duration: "At the door",
+    price: "Nature",
+  },
+  {
+    src: "/images/activity-sunset-sailing.jpg",
+    alt: "The Corniche coast road of Béjaïa",
+    name: "The Corniche Beaches",
+    description:
+      "Les Aiguades and Boulimat, strung along Béjaïa's cliff-edge coast road.",
+    duration: "By car",
+    price: "Beach",
+  },
+  {
+    src: "/images/activity-garden-breakfast.jpg",
+    alt: "An evening table at the hotel restaurant",
+    name: "Lake-View Dining",
+    description:
+      "An evening table at the hotel restaurant, set above Lac Mézaïa.",
+    duration: "In-house",
+    price: "Dining",
+  },
+  {
+    src: "/images/activity-hammam.jpg",
+    alt: "The old town and sea gate of Béjaïa",
+    name: "The Casbah & Bab El Bahr",
+    description:
+      "The old town, the sea gate and Place Gueydon, in the historic centre.",
+    duration: "In town",
+    price: "Heritage",
   },
 ];
 
@@ -138,11 +147,11 @@ export default function Activities() {
           <div className="inline-flex items-center gap-3 mb-4">
             <span aria-hidden className="activities-rule h-px w-8 bg-marine" />
             <p className="activities-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase">
-              Things to do
+              Discover Béjaïa
             </p>
           </div>
           <h2 className="activities-heading font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance">
-            Activities around the house
+            Signature experiences, from your doorstep
           </h2>
         </div>
 
@@ -178,7 +187,7 @@ export default function Activities() {
                 </div>
                 <a
                   href="#contact"
-                  aria-label={`Reserve ${a.name}`}
+                  aria-label={`Ask the concierge about ${a.name}`}
                   className="group/cta shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full border border-ink/25 text-ink transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
                 >
                   <span

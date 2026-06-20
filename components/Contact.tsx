@@ -5,12 +5,12 @@ import { gsap } from "gsap";
 
 const ledger = [
   {
-    label: "The house",
-    lines: ["Saint-Jean-Cap-Ferrat, France"],
+    label: "The hotel",
+    lines: ["Rue Hassiba Ben Bouali, Aamriou", "06000 Béjaïa, Algérie"],
   },
   {
     label: "Reservations",
-    lines: ["reservations@maisondoree.fr", "+33 4 93 00 00 00"],
+    lines: ["contact@hoteldulacvert.dz", "+213 44 20 20 22"],
   },
 ];
 
@@ -139,7 +139,7 @@ export default function Contact() {
           {/* Letterhead column */}
           <div className="contact-letterhead lg:col-span-5 lg:pt-2">
             <p className="contact-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
-              Reach the house
+              Reach the desk
             </p>
             <h2 className="contact-heading font-display font-medium text-3xl sm:text-4xl lg:text-[52px] leading-[1.05] tracking-tight text-ink text-balance">
               Write to us —
@@ -420,8 +420,8 @@ function Confirmation() {
         </span>
       </p>
       <p className="confirm-step font-sans text-[14px] leading-[1.7] text-graybase max-w-md">
-        We answer in the order letters arrive — usually within the day, often
-        sooner. If a date is pressing, do telephone the house directly.
+        We answer in the order messages arrive — usually within the day, often
+        sooner. If a date is pressing, do telephone the hotel directly.
       </p>
     </div>
   );

@@ -3,8 +3,9 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
-  title: "Maison Dorée",
-  description: "A small house on the Riviera, kept for the unhurried.",
+  title: "Hôtel du Lac Béjaïa — Le Calme au Centre Ville",
+  description:
+    "A calm, modern hotel in the heart of Béjaïa, on Lac Mézaïa facing Gouraya — lake-view rooms, a gastronomic restaurant and a 498 m² events hall.",
 };
 
 export default function RootLayout({

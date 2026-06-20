@@ -119,7 +119,7 @@ export default function Hero() {
         className="bg-white h-[100dvh] min-h-[640px] flex flex-col"
       >
         <h1 className="sr-only">
-          Maison Dorée — coastal hotel in Saint-Jean-Cap-Ferrat
+          Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
         </h1>
         <NavbarCentered />
 
@@ -140,13 +140,31 @@ export default function Hero() {
               preload="auto"
               onLoadedData={() => setVideoReady(true)}
             >
+              {/* TODO(demo): swap for a real Hôtel du Lac clip — a slow pan over
+                  Lac Mézaïa toward Yemma Gouraya, or the facade at golden hour. */}
               <source src="/hero/hero.webm" type="video/webm" />
               <source src="/hero/hero.mp4" type="video/mp4" />
             </video>
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-b from-ink/10 via-ink/5 to-ink/45"
+              className="absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/15 to-ink/55"
             />
+
+            {/* Hero headline — the brand line over the lake. Pinned to the upper
+                band so it never collides with the reservation bar at the bottom
+                (the bar grows to a four-row stack on mobile). */}
+            <div className="absolute left-0 right-0 top-0 px-5 sm:px-10 lg:px-14 pt-8 sm:pt-14 lg:pt-20 pointer-events-none">
+              <p className="font-sans text-[10px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
+                Hôtel du Lac · Béjaïa
+              </p>
+              <p className="mt-3 font-display font-medium text-white text-[28px] sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-[16ch] text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
+                The calm at the heart of the city
+              </p>
+              <p className="mt-3 sm:mt-4 font-sans font-normal text-[13px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
+                On the edge of Lac Mézaïa, facing Yemma Gouraya — comfort and
+                quiet, whether you come for business or with family.
+              </p>
+            </div>
 
             {/* Reservation bar — solid white pill with vertical hairlines
                 between fields. CTA at the right end carries the colour and

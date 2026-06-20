@@ -207,7 +207,7 @@ export default function ChatModal() {
         ref={modalRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Maison Dorée concierge"
+        aria-label="Hôtel du Lac concierge"
         className="fixed z-[90] flex flex-col overflow-hidden bg-white border border-ink/15
                    bottom-6 right-6 w-[380px] h-[520px] rounded-[12px]
                    max-md:inset-0 max-md:bottom-0 max-md:right-0 max-md:left-0 max-md:top-0
@@ -241,14 +241,15 @@ export default function ChatModal() {
         >
           <ul className="flex flex-col gap-3">
             <Bubble side="bot">
-              Welcome to Maison Dorée. How may I assist you today?
+              Welcome to Hôtel du Lac. How may I help you today?
             </Bubble>
             <Bubble side="user">
-              Do you have availability for two guests next weekend?
+              Do you have a lake-view room for two next weekend?
             </Bubble>
             <Bubble side="bot">
-              We have two rooms available — The Riviera Suite and The Garden
-              Room. Would you like to know more about either?
+              We do — the Suite Senior (52 m², lounge corner) and the Chambre
+              Double Vue Lac both look over Lac Mézaïa. Would you like rates and
+              availability?
             </Bubble>
             <li className="flex justify-start">
               <div className="flex items-center gap-[5px] rounded-[12px] rounded-bl-[3px] bg-ink/[0.06] px-4 py-3">
