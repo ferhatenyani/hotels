@@ -23,12 +23,12 @@ export default function NavbarCentered() {
               {i > 0 && (
                 <span
                   aria-hidden
-                  className="mx-3 h-1 w-1 rounded-full bg-ink/40"
+                  className="mx-2 h-1 w-1 rounded-full bg-ink/40"
                 />
               )}
               <a
                 href={link.href}
-                className="hover:text-navy transition-colors"
+                className="inline-flex h-11 items-center px-1 hover:text-navy transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
               >
                 {link.label}
               </a>
@@ -40,11 +40,11 @@ export default function NavbarCentered() {
         <div className="flex-1 flex flex-col items-center">
           <a
             href="#top"
-            className="font-display font-semibold text-base sm:text-lg tracking-tight text-ink"
+            className="font-display font-semibold text-base sm:text-lg tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
           >
             Maison Dorée
           </a>
-          <span className="hidden md:block text-[9px] font-sans tracking-[0.32em] text-ink/55 uppercase mt-0.5">
+          <span className="hidden md:block text-[10px] font-sans tracking-[0.24em] text-ink/55 uppercase mt-0.5">
             Saint-Jean-Cap-Ferrat
           </span>
         </div>
@@ -55,18 +55,18 @@ export default function NavbarCentered() {
             <a
               key={link.href}
               href={link.href}
-              className="hover:text-navy transition-colors"
+              className="inline-flex h-11 items-center px-1 hover:text-navy transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
             >
               {link.label}
             </a>
           ))}
           <span
             aria-hidden
-            className="mx-3 h-1 w-1 rounded-full bg-ink/40"
+            className="mx-2 h-1 w-1 rounded-full bg-ink/40"
           />
           <a
             href="#contact"
-            className="inline-flex items-center gap-1.5 font-semibold text-ink hover:text-navy transition-colors"
+            className="inline-flex h-11 items-center gap-1.5 px-1 font-semibold text-ink hover:text-navy transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
           >
             Reserve
             <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
@@ -77,7 +77,7 @@ export default function NavbarCentered() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden absolute right-4 flex flex-col gap-[5px] p-2"
+          className="md:hidden absolute right-2 flex h-11 w-11 flex-col gap-[5px] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-md"
           aria-label="Menu"
           aria-expanded={open}
         >
@@ -93,7 +93,7 @@ export default function NavbarCentered() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="text-[12px] uppercase tracking-[0.18em] text-ink"
+              className="block py-3 text-[12px] uppercase tracking-[0.18em] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
             >
               {link.label}
             </a>
@@ -101,7 +101,7 @@ export default function NavbarCentered() {
           <a
             href="#contact"
             onClick={() => setOpen(false)}
-            className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.18em] font-semibold text-ink"
+            className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.18em] font-semibold text-ink py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
           >
             Reserve
             <ArrowRight className="h-3 w-3" strokeWidth={2.5} />

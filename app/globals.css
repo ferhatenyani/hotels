@@ -10,7 +10,7 @@
   --color-accent: #c2733c;
   --color-navy: #1f2a44;
   --color-navy-light: #2a3656;
-  --font-sans: var(--font-plus-jakarta), "Plus Jakarta Sans", ui-sans-serif,
+  --font-sans: var(--font-hanken), "Hanken Grotesk", ui-sans-serif,
     system-ui, sans-serif;
   --font-display: var(--font-quicksand), "Quicksand", ui-sans-serif, sans-serif;
 }
@@ -42,6 +42,16 @@
   }
   * {
     @apply border-border outline-ring/50;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    video[autoplay] { display: none; }
   }
 }
 

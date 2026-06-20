@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Quicksand, Plus_Jakarta_Sans, Geist } from "next/font/google";
+import { Quicksand, Hanken_Grotesk, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -12,10 +12,10 @@ const quicksand = Quicksand({
   display: "swap",
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(quicksand.variable, plusJakarta.variable, "font-sans", geist.variable)}>
+    <html lang="en" className={cn(quicksand.variable, hanken.variable, "font-sans", geist.variable)}>
       <body className="bg-white text-ink font-sans">{children}</body>
     </html>
   );
