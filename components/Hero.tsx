@@ -21,15 +21,40 @@ import { cn } from "@/lib/utils";
 
 const personOptions = Array.from({ length: 10 }, (_, i) => i + 1);
 
-// Shared style for every booking control so the Persons select, both date
-// triggers and the Search CTA share the same height, radius, and rhythm.
-// `!h-14` is needed for the shadcn SelectTrigger because its default
-// `data-[size=default]:h-8` rule wins on specificity otherwise.
-const cardTrigger =
-  "!h-14 w-full rounded-xl border border-ink/10 bg-white px-4 shadow-[0_1px_3px_rgba(21,19,22,0.04)] transition-[box-shadow,border-color] duration-200 ease-out hover:border-ink/20 hover:shadow-[0_8px_24px_-8px_rgba(21,19,22,0.18)] flex items-center justify-between text-[15px] font-sans focus-visible:border-ink/40 focus-visible:ring-2 focus-visible:ring-ink/10 focus-visible:outline-none";
+// Shared field surface — sits flush inside the white pill bar with no border
+// of its own. The vertical dividers between fields are drawn on the wrapper
+// divs. `!h-16` is needed for the shadcn SelectTrigger because its
+// `data-[size=default]:h-8` rule outweighs an unsuffixed `h-16` on specificity.
+const fieldTrigger =
+  "relative !h-16 w-full px-5 bg-transparent text-left flex flex-col items-start justify-center gap-0.5 font-sans transition-colors hover:bg-ink/[0.035] focus-visible:bg-ink/[0.05] focus-visible:outline-none";
 
-const navyCta =
-  "h-14 w-full inline-flex items-center justify-center rounded-xl bg-navy text-white font-sans text-[14px] font-medium tracking-wide transition-colors hover:bg-navy-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy";
+const fieldLabel =
+  "text-[10px] uppercase tracking-[0.2em] text-ink/55 font-sans leading-none";
+
+const fieldValueBase = "text-[14px] font-sans leading-tight truncate";
+
+// Pure-ink CTA. Slightly lifted on hover with a hint of bronze warmth; ink/90
+// over the white bar's edge reads as a softer black, not a different colour.
+const ctaButton =
+  "h-16 w-full md:w-56 inline-flex items-center justify-center gap-2 bg-ink text-white font-sans text-[14px] font-medium tracking-[0.04em] transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+
+// Refined-ledger calendar overrides. The classNames are spread last inside
+// shadcn's Calendar so these win over the defaults; --cell-size bumps each
+// day cell to 44 px for comfortable touch + breathing room.
+const calendarClassNames = {
+  caption_label: "font-display text-[15px] font-medium select-none",
+  weekday:
+    "flex-1 text-[10px] uppercase tracking-[0.2em] font-medium text-ink/55 select-none",
+  day_button:
+    "h-(--cell-size) w-full select-none rounded-md hover:bg-ink/[0.05] data-[selected-single=true]:bg-ink data-[selected-single=true]:text-white data-[selected-single=true]:hover:bg-ink",
+} as const;
+
+// Editorial-ledger row: big Quicksand numeral on the left, small-caps label on
+// the right. Selected state mirrors the calendar's selected day (ink fill +
+// white text); `[&>span.absolute]:hidden` removes shadcn's default check icon
+// since the ink fill already makes selection unmistakable.
+const selectItemBase =
+  "group/item flex w-full items-center rounded-md px-4 py-3 transition-colors cursor-pointer [&>span.absolute]:hidden";
 
 export default function Hero() {
   const [persons, setPersons] = useState("");
@@ -37,129 +62,176 @@ export default function Hero() {
   const [checkOut, setCheckOut] = useState<Date>();
 
   const personsNum = persons ? Number.parseInt(persons, 10) : 0;
+  const personsLabel = persons
+    ? `${persons} ${personsNum === 1 ? "guest" : "guests"}`
+    : "Add guests";
 
   return (
     <>
-    <section id="top" className="bg-white h-[100dvh] flex flex-col">
-      <h1 className="sr-only">Maison Dorée — coastal hotel in Saint-Jean-Cap-Ferrat</h1>
-      <NavbarCentered />
+      <section id="top" className="bg-white h-[100dvh] flex flex-col">
+        <h1 className="sr-only">
+          Maison Dorée — coastal hotel in Saint-Jean-Cap-Ferrat
+        </h1>
+        <NavbarCentered />
 
-      <div className="flex-1 flex flex-col min-h-0 px-3 sm:px-4 lg:px-6 pt-3 sm:pt-4 lg:pt-5 pb-3 sm:pb-4 lg:pb-5">
-        <div className="flex-1 relative w-full overflow-hidden rounded-2xl bg-ink min-h-0 shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)]">
-          {/* Background video */}
-          <video
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster="/images/hero-poster.jpg"
-          >
-            <source
-              src="/hero/12693444_1920_1080_60fps.mp4"
-              type="video/mp4"
+        <div className="flex-1 flex flex-col min-h-0 px-3 sm:px-4 lg:px-6 pt-3 sm:pt-4 lg:pt-5 pb-3 sm:pb-4 lg:pb-5">
+          <div className="flex-1 relative w-full overflow-hidden rounded-2xl bg-ink min-h-0 shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)]">
+            <video
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              poster="/images/hero-poster.jpg"
+            >
+              <source
+                src="/hero/12693444_1920_1080_60fps.mp4"
+                type="video/mp4"
+              />
+            </video>
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-b from-ink/10 via-ink/5 to-ink/45"
             />
-          </video>
 
-          {/* Soft top-to-bottom darken — keeps the wordmark area airy and
-              lifts contrast under the reservation bar without flattening
-              the middle of the video. */}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-b from-ink/10 via-ink/5 to-ink/45"
-          />
-
-          {/* Reservation bar — nearly invisible container. The white field
-              cards inside carry all the visual weight; the video reads
-              clearly through the gaps. */}
-          <div className="absolute left-1/2 bottom-6 sm:bottom-10 w-[94%] sm:w-[88%] lg:w-[80%] max-w-[1180px] -translate-x-1/2 rounded-2xl border border-white/10 bg-white/[0.03] p-3 sm:p-4">
-            <form onSubmit={(e) => e.preventDefault()} aria-label="Check availability">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
-              {/* Guests */}
-              <Select
-                value={persons}
-                onValueChange={(v) => v && setPersons(v)}
+            {/* Reservation bar — solid white pill with vertical hairlines
+                between fields. CTA at the right end carries the colour and
+                sits on a deliberately uneven, narrower width. */}
+            <div className="absolute left-1/2 bottom-6 sm:bottom-10 w-[94%] sm:w-[88%] lg:w-[80%] max-w-[1180px] -translate-x-1/2 rounded-2xl bg-white border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.25)] overflow-hidden">
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                aria-label="Check availability"
+                className="flex flex-col md:flex-row md:items-stretch"
               >
-                <SelectTrigger
-                  aria-label="Number of guests"
-                  className={cn(cardTrigger, "[&_svg]:text-ink/65")}
-                >
-                  <span
-                    className={
-                      persons ? "text-ink font-medium" : "text-ink/65"
-                    }
+                {/* Guests */}
+                <div className="flex-1 md:border-r border-ink/10">
+                  <Select
+                    value={persons}
+                    onValueChange={(v) => v && setPersons(v)}
                   >
-                    {persons
-                      ? `${persons} ${personsNum === 1 ? "guest" : "guests"}`
-                      : "Guests"}
-                  </span>
-                </SelectTrigger>
-                {/* side="top" + alignItemWithTrigger={false} so the popup
-                    opens cleanly above the trigger instead of anchoring
-                    the selected row at the trigger's vertical position
-                    (which was causing the dropdown to clip behind the
-                    bar). */}
-                <SelectContent
-                  side="top"
-                  align="start"
-                  sideOffset={10}
-                  alignItemWithTrigger={false}
-                  className="min-w-[--anchor-width]"
+                    <SelectTrigger
+                      aria-label="Number of guests"
+                      className={cn(
+                        fieldTrigger,
+                        "[&_svg]:absolute [&_svg]:right-5 [&_svg]:top-1/2 [&_svg]:-translate-y-1/2 [&_svg]:text-ink/55",
+                      )}
+                    >
+                      <span className={fieldLabel}>Guests</span>
+                      <span
+                        className={cn(
+                          fieldValueBase,
+                          persons ? "text-ink font-medium" : "text-ink/65",
+                        )}
+                      >
+                        {personsLabel}
+                      </span>
+                    </SelectTrigger>
+                    <SelectContent
+                      side="top"
+                      align="start"
+                      sideOffset={10}
+                      alignItemWithTrigger={false}
+                      className="min-w-[--anchor-width] min-h-[360px] max-h-[360px] p-2 scroll-dark"
+                    >
+                      {personOptions.map((n) => {
+                        const isSelected = persons === String(n);
+                        return (
+                          <SelectItem
+                            key={n}
+                            value={String(n)}
+                            className={cn(
+                              selectItemBase,
+                              isSelected
+                                ? "bg-ink text-white"
+                                : "text-ink hover:bg-ink/[0.04] data-[highlighted]:bg-ink/[0.04]",
+                            )}
+                          >
+                            <span className="flex w-full items-center justify-between">
+                              <span className="font-display text-[22px] font-semibold leading-none tracking-tight">
+                                {n}
+                              </span>
+                              <span
+                                className={cn(
+                                  "text-[10px] uppercase tracking-[0.22em] leading-none font-medium",
+                                  isSelected ? "text-white/75" : "text-ink/55",
+                                )}
+                              >
+                                {n === 1 ? "guest" : "guests"}
+                              </span>
+                            </span>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Check-in */}
+                <div className="flex-1 border-t md:border-t-0 md:border-r border-ink/10">
+                  <DateField
+                    label="Check-in"
+                    placeholder="Add date"
+                    value={checkIn}
+                    onSelect={setCheckIn}
+                  />
+                </div>
+
+                {/* Check-out */}
+                <div className="flex-1 border-t md:border-t-0 md:border-r border-ink/10">
+                  <DateField
+                    label="Check-out"
+                    placeholder="Add date"
+                    value={checkOut}
+                    onSelect={setCheckOut}
+                  />
+                </div>
+
+                {/* CTA — narrower than the field columns on desktop so the
+                    grid reads as 3+1 rather than 4 equal cells. */}
+                <button
+                  type="submit"
+                  className={cn(ctaButton, "border-t border-ink/10 md:border-t-0")}
                 >
-                  {personOptions.map((n) => (
-                    <SelectItem key={n} value={String(n)}>
-                      {n} {n === 1 ? "guest" : "guests"}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <DateField
-                placeholder="Check-in"
-                value={checkIn}
-                onSelect={setCheckIn}
-              />
-
-              <DateField
-                placeholder="Check-out"
-                value={checkOut}
-                onSelect={setCheckOut}
-              />
-
-              <button type="submit" className={navyCta}>
-                Search
-              </button>
+                  Search
+                </button>
+              </form>
             </div>
-            </form>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Spacer between the hero and the next section. */}
-    <div aria-hidden className="bg-white h-44 sm:h-56 lg:h-72" />
+      {/* Spacer between the hero and the next section. */}
+      <div aria-hidden className="bg-white h-44 sm:h-56 lg:h-72" />
     </>
   );
 }
 
 function DateField({
+  label,
   placeholder,
   value,
   onSelect,
 }: {
+  label: string;
   placeholder: string;
   value: Date | undefined;
   onSelect: (date: Date | undefined) => void;
 }) {
   return (
     <Popover>
-      <PopoverTrigger aria-label={placeholder} className={cardTrigger}>
-        <span className={value ? "text-ink font-medium" : "text-ink/65"}>
+      <PopoverTrigger aria-label={label} className={fieldTrigger}>
+        <span className={fieldLabel}>{label}</span>
+        <span
+          className={cn(
+            fieldValueBase,
+            value ? "text-ink font-medium" : "text-ink/65",
+          )}
+        >
           {value ? format(value, "MMM d, yyyy") : placeholder}
         </span>
-        <CalendarIcon className="h-4 w-4 text-ink/65" />
+        <CalendarIcon className="absolute right-5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink/55" />
       </PopoverTrigger>
       <PopoverContent
         side="top"
@@ -167,7 +239,13 @@ function DateField({
         sideOffset={10}
         className="w-auto p-0"
       >
-        <Calendar mode="single" selected={value} onSelect={onSelect} />
+        <Calendar
+          mode="single"
+          selected={value}
+          onSelect={onSelect}
+          className="[--cell-size:--spacing(11)] p-3"
+          classNames={calendarClassNames}
+        />
       </PopoverContent>
     </Popover>
   );
