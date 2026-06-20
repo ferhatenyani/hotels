@@ -4,6 +4,7 @@ import Activities from "@/components/Activities";
 import Exhibit from "@/components/Exhibit";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import ChatModal from "@/components/ChatModal";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Exhibit />
       <Contact />
       <Footer />
+      <ChatModal />
     </>
   );
 }
