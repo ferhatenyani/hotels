@@ -60,48 +60,48 @@ export default function Rooms() {
       const headTl = gsap.timeline({
         scrollTrigger: {
           trigger: ".rooms-head",
-          start: "top 82%",
+          start: "top 95%",
           once: true,
         },
       });
       headTl
         .from(".rooms-eyebrow", {
           autoAlpha: 0,
-          y: 10,
-          duration: 0.55,
+          y: 8,
+          duration: 0.4,
           ease: "expo.out",
         })
         .from(
           ".rooms-heading",
           {
             autoAlpha: 0,
-            y: 18,
-            duration: 0.75,
+            y: 14,
+            duration: 0.55,
             ease: "expo.out",
           },
-          "-=0.3",
+          "-=0.28",
         )
         .from(
           ".rooms-rule",
           {
             scaleX: 0,
             transformOrigin: "left center",
-            duration: 0.8,
+            duration: 0.55,
             ease: "expo.out",
           },
-          "-=0.45",
+          "-=0.35",
         );
 
       gsap.from(".room-card", {
         autoAlpha: 0,
-        y: 28,
-        stagger: 0.12,
-        duration: 0.9,
+        y: 22,
+        stagger: 0.07,
+        duration: 0.65,
         ease: "expo.out",
         clearProps: "all",
         scrollTrigger: {
           trigger: ".rooms-grid",
-          start: "top 80%",
+          start: "top 92%",
           once: true,
         },
       });

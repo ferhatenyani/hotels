@@ -61,8 +61,20 @@ export default function Hero() {
   const [persons, setPersons] = useState("");
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
+  const [videoReady, setVideoReady] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // If the video is already past HAVE_CURRENT_DATA at mount time (cached
+  // file, HMR re-mount, BFCache restore), `loadeddata` will not refire —
+  // so we'd be stuck at opacity-0 forever waiting for an event that's
+  // never coming. Check the readyState directly as a backstop.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v && v.readyState >= 2) {
+      setVideoReady(true);
+    }
+  }, []);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia(
@@ -114,18 +126,20 @@ export default function Hero() {
             <video
               ref={videoRef}
               aria-hidden
-              className="absolute inset-0 h-full w-full object-cover will-change-transform"
+              className={`absolute inset-0 h-full w-full object-cover will-change-transform transition-[opacity,filter] duration-[500ms] ease-out ${
+                videoReady
+                  ? "opacity-100 blur-[0px]"
+                  : "opacity-0 blur-[8px]"
+              }`}
               autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
-              poster="/images/hero-poster.jpg"
+              preload="auto"
+              onLoadedData={() => setVideoReady(true)}
             >
-              <source
-                src="/hero/12693444_1920_1080_60fps.mp4"
-                type="video/mp4"
-              />
+              <source src="/hero/hero.webm" type="video/webm" />
+              <source src="/hero/hero.mp4" type="video/mp4" />
             </video>
             <div
               aria-hidden
@@ -134,8 +148,14 @@ export default function Hero() {
 
             {/* Reservation bar — solid white pill with vertical hairlines
                 between fields. CTA at the right end carries the colour and
-                sits on a deliberately uneven, narrower width. */}
-            <div className="absolute left-1/2 bottom-6 sm:bottom-10 w-[94%] sm:w-[88%] lg:w-[80%] max-w-[1180px] -translate-x-1/2 rounded-2xl bg-white border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.25)] overflow-hidden">
+                sits on a deliberately uneven, narrower width.
+
+                Outer wrapper handles absolute positioning + horizontal
+                centering. Inner pill handles visual styling + the load
+                animation (Y + opacity only), so the entrance can never
+                fight the parent's translateX. */}
+            <div className="absolute left-1/2 bottom-6 sm:bottom-10 w-[94%] sm:w-[88%] lg:w-[80%] max-w-[1180px] -translate-x-1/2">
+              <div className="rounded-2xl bg-white border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.25)] overflow-hidden">
               <form
                 onSubmit={(e) => e.preventDefault()}
                 aria-label="Check availability"
@@ -233,6 +253,7 @@ export default function Hero() {
                   Search
                 </button>
               </form>
+              </div>
             </div>
           </div>
         </div>
