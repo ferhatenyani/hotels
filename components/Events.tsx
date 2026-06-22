@@ -103,20 +103,33 @@ export default function Events() {
     <section
       ref={sectionRef}
       id="events"
-      className="grain bg-ink text-white px-4 sm:px-6 lg:px-10 py-20 md:py-[120px]"
+      className="grain bg-ink text-white px-4 sm:px-6 lg:px-10 py-14 md:py-20 lg:py-[120px]"
     >
       <div className="max-w-[1280px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          {/* Image — first on mobile to mirror Dining's rhythm; second on desktop. */}
+          <div className="events-image-container overflow-hidden relative aspect-[3/2] sm:aspect-[4/3] lg:aspect-[5/4] w-full order-1 lg:order-2">
+            {/* TODO(demo): real photo of the 498 m² hall dressed for a wedding. */}
+            <Image
+              src="/images/exhibit-salon.jpg"
+              alt="The 498 m² reception hall at Hôtel du Lac, dressed for an event"
+              width={1200}
+              height={1000}
+              className="events-image-parallax absolute inset-0 w-full h-full object-cover will-change-transform"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
+
           {/* Copy */}
-          <div className="events-copy">
-            <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/45 mb-4">
+          <div className="events-copy order-2 lg:order-1">
+            <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/45 mb-3 md:mb-4">
               Celebrations &amp; conferences
             </p>
-            <h2 className="font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white text-balance">
+            <h2 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-5xl leading-[1.08] tracking-tight text-white text-balance">
               A 498 m² hall for the days that matter
             </h2>
-            <span aria-hidden className="mt-6 block h-px w-14 bg-marine" />
-            <p className="mt-7 font-sans font-normal text-[16px] leading-[1.75] text-white/70 max-w-xl">
+            <span aria-hidden className="mt-5 md:mt-6 block h-px w-14 bg-marine" />
+            <p className="mt-5 md:mt-7 font-sans font-normal text-[15px] md:text-[16px] leading-[1.7] md:leading-[1.75] text-white/70 max-w-xl">
               From weddings and engagements to seminars and conferences, Hôtel du
               Lac is one of Béjaïa&apos;s gathering places. Our reception hall
               seats up to 170 guests and divides into two for smaller occasions;
@@ -125,26 +138,11 @@ export default function Events() {
               bespoke catering, from a morning coffee break to a full dinner.
             </p>
 
-            <dl className="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6 max-w-xl">
-              {facts.map((f) => (
-                <div key={f.label}>
-                  <dt
-                    className="event-stat-number font-display font-semibold text-[24px] leading-none tracking-tight text-white"
-                    data-target={f.target !== null ? f.target : undefined}
-                    data-suffix={f.suffix}
-                  >
-                    {f.value}
-                  </dt>
-                  <dd className="mt-2 font-sans text-[10px] uppercase tracking-[0.16em] text-white/45">
-                    {f.label}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
+            {/* CTA hoisted above stats on mobile so it appears earlier in the
+                scroll. On desktop, restored below stats via lg:order-2. */}
             <a
               href="#contact"
-              className="group/cta mt-10 inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+              className="group/cta mt-7 inline-flex lg:hidden items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-7 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
             >
               Plan your event
               <svg
@@ -161,19 +159,44 @@ export default function Events() {
                 <path d="M13 6l6 6-6 6" />
               </svg>
             </a>
-          </div>
 
-          {/* Image */}
-          <div className="events-image-container overflow-hidden relative aspect-[5/4] w-full">
-            {/* TODO(demo): real photo of the 498 m² hall dressed for a wedding. */}
-            <Image
-              src="/images/exhibit-salon.jpg"
-              alt="The 498 m² reception hall at Hôtel du Lac, dressed for an event"
-              width={1200}
-              height={1000}
-              className="events-image-parallax absolute inset-0 w-full h-full object-cover will-change-transform"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+            <dl className="mt-7 md:mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 md:gap-y-6 max-w-xl">
+              {facts.map((f) => (
+                <div key={f.label}>
+                  <dt
+                    className="event-stat-number font-display font-semibold text-[22px] md:text-[24px] leading-none tracking-tight text-white"
+                    data-target={f.target !== null ? f.target : undefined}
+                    data-suffix={f.suffix}
+                  >
+                    {f.value}
+                  </dt>
+                  <dd className="mt-2 font-sans text-[10px] uppercase tracking-[0.16em] text-white/45">
+                    {f.label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            {/* Desktop CTA — original position preserved. */}
+            <a
+              href="#contact"
+              className="group/cta mt-10 hidden lg:inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+            >
+              Plan your event
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                className="w-3.5 h-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="M13 6l6 6-6 6" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>

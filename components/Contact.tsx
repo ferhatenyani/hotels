@@ -3,14 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-const ledger = [
+type LedgerLine = { text: string; href?: string };
+type LedgerItem = { label: string; lines: LedgerLine[] };
+
+const ledger: LedgerItem[] = [
   {
     label: "The hotel",
-    lines: ["Rue Hassiba Ben Bouali, Aamriou", "06000 Béjaïa, Algérie"],
+    lines: [
+      { text: "Rue Hassiba Ben Bouali, Aamriou" },
+      { text: "06000 Béjaïa, Algérie" },
+    ],
   },
   {
     label: "Reservations",
-    lines: ["contact@hoteldulacvert.dz", "+213 44 20 20 22"],
+    lines: [
+      { text: "contact@hoteldulacvert.dz", href: "mailto:contact@hoteldulacvert.dz" },
+      { text: "+213 44 20 20 22", href: "tel:+21344202022" },
+    ],
   },
 ];
 
@@ -105,7 +114,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="grain relative bg-cream px-4 sm:px-6 lg:px-10 py-14 md:py-[120px] overflow-hidden"
+      className="grain relative bg-cream px-4 sm:px-6 lg:px-10 py-14 md:py-20 lg:py-[120px] overflow-hidden"
     >
       {/* Decorative coastal ornament — a thin horizon line with a small disc,
           tucked at the lower-right. Hidden on small screens to keep the
@@ -135,23 +144,64 @@ export default function Contact() {
       </svg>
 
       <div className="max-w-[1280px] mx-auto relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 lg:gap-20">
-          {/* Letterhead column */}
-          <div className="contact-letterhead lg:col-span-5 lg:pt-2">
-            <p className="contact-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
+        {/* Mobile/tablet quick-contact bar: tap-to-call + tap-to-email tiles. */}
+        <div className="lg:hidden mb-8 grid grid-cols-2 gap-2">
+          <a
+            href="tel:+21344202022"
+            className="flex items-center gap-2.5 rounded-xl border border-ink/10 bg-white/65 backdrop-blur-sm px-3 py-3 min-h-[56px] text-ink transition-colors hover:bg-white"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-marine/10 text-marine">
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </span>
+            <span className="flex flex-col min-w-0">
+              <span className="font-sans text-[10px] uppercase tracking-[0.18em] text-ink/55 leading-none">
+                Call the desk
+              </span>
+              <span className="font-sans text-[13px] text-ink mt-1 truncate">
+                +213 44 20 20 22
+              </span>
+            </span>
+          </a>
+          <a
+            href="mailto:contact@hoteldulacvert.dz"
+            className="flex items-center gap-2.5 rounded-xl border border-ink/10 bg-white/65 backdrop-blur-sm px-3 py-3 min-h-[56px] text-ink transition-colors hover:bg-white"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-marine/10 text-marine">
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <path d="M22 6l-10 7L2 6" />
+              </svg>
+            </span>
+            <span className="flex flex-col min-w-0">
+              <span className="font-sans text-[10px] uppercase tracking-[0.18em] text-ink/55 leading-none">
+                Email
+              </span>
+              <span className="font-sans text-[12px] text-ink mt-1 truncate">
+                contact@hoteldulacvert.dz
+              </span>
+            </span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-20">
+          {/* Letterhead column — order-2 on mobile so the form leads. */}
+          <div className="contact-letterhead lg:col-span-5 lg:pt-2 order-2 lg:order-1">
+            <p className="contact-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
               Reach the desk
             </p>
-            <h2 className="contact-heading font-display font-medium text-3xl sm:text-4xl lg:text-[52px] leading-[1.05] tracking-tight text-ink text-balance">
+            <h2 className="contact-heading font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[52px] leading-[1.05] tracking-tight text-ink text-balance">
               Write to us —
               <br className="hidden sm:block" />
               <span className="italic font-normal">we&apos;ll write back.</span>
             </h2>
             <span
               aria-hidden
-              className="contact-rule mt-7 block h-px w-14 bg-marine"
+              className="contact-rule mt-5 md:mt-7 block h-px w-14 bg-marine"
             />
 
-            <ul className="mt-8 md:mt-14 flex flex-col gap-5 md:gap-10">
+            <ul className="mt-6 md:mt-10 lg:mt-14 flex flex-col gap-5 md:gap-10">
               {ledger.map((item, i) => (
                 <li
                   key={item.label}
@@ -166,12 +216,22 @@ export default function Contact() {
                     </p>
                     <div className="mt-2 flex flex-col gap-1">
                       {item.lines.map((line) => (
-                        <p
-                          key={line}
-                          className="font-sans font-normal text-[15px] leading-[1.6] text-ink"
-                        >
-                          {line}
-                        </p>
+                        line.href ? (
+                          <a
+                            key={line.text}
+                            href={line.href}
+                            className="font-sans font-normal text-[15px] leading-[1.6] text-ink hover:text-marine transition-colors max-md:min-h-[44px] max-md:flex max-md:items-center"
+                          >
+                            {line.text}
+                          </a>
+                        ) : (
+                          <p
+                            key={line.text}
+                            className="font-sans font-normal text-[15px] leading-[1.6] text-ink"
+                          >
+                            {line.text}
+                          </p>
+                        )
                       ))}
                     </div>
                   </div>
@@ -180,8 +240,8 @@ export default function Contact() {
             </ul>
           </div>
 
-          {/* Form card column */}
-          <div className="lg:col-span-7">
+          {/* Form card column — order-1 on mobile (leads). */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="contact-card relative bg-white shadow-[0_30px_60px_-30px_rgba(21,19,22,0.18)] border border-ink/[0.06]">
               {/* Hairline marine ribbon at the card's top — subtle stationery
                   cue that ties the card visually to the letterhead's rule. */}

@@ -30,6 +30,9 @@ type Tile = {
 // lake/Gouraya panorama, the restaurant set for the evening, the lobby, room
 // interiors, a family room and the Suite Senior. Placeholder files reuse the
 // template's interior images only — never the pool/spa shots.
+// Mobile sizes (max-md) shrunk to a slim gallery strip:
+// single tile h ≈ 96px, paired with row-span-2 h ≈ 208px (2*96 + 16 gap),
+// halving the section's vertical footprint vs. the desktop layout.
 const tiles: Tile[] = [
   // Col 1 — tall portrait
   {
@@ -37,7 +40,7 @@ const tiles: Tile[] = [
     alt: "A lake-view room at dawn",
     w: 300,
     h: 484,
-    classes: "w-[300px] h-[484px] max-md:w-[170px] max-md:h-[296px] row-span-2",
+    classes: "w-[300px] h-[484px] max-md:w-[140px] max-md:h-[208px] row-span-2",
   },
   // Col 2 — wide landscape stack
   {
@@ -45,14 +48,14 @@ const tiles: Tile[] = [
     alt: "The restaurant, set for the evening",
     w: 440,
     h: 230,
-    classes: "w-[440px] h-[230px] max-md:w-[244px] max-md:h-[140px]",
+    classes: "w-[440px] h-[230px] max-md:w-[200px] max-md:h-[96px]",
   },
   {
     src: "/images/exhibit-salon.jpg",
     alt: "A quiet corner in the lobby",
     w: 440,
     h: 230,
-    classes: "w-[440px] h-[230px] max-md:w-[244px] max-md:h-[140px]",
+    classes: "w-[440px] h-[230px] max-md:w-[200px] max-md:h-[96px]",
   },
   // Col 3 — tighter landscape stack
   {
@@ -60,14 +63,14 @@ const tiles: Tile[] = [
     alt: "Inside a guest room",
     w: 320,
     h: 230,
-    classes: "w-[320px] h-[230px] max-md:w-[180px] max-md:h-[140px]",
+    classes: "w-[320px] h-[230px] max-md:w-[150px] max-md:h-[96px]",
   },
   {
     src: "/images/exhibit-corner-suite.jpg",
     alt: "The Suite Senior's living corner",
     w: 320,
     h: 230,
-    classes: "w-[320px] h-[230px] max-md:w-[180px] max-md:h-[140px]",
+    classes: "w-[320px] h-[230px] max-md:w-[150px] max-md:h-[96px]",
   },
   // Col 4 — tall portrait
   {
@@ -75,7 +78,7 @@ const tiles: Tile[] = [
     alt: "A family room overlooking Gouraya",
     w: 280,
     h: 484,
-    classes: "w-[280px] h-[484px] max-md:w-[160px] max-md:h-[296px] row-span-2",
+    classes: "w-[280px] h-[484px] max-md:w-[130px] max-md:h-[208px] row-span-2",
   },
   // Col 5 — landscape stack
   {
@@ -83,14 +86,14 @@ const tiles: Tile[] = [
     alt: "The lounge",
     w: 400,
     h: 230,
-    classes: "w-[400px] h-[230px] max-md:w-[220px] max-md:h-[140px]",
+    classes: "w-[400px] h-[230px] max-md:w-[180px] max-md:h-[96px]",
   },
   {
     src: "/images/exhibit-suite-dawn.jpg",
     alt: "Morning light over the lake",
     w: 400,
     h: 230,
-    classes: "w-[400px] h-[230px] max-md:w-[220px] max-md:h-[140px]",
+    classes: "w-[400px] h-[230px] max-md:w-[180px] max-md:h-[96px]",
   },
 ];
 
@@ -184,9 +187,31 @@ export default function Exhibit() {
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+    // Touch: pause while the user is interacting with the strip; resume
+    // after a short idle window so the marquee doesn't fight finger scrolling.
+    const track = trackRef.current;
+    let resumeTimer: ReturnType<typeof setTimeout> | null = null;
+    const onTouchStart = () => {
+      hoveredRef.current = true;
+      if (resumeTimer) clearTimeout(resumeTimer);
+      sync();
+    };
+    const onTouchEnd = () => {
+      if (resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => {
+        hoveredRef.current = false;
+        sync();
+      }, 2500);
+    };
+    track?.addEventListener("touchstart", onTouchStart, { passive: true });
+    track?.addEventListener("touchend", onTouchEnd, { passive: true });
+
     return () => {
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      track?.removeEventListener("touchstart", onTouchStart);
+      track?.removeEventListener("touchend", onTouchEnd);
+      if (resumeTimer) clearTimeout(resumeTimer);
     };
   }, []);
 
@@ -235,13 +260,13 @@ export default function Exhibit() {
     <section
       ref={sectionRef}
       id="exhibit"
-      className="relative overflow-x-clip bg-white py-20 md:py-[120px]"
+      className="relative overflow-x-clip bg-white py-14 md:py-20 lg:py-[120px]"
     >
-      <div className="exhibit-head max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pb-10 md:pb-14">
-        <p className="exhibit-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-4">
+      <div className="exhibit-head max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pb-8 md:pb-10 lg:pb-14">
+        <p className="exhibit-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
           A look around
         </p>
-        <h2 className="exhibit-heading font-display font-medium text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-2xl">
+        <h2 className="exhibit-heading font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-5xl leading-[1.08] tracking-tight text-ink max-w-2xl">
           Spaces and quiet corners
         </h2>
       </div>
@@ -251,7 +276,7 @@ export default function Exhibit() {
           ref={trackRef}
           onMouseEnter={onEnter}
           onMouseLeave={onLeave}
-          className="grid grid-flow-col grid-rows-2 auto-cols-max gap-4 md:gap-6 px-4 sm:px-6 w-max will-change-transform"
+          className="grid grid-flow-col grid-rows-2 auto-cols-max gap-3 md:gap-6 px-4 sm:px-6 w-max will-change-transform"
         >
           {grid.map((tile, i) => (
             <div

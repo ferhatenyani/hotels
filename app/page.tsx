@@ -1,3 +1,4 @@
+import NavbarCentered from "@/components/NavbarCentered";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Rooms from "@/components/Rooms";
@@ -11,6 +12,7 @@ import ChatModal from "@/components/ChatModal";
 export default function Home() {
   return (
     <>
+      <NavbarCentered />
       <Hero />
       <About />
       <Rooms />

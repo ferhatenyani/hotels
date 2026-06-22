@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { format, differenceInCalendarDays, startOfToday } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import {
@@ -12,19 +12,18 @@ import {
 } from "lucide-react";
 import { gsap } from "gsap";
 
-import NavbarCentered from "./NavbarCentered";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import BottomSheet from "@/components/ui/bottom-sheet";
 import { cn } from "@/lib/utils";
 
-// Field surface shared by the Guests and Dates triggers. Sits flush inside the
-// white pill; dividers are drawn by the form's `divide` utilities.
+// Field surface shared by the tablet/desktop Guests and Dates triggers.
 const fieldShell =
-  "group/field relative flex h-[72px] max-md:h-[60px] w-full flex-col items-start justify-center gap-1 px-5 max-md:px-4 text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]";
+  "group/field relative flex h-[72px] w-full flex-col items-start justify-center gap-1 px-5 text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]";
 const fieldLabel =
   "flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-ink/45 font-medium leading-none";
 const fieldValue = "text-[15px] leading-tight truncate font-sans";
@@ -36,13 +35,27 @@ const calendarClassNames = {
     "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/45 select-none",
 } as const;
 
+type SheetStep = "checkin" | "checkout" | "guests";
+
 export default function Hero() {
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
-  const [range, setRange] = useState<DateRange>();
+  const [checkIn, setCheckIn] = useState<Date | undefined>();
+  const [checkOut, setCheckOut] = useState<Date | undefined>();
   const [datesOpen, setDatesOpen] = useState(false);
   const [months, setMonths] = useState(1);
   const [videoReady, setVideoReady] = useState(false);
+
+  // Mobile reservation sheet state
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetStep, setSheetStep] = useState<SheetStep>("checkin");
+  // Buffer the in-sheet picks until the user confirms — avoids partial updates
+  // leaking into the chip while they navigate between steps.
+  const [draftCheckIn, setDraftCheckIn] = useState<Date | undefined>();
+  const [draftCheckOut, setDraftCheckOut] = useState<Date | undefined>();
+  const [draftAdults, setDraftAdults] = useState(2);
+  const [draftChildren, setDraftChildren] = useState(0);
+
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const today = startOfToday();
@@ -52,7 +65,7 @@ export default function Hero() {
     if (v && v.readyState >= 2) setVideoReady(true);
   }, []);
 
-  // Two-month range picker on desktop, single month on phones.
+  // Two-month range picker on desktop, single month on phones (popover only).
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const apply = () => setMonths(mq.matches ? 2 : 1);
@@ -68,7 +81,6 @@ export default function Hero() {
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      // Intro timeline
       const tl = gsap.timeline();
       tl.from(".hero-sub", {
         y: 12,
@@ -125,29 +137,88 @@ export default function Hero() {
           .join(" · ");
 
   const nights =
-    range?.from && range?.to
-      ? differenceInCalendarDays(range.to, range.from)
-      : 0;
+    checkIn && checkOut ? differenceInCalendarDays(checkOut, checkIn) : 0;
+
+  // Desktop popover uses a range; convert to two states.
+  const popoverRange = useMemo<DateRange>(
+    () => ({ from: checkIn, to: checkOut }),
+    [checkIn, checkOut],
+  );
 
   const onRangeSelect = (next: DateRange | undefined) => {
-    setRange(next);
-    // Auto-close once both ends are chosen — one less click.
+    setCheckIn(next?.from);
+    setCheckOut(next?.to);
     if (next?.from && next?.to) setDatesOpen(false);
   };
+
+  // ---- Mobile sheet handlers -------------------------------------------
+
+  const openSheet = () => {
+    setDraftCheckIn(checkIn);
+    setDraftCheckOut(checkOut);
+    setDraftAdults(adults);
+    setDraftChildren(children);
+    setSheetStep(checkIn ? (checkOut ? "guests" : "checkout") : "checkin");
+    setSheetOpen(true);
+  };
+
+  const closeSheet = () => setSheetOpen(false);
+
+  const back = () => {
+    if (sheetStep === "checkout") setSheetStep("checkin");
+    else if (sheetStep === "guests") setSheetStep("checkout");
+  };
+
+  const onPickCheckIn = (d: Date | undefined) => {
+    setDraftCheckIn(d);
+    // If user changes check-in to a date >= existing check-out, clear out.
+    if (d && draftCheckOut && d >= draftCheckOut) setDraftCheckOut(undefined);
+  };
+
+  const onPickCheckOut = (d: Date | undefined) => {
+    setDraftCheckOut(d);
+  };
+
+  const continueFromCheckIn = () => {
+    if (!draftCheckIn) return;
+    setSheetStep("checkout");
+  };
+  const continueFromCheckOut = () => {
+    if (!draftCheckOut) return;
+    setSheetStep("guests");
+  };
+  const commit = () => {
+    setCheckIn(draftCheckIn);
+    setCheckOut(draftCheckOut);
+    setAdults(draftAdults);
+    setChildren(draftChildren);
+    setSheetOpen(false);
+  };
+
+  const chipDates =
+    checkIn && checkOut
+      ? `${format(checkIn, "MMM d")} → ${format(checkOut, "MMM d")}`
+      : checkIn
+        ? `${format(checkIn, "MMM d")} · pick check-out`
+        : "Add dates";
+
+  const draftNights =
+    draftCheckIn && draftCheckOut
+      ? differenceInCalendarDays(draftCheckOut, draftCheckIn)
+      : 0;
 
   return (
     <section
       ref={sectionRef}
       id="top"
-      className="bg-white h-[100dvh] min-h-[640px] flex flex-col"
+      className="bg-white h-[100dvh] flex flex-col"
     >
       <h1 className="sr-only">
         Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
       </h1>
-      <NavbarCentered />
 
-      <div className="flex-1 flex flex-col min-h-0 px-3 sm:px-4 lg:px-6 pt-3 sm:pt-4 lg:pt-5 pb-3 sm:pb-4 lg:pb-5">
-        <div className="flex-1 relative w-full overflow-hidden rounded-2xl bg-ink min-h-0 shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)]">
+      <div className="flex-1 flex flex-col min-h-0 p-1 sm:p-3 lg:p-5">
+        <div className="flex-1 relative w-full overflow-hidden rounded-xl sm:rounded-2xl bg-ink min-h-0 shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)]">
           <video
             ref={videoRef}
             aria-hidden
@@ -161,24 +232,22 @@ export default function Hero() {
             preload="auto"
             onLoadedData={() => setVideoReady(true)}
           >
-            {/* TODO(demo): swap for a real Hôtel du Lac clip — a slow pan over
-                Lac Mézaïa toward Yemma Gouraya, or the facade at golden hour. */}
             <source src="/hero/hero.webm" type="video/webm" />
             <source src="/hero/hero.mp4" type="video/mp4" />
           </video>
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/15 to-ink/55"
+            className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/15 to-ink/65"
           />
 
-          {/* Hero headline */}
-          <div className="absolute left-0 right-0 top-0 px-5 sm:px-10 lg:px-14 pt-8 sm:pt-14 lg:pt-20 pointer-events-none">
+          {/* Hero headline — top padding clears the fixed translucent navbar */}
+          <div className="absolute left-0 right-0 top-0 px-5 sm:px-10 lg:px-14 pt-[88px] sm:pt-[120px] lg:pt-[140px] pointer-events-none">
             <div className="overflow-hidden">
-              <p className="hero-sub font-sans text-[10px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
+              <p className="hero-sub font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
                 Hôtel du Lac · Béjaïa
               </p>
             </div>
-            <h2 className="mt-3 font-display font-medium text-white text-[28px] sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-[16ch] text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
+            <h2 className="mt-3 font-display font-medium text-white text-[32px] xs:text-[36px] sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-[16ch] text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
               <span className="block overflow-hidden">
                 <span className="hero-title-line block">The calm at the</span>
               </span>
@@ -187,26 +256,71 @@ export default function Hero() {
               </span>
             </h2>
             <div className="overflow-hidden mt-3 sm:mt-4">
-              <p className="hero-desc font-sans font-normal text-[13px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
+              <p className="hero-desc font-sans font-normal text-[14px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
                 On the edge of Lac Mézaïa, facing Yemma Gouraya — comfort and
                 quiet, whether you come for business or with family.
               </p>
             </div>
           </div>
 
-          {/* Reservation bar */}
-          <div className="hero-booking absolute left-1/2 bottom-3 sm:bottom-10 w-[94%] sm:w-[90%] lg:w-[82%] max-w-[1180px] -translate-x-1/2">
+          {/* MOBILE: compact reservation chip (opens the sheet) */}
+          <div className="hero-booking md:hidden absolute left-3 right-3 bottom-3 max-w-[480px] mx-auto">
+            <button
+              type="button"
+              onClick={openSheet}
+              aria-label="Open reservation"
+              className="w-full rounded-[16px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.32)] overflow-hidden text-left transition-transform active:scale-[0.99]"
+            >
+              <div className="flex items-stretch divide-x divide-ink/10">
+                <span className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0">
+                  <span className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
+                    <CalendarDays className="h-3 w-3 text-ink/45" strokeWidth={2} />
+                    Dates
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[14px] leading-tight font-sans truncate w-full",
+                      checkIn ? "text-ink font-medium" : "text-ink/55",
+                    )}
+                  >
+                    {chipDates}
+                  </span>
+                </span>
+                <span className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0">
+                  <span className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
+                    <Users className="h-3 w-3 text-ink/45" strokeWidth={2} />
+                    Guests
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[14px] leading-tight font-sans truncate w-full",
+                      adults + children > 0
+                        ? "text-ink font-medium"
+                        : "text-ink/55",
+                    )}
+                  >
+                    {guestsLabel}
+                  </span>
+                </span>
+              </div>
+              <span className="block bg-marine text-white text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] py-3.5">
+                Check availability →
+              </span>
+            </button>
+          </div>
+
+          {/* TABLET/DESKTOP: full reservation bar */}
+          <div className="hero-booking hidden md:block absolute left-1/2 bottom-10 w-[90%] lg:w-[82%] max-w-[1180px] -translate-x-1/2">
             <div className="rounded-[20px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_24px_50px_-16px_rgba(21,19,22,0.28)] overflow-hidden">
               <form
                 onSubmit={(e) => e.preventDefault()}
                 aria-label="Check availability"
-                className="flex flex-col md:flex-row md:items-stretch divide-y md:divide-y-0 md:divide-x divide-ink/10"
+                className="flex items-stretch divide-x divide-ink/10"
               >
-                {/* Guests */}
                 <Popover>
                   <PopoverTrigger
                     aria-label="Guests"
-                    className={cn(fieldShell, "md:flex-1")}
+                    className={cn(fieldShell, "flex-1")}
                   >
                     <span className={fieldLabel}>
                       <Users className="h-3 w-3 text-ink/40" strokeWidth={2} />
@@ -248,33 +362,32 @@ export default function Hero() {
                   </PopoverContent>
                 </Popover>
 
-                {/* Dates — one range picker behind two displays */}
                 <Popover open={datesOpen} onOpenChange={setDatesOpen}>
                   <PopoverTrigger
                     aria-label="Check-in and check-out dates"
-                    className="group/field relative flex md:flex-[1.7] items-stretch text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]"
+                    className="group/field relative flex flex-[1.7] items-stretch text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]"
                   >
-                    <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 max-md:px-4 h-[72px] max-md:h-[60px]">
+                    <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[72px]">
                       <span className={fieldLabel}>Check-in</span>
                       <span
                         className={cn(
                           fieldValue,
-                          range?.from ? "text-ink font-medium" : "text-ink/45",
+                          checkIn ? "text-ink font-medium" : "text-ink/45",
                         )}
                       >
-                        {range?.from ? format(range.from, "EEE, MMM d") : "Add date"}
+                        {checkIn ? format(checkIn, "EEE, MMM d") : "Add date"}
                       </span>
                     </span>
                     <span aria-hidden className="my-3 w-px bg-ink/10" />
-                    <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 max-md:px-4 h-[72px] max-md:h-[60px]">
+                    <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[72px]">
                       <span className={fieldLabel}>Check-out</span>
                       <span
                         className={cn(
                           fieldValue,
-                          range?.to ? "text-ink font-medium" : "text-ink/45",
+                          checkOut ? "text-ink font-medium" : "text-ink/45",
                         )}
                       >
-                        {range?.to ? format(range.to, "EEE, MMM d") : "Add date"}
+                        {checkOut ? format(checkOut, "EEE, MMM d") : "Add date"}
                       </span>
                     </span>
                     <CalendarDays
@@ -290,9 +403,9 @@ export default function Hero() {
                     <Calendar
                       mode="range"
                       numberOfMonths={months}
-                      selected={range}
+                      selected={popoverRange}
                       onSelect={onRangeSelect}
-                      defaultMonth={range?.from}
+                      defaultMonth={checkIn}
                       disabled={{ before: today }}
                       className="[--cell-size:--spacing(9)] p-0"
                       classNames={calendarClassNames}
@@ -305,7 +418,10 @@ export default function Hero() {
                       </span>
                       <button
                         type="button"
-                        onClick={() => setRange(undefined)}
+                        onClick={() => {
+                          setCheckIn(undefined);
+                          setCheckOut(undefined);
+                        }}
                         className="font-sans text-[11px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors"
                       >
                         Clear
@@ -314,10 +430,9 @@ export default function Hero() {
                   </PopoverContent>
                 </Popover>
 
-                {/* CTA */}
                 <button
                   type="submit"
-                  className="group/cta h-[72px] max-md:h-[56px] w-full md:w-[210px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+                  className="group/cta h-[72px] w-[210px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
                 >
                   Check availability
                   <ArrowRight
@@ -330,7 +445,140 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Mobile sequenced booking sheet */}
+      <BottomSheet
+        open={sheetOpen}
+        onClose={closeSheet}
+        title={
+          sheetStep === "checkin"
+            ? "Check-in"
+            : sheetStep === "checkout"
+              ? "Check-out"
+              : "Guests"
+        }
+        onBack={sheetStep !== "checkin" ? back : undefined}
+        bodyClassName="pb-2"
+        footer={
+          sheetStep === "checkin" ? (
+            <button
+              type="button"
+              onClick={continueFromCheckIn}
+              disabled={!draftCheckIn}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Continue
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            </button>
+          ) : sheetStep === "checkout" ? (
+            <button
+              type="button"
+              onClick={continueFromCheckOut}
+              disabled={!draftCheckOut}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Continue
+              {draftNights > 0 ? (
+                <span className="font-normal normal-case tracking-normal ml-1 opacity-80">
+                  · {draftNights} night{draftNights > 1 ? "s" : ""}
+                </span>
+              ) : null}
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={commit}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px]"
+            >
+              Check availability
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            </button>
+          )
+        }
+      >
+        {sheetStep === "checkin" && (
+          <SheetCalendar
+            selected={draftCheckIn}
+            onSelect={onPickCheckIn}
+            disabled={{ before: today }}
+          />
+        )}
+        {sheetStep === "checkout" && (
+          <SheetCalendar
+            selected={draftCheckOut}
+            onSelect={onPickCheckOut}
+            disabled={{ before: draftCheckIn ?? today }}
+            defaultMonth={draftCheckIn}
+          />
+        )}
+        {sheetStep === "guests" && (
+          <div className="pt-2">
+            <Stepper
+              label="Adults"
+              hint="Ages 13+"
+              value={draftAdults}
+              min={1}
+              max={10}
+              onChange={setDraftAdults}
+              large
+            />
+            <div className="h-px bg-ink/10 my-1" />
+            <Stepper
+              label="Children"
+              hint="Ages 0–12"
+              value={draftChildren}
+              min={0}
+              max={6}
+              onChange={setDraftChildren}
+              large
+            />
+            {draftCheckIn && draftCheckOut ? (
+              <p className="mt-6 rounded-xl bg-ink/[0.04] px-4 py-3 font-sans text-[13px] text-ink/70">
+                <span className="font-medium text-ink">
+                  {format(draftCheckIn, "EEE, MMM d")} → {format(draftCheckOut, "EEE, MMM d")}
+                </span>
+                <span className="block text-[12px] text-ink/55 mt-0.5">
+                  {draftNights} night{draftNights > 1 ? "s" : ""}
+                </span>
+              </p>
+            ) : null}
+          </div>
+        )}
+      </BottomSheet>
     </section>
+  );
+}
+
+function SheetCalendar({
+  selected,
+  onSelect,
+  disabled,
+  defaultMonth,
+}: {
+  selected: Date | undefined;
+  onSelect: (d: Date | undefined) => void;
+  disabled?: { before: Date };
+  defaultMonth?: Date;
+}) {
+  return (
+    <div className="pt-1">
+      <Calendar
+        mode="single"
+        numberOfMonths={1}
+        selected={selected}
+        onSelect={onSelect}
+        defaultMonth={defaultMonth ?? selected}
+        disabled={disabled}
+        className="[--cell-size:--spacing(11)] p-0 w-full"
+        classNames={{
+          caption_label:
+            "font-display text-[16px] font-medium tracking-tight select-none",
+          weekday:
+            "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/45 select-none",
+        }}
+      />
+    </div>
   );
 }
 
@@ -341,6 +589,7 @@ function Stepper({
   min,
   max,
   onChange,
+  large,
 }: {
   label: string;
   hint: string;
@@ -348,34 +597,63 @@ function Stepper({
   min: number;
   max: number;
   onChange: (n: number) => void;
+  large?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between px-3 py-3">
+    <div
+      className={cn(
+        "flex items-center justify-between",
+        large ? "px-1 py-5" : "px-3 py-3",
+      )}
+    >
       <div>
-        <p className="font-sans text-[14px] font-medium text-ink leading-none">
+        <p
+          className={cn(
+            "font-sans font-medium text-ink leading-none",
+            large ? "text-[16px]" : "text-[14px]",
+          )}
+        >
           {label}
         </p>
-        <p className="mt-1.5 font-sans text-[12px] text-ink/45 leading-none">
+        <p
+          className={cn(
+            "mt-1.5 font-sans text-ink/45 leading-none",
+            large ? "text-[13px]" : "text-[12px]",
+          )}
+        >
           {hint}
         </p>
       </div>
-      <div className="flex items-center gap-3">
+      <div className={cn("flex items-center", large ? "gap-4" : "gap-3")}>
         <StepButton
           ariaLabel={`Remove one ${label.toLowerCase()}`}
           disabled={value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
+          large={large}
         >
-          <Minus className="h-3.5 w-3.5" strokeWidth={2} />
+          <Minus
+            className={large ? "h-4 w-4" : "h-3.5 w-3.5"}
+            strokeWidth={2}
+          />
         </StepButton>
-        <span className="w-6 text-center font-display text-[18px] font-medium tabular-nums text-ink">
+        <span
+          className={cn(
+            "text-center font-display font-medium tabular-nums text-ink",
+            large ? "w-8 text-[22px]" : "w-6 text-[18px]",
+          )}
+        >
           {value}
         </span>
         <StepButton
           ariaLabel={`Add one ${label.toLowerCase()}`}
           disabled={value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
+          large={large}
         >
-          <Plus className="h-3.5 w-3.5" strokeWidth={2} />
+          <Plus
+            className={large ? "h-4 w-4" : "h-3.5 w-3.5"}
+            strokeWidth={2}
+          />
         </StepButton>
       </div>
     </div>
@@ -387,11 +665,13 @@ function StepButton({
   ariaLabel,
   disabled,
   onClick,
+  large,
 }: {
   children: React.ReactNode;
   ariaLabel: string;
   disabled?: boolean;
   onClick: () => void;
+  large?: boolean;
 }) {
   return (
     <button
@@ -399,7 +679,10 @@ function StepButton({
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={onClick}
-      className="flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 text-ink transition-colors hover:border-marine hover:text-marine disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+      className={cn(
+        "flex items-center justify-center rounded-full border border-ink/25 text-ink transition-colors hover:border-marine hover:text-marine disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+        large ? "h-11 w-11" : "h-8 w-8",
+      )}
     >
       {children}
     </button>

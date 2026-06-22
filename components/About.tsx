@@ -93,10 +93,12 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="bg-white px-4 sm:px-6 lg:px-10 py-8 md:py-12"
+      className="bg-white px-4 sm:px-6 lg:px-10 py-6 md:py-12"
     >
       <div className="max-w-[1100px] mx-auto border-y border-ink/10">
-        <ul className="stats-list flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-7 py-9 md:py-11">
+        {/* Mobile: 2x2 grid with hairline dividers between cells. */}
+        {/* Tablet+: original single row with vertical separators. */}
+        <ul className="stats-list grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-0 sm:gap-x-12 sm:gap-y-7 py-7 sm:py-9 md:py-11">
           {stats.map((s, i) => (
             <Fragment key={s.label}>
               {i > 0 && (
@@ -105,10 +107,15 @@ export default function About() {
                   className="hidden sm:block h-9 w-px bg-marine/20"
                 />
               )}
-              <li className="stat-item text-center">
-                <div className="flex items-center justify-center gap-2.5">
+              <li
+                className={`stat-item text-center py-3 sm:py-0 px-2 sm:px-0 ${
+                  // Hairline dividers for the 2x2 mobile grid.
+                  i % 2 === 1 ? "sm:border-0 border-l border-ink/10" : ""
+                } ${i >= 2 ? "sm:border-0 border-t border-ink/10" : ""}`}
+              >
+                <div className="flex items-center justify-center gap-2 sm:gap-2.5">
                   <span
-                    className="stat-number font-display font-medium text-[30px] md:text-[34px] leading-none tracking-tight text-ink"
+                    className="stat-number font-display font-medium text-[24px] sm:text-[30px] md:text-[34px] leading-none tracking-tight text-ink"
                     data-target={s.target !== null ? s.target : undefined}
                     data-suffix={s.suffix}
                   >
@@ -116,7 +123,7 @@ export default function About() {
                   </span>
                   {s.stars ? <Stars /> : null}
                 </div>
-                <p className="mt-2.5 font-sans text-[11px] uppercase tracking-[0.18em] text-ink/55">
+                <p className="mt-2 sm:mt-2.5 font-sans text-[10.5px] sm:text-[11px] uppercase tracking-[0.18em] text-ink/55">
                   {s.label}
                 </p>
               </li>

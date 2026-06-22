@@ -17,6 +17,8 @@
   --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Erode", ui-serif, Georgia, serif;
   --font-serif: "Erode", ui-serif, Georgia, serif;
+  /* Extra breakpoint for large phones (used for heading scale, etc.). */
+  --breakpoint-xs: 30rem;
 }
 
 @layer base {
@@ -50,6 +52,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     @apply bg-background text-foreground;
+  }
+
+  section[id] {
+    scroll-margin-top: 64px;
+  }
+  @media (min-width: 768px) {
+    section[id] {
+      scroll-margin-top: 72px;
+    }
   }
 
   img {

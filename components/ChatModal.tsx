@@ -12,11 +12,25 @@ import { MessageCircle, Send, X } from "lucide-react";
 
 export default function ChatModal() {
   const [open, setOpen] = useState(false);
+  const [heroInView, setHeroInView] = useState(true);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const isMobileRef = useRef(false);
+
+  // Lift the FAB above the hero reservation card while the hero is visible.
+  // Snaps back to its normal corner offset once the user scrolls past.
+  useEffect(() => {
+    const hero = document.getElementById("top");
+    if (!hero) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
+    io.observe(hero);
+    return () => io.disconnect();
+  }, []);
 
   // One-time side effect: inject the dot-pulse keyframes. Scoped via a
   // data-attribute so we never inject twice if the component remounts.
@@ -180,7 +194,12 @@ export default function ChatModal() {
         onClick={() => setOpen(true)}
         aria-label="Open concierge chat"
         aria-expanded={open}
-        className="fixed right-6 z-[80] flex h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine bottom-[max(1.5rem,env(safe-area-inset-bottom))]"
+        style={{
+          bottom: heroInView
+            ? "calc(max(1.5rem, env(safe-area-inset-bottom)) + 140px)"
+            : "max(1.5rem, env(safe-area-inset-bottom))",
+        }}
+        className="fixed right-6 z-[80] flex h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink shadow-[0_8px_24px_-8px_rgba(21,19,22,0.25)] transition-[transform,background-color,border-color,bottom] duration-500 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
       >
         <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.6} />
       </button>
