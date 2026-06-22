@@ -1,10 +1,18 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const stats = [
-  { value: "4.3", label: "Guest rating", stars: true },
-  { value: "124", label: "Rooms & suites" },
-  { value: "498 m²", label: "Events hall" },
-  { value: "Lac Mézaïa", label: "On the lakefront" },
+  { value: "4.3", target: 4.3, suffix: "", label: "Guest rating", stars: true },
+  { value: "124", target: 124, suffix: "", label: "Rooms & suites" },
+  { value: "498 m²", target: 498, suffix: " m²", label: "Events hall" },
+  { value: "Lac Mézaïa", target: null, suffix: "", label: "On the lakefront" },
 ];
 
 // 86% fill ≈ 4.3 / 5 — a clipped green layer over muted base stars.
@@ -26,13 +34,69 @@ function Stars() {
 }
 
 export default function About() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      // Staggered entry animation for items
+      gsap.from(".stat-item", {
+        y: 12,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.75,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".stats-list",
+          start: "top 92%",
+          once: true,
+        },
+      });
+
+      // Staged count-up animation for numbers
+      gsap.utils.toArray<HTMLElement>(".stat-number").forEach((el) => {
+        const targetAttr = el.getAttribute("data-target");
+        if (!targetAttr) return;
+        const target = parseFloat(targetAttr);
+        const suffix = el.getAttribute("data-suffix") || "";
+        if (isNaN(target)) return;
+
+        const isDecimal = target % 1 !== 0;
+        const obj = { val: 0 };
+
+        gsap.to(obj, {
+          val: target,
+          duration: 1.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 92%",
+            once: true,
+          },
+          onUpdate: () => {
+            el.innerText = isDecimal
+              ? obj.val.toFixed(1) + suffix
+              : Math.floor(obj.val) + suffix;
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="about"
       className="bg-white px-4 sm:px-6 lg:px-10 py-8 md:py-12"
     >
       <div className="max-w-[1100px] mx-auto border-y border-ink/10">
-        <ul className="flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-7 py-9 md:py-11">
+        <ul className="stats-list flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-7 py-9 md:py-11">
           {stats.map((s, i) => (
             <Fragment key={s.label}>
               {i > 0 && (
@@ -41,9 +105,13 @@ export default function About() {
                   className="hidden sm:block h-9 w-px bg-marine/20"
                 />
               )}
-              <li className="text-center">
+              <li className="stat-item text-center">
                 <div className="flex items-center justify-center gap-2.5">
-                  <span className="font-display font-medium text-[30px] md:text-[34px] leading-none tracking-tight text-ink">
+                  <span
+                    className="stat-number font-display font-medium text-[30px] md:text-[34px] leading-none tracking-tight text-ink"
+                    data-target={s.target !== null ? s.target : undefined}
+                    data-suffix={s.suffix}
+                  >
                     {s.value}
                   </span>
                   {s.stars ? <Stars /> : null}

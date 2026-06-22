@@ -3,6 +3,11 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type Room = {
   src: string;
@@ -101,12 +106,29 @@ export default function Rooms() {
         stagger: 0.07,
         duration: 0.65,
         ease: "expo.out",
-        clearProps: "all",
         scrollTrigger: {
           trigger: ".rooms-grid",
           start: "top 92%",
           once: true,
         },
+        onComplete: () => {
+          // Initialize room image parallax after intro completes so transforms don't conflict
+          gsap.utils.toArray<HTMLElement>(".room-image-parallax").forEach((img) => {
+            gsap.fromTo(img, 
+              { yPercent: -6, scale: 1.08 },
+              {
+                yPercent: 6,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: img.parentElement,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: true,
+                }
+              }
+            );
+          });
+        }
       });
     }, sectionRef);
 
@@ -139,13 +161,13 @@ export default function Rooms() {
               key={room.name}
               className="room-card group/card flex flex-col bg-white border border-ink/10 overflow-hidden transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_22px_44px_-22px_rgba(21,19,22,0.28)] hover:border-ink/15 focus-within:shadow-[0_22px_44px_-22px_rgba(21,19,22,0.28)]"
             >
-              <div className="overflow-hidden">
+              <div className="overflow-hidden relative h-[240px] sm:h-[260px] md:h-[220px] lg:h-[240px]">
                 <Image
                   src={room.src}
                   alt={room.alt}
                   width={1200}
                   height={900}
-                  className="w-full aspect-[4/3] object-cover transition-transform duration-500 ease-out group-hover/card:scale-[1.03]"
+                  className="room-image-parallax absolute inset-0 w-full h-full object-cover will-change-transform"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>

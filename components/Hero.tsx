@@ -68,6 +68,33 @@ export default function Hero() {
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
+      // Intro timeline
+      const tl = gsap.timeline();
+      tl.from(".hero-sub", {
+        y: 12,
+        opacity: 0,
+        duration: 0.65,
+        ease: "power2.out",
+      })
+      .from(".hero-title-line", {
+        yPercent: 100,
+        duration: 0.85,
+        stagger: 0.08,
+        ease: "power3.out",
+      }, "-=0.45")
+      .from(".hero-desc", {
+        y: 12,
+        opacity: 0,
+        duration: 0.65,
+        ease: "power2.out",
+      }, "-=0.5")
+      .from(".hero-booking", {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      }, "-=0.55");
+
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px) and (pointer: fine)", () => {
         if (!videoRef.current || !sectionRef.current) return;
@@ -146,20 +173,29 @@ export default function Hero() {
 
           {/* Hero headline */}
           <div className="absolute left-0 right-0 top-0 px-5 sm:px-10 lg:px-14 pt-8 sm:pt-14 lg:pt-20 pointer-events-none">
-            <p className="font-sans text-[10px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
-              Hôtel du Lac · Béjaïa
-            </p>
-            <p className="mt-3 font-display font-medium text-white text-[28px] sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-[16ch] text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
-              The calm at the heart of the city
-            </p>
-            <p className="mt-3 sm:mt-4 font-sans font-normal text-[13px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
-              On the edge of Lac Mézaïa, facing Yemma Gouraya — comfort and
-              quiet, whether you come for business or with family.
-            </p>
+            <div className="overflow-hidden">
+              <p className="hero-sub font-sans text-[10px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
+                Hôtel du Lac · Béjaïa
+              </p>
+            </div>
+            <h2 className="mt-3 font-display font-medium text-white text-[28px] sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-[16ch] text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
+              <span className="block overflow-hidden">
+                <span className="hero-title-line block">The calm at the</span>
+              </span>
+              <span className="block overflow-hidden">
+                <span className="hero-title-line block">heart of the city</span>
+              </span>
+            </h2>
+            <div className="overflow-hidden mt-3 sm:mt-4">
+              <p className="hero-desc font-sans font-normal text-[13px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
+                On the edge of Lac Mézaïa, facing Yemma Gouraya — comfort and
+                quiet, whether you come for business or with family.
+              </p>
+            </div>
           </div>
 
           {/* Reservation bar */}
-          <div className="absolute left-1/2 bottom-3 sm:bottom-10 w-[94%] sm:w-[90%] lg:w-[82%] max-w-[1180px] -translate-x-1/2">
+          <div className="hero-booking absolute left-1/2 bottom-3 sm:bottom-10 w-[94%] sm:w-[90%] lg:w-[82%] max-w-[1180px] -translate-x-1/2">
             <div className="rounded-[20px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_24px_50px_-16px_rgba(21,19,22,0.28)] overflow-hidden">
               <form
                 onSubmit={(e) => e.preventDefault()}
