@@ -153,13 +153,30 @@ export default function Hero() {
 
   // ---- Mobile sheet handlers -------------------------------------------
 
-  const openSheet = () => {
+  const firstMissingStep = (): SheetStep =>
+    checkIn ? (checkOut ? "guests" : "checkout") : "checkin";
+
+  const openSheet = (startStep?: SheetStep) => {
     setDraftCheckIn(checkIn);
     setDraftCheckOut(checkOut);
     setDraftAdults(adults);
     setDraftChildren(children);
-    setSheetStep(checkIn ? (checkOut ? "guests" : "checkout") : "checkin");
+    setSheetStep(startStep ?? firstMissingStep());
     setSheetOpen(true);
+  };
+
+  // The mobile chip's marine CTA: if everything is filled, scroll to contact
+  // (the "submit" equivalent in this demo); otherwise open the sheet at the
+  // first missing step.
+  const onCheckAvailability = () => {
+    const ready = checkIn && checkOut && adults + children > 0;
+    if (ready) {
+      document
+        .getElementById("contact")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      openSheet();
+    }
   };
 
   const closeSheet = () => setSheetOpen(false);
@@ -263,16 +280,17 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* MOBILE: compact reservation chip (opens the sheet) */}
-          <div className="hero-booking md:hidden absolute left-3 right-3 bottom-3 max-w-[480px] mx-auto">
-            <button
-              type="button"
-              onClick={openSheet}
-              aria-label="Open reservation"
-              className="w-full rounded-[16px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.32)] overflow-hidden text-left transition-transform active:scale-[0.99]"
-            >
+          {/* MOBILE: reservation card — three discrete buttons. Lifted above the
+              bottom-right corner so it doesn't share space with the chat FAB. */}
+          <div className="hero-booking md:hidden absolute left-3 right-3 bottom-20 max-w-[480px] mx-auto">
+            <div className="w-full rounded-[16px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.32)] overflow-hidden">
               <div className="flex items-stretch divide-x divide-ink/10">
-                <span className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0">
+                <button
+                  type="button"
+                  onClick={() => openSheet("checkin")}
+                  aria-label="Select dates"
+                  className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0 text-left touch-manipulation transition-colors active:bg-ink/[0.04]"
+                >
                   <span className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
                     <CalendarDays className="h-3 w-3 text-ink/45" strokeWidth={2} />
                     Dates
@@ -285,8 +303,13 @@ export default function Hero() {
                   >
                     {chipDates}
                   </span>
-                </span>
-                <span className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openSheet("guests")}
+                  aria-label="Select guests"
+                  className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0 text-left touch-manipulation transition-colors active:bg-ink/[0.04]"
+                >
                   <span className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
                     <Users className="h-3 w-3 text-ink/45" strokeWidth={2} />
                     Guests
@@ -301,12 +324,16 @@ export default function Hero() {
                   >
                     {guestsLabel}
                   </span>
-                </span>
+                </button>
               </div>
-              <span className="block bg-marine text-white text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] py-3.5">
+              <button
+                type="button"
+                onClick={onCheckAvailability}
+                className="block w-full bg-marine text-white text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] py-3.5 touch-manipulation transition-colors active:bg-marine/85"
+              >
                 Check availability →
-              </span>
-            </button>
+              </button>
+            </div>
           </div>
 
           {/* TABLET/DESKTOP: full reservation bar */}

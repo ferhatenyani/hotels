@@ -3,13 +3,11 @@
 import {
   useEffect,
   useId,
-  useLayoutEffect,
   useRef,
   useState,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { gsap } from "gsap";
 import { X, ChevronLeft } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -41,16 +39,21 @@ export default function BottomSheet({
   maxHeight = 0.92,
   bodyClassName,
 }: BottomSheetProps) {
-  const backdropRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const dragHandleRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
-  const mountedRef = useRef(false);
   // Portal target only exists on the client; gate the portal until after
   // hydration so the server-rendered tree (null) matches the first client
   // render. The portal then appears via a state flip in a useEffect.
   const [portalReady, setPortalReady] = useState(false);
   useEffect(() => setPortalReady(true), []);
+
+  // Drag offset while the user is pulling the handle down. While dragging,
+  // an inline transform takes over and CSS transition is disabled so the
+  // sheet tracks the finger 1:1. When the drag ends we clear both and the
+  // Tailwind transition class drives the snap-back or close.
+  const [dragY, setDragY] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
   // Body scroll lock while open.
   useEffect(() => {
@@ -72,83 +75,42 @@ export default function BottomSheet({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // Initial paint: hide off-screen before mount completes so the first open
-  // animates from below the viewport.
-  useLayoutEffect(() => {
-    if (!sheetRef.current) return;
-    gsap.set(sheetRef.current, { y: "100%" });
-    if (backdropRef.current) gsap.set(backdropRef.current, { opacity: 0 });
-    mountedRef.current = true;
-  }, []);
-
-  // Open / close animation.
+  // Reset any stuck drag offset when the sheet closes from elsewhere.
   useEffect(() => {
-    if (!mountedRef.current || !sheetRef.current) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ctx = gsap.context(() => {
-      if (open) {
-        gsap.to(sheetRef.current, {
-          y: "0%",
-          duration: reduced ? 0.01 : 0.5,
-          ease: "power3.out",
-        });
-        if (backdropRef.current) {
-          gsap.to(backdropRef.current, {
-            opacity: 1,
-            duration: reduced ? 0.01 : 0.3,
-            ease: "power2.out",
-          });
-        }
-      } else {
-        gsap.to(sheetRef.current, {
-          y: "100%",
-          duration: reduced ? 0.01 : 0.45,
-          ease: "power3.inOut",
-        });
-        if (backdropRef.current) {
-          gsap.to(backdropRef.current, {
-            opacity: 0,
-            duration: reduced ? 0.01 : 0.25,
-            ease: "power2.in",
-          });
-        }
-      }
-    });
-    return () => ctx.revert();
+    if (!open) {
+      setDragging(false);
+      setDragY(0);
+    }
   }, [open]);
 
   // Drag-down-to-dismiss on the grab handle.
   useEffect(() => {
     const handle = dragHandleRef.current;
-    const sheet = sheetRef.current;
-    if (!handle || !sheet) return;
+    if (!handle || !open) return;
 
     let startY = 0;
     let currentY = 0;
-    let dragging = false;
+    let active = false;
 
     const onStart = (e: PointerEvent) => {
-      if (!open) return;
-      dragging = true;
+      active = true;
       startY = e.clientY;
       currentY = 0;
+      setDragging(true);
       (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-      gsap.killTweensOf(sheet);
     };
     const onMove = (e: PointerEvent) => {
-      if (!dragging) return;
+      if (!active) return;
       currentY = Math.max(0, e.clientY - startY);
-      gsap.set(sheet, { y: currentY });
+      setDragY(currentY);
     };
     const onEnd = () => {
-      if (!dragging) return;
-      dragging = false;
+      if (!active) return;
+      active = false;
       const dismiss = currentY > 120;
-      if (dismiss) {
-        onClose();
-      } else {
-        gsap.to(sheet, { y: 0, duration: 0.35, ease: "power3.out" });
-      }
+      setDragging(false);
+      setDragY(0);
+      if (dismiss) onClose();
     };
 
     handle.addEventListener("pointerdown", onStart);
@@ -174,19 +136,29 @@ export default function BottomSheet({
       )}
     >
       <div
-        ref={backdropRef}
         onClick={onClose}
         aria-hidden
-        className="absolute inset-0 bg-ink/45"
-        style={{ opacity: 0 }}
+        className={cn(
+          "absolute inset-0 bg-ink/45 transition-opacity duration-300 ease-out",
+          open ? "opacity-100" : "opacity-0",
+        )}
       />
       <div
         ref={sheetRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
-        style={{ maxHeight: `${maxHeight * 100}dvh`, transform: "translateY(100%)" }}
-        className="absolute inset-x-0 bottom-0 flex flex-col rounded-t-[20px] bg-white shadow-[0_-20px_60px_-10px_rgba(21,19,22,0.35)] outline-none"
+        style={{
+          maxHeight: `${maxHeight * 100}dvh`,
+          ...(dragging
+            ? { transform: `translateY(${dragY}px)`, transition: "none" }
+            : null),
+        }}
+        className={cn(
+          "absolute inset-x-0 bottom-0 flex flex-col rounded-t-[20px] bg-white shadow-[0_-20px_60px_-10px_rgba(21,19,22,0.35)] outline-none will-change-transform",
+          "transition-transform duration-500 ease-out",
+          open ? "translate-y-0" : "translate-y-full",
+        )}
       >
         <div
           ref={dragHandleRef}

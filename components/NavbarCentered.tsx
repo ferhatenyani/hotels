@@ -15,18 +15,32 @@ const rightLinks = [{ label: "Contact", href: "#contact" }];
 
 export default function NavbarCentered() {
   const [open, setOpen] = useState(false);
-  const [compact, setCompact] = useState(false);
+  // overHero: the hero still occupies the navbar's vertical slice — render in
+  // light/inverted mode so the wordmark and controls stay legible against the
+  // dark video. Once scrolled past the hero, swap to the white-blur compact
+  // bar with dark ink controls.
+  const [overHero, setOverHero] = useState(true);
   const navRef = useRef<HTMLElement>(null);
 
-  // Compact-on-scroll: shrink and become opaque after the user crosses ~80px.
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY || window.pageYOffset;
-      setCompact(y > 64);
+      const hero = document.getElementById("top");
+      if (!hero) {
+        setOverHero(false);
+        return;
+      }
+      const rect = hero.getBoundingClientRect();
+      // The nav is ~72px tall when expanded, ~56px compact. Once the hero's
+      // bottom edge is above ~64px, the nav is no longer over it.
+      setOverHero(rect.bottom > 64);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   // Lock body scroll while the mobile menu is open.
@@ -57,12 +71,15 @@ export default function NavbarCentered() {
         ref={navRef}
         className={cn(
           "fixed inset-x-0 top-0 z-[60] w-full transition-[background-color,backdrop-filter,height,border-color] duration-300 ease-out",
-          compact
-            ? "h-[56px] bg-white/85 backdrop-blur-md border-b border-ink/10"
-            : "h-[72px] bg-white/0 border-b border-transparent",
+          overHero
+            ? "h-[64px] sm:h-[72px] bg-transparent border-b border-transparent"
+            : "h-[56px] bg-white/85 backdrop-blur-md border-b border-ink/10",
         )}
       >
-        <nav className="flex h-full w-full items-center px-4 sm:px-6 lg:px-10">
+        {/* Horizontal padding matches the hero card's inner padding so the nav
+            items visually sit inside the video container, aligned with the
+            hero headline below. */}
+        <nav className="relative flex h-full w-full items-center px-5 sm:px-10 lg:px-14">
           {/* Left flank — desktop */}
           <div className="hidden md:flex flex-1 items-center text-[11px] font-sans tracking-[0.18em] uppercase">
             {leftLinks.map((link, i) => (
@@ -72,15 +89,17 @@ export default function NavbarCentered() {
                     aria-hidden
                     className={cn(
                       "mx-2 h-1 w-1 rounded-full transition-colors",
-                      compact ? "bg-ink/40" : "bg-ink/40",
+                      overHero ? "bg-white/60" : "bg-ink/40",
                     )}
                   />
                 )}
                 <a
                   href={link.href}
                   className={cn(
-                    "inline-flex h-11 items-center px-1 transition-colors hover:text-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm",
-                    compact ? "text-ink" : "text-ink",
+                    "inline-flex h-11 items-center px-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
+                    overHero
+                      ? "text-white hover:text-cream focus-visible:outline-white"
+                      : "text-ink hover:text-navy focus-visible:outline-navy",
                   )}
                 >
                   {link.label}
@@ -90,20 +109,24 @@ export default function NavbarCentered() {
           </div>
 
           {/* Center wordmark */}
-          <div className="flex-1 flex flex-col items-center max-md:items-start max-md:pl-2">
+          <div className="flex-1 flex flex-col items-center max-md:items-start">
             <a
               href="#top"
               className={cn(
-                "font-display font-semibold tracking-tight transition-[font-size] duration-300 text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm",
-                compact ? "text-[15px] sm:text-base" : "text-base sm:text-lg",
+                "font-display font-semibold tracking-tight transition-[font-size,color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 rounded-sm",
+                overHero
+                  ? "text-base sm:text-lg text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.4)] focus-visible:outline-white"
+                  : "text-[15px] sm:text-base text-ink focus-visible:outline-navy",
               )}
             >
               Hôtel du Lac
             </a>
             <span
               className={cn(
-                "hidden md:block text-[10px] font-sans tracking-[0.24em] text-ink/55 uppercase transition-[max-height,opacity,margin] duration-300 overflow-hidden",
-                compact ? "max-h-0 opacity-0 mt-0" : "max-h-4 opacity-100 mt-0.5",
+                "hidden md:block text-[10px] font-sans tracking-[0.24em] uppercase transition-[max-height,opacity,margin,color] duration-300 overflow-hidden",
+                overHero
+                  ? "max-h-4 opacity-100 mt-0.5 text-white/70"
+                  : "max-h-0 opacity-0 mt-0 text-ink/55",
               )}
             >
               Béjaïa, Algérie
@@ -111,23 +134,36 @@ export default function NavbarCentered() {
           </div>
 
           {/* Right flank — desktop */}
-          <div className="hidden md:flex flex-1 items-center justify-end text-[11px] font-sans tracking-[0.18em] text-ink uppercase">
+          <div className="hidden md:flex flex-1 items-center justify-end text-[11px] font-sans tracking-[0.18em] uppercase">
             {rightLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="inline-flex h-11 items-center px-1 hover:text-navy transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
+                className={cn(
+                  "inline-flex h-11 items-center px-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
+                  overHero
+                    ? "text-white hover:text-cream focus-visible:outline-white"
+                    : "text-ink hover:text-navy focus-visible:outline-navy",
+                )}
               >
                 {link.label}
               </a>
             ))}
             <span
               aria-hidden
-              className="mx-2 h-1 w-1 rounded-full bg-ink/40"
+              className={cn(
+                "mx-2 h-1 w-1 rounded-full transition-colors",
+                overHero ? "bg-white/60" : "bg-ink/40",
+              )}
             />
             <a
               href="#contact"
-              className="inline-flex h-11 items-center gap-1.5 px-1 font-semibold text-ink hover:text-navy transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-sm"
+              className={cn(
+                "inline-flex h-11 items-center gap-1.5 px-3 font-semibold rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
+                overHero
+                  ? "bg-white text-ink hover:bg-cream focus-visible:outline-white"
+                  : "text-ink hover:text-navy focus-visible:outline-navy",
+              )}
             >
               Reserve
               <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
@@ -140,9 +176,9 @@ export default function NavbarCentered() {
               href="#contact"
               className={cn(
                 "inline-flex h-9 items-center gap-1 rounded-full px-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] transition-[background-color,color,opacity] duration-300",
-                compact
-                  ? "bg-marine text-white"
-                  : "bg-ink/5 text-ink hover:bg-ink/10",
+                overHero
+                  ? "bg-white text-ink"
+                  : "bg-marine text-white",
               )}
             >
               Reserve
@@ -151,14 +187,34 @@ export default function NavbarCentered() {
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-md"
+              className={cn(
+                "flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-md focus-visible:outline-2 focus-visible:outline-offset-2",
+                overHero
+                  ? "focus-visible:outline-white"
+                  : "focus-visible:outline-navy",
+              )}
               aria-label="Open menu"
               aria-expanded={open}
               aria-controls="mobile-menu"
             >
-              <span className="block h-[2px] w-6 bg-ink" />
-              <span className="block h-[2px] w-4 bg-ink" />
-              <span className="block h-[2px] w-6 bg-ink" />
+              <span
+                className={cn(
+                  "block h-[2px] w-6 transition-colors duration-300",
+                  overHero ? "bg-white" : "bg-ink",
+                )}
+              />
+              <span
+                className={cn(
+                  "block h-[2px] w-4 transition-colors duration-300",
+                  overHero ? "bg-white" : "bg-ink",
+                )}
+              />
+              <span
+                className={cn(
+                  "block h-[2px] w-6 transition-colors duration-300",
+                  overHero ? "bg-white" : "bg-ink",
+                )}
+              />
             </button>
           </div>
         </nav>

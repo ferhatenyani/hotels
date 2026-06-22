@@ -179,7 +179,11 @@ export default function Rooms() {
     if (!card || !track) return;
     const trackRect = track.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
-    const delta = cardRect.left - trackRect.left - 16;
+    // Match the scroll-padding-left used by the snap (24px on base, 32px on sm+)
+    // so taps on the dot indicator land the card at the same offset the snap
+    // would.
+    const padPx = window.matchMedia("(min-width: 640px)").matches ? 32 : 24;
+    const delta = cardRect.left - trackRect.left - padPx;
     track.scrollTo({
       left: track.scrollLeft + delta,
       behavior: "smooth",
@@ -209,10 +213,14 @@ export default function Rooms() {
         <div
           ref={trackRef}
           className={cn(
-            // Mobile: horizontal scroll track with peek.
-            "rooms-grid flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-3 scroll-smooth",
+            // Mobile: horizontal scroll track. Asymmetric padding (24px left,
+            // 16px right) gives the first card breathing room while preserving
+            // a peek of the next card on the right. scroll-pl matches so snap
+            // points land at the padded position, not the track edge.
+            "rooms-grid flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 pl-6 pr-4 pb-3 scroll-pl-6 scroll-smooth",
+            "sm:-mx-6 sm:pl-8 sm:pr-6 sm:scroll-pl-8",
             // Tablet+: revert to grid.
-            "md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:snap-none",
+            "md:mx-0 md:p-0 md:overflow-visible md:snap-none md:scroll-pl-0",
             "md:grid md:grid-cols-3 md:gap-8 lg:gap-12",
             // Hide scrollbar on mobile.
             "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]",
