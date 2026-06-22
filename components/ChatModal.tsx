@@ -170,10 +170,22 @@ export default function ChatModal() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // External components (e.g. the mobile chat pill inside Hero) open the
+  // concierge by dispatching a "concierge:open" event — decouples them from
+  // this component's internal state.
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener("concierge:open", onOpen);
+    return () => window.removeEventListener("concierge:open", onOpen);
+  }, []);
+
   const close = useCallback(() => setOpen(false), []);
 
   return (
     <>
+      {/* Desktop FAB. On mobile the chat trigger is owned by Hero (pill that
+          morphs into a FAB via framer-motion), so this button is hidden below
+          md to avoid two competing triggers. */}
       <button
         ref={buttonRef}
         type="button"
@@ -184,7 +196,7 @@ export default function ChatModal() {
           bottom: "max(1rem, env(safe-area-inset-bottom))",
           right: "max(1rem, env(safe-area-inset-right))",
         }}
-        className="fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink shadow-[0_8px_24px_-8px_rgba(21,19,22,0.25)] transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine touch-manipulation"
+        className="hidden md:flex fixed z-[80] h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink shadow-[0_8px_24px_-8px_rgba(21,19,22,0.25)] transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine touch-manipulation"
       >
         <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.6} />
       </button>

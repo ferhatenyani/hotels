@@ -9,8 +9,11 @@ import {
   Minus,
   Plus,
   ArrowRight,
+  MessageCircle,
+  Sparkles,
 } from "lucide-react";
 import { gsap } from "gsap";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -20,6 +23,12 @@ import {
 } from "@/components/ui/popover";
 import BottomSheet from "@/components/ui/bottom-sheet";
 import { cn } from "@/lib/utils";
+
+const openConciergeChat = () => {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("concierge:open"));
+  }
+};
 
 // Field surface shared by the tablet/desktop Guests and Dates triggers.
 const fieldShell =
@@ -56,13 +65,33 @@ export default function Hero() {
   const [draftAdults, setDraftAdults] = useState(2);
   const [draftChildren, setDraftChildren] = useState(0);
 
+  // Tracks whether the mobile chat trigger should render as the FAB at
+  // bottom-right (true when the hero is mostly scrolled past) or as the pill
+  // inside the reservation card (true while the hero dominates the viewport).
+  const [chatInFab, setChatInFab] = useState(false);
+
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const today = startOfToday();
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const v = videoRef.current;
     if (v && v.readyState >= 2) setVideoReady(true);
+  }, []);
+
+  // IntersectionObserver drives the pill ↔ FAB morph. We watch the hero
+  // section: once less than ~30% of it overlaps the viewport, the chat
+  // trigger "falls" to its FAB position via framer-motion's layoutId.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setChatInFab(entry.intersectionRatio < 0.3),
+      { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1] },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   // Two-month range picker on desktop, single month on phones (popover only).
@@ -234,8 +263,12 @@ export default function Hero() {
         Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
       </h1>
 
-      <div className="flex-1 flex flex-col min-h-0 p-1 sm:p-3 lg:p-5">
-        <div className="flex-1 relative w-full overflow-hidden rounded-xl sm:rounded-2xl bg-ink min-h-0 shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)]">
+      {/* Section 1 (mobile) — spacer that clears the floating pill header
+          (12px top margin + 56px pill + 12px breathing room). */}
+      <div className="md:hidden h-[80px] shrink-0" aria-hidden />
+
+      <div className="px-4 md:flex-1 md:flex md:flex-col md:min-h-0 md:p-3 lg:p-5">
+        <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] h-[52dvh] md:h-auto md:flex-1 md:min-h-0 md:rounded-xl lg:rounded-2xl">
           <video
             ref={videoRef}
             aria-hidden
@@ -257,8 +290,11 @@ export default function Hero() {
             className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/15 to-ink/65"
           />
 
-          {/* Hero headline — top padding clears the fixed translucent navbar */}
-          <div className="absolute left-0 right-0 top-0 px-5 sm:px-10 lg:px-14 pt-[88px] sm:pt-[120px] lg:pt-[140px] pointer-events-none">
+          {/* Hero headline — overlapping the video.
+              Mobile: bottom-aligned inside the video box (the video no longer
+              sits behind the navbar on mobile, so we layer text low in the box).
+              Tablet/Desktop: top-aligned with clearance for the fixed navbar. */}
+          <div className="absolute inset-0 px-5 sm:px-10 lg:px-14 flex flex-col justify-end pb-6 sm:justify-start sm:pt-[120px] sm:pb-0 lg:pt-[140px] pointer-events-none">
             <div className="overflow-hidden">
               <p className="hero-sub font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
                 Hôtel du Lac · Béjaïa
@@ -277,62 +313,6 @@ export default function Hero() {
                 On the edge of Lac Mézaïa, facing Yemma Gouraya — comfort and
                 quiet, whether you come for business or with family.
               </p>
-            </div>
-          </div>
-
-          {/* MOBILE: reservation card — three discrete buttons. Lifted above the
-              bottom-right corner so it doesn't share space with the chat FAB. */}
-          <div className="hero-booking md:hidden absolute left-3 right-3 bottom-20 max-w-[480px] mx-auto">
-            <div className="w-full rounded-[16px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_18px_40px_-12px_rgba(21,19,22,0.32)] overflow-hidden">
-              <div className="flex items-stretch divide-x divide-ink/10">
-                <button
-                  type="button"
-                  onClick={() => openSheet("checkin")}
-                  aria-label="Select dates"
-                  className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0 text-left touch-manipulation transition-colors active:bg-ink/[0.04]"
-                >
-                  <span className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
-                    <CalendarDays className="h-3 w-3 text-ink/45" strokeWidth={2} />
-                    Dates
-                  </span>
-                  <span
-                    className={cn(
-                      "text-[14px] leading-tight font-sans truncate w-full",
-                      checkIn ? "text-ink font-medium" : "text-ink/55",
-                    )}
-                  >
-                    {chipDates}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openSheet("guests")}
-                  aria-label="Select guests"
-                  className="flex-1 flex flex-col items-start justify-center gap-1 px-4 py-3 min-w-0 text-left touch-manipulation transition-colors active:bg-ink/[0.04]"
-                >
-                  <span className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
-                    <Users className="h-3 w-3 text-ink/45" strokeWidth={2} />
-                    Guests
-                  </span>
-                  <span
-                    className={cn(
-                      "text-[14px] leading-tight font-sans truncate w-full",
-                      adults + children > 0
-                        ? "text-ink font-medium"
-                        : "text-ink/55",
-                    )}
-                  >
-                    {guestsLabel}
-                  </span>
-                </button>
-              </div>
-              <button
-                type="button"
-                onClick={onCheckAvailability}
-                className="block w-full bg-marine text-white text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] py-3.5 touch-manipulation transition-colors active:bg-marine/85"
-              >
-                Check availability →
-              </button>
             </div>
           </div>
 
@@ -472,6 +452,127 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Section 3 (mobile) — reservation. Grows to fill remaining viewport
+          space, content justified to the bottom so the CTAs sit within thumb
+          reach. Three booking CTAs in an inline row + the Ask AI pill below. */}
+      <div className="hero-booking md:hidden flex-1 flex flex-col justify-end gap-3 px-4 pt-3 pb-4">
+        <div className="flex items-stretch gap-2 max-w-[480px] w-full mx-auto">
+          <button
+            type="button"
+            onClick={() => openSheet("checkin")}
+            aria-label="Select dates"
+            className="flex-1 min-w-0 flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
+          >
+            <span className="flex items-center gap-1 text-[9px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
+              <CalendarDays className="h-3 w-3 text-ink/45" strokeWidth={2} />
+              Dates
+            </span>
+            <span
+              className={cn(
+                "text-[13px] leading-tight font-sans truncate w-full",
+                checkIn ? "text-ink font-medium" : "text-ink/55",
+              )}
+            >
+              {chipDates}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => openSheet("guests")}
+            aria-label="Select guests"
+            className="flex-1 min-w-0 flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
+          >
+            <span className="flex items-center gap-1 text-[9px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
+              <Users className="h-3 w-3 text-ink/45" strokeWidth={2} />
+              Guests
+            </span>
+            <span
+              className={cn(
+                "text-[13px] leading-tight font-sans truncate w-full",
+                adults + children > 0
+                  ? "text-ink font-medium"
+                  : "text-ink/55",
+              )}
+            >
+              {guestsLabel}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={onCheckAvailability}
+            aria-label="Check availability"
+            className="shrink-0 inline-flex items-center justify-center rounded-[14px] bg-marine text-white px-4 transition-colors active:bg-marine/85 touch-manipulation shadow-[0_8px_20px_-8px_rgba(21,19,22,0.24)]"
+          >
+            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+          </button>
+        </div>
+
+        {/* Ask the AI — secondary "concierge" tier. Cream-tinted surface
+            distinguishes it from the white booking CTAs above. Shares
+            layoutId with the FAB so framer-motion springs it down/right
+            when the hero scrolls out of view. */}
+        {!chatInFab && (
+          <motion.button
+            layoutId="concierge-chat"
+            type="button"
+            onClick={openConciergeChat}
+            aria-label="Ask the AI concierge"
+            transition={
+              shouldReduceMotion
+                ? { duration: 0.01 }
+                : { type: "spring", stiffness: 240, damping: 28, mass: 0.9 }
+            }
+            className="w-full max-w-[480px] mx-auto flex items-center gap-3 rounded-[18px] bg-cream/55 border border-ink/[0.08] pl-2.5 pr-4 py-2.5 text-left touch-manipulation active:bg-cream/80 shadow-[0_10px_24px_-14px_rgba(21,19,22,0.18)]"
+          >
+            <motion.span
+              layout="position"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-marine text-white shrink-0"
+            >
+              <MessageCircle className="h-[18px] w-[18px]" strokeWidth={1.8} />
+            </motion.span>
+            <motion.span layout="position" className="flex-1 min-w-0">
+              <span className="flex items-center gap-1.5 font-sans text-[14px] font-semibold text-ink leading-none">
+                Ask the AI
+                <Sparkles className="h-3 w-3 text-marine" strokeWidth={2} />
+              </span>
+              <span className="block mt-1.5 font-sans text-[10px] uppercase tracking-[0.18em] text-ink/50 leading-none">
+                24/7 concierge
+              </span>
+            </motion.span>
+            <motion.span layout="position">
+              <ArrowRight className="h-4 w-4 text-marine shrink-0" strokeWidth={2} />
+            </motion.span>
+          </motion.button>
+        )}
+      </div>
+
+      {/* Chat FAB variant — same layoutId as the in-card pill, so
+          framer-motion springs the morph when chatInFab toggles. Position is
+          fixed so it stays anchored at the bottom-right while user scrolls
+          through the rest of the page. */}
+      {chatInFab && (
+        <motion.button
+          layoutId="concierge-chat"
+          type="button"
+          onClick={openConciergeChat}
+          aria-label="Ask the AI concierge"
+          style={{
+            bottom: "max(1rem, env(safe-area-inset-bottom))",
+            right: "max(1rem, env(safe-area-inset-right))",
+          }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0.01 }
+              : { type: "spring", stiffness: 240, damping: 28, mass: 0.9 }
+          }
+          className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
+        >
+          <motion.span layout="position" className="flex items-center justify-center">
+            <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.7} />
+          </motion.span>
+        </motion.button>
+      )}
 
       {/* Mobile sequenced booking sheet */}
       <BottomSheet

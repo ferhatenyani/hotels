@@ -24,6 +24,12 @@ export default function NavbarCentered() {
 
   useEffect(() => {
     const onScroll = () => {
+      // Mobile reserves a spacer above the hero video, so the nav is never
+      // visually over the video on phones — always render in compact mode.
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        setOverHero(false);
+        return;
+      }
       const hero = document.getElementById("top");
       if (!hero) {
         setOverHero(false);
@@ -67,10 +73,43 @@ export default function NavbarCentered() {
 
   return (
     <>
+      {/* MOBILE: floating pill header. Sits at top with margin on all sides.
+          Self-contained — does not depend on overHero. */}
+      <header className="md:hidden fixed top-3 left-3 right-3 z-[60]">
+        <div className="relative grid grid-cols-3 items-center h-14 rounded-full bg-white/90 backdrop-blur-xl border border-ink/[0.08] shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            className="justify-self-start flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy active:bg-ink/[0.04]"
+          >
+            <span className="block h-[1.5px] w-5 bg-ink" />
+            <span className="block h-[1.5px] w-4 bg-ink" />
+            <span className="block h-[1.5px] w-5 bg-ink" />
+          </button>
+          <a
+            href="#top"
+            className="justify-self-center font-display font-semibold text-[15px] tracking-tight text-ink whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
+          >
+            Hôtel du Lac
+          </a>
+          <a
+            href="#contact"
+            className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
+          >
+            Reserve
+            <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
+          </a>
+        </div>
+      </header>
+
+      {/* TABLET/DESKTOP: existing full-width bar */}
       <header
         ref={navRef}
         className={cn(
-          "fixed inset-x-0 top-0 z-[60] w-full transition-[background-color,backdrop-filter,height,border-color] duration-300 ease-out",
+          "hidden md:block fixed inset-x-0 top-0 z-[60] w-full transition-[background-color,backdrop-filter,height,border-color] duration-300 ease-out",
           overHero
             ? "h-[64px] sm:h-[72px] bg-transparent border-b border-transparent"
             : "h-[56px] bg-white/85 backdrop-blur-md border-b border-ink/10",
@@ -170,53 +209,6 @@ export default function NavbarCentered() {
             </a>
           </div>
 
-          {/* Mobile right cluster: Reserve pill + hamburger */}
-          <div className="md:hidden flex items-center gap-1.5 ml-auto">
-            <a
-              href="#contact"
-              className={cn(
-                "inline-flex h-9 items-center gap-1 rounded-full px-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] transition-[background-color,color,opacity] duration-300",
-                overHero
-                  ? "bg-white text-ink"
-                  : "bg-marine text-white",
-              )}
-            >
-              Reserve
-              <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
-            </a>
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className={cn(
-                "flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-md focus-visible:outline-2 focus-visible:outline-offset-2",
-                overHero
-                  ? "focus-visible:outline-white"
-                  : "focus-visible:outline-navy",
-              )}
-              aria-label="Open menu"
-              aria-expanded={open}
-              aria-controls="mobile-menu"
-            >
-              <span
-                className={cn(
-                  "block h-[2px] w-6 transition-colors duration-300",
-                  overHero ? "bg-white" : "bg-ink",
-                )}
-              />
-              <span
-                className={cn(
-                  "block h-[2px] w-4 transition-colors duration-300",
-                  overHero ? "bg-white" : "bg-ink",
-                )}
-              />
-              <span
-                className={cn(
-                  "block h-[2px] w-6 transition-colors duration-300",
-                  overHero ? "bg-white" : "bg-ink",
-                )}
-              />
-            </button>
-          </div>
         </nav>
       </header>
 
