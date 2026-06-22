@@ -189,6 +189,7 @@ export default function ChatModal() {
         ref={backdropRef}
         onClick={close}
         aria-hidden
+        style={{ opacity: 0, pointerEvents: "none" }}
         className="fixed inset-0 z-[85] bg-ink/[0.04] max-md:hidden"
       />
 
@@ -197,6 +198,7 @@ export default function ChatModal() {
         role="dialog"
         aria-modal="true"
         aria-label="Hôtel du Lac concierge"
+        style={{ opacity: 0, pointerEvents: "none" }}
         className="fixed z-[90] flex flex-col overflow-hidden bg-white border border-ink/15
                    bottom-6 right-6 w-[380px] h-[520px] rounded-[12px]
                    max-md:inset-0 max-md:bottom-0 max-md:right-0 max-md:left-0 max-md:top-0
