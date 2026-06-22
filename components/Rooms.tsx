@@ -106,29 +106,29 @@ export default function Rooms() {
         stagger: 0.07,
         duration: 0.65,
         ease: "expo.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".rooms-grid",
           start: "top 92%",
           once: true,
         },
-        onComplete: () => {
-          // Initialize room image parallax after intro completes so transforms don't conflict
-          gsap.utils.toArray<HTMLElement>(".room-image-parallax").forEach((img) => {
-            gsap.fromTo(img, 
-              { yPercent: -6, scale: 1.08 },
-              {
-                yPercent: 6,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: img.parentElement,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: true,
-                }
-              }
-            );
-          });
-        }
+      });
+
+      // Initialize room image parallax directly on mount
+      gsap.utils.toArray<HTMLElement>(".room-image-parallax").forEach((img) => {
+        gsap.fromTo(img, 
+          { yPercent: -6, scale: 1.08 },
+          {
+            yPercent: 6,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            }
+          }
+        );
       });
     }, sectionRef);
 
