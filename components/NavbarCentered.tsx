@@ -5,8 +5,8 @@ import { ArrowRight } from "lucide-react";
 
 const leftLinks = [
   { label: "Rooms", href: "#rooms" },
-  { label: "Activities", href: "#activities" },
-  { label: "Exhibit", href: "#exhibit" },
+  { label: "Dining", href: "#dining" },
+  { label: "Events", href: "#events" },
 ];
 
 const rightLinks = [{ label: "Contact", href: "#contact" }];
@@ -43,10 +43,10 @@ export default function NavbarCentered() {
             href="#top"
             className="font-display font-semibold text-base sm:text-lg tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
           >
-            Maison Dorée
+            Hôtel du Lac
           </a>
           <span className="hidden md:block text-[10px] font-sans tracking-[0.24em] text-ink/55 uppercase mt-0.5">
-            Saint-Jean-Cap-Ferrat
+            Béjaïa, Algérie
           </span>
         </div>
 

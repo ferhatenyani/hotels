@@ -10,9 +10,6 @@ import {
 import { gsap } from "gsap";
 import { MessageCircle, Send, X } from "lucide-react";
 
-const QUICKSAND_HREF =
-  "https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap";
-
 export default function ChatModal() {
   const [open, setOpen] = useState(false);
 
@@ -21,17 +18,9 @@ export default function ChatModal() {
   const backdropRef = useRef<HTMLDivElement>(null);
   const isMobileRef = useRef(false);
 
-  // One-time side effects: load Quicksand for the header and the dot-pulse
-  // keyframes. Both are scoped via a data-attribute so we never inject twice
-  // if the component remounts.
+  // One-time side effect: inject the dot-pulse keyframes. Scoped via a
+  // data-attribute so we never inject twice if the component remounts.
   useEffect(() => {
-    if (!document.querySelector("link[data-chat-quicksand]")) {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = QUICKSAND_HREF;
-      link.setAttribute("data-chat-quicksand", "true");
-      document.head.appendChild(link);
-    }
     if (!document.querySelector("style[data-chat-keyframes]")) {
       const style = document.createElement("style");
       style.setAttribute("data-chat-keyframes", "true");
@@ -207,7 +196,7 @@ export default function ChatModal() {
         ref={modalRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Maison Dorée concierge"
+        aria-label="Hôtel du Lac concierge"
         className="fixed z-[90] flex flex-col overflow-hidden bg-white border border-ink/15
                    bottom-6 right-6 w-[380px] h-[520px] rounded-[12px]
                    max-md:inset-0 max-md:bottom-0 max-md:right-0 max-md:left-0 max-md:top-0
@@ -215,13 +204,7 @@ export default function ChatModal() {
       >
         <header className="flex items-center justify-between px-5 py-4 border-b border-ink/10 shrink-0 max-md:pt-[max(1rem,env(safe-area-inset-top))]">
           <span
-            className="text-[15px] text-ink"
-            style={{
-              fontFamily:
-                '"Quicksand", ui-sans-serif, system-ui, sans-serif',
-              fontWeight: 600,
-              letterSpacing: "0.02em",
-            }}
+            className="font-display text-[16px] font-medium tracking-tight text-ink"
           >
             Concierge
           </span>
@@ -241,14 +224,15 @@ export default function ChatModal() {
         >
           <ul className="flex flex-col gap-3">
             <Bubble side="bot">
-              Welcome to Maison Dorée. How may I assist you today?
+              Welcome to Hôtel du Lac. How may I help you today?
             </Bubble>
             <Bubble side="user">
-              Do you have availability for two guests next weekend?
+              Do you have a lake-view room for two next weekend?
             </Bubble>
             <Bubble side="bot">
-              We have two rooms available — The Riviera Suite and The Garden
-              Room. Would you like to know more about either?
+              We do — the Suite Senior (52 m², lounge corner) and the Chambre
+              Double Vue Lac both look over Lac Mézaïa. Would you like rates and
+              availability?
             </Bubble>
             <li className="flex justify-start">
               <div className="flex items-center gap-[5px] rounded-[12px] rounded-bl-[3px] bg-ink/[0.06] px-4 py-3">

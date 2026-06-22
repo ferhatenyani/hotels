@@ -25,64 +25,69 @@ type Tile = {
 //
 // Mobile sizes (max-md) are ~55% of desktop so the rhythm reads at phone
 // scale. Row-span-2 mobile height = 2 * single_h + mobile_gap(16) = 296.
+// TODO(demo): the real Hôtel du Lac has no pool or spa, so those tiles were
+// removed. Replace each `src` with the matching real photo per the alt text:
+// lake/Gouraya panorama, the restaurant set for the evening, the lobby, room
+// interiors, a family room and the Suite Senior. Placeholder files reuse the
+// template's interior images only — never the pool/spa shots.
 const tiles: Tile[] = [
   // Col 1 — tall portrait
   {
     src: "/images/exhibit-suite-dawn.jpg",
-    alt: "Hotel suite at dawn",
+    alt: "A lake-view room at dawn",
     w: 300,
     h: 484,
     classes: "w-[300px] h-[484px] max-md:w-[170px] max-md:h-[296px] row-span-2",
   },
   // Col 2 — wide landscape stack
   {
-    src: "/images/exhibit-terrace-pool.jpg",
-    alt: "The terrace pool",
+    src: "/images/exhibit-dining-room.jpg",
+    alt: "The restaurant, set for the evening",
     w: 440,
     h: 230,
     classes: "w-[440px] h-[230px] max-md:w-[244px] max-md:h-[140px]",
   },
   {
-    src: "/images/exhibit-spa.jpg",
-    alt: "The spa",
+    src: "/images/exhibit-salon.jpg",
+    alt: "A quiet corner in the lobby",
     w: 440,
     h: 230,
     classes: "w-[440px] h-[230px] max-md:w-[244px] max-md:h-[140px]",
   },
   // Col 3 — tighter landscape stack
   {
-    src: "/images/exhibit-salon.jpg",
-    alt: "The salon",
+    src: "/images/exhibit-guest-room.jpg",
+    alt: "Inside a guest room",
     w: 320,
     h: 230,
     classes: "w-[320px] h-[230px] max-md:w-[180px] max-md:h-[140px]",
   },
   {
-    src: "/images/exhibit-guest-room.jpg",
-    alt: "A guest room",
+    src: "/images/exhibit-corner-suite.jpg",
+    alt: "The Suite Senior's living corner",
     w: 320,
     h: 230,
     classes: "w-[320px] h-[230px] max-md:w-[180px] max-md:h-[140px]",
   },
   // Col 4 — tall portrait
   {
-    src: "/images/exhibit-dining-room.jpg",
-    alt: "The dining room",
+    src: "/images/exhibit-guest-room.jpg",
+    alt: "A family room overlooking Gouraya",
     w: 280,
     h: 484,
     classes: "w-[280px] h-[484px] max-md:w-[160px] max-md:h-[296px] row-span-2",
   },
   // Col 5 — landscape stack
   {
-    src: "/images/exhibit-saltwater-pool.jpg",
-    alt: "The saltwater pool",
+    src: "/images/exhibit-salon.jpg",
+    alt: "The lounge",
     w: 400,
     h: 230,
     classes: "w-[400px] h-[230px] max-md:w-[220px] max-md:h-[140px]",
   },
   {
-    src: "/images/exhibit-corner-suite.jpg",
-    alt: "The corner suite",
+    src: "/images/exhibit-suite-dawn.jpg",
+    alt: "Morning light over the lake",
     w: 400,
     h: 230,
     classes: "w-[400px] h-[230px] max-md:w-[220px] max-md:h-[140px]",

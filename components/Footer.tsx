@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 const navigateLinks = [
-  { label: "Exhibit", href: "#exhibit" },
-  { label: "Activities", href: "#activities" },
+  { label: "Rooms", href: "#rooms" },
+  { label: "Dining", href: "#dining" },
+  { label: "Events", href: "#events" },
   { label: "Contact", href: "#contact" },
-  { label: "Reservations", href: "#top" },
 ];
 
 export default function Footer() {
@@ -43,9 +43,10 @@ export default function Footer() {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pt-20 md:pt-[120px] pb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           <div className="footer-col">
-            <p className="font-display font-semibold text-2xl">Maison Dorée</p>
+            <p className="font-display font-semibold text-2xl">Hôtel du Lac</p>
             <p className="font-sans text-[15px] text-white/55 mt-4 max-w-xs">
-              A small house on the Riviera, kept for the unhurried.
+              Le Calme au Centre Ville — a quiet hotel on the lake, in the heart
+              of Béjaïa.
             </p>
           </div>
 
@@ -74,7 +75,9 @@ export default function Footer() {
             <ul className="flex flex-col gap-3 font-sans text-[15px] text-white/75">
               <li>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/hotel.du.lac/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
                 >
                   Instagram
@@ -82,26 +85,28 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://www.facebook.com/hoteldulacbejaia/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
                 >
-                  Journal
+                  Facebook
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:reservations@maisondoree.fr"
+                  href="mailto:contact@hoteldulacvert.dz"
                   className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
                 >
-                  reservations@maisondoree.fr
+                  contact@hoteldulacvert.dz
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+33493000000"
+                  href="tel:+21344202022"
                   className="max-md:flex max-md:items-center max-md:min-h-[44px] hover:text-cream transition-colors"
                 >
-                  +33 4 93 00 00 00
+                  +213 44 20 20 22
                 </a>
               </li>
             </ul>
@@ -110,7 +115,7 @@ export default function Footer() {
 
         <div className="border-t border-white/15 mt-16 md:mt-24 pt-8">
           <p className="font-sans text-[12px] text-white/35">
-            © 2026 Maison Dorée — Saint-Jean-Cap-Ferrat. All rights reserved.
+            © 2026 Hôtel du Lac — Béjaïa, Algérie. Tous droits réservés.
           </p>
         </div>
       </div>

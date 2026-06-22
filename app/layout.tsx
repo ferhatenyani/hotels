@@ -3,8 +3,9 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
-  title: "Maison Dorée",
-  description: "A small house on the Riviera, kept for the unhurried.",
+  title: "Hôtel du Lac Béjaïa — Le Calme au Centre Ville",
+  description:
+    "A calm, modern hotel in the heart of Béjaïa, on Lac Mézaïa facing Gouraya — lake-view rooms, a gastronomic restaurant and a 498 m² events hall.",
 };
 
 export default function RootLayout({
@@ -19,7 +20,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=general-sans-italic@400&f[]=general-serif@400,500,600&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=erode@400,500,600,700&display=swap"
         />
       </head>
       <body className="bg-white text-ink font-sans font-semibold">
