@@ -183,20 +183,23 @@ export default function ChatModal() {
 
   return (
     <>
-      {/* Desktop FAB. On mobile the chat trigger is owned by Hero (pill that
-          morphs into a FAB via framer-motion), so this button is hidden below
-          md to avoid two competing triggers. */}
+      {/* Chat trigger is now owned by Hero across all breakpoints (a pill
+          that crossfades to a docked FAB on scroll). This button stays in
+          the DOM so the open/close animations still have a valid ref to
+          animate, but it's never visible. */}
       <button
         ref={buttonRef}
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open concierge chat"
         aria-expanded={open}
+        aria-hidden="true"
+        tabIndex={-1}
         style={{
           bottom: "max(1rem, env(safe-area-inset-bottom))",
           right: "max(1rem, env(safe-area-inset-right))",
         }}
-        className="hidden md:flex fixed z-[80] h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink shadow-[0_8px_24px_-8px_rgba(21,19,22,0.25)] transition-[transform,background-color,border-color] duration-300 ease-out hover:scale-110 hover:bg-cream hover:border-ink/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine touch-manipulation"
+        className="hidden fixed z-[80] h-14 w-14 items-center justify-center rounded-full border border-ink/20 bg-white text-ink"
       >
         <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.6} />
       </button>

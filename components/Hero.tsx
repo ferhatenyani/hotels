@@ -251,19 +251,18 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="bg-white h-[100dvh] flex flex-col"
+      className="bg-white h-[100svh] flex flex-col"
     >
       <h1 className="sr-only">
         Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
       </h1>
 
-      {/* Section 1 (mobile) — header spacer at 12dvh. Matches the
-          reservation block's height so the gaps above and below the video
-          card are visually symmetric (navbar ~68px, leaving ~28px breathing
-          above the card; pills ~66px, leaving ~30px below). */}
-      <div className="md:hidden h-[12dvh] shrink-0" aria-hidden />
+      {/* Section 1 (mobile) — header spacer at 12svh. Using svh (not dvh)
+          so the section doesn't reflow as the mobile URL bar collapses;
+          the bottom of the hero stays anchored to a stable document y. */}
+      <div className="md:hidden h-[12svh] shrink-0" aria-hidden />
 
-      <div className="px-4 h-[76dvh] shrink-0 flex flex-col min-h-0 md:h-auto md:flex-1 md:p-3 lg:p-5">
+      <div className="px-4 h-[76svh] shrink-0 flex flex-col min-h-0 md:h-auto md:flex-1 md:p-3 lg:p-5">
         <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] flex-1 min-h-0 md:rounded-xl lg:rounded-2xl">
           <video
             ref={videoRef}
@@ -448,11 +447,11 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Section 3 (mobile) — reservation locked at 12dvh to match the
+      {/* Section 3 (mobile) — reservation locked at 12svh to match the
           header spacer above. Just the three booking CTAs (Dates, Guests,
           Check). The chat icon lives outside this block and floats
           independently. */}
-      <div className="hero-booking md:hidden h-[12dvh] shrink-0 flex flex-col justify-end px-4 pb-4">
+      <div className="hero-booking md:hidden h-[12svh] shrink-0 flex flex-col justify-end px-4 pb-4">
         <div className="flex items-stretch gap-2 max-w-[480px] w-full mx-auto">
           <button
             type="button"
@@ -525,7 +524,7 @@ export default function Hero() {
                 ? { duration: 0.01 }
                 : { duration: 0.14, ease: "easeOut" }
             }
-            className="fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation bottom-[calc(12dvh+1rem)] right-8 md:bottom-36 md:right-7 lg:bottom-9 lg:right-9"
+            className="fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation bottom-[calc(12svh+1rem)] right-8 md:bottom-36 md:right-7 lg:bottom-9 lg:right-9"
           >
             <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.7} />
           </motion.button>
