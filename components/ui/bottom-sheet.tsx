@@ -48,6 +48,51 @@ export default function BottomSheet({
   const [portalReady, setPortalReady] = useState(false);
   useEffect(() => setPortalReady(true), []);
 
+  // Two-state mount, decoupling DOM presence from the open/close visual:
+  //   - `shouldRender` controls whether the sheet (and backdrop) are in the
+  //     DOM at all. When `open` flips false → true we set it immediately;
+  //     when `open` flips true → false we keep it true for one transition
+  //     duration so the close animation plays, then unmount.
+  //   - `visualOpen` drives the translate-y / opacity classes. Two
+  //     `requestAnimationFrame`s after mount we flip it to true so the
+  //     browser sees: first frame at `translate-y-full`, next frame at
+  //     `translate-y-0` — the open transition fires correctly.
+  //
+  // Why this exists: the sheet uses `max-height: 92dvh` and `translate-y-full`
+  // (= `translateY(100%)`). On mobile, both iOS Safari and Android Chrome
+  // collapse/expand their URL bar on scroll, which changes `dvh`, which
+  // changes the sheet's height, which makes `translateY(100%)` re-resolve to
+  // a different pixel value. The `transition-transform` on the element then
+  // animates between the old and new transform values over 500ms, briefly
+  // exposing the top of the "closed" sheet (drag handle + title) at the
+  // bottom of the viewport. Unmounting the sheet entirely when it's closed
+  // makes this impossible — no element to mis-animate.
+  const [shouldRender, setShouldRender] = useState(false);
+  const [visualOpen, setVisualOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setShouldRender(true);
+      // Double rAF: paint once at translate-y-full, then flip to
+      // translate-y-0 so the transition actually fires (single rAF is
+      // flaky in Chrome because the style commit and the rAF callback can
+      // batch).
+      let raf2 = 0;
+      const raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => setVisualOpen(true));
+      });
+      return () => {
+        cancelAnimationFrame(raf1);
+        if (raf2) cancelAnimationFrame(raf2);
+      };
+    }
+    setVisualOpen(false);
+    // Match the transition-transform duration (500ms) with a small slack
+    // so the close animation completes before we unmount.
+    const t = setTimeout(() => setShouldRender(false), 520);
+    return () => clearTimeout(t);
+  }, [open]);
+
   // Drag offset while the user is pulling the handle down. While dragging,
   // an inline transform takes over and CSS transition is disabled so the
   // sheet tracks the finger 1:1. When the drag ends we clear both and the
@@ -125,14 +170,19 @@ export default function BottomSheet({
     };
   }, [open, onClose]);
 
-  if (!portalReady || typeof document === "undefined") return null;
+  // Gating on shouldRender (not just portalReady + open) is the load-bearing
+  // bit of the fix above: when the sheet is closed, nothing is in the DOM,
+  // so URL-bar-driven dvh changes have no element whose translate-y-full can
+  // re-animate.
+  if (!portalReady || typeof document === "undefined" || !shouldRender)
+    return null;
 
   return createPortal(
     <div
-      aria-hidden={!open}
+      aria-hidden={!visualOpen}
       className={cn(
         "fixed inset-x-0 top-0 h-[100dvh] z-[100]",
-        open ? "pointer-events-auto" : "pointer-events-none",
+        visualOpen ? "pointer-events-auto" : "pointer-events-none",
       )}
     >
       <div
@@ -140,7 +190,7 @@ export default function BottomSheet({
         aria-hidden
         className={cn(
           "absolute inset-0 bg-ink/45 transition-opacity duration-300 ease-out",
-          open ? "opacity-100" : "opacity-0",
+          visualOpen ? "opacity-100" : "opacity-0",
         )}
       />
       <div
@@ -157,7 +207,7 @@ export default function BottomSheet({
         className={cn(
           "absolute inset-x-0 bottom-0 flex flex-col rounded-t-[20px] bg-white shadow-[0_-20px_60px_-10px_rgba(21,19,22,0.35)] outline-none will-change-transform",
           "transition-transform duration-500 ease-out",
-          open ? "translate-y-0" : "translate-y-full",
+          visualOpen ? "translate-y-0" : "translate-y-full",
         )}
       >
         <div
