@@ -125,7 +125,6 @@ export default function Hero() {
         ease: "power2.out",
       }, 0)
       .from(".hero-booking", {
-        y: 14,
         opacity: 0,
         duration: 0.32,
         ease: "power2.out",
@@ -506,12 +505,11 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Floating chat icon. Two button variants behind AnimatePresence:
-          "hovering" sits at the bottom-right corner of the video card (1rem
-          inside both edges) when the page is at rest; "docked" sits at the
-          bottom-right of the viewport the moment the user scrolls.
-          Crossfading instead of translating sidesteps a path collision with
-          the booking pills row as it scrolls up. */}
+      {/* Floating chat icon. "Hovering" sits anchored to the video card:
+          mobile = just above the reservation block; tablet = above the
+          inline booking bar (the card's bottom corner is occupied by it);
+          lg+ = bottom-right corner of the card. "Docked" sits at viewport
+          bottom-right the instant the user scrolls. Crossfade, no translate. */}
       <AnimatePresence initial={false}>
         {!chatInFab && (
           <motion.button
@@ -527,11 +525,7 @@ export default function Hero() {
                 ? { duration: 0.01 }
                 : { duration: 0.14, ease: "easeOut" }
             }
-            style={{
-              bottom: "calc(12dvh + 1rem)",
-              right: "2rem",
-            }}
-            className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
+            className="fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation bottom-[calc(12dvh+1rem)] right-8 md:bottom-36 md:right-7 lg:bottom-9 lg:right-9"
           >
             <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.7} />
           </motion.button>
@@ -554,7 +548,7 @@ export default function Hero() {
               bottom: "max(1rem, env(safe-area-inset-bottom))",
               right: "max(1rem, env(safe-area-inset-right))",
             }}
-            className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
+            className="fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
           >
             <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.7} />
           </motion.button>

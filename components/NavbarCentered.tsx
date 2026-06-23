@@ -78,13 +78,13 @@ export default function NavbarCentered() {
           edge-to-edge bar with no rounded corners. */}
       <header
         className={cn(
-          "md:hidden fixed z-[60] transition-[top,left,right] duration-300 ease-out",
+          "md:hidden fixed z-[60] transition-[top,left,right] duration-200 ease-out",
           overHero ? "top-3 left-3 right-3" : "top-0 left-0 right-0",
         )}
       >
         <div
           className={cn(
-            "relative grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 transition-[height,border-radius,border-color] duration-300 ease-out",
+            "relative grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 transition-[height,border-radius] duration-200 ease-out",
             overHero
               ? "h-14 rounded-full border border-ink/[0.08]"
               : "h-12 rounded-none border-b border-ink/10",
@@ -118,14 +118,16 @@ export default function NavbarCentered() {
         </div>
       </header>
 
-      {/* TABLET/DESKTOP: existing full-width bar */}
+      {/* TABLET/DESKTOP: when at the top of the hero, the bar tucks inside
+          the video card's padding (matches md:p-3 / lg:p-5). Once scrolled,
+          it returns to a full-width bar at the very top. */}
       <header
         ref={navRef}
         className={cn(
-          "hidden md:block fixed inset-x-0 top-0 z-[60] w-full transition-[background-color,backdrop-filter,height,border-color] duration-300 ease-out",
+          "hidden md:block fixed z-[60] transition-[top,left,right,background-color,backdrop-filter,height,border-color] duration-300 ease-out",
           overHero
-            ? "h-[64px] sm:h-[72px] bg-transparent border-b border-transparent"
-            : "h-[56px] bg-white/85 backdrop-blur-md border-b border-ink/10",
+            ? "top-3 left-3 right-3 lg:top-5 lg:left-5 lg:right-5 h-[64px] sm:h-[72px] bg-transparent border-b border-transparent"
+            : "top-0 left-0 right-0 h-[56px] bg-white/85 backdrop-blur-md border-b border-ink/10",
         )}
       >
         {/* Horizontal padding matches the hero card's inner padding so the nav

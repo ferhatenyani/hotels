@@ -47,12 +47,12 @@ export default function About() {
       gsap.from(".stat-item", {
         y: 12,
         opacity: 0,
-        stagger: 0.08,
-        duration: 0.75,
+        stagger: 0.05,
+        duration: 0.4,
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".stats-list",
-          start: "top 92%",
+          start: "top 100%",
           once: true,
         },
       });
@@ -70,11 +70,11 @@ export default function About() {
 
         gsap.to(obj, {
           val: target,
-          duration: 1.6,
+          duration: 1.0,
           ease: "power3.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 92%",
+            start: "top 100%",
             once: true,
           },
           onUpdate: () => {
