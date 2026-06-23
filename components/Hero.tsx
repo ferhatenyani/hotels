@@ -10,7 +10,6 @@ import {
   Plus,
   ArrowRight,
   MessageCircle,
-  Sparkles,
 } from "lucide-react";
 import { gsap } from "gsap";
 import { motion, useReducedMotion } from "framer-motion";
@@ -80,18 +79,14 @@ export default function Hero() {
     if (v && v.readyState >= 2) setVideoReady(true);
   }, []);
 
-  // IntersectionObserver drives the pill ↔ FAB morph. We watch the hero
-  // section: once less than ~30% of it overlaps the viewport, the chat
-  // trigger "falls" to its FAB position via framer-motion's layoutId.
+  // Pill ↔ FAB morph fires at the first pixel of scroll. Lenis dispatches
+  // native scroll events too, so a plain listener is enough — no need to
+  // wire into useLenis.
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setChatInFab(entry.intersectionRatio < 0.3),
-      { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1] },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
+    const onScroll = () => setChatInFab(window.scrollY > 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Two-month range picker on desktop, single month on phones (popover only).
@@ -267,8 +262,8 @@ export default function Hero() {
           (12px top margin + 56px pill + 12px breathing room). */}
       <div className="md:hidden h-[80px] shrink-0" aria-hidden />
 
-      <div className="px-4 md:flex-1 md:flex md:flex-col md:min-h-0 md:p-3 lg:p-5">
-        <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] h-[52dvh] md:h-auto md:flex-1 md:min-h-0 md:rounded-xl lg:rounded-2xl">
+      <div className="px-4 flex-[1.7] flex flex-col min-h-0 md:flex-1 md:p-3 lg:p-5">
+        <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] flex-1 min-h-0 md:rounded-xl lg:rounded-2xl">
           <video
             ref={videoRef}
             aria-hidden
@@ -508,10 +503,11 @@ export default function Hero() {
           </button>
         </div>
 
-        {/* Ask the AI — secondary "concierge" tier. Cream-tinted surface
-            distinguishes it from the white booking CTAs above. Shares
-            layoutId with the FAB so framer-motion springs it down/right
-            when the hero scrolls out of view. */}
+        {/* Ask the concierge — same surface as booking pills (white, ink/10
+            border, rounded-[14px], matching shadow). Differentiation comes
+            from a serif primary line, a marine icon medallion, and a cream
+            "spark" dot that signals live AI assist. Shares layoutId with
+            the FAB so framer-motion morphs it when the hero leaves view. */}
         {!chatInFab && (
           <motion.button
             layoutId="concierge-chat"
@@ -521,27 +517,27 @@ export default function Hero() {
             transition={
               shouldReduceMotion
                 ? { duration: 0.01 }
-                : { type: "spring", stiffness: 240, damping: 28, mass: 0.9 }
+                : { type: "spring", stiffness: 90, damping: 22, mass: 1 }
             }
-            className="w-full max-w-[480px] mx-auto flex items-center gap-3 rounded-[18px] bg-cream/55 border border-ink/[0.08] pl-2.5 pr-4 py-2.5 text-left touch-manipulation active:bg-cream/80 shadow-[0_10px_24px_-14px_rgba(21,19,22,0.18)]"
+            className="w-full max-w-[480px] mx-auto flex items-center gap-3 rounded-[14px] bg-white border border-ink/10 pl-2.5 pr-3.5 py-2 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
           >
             <motion.span
               layout="position"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-marine text-white shrink-0"
+              className="relative flex h-9 w-9 items-center justify-center rounded-full bg-marine text-white shrink-0"
             >
-              <MessageCircle className="h-[18px] w-[18px]" strokeWidth={1.8} />
+              <MessageCircle className="h-4 w-4" strokeWidth={1.8} />
+              <span
+                aria-hidden
+                className="absolute top-1 right-1 h-1.5 w-1.5 rounded-full bg-cream"
+              />
             </motion.span>
             <motion.span layout="position" className="flex-1 min-w-0">
-              <span className="flex items-center gap-1.5 font-sans text-[14px] font-semibold text-ink leading-none">
-                Ask the AI
-                <Sparkles className="h-3 w-3 text-marine" strokeWidth={2} />
+              <span className="block font-display text-[15px] font-medium text-ink leading-[1.1]">
+                Ask the concierge
               </span>
-              <span className="block mt-1.5 font-sans text-[10px] uppercase tracking-[0.18em] text-ink/50 leading-none">
-                24/7 concierge
+              <span className="block mt-1 font-sans text-[9px] uppercase tracking-[0.22em] text-ink/50 leading-none">
+                24/7 AI concierge
               </span>
-            </motion.span>
-            <motion.span layout="position">
-              <ArrowRight className="h-4 w-4 text-marine shrink-0" strokeWidth={2} />
             </motion.span>
           </motion.button>
         )}
@@ -564,7 +560,7 @@ export default function Hero() {
           transition={
             shouldReduceMotion
               ? { duration: 0.01 }
-              : { type: "spring", stiffness: 240, damping: 28, mass: 0.9 }
+              : { type: "spring", stiffness: 90, damping: 22, mass: 1 }
           }
           className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
         >
