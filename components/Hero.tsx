@@ -12,7 +12,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { gsap } from "gsap";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -448,10 +448,10 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Section 3 (mobile) — reservation locked at 15dvh so the video can't
-          expand into it when the page settles or the URL bar collapses. Three
-          booking CTAs in an inline row + the Ask the concierge pill below. */}
-      <div className="hero-booking md:hidden h-[15dvh] shrink-0 flex flex-col justify-end gap-3 px-4 pt-3 pb-4">
+      {/* Section 3 (mobile) — reservation locked at 15dvh. Just the three
+          booking CTAs (Dates, Guests, Check). The chat icon lives outside
+          this block and floats independently. */}
+      <div className="hero-booking md:hidden h-[15dvh] shrink-0 flex flex-col justify-end px-4 pb-4">
         <div className="flex items-stretch gap-2 max-w-[480px] w-full mx-auto">
           <button
             type="button"
@@ -502,73 +502,62 @@ export default function Hero() {
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
           </button>
         </div>
+      </div>
 
-        {/* Ask the concierge — same surface as booking pills (white, ink/10
-            border, rounded-[14px], matching shadow). Differentiation comes
-            from a serif primary line, a marine icon medallion, and a cream
-            "spark" dot that signals live AI assist. Shares layoutId with
-            the FAB so framer-motion morphs it when the hero leaves view. */}
+      {/* Floating chat icon. Two button variants behind AnimatePresence:
+          "hovering" sits in the lower-mid of the video card (bottom: 24dvh)
+          when the page is at rest; "docked" sits at bottom-right of the
+          viewport (the standard FAB anchor) the moment the user scrolls.
+          Crossfading instead of translating sidesteps a path collision with
+          the booking pills row as it scrolls up. */}
+      <AnimatePresence initial={false}>
         {!chatInFab && (
           <motion.button
-            layoutId="concierge-chat"
+            key="concierge-hovering"
             type="button"
             onClick={openConciergeChat}
             aria-label="Ask the AI concierge"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={
               shouldReduceMotion
                 ? { duration: 0.01 }
-                : { duration: 0.22, ease: [0.32, 0.72, 0, 1] }
+                : { duration: 0.14, ease: "easeOut" }
             }
-            className="w-full max-w-[480px] mx-auto flex items-center gap-3 rounded-[14px] bg-white border border-ink/10 pl-2.5 pr-3.5 py-2 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
+            style={{
+              bottom: "24dvh",
+              right: "max(1rem, env(safe-area-inset-right))",
+            }}
+            className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
           >
-            <motion.span
-              layout="position"
-              className="relative flex h-9 w-9 items-center justify-center rounded-full bg-marine text-white shrink-0"
-            >
-              <MessageCircle className="h-4 w-4" strokeWidth={1.8} />
-              <span
-                aria-hidden
-                className="absolute top-1 right-1 h-1.5 w-1.5 rounded-full bg-cream"
-              />
-            </motion.span>
-            <motion.span layout="position" className="flex-1 min-w-0">
-              <span className="block font-display text-[15px] font-medium text-ink leading-[1.1]">
-                Ask the concierge
-              </span>
-              <span className="block mt-1 font-sans text-[9px] uppercase tracking-[0.22em] text-ink/50 leading-none">
-                24/7 AI concierge
-              </span>
-            </motion.span>
+            <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.7} />
           </motion.button>
         )}
-      </div>
-
-      {/* Chat FAB variant — same layoutId as the in-card pill, so
-          framer-motion springs the morph when chatInFab toggles. Position is
-          fixed so it stays anchored at the bottom-right while user scrolls
-          through the rest of the page. */}
-      {chatInFab && (
-        <motion.button
-          layoutId="concierge-chat"
-          type="button"
-          onClick={openConciergeChat}
-          aria-label="Ask the AI concierge"
-          style={{
-            bottom: "max(1rem, env(safe-area-inset-bottom))",
-            right: "max(1rem, env(safe-area-inset-right))",
-          }}
-          transition={
-            shouldReduceMotion
-              ? { duration: 0.01 }
-              : { duration: 0.22, ease: [0.32, 0.72, 0, 1] }
-          }
-          className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
-        >
-          <motion.span layout="position" className="flex items-center justify-center">
+        {chatInFab && (
+          <motion.button
+            key="concierge-docked"
+            type="button"
+            onClick={openConciergeChat}
+            aria-label="Ask the AI concierge"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0.01 }
+                : { duration: 0.14, ease: "easeOut" }
+            }
+            style={{
+              bottom: "max(1rem, env(safe-area-inset-bottom))",
+              right: "max(1rem, env(safe-area-inset-right))",
+            }}
+            className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
+          >
             <MessageCircle className="h-[22px] w-[22px]" strokeWidth={1.7} />
-          </motion.span>
-        </motion.button>
-      )}
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Mobile sequenced booking sheet */}
       <BottomSheet
