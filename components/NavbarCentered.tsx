@@ -24,10 +24,11 @@ export default function NavbarCentered() {
 
   useEffect(() => {
     const onScroll = () => {
-      // Mobile reserves a spacer above the hero video, so the nav is never
-      // visually over the video on phones — always render in compact mode.
+      // Mobile: overHero just tracks "at top of page" — pill mode at rest,
+      // edge-to-edge bar once the user starts scrolling. Threshold of 16px
+      // gives a small dead zone so accidental nudges don't flip the state.
       if (window.matchMedia("(max-width: 767px)").matches) {
-        setOverHero(false);
+        setOverHero(window.scrollY < 16);
         return;
       }
       const hero = document.getElementById("top");
@@ -73,10 +74,22 @@ export default function NavbarCentered() {
 
   return (
     <>
-      {/* MOBILE: floating pill header. Sits at top with margin on all sides.
-          Self-contained — does not depend on overHero. */}
-      <header className="md:hidden fixed top-3 left-3 right-3 z-[60]">
-        <div className="relative grid grid-cols-3 items-center h-14 rounded-full bg-white/90 backdrop-blur-xl border border-ink/[0.08] shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5">
+      {/* MOBILE: floating pill at rest; once scrolled, snaps to an
+          edge-to-edge bar with no rounded corners. */}
+      <header
+        className={cn(
+          "md:hidden fixed z-[60] transition-[top,left,right] duration-300 ease-out",
+          overHero ? "top-3 left-3 right-3" : "top-0 left-0 right-0",
+        )}
+      >
+        <div
+          className={cn(
+            "relative grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 transition-[height,border-radius,border-color] duration-300 ease-out",
+            overHero
+              ? "h-14 rounded-full border border-ink/[0.08]"
+              : "h-12 rounded-none border-b border-ink/10",
+          )}
+        >
           <button
             type="button"
             onClick={() => setOpen(true)}

@@ -111,25 +111,25 @@ export default function Hero() {
         opacity: 0,
         duration: 0.32,
         ease: "power2.out",
-      })
+      }, 0)
       .from(".hero-title-line", {
         yPercent: 100,
         duration: 0.45,
         stagger: 0.05,
         ease: "power3.out",
-      }, "-=0.22")
+      }, 0)
       .from(".hero-desc", {
         y: 12,
         opacity: 0,
         duration: 0.32,
         ease: "power2.out",
-      }, "-=0.28")
+      }, 0)
       .from(".hero-booking", {
         y: 14,
         opacity: 0,
         duration: 0.32,
         ease: "power2.out",
-      }, "-=0.24");
+      }, 0);
 
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px) and (pointer: fine)", () => {
