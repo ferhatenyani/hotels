@@ -109,27 +109,27 @@ export default function Hero() {
       tl.from(".hero-sub", {
         y: 12,
         opacity: 0,
-        duration: 0.65,
+        duration: 0.32,
         ease: "power2.out",
       })
       .from(".hero-title-line", {
         yPercent: 100,
-        duration: 0.85,
-        stagger: 0.08,
+        duration: 0.45,
+        stagger: 0.05,
         ease: "power3.out",
-      }, "-=0.45")
+      }, "-=0.22")
       .from(".hero-desc", {
         y: 12,
         opacity: 0,
-        duration: 0.65,
+        duration: 0.32,
         ease: "power2.out",
-      }, "-=0.5")
+      }, "-=0.28")
       .from(".hero-booking", {
-        y: 20,
+        y: 14,
         opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      }, "-=0.55");
+        duration: 0.32,
+        ease: "power2.out",
+      }, "-=0.24");
 
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px) and (pointer: fine)", () => {
@@ -258,11 +258,13 @@ export default function Hero() {
         Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
       </h1>
 
-      {/* Section 1 (mobile) — spacer at 10dvh clears the floating pill
-          header on standard mobile viewports (~80px on 800dvh phones). */}
-      <div className="md:hidden h-[10dvh] shrink-0" aria-hidden />
+      {/* Section 1 (mobile) — header spacer at 12dvh. Matches the
+          reservation block's height so the gaps above and below the video
+          card are visually symmetric (navbar ~68px, leaving ~28px breathing
+          above the card; pills ~66px, leaving ~30px below). */}
+      <div className="md:hidden h-[12dvh] shrink-0" aria-hidden />
 
-      <div className="px-4 h-[75dvh] shrink-0 flex flex-col min-h-0 md:h-auto md:flex-1 md:p-3 lg:p-5">
+      <div className="px-4 h-[76dvh] shrink-0 flex flex-col min-h-0 md:h-auto md:flex-1 md:p-3 lg:p-5">
         <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] flex-1 min-h-0 md:rounded-xl lg:rounded-2xl">
           <video
             ref={videoRef}
@@ -285,11 +287,10 @@ export default function Hero() {
             className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/15 to-ink/65"
           />
 
-          {/* Hero headline — overlapping the video.
-              Mobile: bottom-aligned inside the video box (the video no longer
-              sits behind the navbar on mobile, so we layer text low in the box).
-              Tablet/Desktop: top-aligned with clearance for the fixed navbar. */}
-          <div className="absolute inset-0 px-5 sm:px-10 lg:px-14 flex flex-col justify-end pb-6 sm:justify-start sm:pt-[120px] sm:pb-0 lg:pt-[140px] pointer-events-none">
+          {/* Hero headline — overlapping the video, top-left on every
+              breakpoint. Mobile uses pt-6 inside the card; tablet/desktop
+              keeps the larger clearance for the fixed navbar above. */}
+          <div className="absolute inset-0 px-5 sm:px-10 lg:px-14 flex flex-col justify-start pt-6 sm:pt-[120px] lg:pt-[140px] pointer-events-none">
             <div className="overflow-hidden">
               <p className="hero-sub font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
                 Hôtel du Lac · Béjaïa
@@ -305,8 +306,8 @@ export default function Hero() {
             </h2>
             <div className="overflow-hidden mt-3 sm:mt-4">
               <p className="hero-desc font-sans font-normal text-[14px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
-                On the edge of Lac Mézaïa, facing Yemma Gouraya — comfort and
-                quiet, whether you come for business or with family.
+                On the edge of Lac Mézaïa, facing Yemma Gouraya — calm for
+                business or family.
               </p>
             </div>
           </div>
@@ -448,10 +449,11 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Section 3 (mobile) — reservation locked at 15dvh. Just the three
-          booking CTAs (Dates, Guests, Check). The chat icon lives outside
-          this block and floats independently. */}
-      <div className="hero-booking md:hidden h-[15dvh] shrink-0 flex flex-col justify-end px-4 pb-4">
+      {/* Section 3 (mobile) — reservation locked at 12dvh to match the
+          header spacer above. Just the three booking CTAs (Dates, Guests,
+          Check). The chat icon lives outside this block and floats
+          independently. */}
+      <div className="hero-booking md:hidden h-[12dvh] shrink-0 flex flex-col justify-end px-4 pb-4">
         <div className="flex items-stretch gap-2 max-w-[480px] w-full mx-auto">
           <button
             type="button"
@@ -505,9 +507,9 @@ export default function Hero() {
       </div>
 
       {/* Floating chat icon. Two button variants behind AnimatePresence:
-          "hovering" sits in the lower-mid of the video card (bottom: 24dvh)
-          when the page is at rest; "docked" sits at bottom-right of the
-          viewport (the standard FAB anchor) the moment the user scrolls.
+          "hovering" sits at the bottom-right corner of the video card (1rem
+          inside both edges) when the page is at rest; "docked" sits at the
+          bottom-right of the viewport the moment the user scrolls.
           Crossfading instead of translating sidesteps a path collision with
           the booking pills row as it scrolls up. */}
       <AnimatePresence initial={false}>
@@ -526,8 +528,8 @@ export default function Hero() {
                 : { duration: 0.14, ease: "easeOut" }
             }
             style={{
-              bottom: "24dvh",
-              right: "max(1rem, env(safe-area-inset-right))",
+              bottom: "calc(12dvh + 1rem)",
+              right: "2rem",
             }}
             className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
           >
