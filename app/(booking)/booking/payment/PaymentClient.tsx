@@ -271,7 +271,6 @@ export default function PaymentClient({ room, q }: Props) {
 
           <div className="flex flex-col gap-6 md:gap-8">
             <Field
-              index="01"
               name="cardNumber"
               label="Card number"
               inputMode="numeric"
@@ -287,7 +286,6 @@ export default function PaymentClient({ room, q }: Props) {
 
             <div className="grid grid-cols-2 gap-6 md:gap-8">
               <Field
-                index="02"
                 name="expiry"
                 label="Expiry"
                 inputMode="numeric"
@@ -301,7 +299,6 @@ export default function PaymentClient({ room, q }: Props) {
                 error={errors.expiry}
               />
               <Field
-                index="03"
                 name="cvc"
                 label="CVC"
                 inputMode="numeric"
@@ -315,7 +312,6 @@ export default function PaymentClient({ room, q }: Props) {
             </div>
 
             <Field
-              index="04"
               name="cardName"
               label="Cardholder name"
               autoComplete="cc-name"
@@ -326,7 +322,6 @@ export default function PaymentClient({ room, q }: Props) {
             />
 
             <Field
-              index="05"
               name="billingCountry"
               label="Billing country"
               autoComplete="country-name"

@@ -22,6 +22,7 @@ import {
 } from "@/lib/booking/params";
 import { getRoomBySlug } from "@/lib/data/rooms";
 
+import Section from "@/components/site/Section";
 import BookingSummary, {
   BookingSummaryChip,
 } from "@/components/booking/BookingSummary";
@@ -44,22 +45,17 @@ export default async function GuestPage(props: PageProps<"/booking/guest">) {
   if (!room) redirect(bookingHref("results", q));
 
   return (
-    <div className="px-4 sm:px-6 lg:px-10 py-10 md:py-14 lg:py-20">
-      <div className="max-w-[1280px] mx-auto">
-        <header className="max-w-[44ch]">
-          <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-            Step 3 · Your details
-          </p>
+    <Section tone="white" size="compact">
+      <header className="max-w-[44ch]">
           <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
-            Tell us who&apos;s coming.
+            Tell us <span className="italic font-normal">who&apos;s coming.</span>
           </h1>
           <span
             aria-hidden
             className="mt-5 md:mt-6 block h-px w-14 bg-marine"
           />
           <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-graybase">
-            We keep this only to prepare your stay. Nothing leaves our desk —
-            direct booking, no third parties.
+            We keep these details only to prepare your stay.
           </p>
         </header>
 
@@ -81,7 +77,6 @@ export default async function GuestPage(props: PageProps<"/booking/guest">) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </Section>
   );
 }

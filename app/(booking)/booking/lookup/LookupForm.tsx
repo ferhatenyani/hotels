@@ -68,7 +68,6 @@ export default function LookupForm() {
       className="flex flex-col gap-7 pb-24 md:pb-0"
     >
       <Field
-        index="01"
         name="ref"
         label="Booking reference"
         placeholder="HDL-2026-XXXXX"
@@ -83,7 +82,6 @@ export default function LookupForm() {
         helper="Looks like HDL-2026-7F3A1."
       />
       <Field
-        index="02"
         name="email"
         label="Email used at booking"
         type="email"

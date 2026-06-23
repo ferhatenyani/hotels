@@ -27,7 +27,7 @@ export default function BookingFooter() {
             </a>
             .
           </p>
-          <p className="text-ink/40">
+          <p className="text-ink/55">
             Direct booking. We confirm every reservation ourselves.
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function BookingFooter() {
           <li>
             <Link
               href="/policies"
-              className="hover:text-ink transition-colors max-md:min-h-[40px] max-md:inline-flex max-md:items-center"
+              className="hover:text-ink transition-colors max-md:min-h-[44px] max-md:inline-flex max-md:items-center"
             >
               Policies
             </Link>
@@ -43,7 +43,7 @@ export default function BookingFooter() {
           <li>
             <Link
               href="/faq"
-              className="hover:text-ink transition-colors max-md:min-h-[40px] max-md:inline-flex max-md:items-center"
+              className="hover:text-ink transition-colors max-md:min-h-[44px] max-md:inline-flex max-md:items-center"
             >
               FAQ
             </Link>
@@ -51,7 +51,7 @@ export default function BookingFooter() {
           <li>
             <Link
               href="/"
-              className="hover:text-ink transition-colors max-md:min-h-[40px] max-md:inline-flex max-md:items-center"
+              className="hover:text-ink transition-colors max-md:min-h-[44px] max-md:inline-flex max-md:items-center"
             >
               Back to site
             </Link>

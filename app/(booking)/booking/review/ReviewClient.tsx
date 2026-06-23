@@ -122,98 +122,167 @@ export default function ReviewClient({ room, q }: Props) {
     );
   }
 
+  // Friendly date strings used in multiple slots.
+  const checkInDate = q.checkIn ? format(q.checkIn, "EEE, d MMM") : "—";
+  const checkOutDate = q.checkOut
+    ? format(q.checkOut, "EEE, d MMM yyyy")
+    : "—";
+  const nights = q.checkIn && q.checkOut ? Math.max(1, Math.round((q.checkOut.getTime() - q.checkIn.getTime()) / 86_400_000)) : 0;
+
   return (
     <div className="mt-8 lg:mt-12 grid lg:grid-cols-3 gap-8 lg:gap-12">
       <div className="lg:col-span-2 order-2 lg:order-1 flex flex-col gap-6 md:gap-8 pb-28 lg:pb-0">
-        {/* Room summary */}
-        <ReviewCard
-          eyebrow="Your room"
-          title={room.name}
-          editHref={bookingHref("results", q)}
-          editLabel="Change room"
+        {/* Room — full-bleed photo with the room name and an in-image
+            "Change room" link. Photo-first, not card-first. */}
+        <section
+          aria-label="Your room"
+          className="relative overflow-hidden rounded-2xl border border-ink/10 bg-ink/5 isolate"
         >
-          <div className="flex items-start gap-4">
-            <div className="relative h-20 w-20 md:h-24 md:w-24 shrink-0 overflow-hidden rounded-xl bg-ink/5">
-              <Image
-                src={room.cover}
-                alt={room.coverAlt}
-                fill
-                sizes="96px"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                Sleeps {room.sleeps} · {room.sizeDisplay}
-              </p>
-              <p className="mt-2 font-sans text-[13.5px] leading-[1.55] text-ink/75 line-clamp-3">
-                {room.cardDescription}
-              </p>
+          <div className="relative aspect-[16/9] sm:aspect-[21/9]">
+            <Image
+              src={room.cover}
+              alt={room.coverAlt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 760px"
+              className="object-cover"
+            />
+            <span
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-ink/65 via-ink/15 to-ink/0"
+            />
+            <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-3 p-5 md:p-7">
+              <div className="min-w-0">
+                <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-white/75">
+                  Your room
+                </p>
+                <p className="mt-2 font-display text-[22px] md:text-[26px] font-medium text-white leading-tight tracking-tight text-balance">
+                  {room.name}
+                </p>
+                <p className="mt-1.5 font-sans text-[12.5px] text-white/75">
+                  Sleeps {room.sleeps} · {room.sizeDisplay}
+                </p>
+              </div>
+              <Link
+                href={bookingHref("results", q)}
+                className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white/95 hover:bg-white text-ink px-3.5 py-2 min-h-[44px] font-sans text-[10.5px] font-semibold uppercase tracking-[0.18em] backdrop-blur transition-colors"
+              >
+                <Pencil className="h-3 w-3" strokeWidth={2} />
+                Change room
+              </Link>
             </div>
           </div>
-        </ReviewCard>
+        </section>
 
-        {/* Dates */}
-        <ReviewCard
-          eyebrow="Your stay"
-          title={
-            q.checkIn && q.checkOut
-              ? `${format(q.checkIn, "EEE, d MMM")} → ${format(q.checkOut, "EEE, d MMM yyyy")}`
-              : "Dates pending"
-          }
-          editHref={bookingHref("search", q)}
-          editLabel="Change dates"
+        {/* Stay — dates-led typography. Big tabular dates with the arrow
+            between, party + service times underneath, edit hugs the right. */}
+        <section
+          aria-label="Your stay"
+          className="rounded-2xl border border-ink/10 bg-cream/40 p-5 md:p-7"
         >
-          <p className="font-sans text-[13.5px] text-ink/70">
+          <div className="flex items-start justify-between gap-3">
+            <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/60">
+              Your stay
+            </p>
+            <Link
+              href={bookingHref("search", q)}
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-ink/20 px-3.5 py-1.5 min-h-[44px] font-sans text-[10.5px] uppercase tracking-[0.18em] text-ink/70 hover:text-ink hover:border-ink/40 transition-colors"
+            >
+              <Pencil className="h-3 w-3" strokeWidth={2} />
+              Change dates
+            </Link>
+          </div>
+          <div className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+            <p className="font-display text-[22px] md:text-[28px] font-medium text-ink tracking-tight leading-none tabular-nums">
+              {checkInDate}
+            </p>
+            <span
+              aria-hidden
+              className="font-display text-[20px] md:text-[24px] text-marine leading-none"
+            >
+              →
+            </span>
+            <p className="font-display text-[22px] md:text-[28px] font-medium text-ink tracking-tight leading-none tabular-nums">
+              {checkOutDate}
+            </p>
+            {nights > 0 && (
+              <span className="font-sans text-[12px] uppercase tracking-[0.2em] text-ink/55">
+                · {nights} night{nights === 1 ? "" : "s"}
+              </span>
+            )}
+          </div>
+          <p className="mt-4 font-sans text-[13.5px] text-ink/70">
             {q.adults} adult{q.adults === 1 ? "" : "s"}
             {q.children > 0
               ? ` · ${q.children} child${q.children === 1 ? "" : "ren"}`
               : ""}
-            {" · "}
+            <span className="text-ink/40 mx-2">·</span>
             Check-in from 14:00, check-out by 12:00.
           </p>
-        </ReviewCard>
+        </section>
 
-        {/* Guest */}
-        <ReviewCard
-          eyebrow="Lead guest"
-          title={`${guest.firstName} ${guest.lastName}`}
-          editHref={bookingHref("guest", q)}
-          editLabel="Edit details"
+        {/* Guest — letter-style. Name leads, ledger of details below,
+            edit affordance smaller and inline. The dl shape sets it apart
+            from the photo card above and the dates card. */}
+        <section
+          aria-label="Lead guest"
+          className="rounded-2xl border border-ink/10 bg-white p-5 md:p-7"
         >
-          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-sans text-[13.5px] text-ink/75">
-            <div>
-              <dt className="text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
+          <div className="flex items-baseline justify-between gap-3 mb-5">
+            <div className="min-w-0">
+              <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/60">
+                Lead guest
+              </p>
+              <h2 className="mt-1.5 font-display text-[20px] md:text-[24px] font-medium text-ink leading-tight tracking-tight">
+                {guest.firstName} {guest.lastName}
+              </h2>
+            </div>
+            <Link
+              href={bookingHref("guest", q)}
+              className="shrink-0 inline-flex items-center gap-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-marine hover:text-marine/80 transition-colors min-h-[44px] px-1"
+            >
+              <Pencil className="h-3 w-3" strokeWidth={2} />
+              Edit details
+            </Link>
+          </div>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 font-sans">
+            <div className="border-t border-ink/10 pt-3">
+              <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
                 Email
               </dt>
-              <dd className="mt-1 text-ink truncate">{guest.email}</dd>
+              <dd className="mt-1.5 text-[14px] text-ink truncate">
+                {guest.email}
+              </dd>
             </div>
-            <div>
-              <dt className="text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
+            <div className="border-t border-ink/10 pt-3">
+              <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
                 Phone
               </dt>
-              <dd className="mt-1 text-ink truncate">{guest.phone}</dd>
+              <dd className="mt-1.5 text-[14px] text-ink truncate">
+                {guest.phone}
+              </dd>
             </div>
             {guest.arrivalTime && (
-              <div>
-                <dt className="text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
+              <div className="border-t border-ink/10 pt-3">
+                <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
                   Arrival
                 </dt>
-                <dd className="mt-1 text-ink">{guest.arrivalTime}</dd>
+                <dd className="mt-1.5 text-[14px] text-ink">
+                  {guest.arrivalTime}
+                </dd>
               </div>
             )}
             {guest.notes && (
-              <div className="sm:col-span-2">
-                <dt className="text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                  Notes
+              <div className="border-t border-ink/10 pt-3 sm:col-span-2">
+                <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
+                  Notes for the desk
                 </dt>
-                <dd className="mt-1 text-ink whitespace-pre-line">
+                <dd className="mt-1.5 text-[14px] text-ink whitespace-pre-line leading-[1.6]">
                   {guest.notes}
                 </dd>
               </div>
             )}
           </dl>
-        </ReviewCard>
+        </section>
 
         {/* Add-ons */}
         <section
@@ -242,15 +311,23 @@ export default function ReviewClient({ room, q }: Props) {
           <ul className="flex flex-col gap-3">
             {ALL_ADD_ONS.map((a) => {
               const selected = selectedIds.has(a.id);
+              const inputId = `addon-${a.id}`;
               return (
                 <li key={a.id}>
-                  <button
-                    type="button"
-                    role="checkbox"
-                    aria-checked={selected}
-                    onClick={() => toggleAddOn(a.id)}
+                  {/* Real <input type="checkbox"> visually hidden but a11y-
+                      reachable; the styled <label> carries the chrome. */}
+                  <input
+                    id={inputId}
+                    type="checkbox"
+                    className="peer sr-only"
+                    checked={selected}
+                    onChange={() => toggleAddOn(a.id)}
+                  />
+                  <label
+                    htmlFor={inputId}
                     className={cn(
-                      "group/addon w-full flex items-start gap-4 rounded-xl border p-4 md:p-5 text-left transition-colors",
+                      "group/addon w-full flex items-start gap-4 rounded-xl border p-4 md:p-5 text-left cursor-pointer transition-colors",
+                      "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-marine",
                       selected
                         ? "border-marine bg-marine/[0.04]"
                         : "border-ink/10 bg-white hover:border-ink/25",
@@ -275,17 +352,17 @@ export default function ReviewClient({ room, q }: Props) {
                         <span className="font-display tabular-nums text-[14px] md:text-[15px] text-ink">
                           {formatDA(a.priceDA)}
                           {a.perNight && (
-                            <span className="ml-1 font-sans text-[12px] text-ink/55">
+                            <span className="ml-1 font-sans text-[12px] text-ink/60">
                               / night
                             </span>
                           )}
                         </span>
                       </span>
-                      <span className="mt-1.5 block font-sans text-[13px] leading-[1.55] text-ink/65">
+                      <span className="mt-1.5 block font-sans text-[13px] leading-[1.55] text-ink/70">
                         {a.blurb}
                       </span>
                     </span>
-                  </button>
+                  </label>
                 </li>
               );
             })}
@@ -348,41 +425,3 @@ export default function ReviewClient({ room, q }: Props) {
   );
 }
 
-function ReviewCard({
-  eyebrow,
-  title,
-  editHref,
-  editLabel,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  editHref?: string;
-  editLabel?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-ink/10 bg-white p-5 md:p-7">
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="min-w-0">
-          <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-            {eyebrow}
-          </p>
-          <h2 className="mt-1.5 font-display text-[18px] md:text-[20px] font-medium text-ink leading-tight tracking-tight">
-            {title}
-          </h2>
-        </div>
-        {editHref && (
-          <Link
-            href={editHref}
-            className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3.5 py-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-ink/70 hover:text-ink hover:border-ink/30 transition-colors max-md:min-h-[40px]"
-          >
-            <Pencil className="h-3 w-3" strokeWidth={2} />
-            {editLabel ?? "Edit"}
-          </Link>
-        )}
-      </div>
-      {children}
-    </section>
-  );
-}

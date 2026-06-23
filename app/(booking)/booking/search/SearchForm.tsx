@@ -47,14 +47,15 @@ type SheetStep = "checkin" | "checkout" | "guests";
 const fieldShell =
   "group/field relative flex h-[72px] w-full flex-col items-start justify-center gap-1 px-5 text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]";
 const fieldLabel =
-  "flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-ink/45 font-medium leading-none";
+  // Bumped from /45 (~4:1) to /60 (~6.5:1) for WCAG AA on body-size small caps.
+  "flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-ink/60 font-medium leading-none";
 const fieldValue = "text-[15px] leading-tight truncate font-sans";
 
 const calendarClassNames = {
   caption_label:
     "font-display text-[15px] font-medium tracking-tight select-none",
   weekday:
-    "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/45 select-none",
+    "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/55 select-none",
 } as const;
 
 export default function SearchForm({
@@ -242,7 +243,7 @@ export default function SearchForm({
                   <span
                     className={cn(
                       fieldValue,
-                      checkIn ? "text-ink font-medium" : "text-ink/45",
+                      checkIn ? "text-ink font-medium" : "text-ink/55",
                     )}
                   >
                     {checkIn ? format(checkIn, "EEE, MMM d") : "Add date"}
@@ -254,7 +255,7 @@ export default function SearchForm({
                   <span
                     className={cn(
                       fieldValue,
-                      checkOut ? "text-ink font-medium" : "text-ink/45",
+                      checkOut ? "text-ink font-medium" : "text-ink/55",
                     )}
                   >
                     {checkOut ? format(checkOut, "EEE, MMM d") : "Add date"}
@@ -314,7 +315,7 @@ export default function SearchForm({
                     fieldValue,
                     adults + children > 0
                       ? "text-ink font-medium"
-                      : "text-ink/45",
+                      : "text-ink/55",
                   )}
                 >
                   {guestsLabel}
@@ -584,7 +585,7 @@ function SheetCalendar({
           caption_label:
             "font-display text-[16px] font-medium tracking-tight select-none",
           weekday:
-            "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/45 select-none",
+            "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/55 select-none",
         }}
       />
     </div>

@@ -143,9 +143,9 @@ export default function BookingSummary({
             {formatDA(breakdown.total)}
           </span>
         </div>
-        <p className="mt-3 font-sans text-[11.5px] leading-[1.55] text-ink/55">
-          Includes taxes. We confirm every reservation ourselves — no third
-          parties, no hidden fees.
+        <p className="mt-3 font-sans text-[11.5px] leading-[1.55] text-ink/60">
+          Includes the tourism tax. No third-party fees, no surprises at the
+          desk.
         </p>
       </div>
     </aside>
@@ -173,7 +173,9 @@ function SummaryRow({
         {editHref && (
           <Link
             href={editHref}
-            className="shrink-0 inline-flex items-center gap-1 font-sans text-[11px] uppercase tracking-[0.18em] text-marine hover:text-marine/80 transition-colors"
+            // Pencil + label needs 44px touch height on mobile; px-1 stops it
+            // collapsing too narrow when the parent dl is constrained.
+            className="shrink-0 inline-flex items-center gap-1 px-1 min-h-[44px] font-sans text-[11px] uppercase tracking-[0.18em] text-marine hover:text-marine/80 transition-colors"
             aria-label={`Edit ${label.toLowerCase()}`}
           >
             <Pencil className="h-3 w-3" strokeWidth={1.75} />

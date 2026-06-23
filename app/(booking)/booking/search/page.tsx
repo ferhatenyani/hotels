@@ -55,10 +55,9 @@ export default async function SearchPage(props: PageProps<"/booking/search">) {
         </div>
       ) : null}
 
+      {/* Funnel headers drop the eyebrow scaffolding — the StepRail above
+          already names the step. The h1 carries the moment. */}
       <header className="max-w-[44ch]">
-        <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-          Step 1 · Dates & guests
-        </p>
         <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[48px] leading-[1.05] tracking-tight text-ink text-balance">
           When would you like
           <br className="hidden sm:block" />
@@ -66,9 +65,7 @@ export default async function SearchPage(props: PageProps<"/booking/search">) {
         </h1>
         <span aria-hidden className="mt-5 md:mt-6 block h-px w-14 bg-marine" />
         <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-graybase">
-          Pick your check-in and check-out and let us know who&apos;s coming.
-          We confirm every reservation ourselves — direct booking, no third
-          parties.
+          Pick your check-in and check-out, and tell us who&apos;s coming.
         </p>
       </header>
 

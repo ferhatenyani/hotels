@@ -69,7 +69,8 @@ export function Field({
             rest.onBlur?.(e);
           }}
           className={cn(
-            "w-full bg-transparent font-sans font-normal text-[16px] text-ink placeholder:text-ink/30 outline-none pb-3 max-md:min-h-[44px] max-md:pt-2",
+            // Placeholder bumped from /30 (~3:1) to /45 (~4.5:1) to clear WCAG AA.
+            "w-full bg-transparent font-sans font-normal text-[16px] text-ink placeholder:text-ink/45 outline-none pb-3 max-md:min-h-[44px] max-md:pt-2",
             inputClassName,
           )}
           data-focused={focused ? "true" : undefined}
@@ -122,7 +123,7 @@ export function TextArea({
             rest.onBlur?.(e);
           }}
           className={cn(
-            "w-full bg-transparent font-sans font-normal text-[16px] leading-[1.6] text-ink placeholder:text-ink/30 outline-none pb-3 resize-none",
+            "w-full bg-transparent font-sans font-normal text-[16px] leading-[1.6] text-ink placeholder:text-ink/45 outline-none pb-3 resize-none",
             textareaClassName,
           )}
           data-focused={focused ? "true" : undefined}

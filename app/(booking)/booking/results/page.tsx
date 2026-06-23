@@ -64,9 +64,6 @@ export default async function ResultsPage(
   return (
     <Section tone="white" size="compact">
       <header className="max-w-[44ch]">
-        <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-          Step 2 · Choose room
-        </p>
         <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
           {sorted.length > 0
             ? `${sorted.length} room${sorted.length === 1 ? "" : "s"} for your stay`

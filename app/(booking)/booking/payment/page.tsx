@@ -18,6 +18,7 @@ import {
 } from "@/lib/booking/params";
 import { getRoomBySlug } from "@/lib/data/rooms";
 
+import Section from "@/components/site/Section";
 import PaymentClient from "./PaymentClient";
 
 export const metadata: Metadata = {
@@ -39,14 +40,11 @@ export default async function PaymentPage(
   if (!room) redirect(bookingHref("results", q));
 
   return (
-    <div className="px-4 sm:px-6 lg:px-10 py-10 md:py-14 lg:py-20">
-      <div className="max-w-[1280px] mx-auto">
-        <header className="max-w-[44ch]">
-          <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-            Step 5 · Payment
-          </p>
+    <Section tone="white" size="compact">
+      <header className="max-w-[44ch]">
           <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
-            Confirm and we&apos;ll set the room.
+            Confirm,{" "}
+            <span className="italic font-normal">and we&apos;ll set the room.</span>
           </h1>
           <span
             aria-hidden
@@ -55,7 +53,6 @@ export default async function PaymentPage(
         </header>
 
         <PaymentClient room={room} q={q} />
-      </div>
-    </div>
+    </Section>
   );
 }

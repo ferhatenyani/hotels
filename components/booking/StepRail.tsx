@@ -80,7 +80,8 @@ export default function StepRail() {
                   "inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition-colors",
                   isCurrent && "bg-marine text-white",
                   isPast && "text-ink/70 hover:text-marine",
-                  isFuture && "text-ink/35",
+                  // /55 (~5.7:1 on white) clears AA for these small-caps labels.
+                  isFuture && "text-ink/55",
                 )}
               >
                 <span
@@ -88,7 +89,7 @@ export default function StepRail() {
                     "inline-flex h-5 w-5 items-center justify-center rounded-full font-display text-[11px] tabular-nums",
                     isCurrent && "bg-white/15 text-white",
                     isPast && "bg-ink/[0.06] text-ink",
-                    isFuture && "bg-ink/[0.04] text-ink/45",
+                    isFuture && "bg-ink/[0.04] text-ink/55",
                   )}
                 >
                   {i + 1}

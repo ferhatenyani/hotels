@@ -33,6 +33,7 @@ export default function BookingHeader() {
 
         <a
           href={`tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}`}
+          aria-label={`Call the desk for help, ${hotel.contact.phonePrimary}`}
           className={cn(
             "inline-flex items-center gap-1.5 rounded-full font-sans text-[11px] uppercase tracking-[0.18em] transition-colors",
             "h-10 px-3 md:px-4 text-ink/75 hover:text-ink",

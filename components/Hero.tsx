@@ -483,10 +483,10 @@ export default function Hero() {
             type="button"
             onClick={() => openSheet("checkin")}
             aria-label="Select dates"
-            className="flex-1 min-w-0 flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
+            className="flex-1 min-w-0 min-h-[56px] flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
           >
-            <span className="flex items-center gap-1 text-[9px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
-              <CalendarDays className="h-3 w-3 text-ink/45" strokeWidth={2} />
+            <span className="flex items-center gap-1 text-[10px] uppercase tracking-[0.22em] text-ink/60 font-medium leading-none">
+              <CalendarDays className="h-3 w-3 text-ink/60" strokeWidth={2} />
               Dates
             </span>
             <span
@@ -502,10 +502,10 @@ export default function Hero() {
             type="button"
             onClick={() => openSheet("guests")}
             aria-label="Select guests"
-            className="flex-1 min-w-0 flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
+            className="flex-1 min-w-0 min-h-[56px] flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
           >
-            <span className="flex items-center gap-1 text-[9px] uppercase tracking-[0.22em] text-ink/45 font-medium leading-none">
-              <Users className="h-3 w-3 text-ink/45" strokeWidth={2} />
+            <span className="flex items-center gap-1 text-[10px] uppercase tracking-[0.22em] text-ink/60 font-medium leading-none">
+              <Users className="h-3 w-3 text-ink/60" strokeWidth={2} />
               Guests
             </span>
             <span
@@ -523,9 +523,10 @@ export default function Hero() {
             type="button"
             onClick={onCheckAvailability}
             aria-label="Check availability"
-            className="shrink-0 inline-flex items-center justify-center rounded-[14px] bg-marine text-white px-4 transition-colors active:bg-marine/85 touch-manipulation shadow-[0_8px_20px_-8px_rgba(21,19,22,0.24)]"
+            // 56×56 minimum — primary funnel entry on the smallest viewport.
+            className="shrink-0 inline-flex items-center justify-center h-auto min-h-[56px] min-w-[56px] rounded-[14px] bg-marine text-white px-5 transition-colors active:bg-marine/85 touch-manipulation shadow-[0_8px_20px_-8px_rgba(21,19,22,0.24)]"
           >
-            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            <ArrowRight className="h-5 w-5" strokeWidth={2.25} />
           </button>
         </div>
       </div>

@@ -141,9 +141,11 @@ export default function GuestForm({ q }: Props) {
       aria-label="Lead guest details"
       className="flex flex-col gap-7 pb-28 lg:pb-0"
     >
+      {/* Funnel forms intentionally drop the numbered indices used by the
+          editorial Contact letter — index numerals there are voice; here they
+          would read as template scaffolding on a transactional form. */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
         <Field
-          index="01"
           name="firstName"
           label="First name"
           autoComplete="given-name"
@@ -153,7 +155,6 @@ export default function GuestForm({ q }: Props) {
           error={errors.firstName}
         />
         <Field
-          index="02"
           name="lastName"
           label="Last name"
           autoComplete="family-name"
@@ -163,7 +164,6 @@ export default function GuestForm({ q }: Props) {
           error={errors.lastName}
         />
         <Field
-          index="03"
           name="email"
           label="Email"
           type="email"
@@ -176,7 +176,6 @@ export default function GuestForm({ q }: Props) {
           helper="We send your confirmation here."
         />
         <Field
-          index="04"
           name="phone"
           label="Phone"
           type="tel"
@@ -189,7 +188,6 @@ export default function GuestForm({ q }: Props) {
           helper="In case the front desk needs to reach you."
         />
         <Field
-          index="05"
           name="arrivalTime"
           label="Arrival time"
           placeholder="e.g. 14:00"
@@ -202,7 +200,6 @@ export default function GuestForm({ q }: Props) {
       </div>
 
       <TextArea
-        index="06"
         name="notes"
         label="A note for the desk"
         placeholder="Allergies, anniversaries, a quiet floor — anything we should know."

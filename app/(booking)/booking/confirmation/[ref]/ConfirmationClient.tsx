@@ -110,8 +110,8 @@ export default function ConfirmationClient({ ref: bookingRef }: Props) {
         </h1>
         <p className="font-sans text-[15px] md:text-[16px] leading-[1.7] text-graybase max-w-[44ch]">
           You may have opened the link on a different device, or your browser
-          storage has been cleared. We confirm every reservation ourselves —
-          please call the desk and we&apos;ll find you in a moment.
+          storage has been cleared. Real bookings live with the front desk —
+          call us and we&apos;ll find you in a moment.
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <a
@@ -303,7 +303,7 @@ export default function ConfirmationClient({ ref: bookingRef }: Props) {
             >
               {hotel.contact.phonePrimary}
             </a>{" "}
-            — we confirm and change every reservation ourselves.
+            — every reservation is managed by hand.
           </li>
           <li>
             <span className="font-medium text-ink">Save your reference</span>{" "}
