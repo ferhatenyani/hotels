@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { format, differenceInCalendarDays, startOfToday } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import {
@@ -21,6 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import BottomSheet from "@/components/ui/bottom-sheet";
+import { bookingHref } from "@/lib/booking/params";
 import { cn } from "@/lib/utils";
 
 const openConciergeChat = () => {
@@ -73,6 +75,7 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const today = startOfToday();
   const shouldReduceMotion = useReducedMotion();
+  const router = useRouter();
 
   useEffect(() => {
     const v = videoRef.current;
@@ -188,15 +191,23 @@ export default function Hero() {
     setSheetOpen(true);
   };
 
-  // The mobile chip's marine CTA: if everything is filled, scroll to contact
-  // (the "submit" equivalent in this demo); otherwise open the sheet at the
-  // first missing step.
+  // The mobile chip's marine CTA: if dates + guests are filled, route
+  // straight into /booking/results with the query in the URL. Otherwise open
+  // the sheet at the first missing step so the user finishes the search.
+  const goToResults = () => {
+    router.push(
+      bookingHref("results", {
+        checkIn,
+        checkOut,
+        adults,
+        children,
+      }),
+    );
+  };
   const onCheckAvailability = () => {
     const ready = checkIn && checkOut && adults + children > 0;
     if (ready) {
-      document
-        .getElementById("contact")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      goToResults();
     } else {
       openSheet();
     }
@@ -233,6 +244,16 @@ export default function Hero() {
     setAdults(draftAdults);
     setChildren(draftChildren);
     setSheetOpen(false);
+    // Route into the funnel with the just-committed values — push the draft
+    // directly so we don't race React state updates.
+    router.push(
+      bookingHref("results", {
+        checkIn: draftCheckIn,
+        checkOut: draftCheckOut,
+        adults: draftAdults,
+        children: draftChildren,
+      }),
+    );
   };
 
   const chipDates =
@@ -314,7 +335,12 @@ export default function Hero() {
           <div className="hero-booking hidden md:block absolute left-1/2 bottom-10 w-[90%] lg:w-[82%] max-w-[1180px] -translate-x-1/2">
             <div className="rounded-[20px] bg-white/95 backdrop-blur-sm border border-ink/10 shadow-[0_24px_50px_-16px_rgba(21,19,22,0.28)] overflow-hidden">
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  // Even partial searches are useful — the funnel can prompt
+                  // for what's missing. Router handles the navigation.
+                  goToResults();
+                }}
                 aria-label="Check availability"
                 className="flex items-stretch divide-x divide-ink/10"
               >

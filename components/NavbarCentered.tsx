@@ -1,28 +1,50 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import SmartLink from "@/components/site/SmartLink";
 
+// Each link names its route (for sub-pages) and the home-page section id so
+// SmartLink can scroll-or-navigate at click time per the user's nav contract.
 const leftLinks = [
-  { label: "Rooms", href: "#rooms" },
-  { label: "Dining", href: "#dining" },
-  { label: "Events", href: "#events" },
+  { label: "Rooms", href: "/rooms", sectionId: "rooms" },
+  { label: "Dining", href: "/dining", sectionId: "dining" },
+  { label: "Events", href: "/events", sectionId: "events" },
 ];
 
-const rightLinks = [{ label: "Contact", href: "#contact" }];
+const rightLinks = [
+  { label: "Contact", href: "/contact", sectionId: "contact" },
+];
+
+// Mobile menu surfaces every top-level route so the drawer is the full nav.
+const mobileExtraLinks = [
+  { label: "Offers", href: "/offers" },
+  { label: "Discover Béjaïa", href: "/discover-bejaia" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "About", href: "/about" },
+];
 
 export default function NavbarCentered() {
   const [open, setOpen] = useState(false);
   // overHero: the hero still occupies the navbar's vertical slice — render in
   // light/inverted mode so the wordmark and controls stay legible against the
   // dark video. Once scrolled past the hero, swap to the white-blur compact
-  // bar with dark ink controls.
-  const [overHero, setOverHero] = useState(true);
+  // bar with dark ink controls. On non-home routes there is no full-bleed
+  // video hero, so the bar starts in compact mode immediately.
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+  const [overHero, setOverHero] = useState(onHome);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // Off-home: skip the hero detection entirely and stay in compact mode.
+    if (!onHome) {
+      setOverHero(false);
+      return;
+    }
     const onScroll = () => {
       // Mobile: overHero just tracks "at top of page" — pill mode at rest,
       // edge-to-edge bar once the user starts scrolling. Threshold of 16px
@@ -48,7 +70,7 @@ export default function NavbarCentered() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [onHome]);
 
   // Lock body scroll while the mobile menu is open.
   useEffect(() => {
@@ -70,7 +92,11 @@ export default function NavbarCentered() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const allMobileLinks = [...leftLinks, ...rightLinks];
+  const allMobileLinks = [
+    ...leftLinks,
+    ...rightLinks,
+    ...mobileExtraLinks,
+  ];
 
   return (
     <>
@@ -97,19 +123,20 @@ export default function NavbarCentered() {
             <span className="block h-[1.5px] w-4 bg-ink" />
             <span className="block h-[1.5px] w-5 bg-ink" />
           </button>
-          <a
-            href="#top"
+          <SmartLink
+            href="/"
+            sectionId="top"
             className="justify-self-center font-display font-semibold text-[15px] tracking-tight text-ink whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
           >
             Hôtel du Lac
-          </a>
-          <a
-            href="#contact"
+          </SmartLink>
+          <SmartLink
+            href="/booking/search"
             className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
           >
             Reserve
             <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
-          </a>
+          </SmartLink>
       </header>
 
       {/* TABLET/DESKTOP: when at the top of the hero, the bar tucks inside
@@ -141,8 +168,9 @@ export default function NavbarCentered() {
                     )}
                   />
                 )}
-                <a
+                <SmartLink
                   href={link.href}
+                  sectionId={link.sectionId}
                   className={cn(
                     "inline-flex h-11 items-center px-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
                     overHero
@@ -151,15 +179,16 @@ export default function NavbarCentered() {
                   )}
                 >
                   {link.label}
-                </a>
+                </SmartLink>
               </span>
             ))}
           </div>
 
           {/* Center wordmark */}
           <div className="flex-1 flex flex-col items-center max-md:items-start">
-            <a
-              href="#top"
+            <SmartLink
+              href="/"
+              sectionId="top"
               className={cn(
                 "font-display font-semibold tracking-tight transition-[font-size,color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 rounded-sm",
                 overHero
@@ -168,7 +197,7 @@ export default function NavbarCentered() {
               )}
             >
               Hôtel du Lac
-            </a>
+            </SmartLink>
             <span
               className={cn(
                 "hidden md:block text-[10px] font-sans tracking-[0.24em] uppercase transition-[max-height,opacity,margin,color] duration-300 overflow-hidden",
@@ -184,9 +213,10 @@ export default function NavbarCentered() {
           {/* Right flank — desktop */}
           <div className="hidden md:flex flex-1 items-center justify-end text-[11px] font-sans tracking-[0.18em] uppercase">
             {rightLinks.map((link) => (
-              <a
+              <SmartLink
                 key={link.href}
                 href={link.href}
+                sectionId={link.sectionId}
                 className={cn(
                   "inline-flex h-11 items-center px-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
                   overHero
@@ -195,7 +225,7 @@ export default function NavbarCentered() {
                 )}
               >
                 {link.label}
-              </a>
+              </SmartLink>
             ))}
             <span
               aria-hidden
@@ -204,8 +234,8 @@ export default function NavbarCentered() {
                 overHero ? "bg-white/60" : "bg-ink/40",
               )}
             />
-            <a
-              href="#contact"
+            <SmartLink
+              href="/booking/search"
               className={cn(
                 "inline-flex h-11 items-center gap-1.5 px-3 font-semibold rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
                 overHero
@@ -215,7 +245,7 @@ export default function NavbarCentered() {
             >
               Reserve
               <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
-            </a>
+            </SmartLink>
           </div>
 
         </nav>
@@ -253,38 +283,48 @@ export default function NavbarCentered() {
 
         <nav className="flex-1 overflow-y-auto px-6 pt-4 pb-8 flex flex-col">
           <ul className="flex flex-col">
-            {allMobileLinks.map((link, i) => (
-              <li
-                key={link.href}
-                className={cn(
-                  "border-b border-ink/10",
-                  i === 0 && "border-t border-ink/10",
-                )}
-              >
-                <a
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="flex min-h-[60px] items-center justify-between font-display text-[28px] font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
+            {allMobileLinks.map((link, i) => {
+              const sectionId =
+                "sectionId" in link
+                  ? (link as { sectionId?: string }).sectionId
+                  : undefined;
+              return (
+                <li
+                  key={link.href}
+                  className={cn(
+                    "border-b border-ink/10",
+                    i === 0 && "border-t border-ink/10",
+                  )}
                 >
-                  {link.label}
-                  <ArrowRight className="h-4 w-4 text-ink/40" strokeWidth={1.75} />
-                </a>
-              </li>
-            ))}
+                  <SmartLink
+                    href={link.href}
+                    sectionId={sectionId}
+                    onAfterClick={() => setOpen(false)}
+                    className="flex min-h-[60px] items-center justify-between font-display text-[28px] font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
+                  >
+                    {link.label}
+                    <ArrowRight
+                      className="h-4 w-4 text-ink/40"
+                      strokeWidth={1.75}
+                    />
+                  </SmartLink>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="mt-auto pt-10">
             <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/45">
               Béjaïa, Algérie
             </p>
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
+            <SmartLink
+              href="/booking/search"
+              onAfterClick={() => setOpen(false)}
               className="mt-4 inline-flex w-full min-h-[56px] items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
               Reserve
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
-            </a>
+            </SmartLink>
           </div>
         </nav>
       </div>

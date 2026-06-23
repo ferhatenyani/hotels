@@ -3,6 +3,11 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
+  // metadataBase resolves relative OG / twitter image URLs across the site.
+  // Production should override via NEXT_PUBLIC_SITE_URL; localhost keeps dev quiet.
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
   title: "Hôtel du Lac Béjaïa — Le Calme au Centre Ville",
   description:
     "A calm, modern hotel in the heart of Béjaïa, on Lac Mézaïa facing Gouraya — lake-view rooms, a gastronomic restaurant and a 498 m² events hall.",

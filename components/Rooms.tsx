@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -290,12 +291,18 @@ export default function Rooms() {
                   <p className="md:hidden font-sans text-[11px] uppercase tracking-[0.18em] text-ink/55">
                     Per night
                   </p>
-                  <a
-                    href="#contact"
+                  <Link
+                    href={`/booking/search?room=${encodeURIComponent(
+                      room.name === "Suite Senior"
+                        ? "suite-senior"
+                        : room.name === "Chambre Double — Vue Lac"
+                          ? "chambre-double-vue-lac"
+                          : "appartement",
+                    )}`}
                     className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/25 rounded-full px-5 py-2.5 max-md:min-h-[44px] max-md:px-6 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
                   >
                     Reserve
-                  </a>
+                  </Link>
                 </div>
               </div>
             </article>

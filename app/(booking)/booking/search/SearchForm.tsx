@@ -1,0 +1,592 @@
+// Client form for /booking/search. Mirrors the canonical Hero.tsx booking
+// widget pattern:
+//  - Desktop: a single card with two calendars (range), a guest popover and
+//    a marine "Find rooms" CTA.
+//  - Mobile: stacked input chips that open the BottomSheet, with a sticky
+//    bottom action bar carrying the primary CTA (matches "no rabbit holes"
+//    rule from CONVENTIONS §8).
+//
+// On submit we push /booking/results carrying the full query. If the user
+// is locked to a specific room we preserve roomSlug and promo throughout.
+
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  format,
+  differenceInCalendarDays,
+  parseISO,
+  startOfToday,
+} from "date-fns";
+import type { DateRange } from "react-day-picker";
+import { ArrowRight, CalendarDays, Users } from "lucide-react";
+
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import BottomSheet from "@/components/ui/bottom-sheet";
+import Stepper from "@/components/site/Stepper";
+import { bookingHref } from "@/lib/booking/params";
+import { cn } from "@/lib/utils";
+
+type Props = {
+  initialCheckIn: string | null;
+  initialCheckOut: string | null;
+  initialAdults: number;
+  initialChildren: number;
+  roomSlug?: string;
+  promo?: string;
+};
+
+type SheetStep = "checkin" | "checkout" | "guests";
+
+const fieldShell =
+  "group/field relative flex h-[72px] w-full flex-col items-start justify-center gap-1 px-5 text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]";
+const fieldLabel =
+  "flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-ink/45 font-medium leading-none";
+const fieldValue = "text-[15px] leading-tight truncate font-sans";
+
+const calendarClassNames = {
+  caption_label:
+    "font-display text-[15px] font-medium tracking-tight select-none",
+  weekday:
+    "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/45 select-none",
+} as const;
+
+export default function SearchForm({
+  initialCheckIn,
+  initialCheckOut,
+  initialAdults,
+  initialChildren,
+  roomSlug,
+  promo,
+}: Props) {
+  const today = startOfToday();
+  const router = useRouter();
+
+  const [checkIn, setCheckIn] = useState<Date | undefined>(
+    initialCheckIn ? parseISO(initialCheckIn) : undefined,
+  );
+  const [checkOut, setCheckOut] = useState<Date | undefined>(
+    initialCheckOut ? parseISO(initialCheckOut) : undefined,
+  );
+  const [adults, setAdults] = useState(initialAdults);
+  const [children, setChildren] = useState(initialChildren);
+  const [datesOpen, setDatesOpen] = useState(false);
+  const [months, setMonths] = useState(1);
+
+  // Mobile sheet state — buffered drafts so partial picks don't leak to the
+  // chip while the user is mid-flow.
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetStep, setSheetStep] = useState<SheetStep>("checkin");
+  const [draftCheckIn, setDraftCheckIn] = useState<Date | undefined>(checkIn);
+  const [draftCheckOut, setDraftCheckOut] = useState<Date | undefined>(
+    checkOut,
+  );
+  const [draftAdults, setDraftAdults] = useState(adults);
+  const [draftChildren, setDraftChildren] = useState(children);
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setMonths(mq.matches ? 2 : 1);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const guestsLabel =
+    adults + children === 0
+      ? "Add guests"
+      : [
+          `${adults} adult${adults > 1 ? "s" : ""}`,
+          children > 0
+            ? `${children} child${children > 1 ? "ren" : ""}`
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · ");
+
+  const nights =
+    checkIn && checkOut ? differenceInCalendarDays(checkOut, checkIn) : 0;
+
+  const popoverRange = useMemo<DateRange>(
+    () => ({ from: checkIn, to: checkOut }),
+    [checkIn, checkOut],
+  );
+
+  const onRangeSelect = (next: DateRange | undefined) => {
+    setCheckIn(next?.from);
+    setCheckOut(next?.to);
+    if (next?.from && next?.to) setDatesOpen(false);
+  };
+
+  const goToResults = () => {
+    if (!checkIn || !checkOut) {
+      setError("Pick a check-in and check-out date to see availability.");
+      return;
+    }
+    if (checkIn >= checkOut) {
+      setError("Check-out has to be after check-in.");
+      return;
+    }
+    if (adults < 1) {
+      setError("Add at least one adult.");
+      return;
+    }
+    setError(null);
+    router.push(
+      bookingHref("results", {
+        checkIn,
+        checkOut,
+        adults,
+        children,
+        roomSlug,
+        promo,
+      }),
+    );
+  };
+
+  // Mobile sheet handlers
+  const firstMissingStep = (): SheetStep =>
+    checkIn ? (checkOut ? "guests" : "checkout") : "checkin";
+
+  const openSheet = (startStep?: SheetStep) => {
+    setDraftCheckIn(checkIn);
+    setDraftCheckOut(checkOut);
+    setDraftAdults(adults);
+    setDraftChildren(children);
+    setSheetStep(startStep ?? firstMissingStep());
+    setSheetOpen(true);
+  };
+  const closeSheet = () => setSheetOpen(false);
+
+  const back = () => {
+    if (sheetStep === "checkout") setSheetStep("checkin");
+    else if (sheetStep === "guests") setSheetStep("checkout");
+  };
+
+  const onPickCheckIn = (d: Date | undefined) => {
+    setDraftCheckIn(d);
+    if (d && draftCheckOut && d >= draftCheckOut)
+      setDraftCheckOut(undefined);
+  };
+
+  const onPickCheckOut = (d: Date | undefined) => setDraftCheckOut(d);
+
+  const continueFromCheckIn = () => {
+    if (!draftCheckIn) return;
+    setSheetStep("checkout");
+  };
+  const continueFromCheckOut = () => {
+    if (!draftCheckOut) return;
+    setSheetStep("guests");
+  };
+  const commit = () => {
+    setCheckIn(draftCheckIn);
+    setCheckOut(draftCheckOut);
+    setAdults(draftAdults);
+    setChildren(draftChildren);
+    setSheetOpen(false);
+    if (draftCheckIn && draftCheckOut && draftAdults > 0) {
+      router.push(
+        bookingHref("results", {
+          checkIn: draftCheckIn,
+          checkOut: draftCheckOut,
+          adults: draftAdults,
+          children: draftChildren,
+          roomSlug,
+          promo,
+        }),
+      );
+    }
+  };
+
+  const chipDates =
+    checkIn && checkOut
+      ? `${format(checkIn, "MMM d")} → ${format(checkOut, "MMM d")}`
+      : checkIn
+        ? `${format(checkIn, "MMM d")} · pick check-out`
+        : "Add dates";
+
+  const draftNights =
+    draftCheckIn && draftCheckOut
+      ? differenceInCalendarDays(draftCheckOut, draftCheckIn)
+      : 0;
+
+  return (
+    <>
+      {/* TABLET/DESKTOP: single bordered card with two calendars + guests + CTA. */}
+      <div className="hidden md:block">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            goToResults();
+          }}
+          aria-label="Find your stay"
+          className="rounded-2xl border border-ink/12 bg-white shadow-[0_24px_50px_-30px_rgba(21,19,22,0.22)] overflow-hidden"
+        >
+          <div className="flex items-stretch divide-x divide-ink/10">
+            <Popover open={datesOpen} onOpenChange={setDatesOpen}>
+              <PopoverTrigger
+                aria-label="Check-in and check-out dates"
+                className="group/field relative flex flex-[1.7] items-stretch text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]"
+              >
+                <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[80px]">
+                  <span className={fieldLabel}>Check-in</span>
+                  <span
+                    className={cn(
+                      fieldValue,
+                      checkIn ? "text-ink font-medium" : "text-ink/45",
+                    )}
+                  >
+                    {checkIn ? format(checkIn, "EEE, MMM d") : "Add date"}
+                  </span>
+                </span>
+                <span aria-hidden className="my-3 w-px bg-ink/10" />
+                <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[80px]">
+                  <span className={fieldLabel}>Check-out</span>
+                  <span
+                    className={cn(
+                      fieldValue,
+                      checkOut ? "text-ink font-medium" : "text-ink/45",
+                    )}
+                  >
+                    {checkOut ? format(checkOut, "EEE, MMM d") : "Add date"}
+                  </span>
+                </span>
+                <CalendarDays
+                  className="self-center mr-5 h-4 w-4 text-ink/40 shrink-0"
+                  strokeWidth={1.75}
+                />
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                sideOffset={12}
+                className="w-auto max-w-[calc(100vw-1.5rem)] p-3"
+              >
+                <Calendar
+                  mode="range"
+                  numberOfMonths={months}
+                  selected={popoverRange}
+                  onSelect={onRangeSelect}
+                  defaultMonth={checkIn ?? today}
+                  disabled={{ before: today }}
+                  className="[--cell-size:--spacing(9)] p-0"
+                  classNames={calendarClassNames}
+                />
+                <div className="mt-2 flex items-center justify-between border-t border-ink/10 px-1 pt-3">
+                  <span className="font-sans text-[12px] text-ink/60">
+                    {nights > 0
+                      ? `${nights} night${nights > 1 ? "s" : ""}`
+                      : "Select your dates"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCheckIn(undefined);
+                      setCheckOut(undefined);
+                    }}
+                    className="font-sans text-[11px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger
+                aria-label="Guests"
+                className={cn(fieldShell, "flex-1 h-[80px]")}
+              >
+                <span className={fieldLabel}>
+                  <Users className="h-3 w-3 text-ink/40" strokeWidth={2} />
+                  Guests
+                </span>
+                <span
+                  className={cn(
+                    fieldValue,
+                    adults + children > 0
+                      ? "text-ink font-medium"
+                      : "text-ink/45",
+                  )}
+                >
+                  {guestsLabel}
+                </span>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                sideOffset={12}
+                className="w-[320px] max-w-[calc(100vw-1.5rem)] p-2"
+              >
+                <Stepper
+                  label="Adults"
+                  hint="Ages 13+"
+                  value={adults}
+                  min={1}
+                  max={10}
+                  onChange={setAdults}
+                />
+                <div className="h-px bg-ink/10 mx-3" />
+                <Stepper
+                  label="Children"
+                  hint="Ages 0–12"
+                  value={children}
+                  min={0}
+                  max={6}
+                  onChange={setChildren}
+                />
+              </PopoverContent>
+            </Popover>
+
+            <button
+              type="submit"
+              className="group/cta h-[80px] w-[220px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+            >
+              Find rooms
+              <ArrowRight
+                className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
+                strokeWidth={2.25}
+              />
+            </button>
+          </div>
+        </form>
+
+        {error && (
+          <p
+            role="alert"
+            className="mt-4 font-sans text-[13px] text-destructive"
+          >
+            {error}
+          </p>
+        )}
+      </div>
+
+      {/* MOBILE: stacked input chips. */}
+      <div className="md:hidden flex flex-col gap-3 pb-24">
+        <button
+          type="button"
+          onClick={() => openSheet("checkin")}
+          aria-label="Select check-in date"
+          className="flex flex-col items-start justify-center gap-1.5 rounded-2xl border border-ink/12 bg-white px-4 py-3.5 min-h-[64px] text-left transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.12)]"
+        >
+          <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 font-medium leading-none">
+            <CalendarDays className="h-3 w-3" strokeWidth={2} />
+            Check-in
+          </span>
+          <span
+            className={cn(
+              "font-sans text-[16px] leading-tight",
+              checkIn ? "text-ink font-medium" : "text-ink/55",
+            )}
+          >
+            {checkIn ? format(checkIn, "EEE, d MMM yyyy") : "Add date"}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => openSheet("checkout")}
+          aria-label="Select check-out date"
+          className="flex flex-col items-start justify-center gap-1.5 rounded-2xl border border-ink/12 bg-white px-4 py-3.5 min-h-[64px] text-left transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.12)]"
+        >
+          <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 font-medium leading-none">
+            <CalendarDays className="h-3 w-3" strokeWidth={2} />
+            Check-out
+          </span>
+          <span
+            className={cn(
+              "font-sans text-[16px] leading-tight",
+              checkOut ? "text-ink font-medium" : "text-ink/55",
+            )}
+          >
+            {checkOut ? format(checkOut, "EEE, d MMM yyyy") : "Add date"}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => openSheet("guests")}
+          aria-label="Select guests"
+          className="flex flex-col items-start justify-center gap-1.5 rounded-2xl border border-ink/12 bg-white px-4 py-3.5 min-h-[64px] text-left transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.12)]"
+        >
+          <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 font-medium leading-none">
+            <Users className="h-3 w-3" strokeWidth={2} />
+            Guests
+          </span>
+          <span
+            className={cn(
+              "font-sans text-[16px] leading-tight",
+              adults + children > 0 ? "text-ink font-medium" : "text-ink/55",
+            )}
+          >
+            {guestsLabel}
+          </span>
+        </button>
+
+        {error && (
+          <p
+            role="alert"
+            className="font-sans text-[13px] text-destructive"
+          >
+            {error}
+          </p>
+        )}
+
+        {/* Sticky bottom CTA. */}
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-ink/10 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <button
+            type="button"
+            onClick={goToResults}
+            className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90"
+          >
+            {chipDates !== "Add dates" && nights > 0
+              ? `Find rooms · ${nights} night${nights > 1 ? "s" : ""}`
+              : "Find rooms"}
+            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile sequenced sheet — same archetype as Hero.tsx. */}
+      <BottomSheet
+        open={sheetOpen}
+        onClose={closeSheet}
+        title={
+          sheetStep === "checkin"
+            ? "Check-in"
+            : sheetStep === "checkout"
+              ? "Check-out"
+              : "Guests"
+        }
+        onBack={sheetStep !== "checkin" ? back : undefined}
+        bodyClassName="pb-2"
+        footer={
+          sheetStep === "checkin" ? (
+            <button
+              type="button"
+              onClick={continueFromCheckIn}
+              disabled={!draftCheckIn}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Continue
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            </button>
+          ) : sheetStep === "checkout" ? (
+            <button
+              type="button"
+              onClick={continueFromCheckOut}
+              disabled={!draftCheckOut}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Continue
+              {draftNights > 0 ? (
+                <span className="font-normal normal-case tracking-normal ml-1 opacity-80">
+                  · {draftNights} night{draftNights > 1 ? "s" : ""}
+                </span>
+              ) : null}
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={commit}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px]"
+            >
+              Find rooms
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+            </button>
+          )
+        }
+      >
+        {sheetStep === "checkin" && (
+          <SheetCalendar
+            selected={draftCheckIn}
+            onSelect={onPickCheckIn}
+            disabled={{ before: today }}
+          />
+        )}
+        {sheetStep === "checkout" && (
+          <SheetCalendar
+            selected={draftCheckOut}
+            onSelect={onPickCheckOut}
+            disabled={{ before: draftCheckIn ?? today }}
+            defaultMonth={draftCheckIn}
+          />
+        )}
+        {sheetStep === "guests" && (
+          <div className="pt-2">
+            <Stepper
+              label="Adults"
+              hint="Ages 13+"
+              value={draftAdults}
+              min={1}
+              max={10}
+              onChange={setDraftAdults}
+              large
+            />
+            <div className="h-px bg-ink/10 my-1" />
+            <Stepper
+              label="Children"
+              hint="Ages 0–12"
+              value={draftChildren}
+              min={0}
+              max={6}
+              onChange={setDraftChildren}
+              large
+            />
+            {draftCheckIn && draftCheckOut ? (
+              <p className="mt-6 rounded-xl bg-ink/[0.04] px-4 py-3 font-sans text-[13px] text-ink/70">
+                <span className="font-medium text-ink">
+                  {format(draftCheckIn, "EEE, MMM d")} →{" "}
+                  {format(draftCheckOut, "EEE, MMM d")}
+                </span>
+                <span className="block text-[12px] text-ink/55 mt-0.5">
+                  {draftNights} night{draftNights > 1 ? "s" : ""}
+                </span>
+              </p>
+            ) : null}
+          </div>
+        )}
+      </BottomSheet>
+    </>
+  );
+}
+
+function SheetCalendar({
+  selected,
+  onSelect,
+  disabled,
+  defaultMonth,
+}: {
+  selected: Date | undefined;
+  onSelect: (d: Date | undefined) => void;
+  disabled?: { before: Date };
+  defaultMonth?: Date;
+}) {
+  return (
+    <div className="pt-1">
+      <Calendar
+        mode="single"
+        numberOfMonths={1}
+        selected={selected}
+        onSelect={onSelect}
+        defaultMonth={defaultMonth ?? selected}
+        disabled={disabled}
+        className="[--cell-size:--spacing(11)] p-0 w-full"
+        classNames={{
+          caption_label:
+            "font-display text-[16px] font-medium tracking-tight select-none",
+          weekday:
+            "flex-1 text-[10px] uppercase tracking-[0.16em] font-medium text-ink/45 select-none",
+        }}
+      />
+    </div>
+  );
+}
