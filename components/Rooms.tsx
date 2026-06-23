@@ -113,8 +113,10 @@ export default function Rooms() {
         ease: "expo.out",
         clearProps: "all",
         scrollTrigger: {
-          trigger: ".rooms-grid",
-          start: "top 92%",
+          // Trigger on the section header so the cards animate the moment the
+          // section enters the viewport, not when the cards' row is reached.
+          trigger: ".rooms-head",
+          start: "top 95%",
           once: true,
         },
       });
