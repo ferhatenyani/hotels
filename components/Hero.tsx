@@ -258,11 +258,11 @@ export default function Hero() {
         Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
       </h1>
 
-      {/* Section 1 (mobile) — spacer that clears the floating pill header
-          (12px top margin + 56px pill + 12px breathing room). */}
-      <div className="md:hidden h-[80px] shrink-0" aria-hidden />
+      {/* Section 1 (mobile) — spacer at 10dvh clears the floating pill
+          header on standard mobile viewports (~80px on 800dvh phones). */}
+      <div className="md:hidden h-[10dvh] shrink-0" aria-hidden />
 
-      <div className="px-4 flex-[1.7] flex flex-col min-h-0 md:flex-1 md:p-3 lg:p-5">
+      <div className="px-4 h-[75dvh] shrink-0 flex flex-col min-h-0 md:h-auto md:flex-1 md:p-3 lg:p-5">
         <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] flex-1 min-h-0 md:rounded-xl lg:rounded-2xl">
           <video
             ref={videoRef}
@@ -448,10 +448,10 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Section 3 (mobile) — reservation. Grows to fill remaining viewport
-          space, content justified to the bottom so the CTAs sit within thumb
-          reach. Three booking CTAs in an inline row + the Ask AI pill below. */}
-      <div className="hero-booking md:hidden flex-1 flex flex-col justify-end gap-3 px-4 pt-3 pb-4">
+      {/* Section 3 (mobile) — reservation locked at 15dvh so the video can't
+          expand into it when the page settles or the URL bar collapses. Three
+          booking CTAs in an inline row + the Ask the concierge pill below. */}
+      <div className="hero-booking md:hidden h-[15dvh] shrink-0 flex flex-col justify-end gap-3 px-4 pt-3 pb-4">
         <div className="flex items-stretch gap-2 max-w-[480px] w-full mx-auto">
           <button
             type="button"
@@ -517,7 +517,7 @@ export default function Hero() {
             transition={
               shouldReduceMotion
                 ? { duration: 0.01 }
-                : { type: "spring", stiffness: 90, damping: 22, mass: 1 }
+                : { duration: 0.22, ease: [0.32, 0.72, 0, 1] }
             }
             className="w-full max-w-[480px] mx-auto flex items-center gap-3 rounded-[14px] bg-white border border-ink/10 pl-2.5 pr-3.5 py-2 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
           >
@@ -560,7 +560,7 @@ export default function Hero() {
           transition={
             shouldReduceMotion
               ? { duration: 0.01 }
-              : { type: "spring", stiffness: 90, damping: 22, mass: 1 }
+              : { duration: 0.22, ease: [0.32, 0.72, 0, 1] }
           }
           className="md:hidden fixed z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-marine text-white shadow-[0_14px_32px_-10px_rgba(31,74,55,0.55)] touch-manipulation"
         >
