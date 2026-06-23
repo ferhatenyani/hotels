@@ -75,19 +75,16 @@ export default function NavbarCentered() {
   return (
     <>
       {/* MOBILE: floating pill at rest; once scrolled, snaps to an
-          edge-to-edge bar with no rounded corners. */}
+          edge-to-edge bar with no rounded corners. Single element with all
+          transitions in one place, mirroring the desktop pattern. */}
       <header
         className={cn(
-          "md:hidden fixed z-[60] transition-[top,left,right] duration-200 ease-out",
-          overHero ? "top-3 left-3 right-3" : "top-0 left-0 right-0",
+          "md:hidden fixed z-[60] grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 border border-ink/[0.08] transition-[top,left,right,height,border-radius] duration-300 ease-out",
+          overHero
+            ? "top-3 left-3 right-3 h-14 rounded-[28px]"
+            : "top-0 left-0 right-0 h-12 rounded-none",
         )}
       >
-        <div
-          className={cn(
-            "relative grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 border border-ink/[0.08] transition-[height,border-radius] duration-200 ease-out",
-            overHero ? "h-14 rounded-[28px]" : "h-12 rounded-none",
-          )}
-        >
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -113,7 +110,6 @@ export default function NavbarCentered() {
             Reserve
             <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
           </a>
-        </div>
       </header>
 
       {/* TABLET/DESKTOP: when at the top of the hero, the bar tucks inside

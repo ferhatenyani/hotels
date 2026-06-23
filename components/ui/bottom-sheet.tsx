@@ -131,7 +131,7 @@ export default function BottomSheet({
     <div
       aria-hidden={!open}
       className={cn(
-        "fixed inset-0 z-[100]",
+        "fixed inset-x-0 top-0 h-[100dvh] z-[100]",
         open ? "pointer-events-auto" : "pointer-events-none",
       )}
     >
