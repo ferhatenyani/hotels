@@ -388,7 +388,7 @@ export function MaintenanceClient() {
                     key={r.number}
                     className="flex flex-wrap items-start gap-3 px-5 py-3"
                   >
-                    <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] tnum text-[13px] font-medium">
+                    <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] tnum text-[13px] font-medium">
                       <BedDouble className="size-3.5 mr-1 text-[var(--color-admin-faint)]" />
                       {r.number}
                     </span>
@@ -480,7 +480,7 @@ export function MaintenanceClient() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="h-7 px-2 text-[11.5px] text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)] underline-offset-2 hover:underline"
+                className="inline-flex h-8 items-center rounded-[var(--radius-admin-sm)] px-2 text-[12px] text-[var(--color-admin-muted)] underline-offset-2 transition-colors duration-150 hover:text-[var(--color-admin-text)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-marine"
               >
                 Tout effacer
               </button>
@@ -571,7 +571,7 @@ function ViewToggle({
 }) {
   return (
     <div
-      className="inline-flex rounded-md ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5"
+      className="inline-flex rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5"
       role="group"
       aria-label="Affichage"
     >
@@ -589,7 +589,8 @@ function ViewToggle({
             onClick={() => onChange(opt.value)}
             aria-pressed={active}
             className={cn(
-              "h-7 px-2.5 text-[11.5px] font-medium rounded transition-colors",
+              "h-10 rounded-[var(--radius-admin-sm)] px-3 text-[12.5px] font-medium transition-colors duration-150 md:h-8",
+              "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-marine",
               active
                 ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]"
                 : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",

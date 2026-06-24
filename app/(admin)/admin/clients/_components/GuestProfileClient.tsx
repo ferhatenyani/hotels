@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/admin/Badge";
 import { Button } from "@/components/admin/Button";
 import { Card, CardBody, CardHeader } from "@/components/admin/Card";
-import { EmptyState } from "@/components/admin/EmptyState";
 import { ErrorState } from "@/components/admin/ErrorState";
 import { LoadingState } from "@/components/admin/LoadingState";
 import { PageHeader } from "@/components/admin/PageHeader";
@@ -295,61 +294,70 @@ function OverviewTab({ guest }: { guest: Guest }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="ring-0 shadow-none border border-[var(--color-admin-border)]">
-          <CardHeader title="Préférences clés" />
-          <CardBody>
-            {guest.preferences.length === 0 ? (
-              <p className="text-[13px] text-[var(--color-admin-muted)]">
-                {"Aucune préférence enregistrée pour l'instant."}
-              </p>
-            ) : (
-              <div className="flex flex-wrap gap-1.5">
-                {guest.preferences.slice(0, 6).map((p) => (
-                  <Badge key={p} tone="muted" small>
-                    {p}
-                  </Badge>
-                ))}
-                {guest.preferences.length > 6 ? (
-                  <span className="text-[11.5px] text-[var(--color-admin-muted)]">
-                    +{guest.preferences.length - 6}
-                  </span>
-                ) : null}
-              </div>
-            )}
-          </CardBody>
-        </Card>
-        <Card className="ring-0 shadow-none border border-[var(--color-admin-border)]">
-          <CardHeader
-            title="Dernière note"
-            subtitle={guest.notes.length === 0 ? "Aucune" : undefined}
-          />
-          <CardBody>
-            {guest.notes.length === 0 ? (
-              <EmptyState
-                title="Aucune note"
-                body={"L'équipe n'a encore rien consigné sur ce client."}
-              />
-            ) : (
-              (() => {
-                const last = [...guest.notes].sort((a, b) =>
-                  b.createdAt.localeCompare(a.createdAt),
-                )[0];
-                return (
-                  <div>
-                    <p className="text-[13px] leading-5 text-[var(--color-admin-text)]">
-                      {last.body}
-                    </p>
-                    <p className="mt-2 text-[11.5px] text-[var(--color-admin-muted)] tnum">
-                      {fmtDate(last.createdAt)}
-                    </p>
-                  </div>
-                );
-              })()
-            )}
-          </CardBody>
-        </Card>
+        <Section title="Préférences clés">
+          {guest.preferences.length === 0 ? (
+            <p className="text-[13px] text-[var(--color-admin-muted)]">
+              {"Aucune préférence enregistrée pour l'instant."}
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-1.5">
+              {guest.preferences.slice(0, 6).map((p) => (
+                <Badge key={p} tone="muted" small>
+                  {p}
+                </Badge>
+              ))}
+              {guest.preferences.length > 6 ? (
+                <span className="text-[11.5px] text-[var(--color-admin-muted)]">
+                  +{guest.preferences.length - 6}
+                </span>
+              ) : null}
+            </div>
+          )}
+        </Section>
+        <Section title="Dernière note">
+          {guest.notes.length === 0 ? (
+            <p className="text-[13px] text-[var(--color-admin-muted)]">
+              {"L'équipe n'a encore rien consigné sur ce client."}
+            </p>
+          ) : (
+            (() => {
+              const last = [...guest.notes].sort((a, b) =>
+                b.createdAt.localeCompare(a.createdAt),
+              )[0];
+              return (
+                <div>
+                  <p className="text-[13px] leading-5 text-[var(--color-admin-text)]">
+                    {last.body}
+                  </p>
+                  <p className="mt-2 text-[11.5px] text-[var(--color-admin-muted)] tnum">
+                    {fmtDate(last.createdAt)}
+                  </p>
+                </div>
+              );
+            })()
+          )}
+        </Section>
       </div>
     </div>
+  );
+}
+
+// Panneau plat interne (pas une carte empilée) : filet + rayon token, sans
+// ombre. Évite l'empilement de cartes proscrit par la charte.
+function Section({
+  title,
+  children,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-[var(--radius-admin-lg)] border border-[var(--color-admin-border)]">
+      <h3 className="border-b border-[var(--color-admin-divider)] px-4 pt-3.5 pb-3 text-[14px] font-semibold leading-5 text-[var(--color-admin-text)]">
+        {title}
+      </h3>
+      <div className="px-4 py-4">{children}</div>
+    </section>
   );
 }
 
@@ -364,7 +372,7 @@ function FieldRow({
 }) {
   return (
     <div className="flex items-start gap-2.5">
-      <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-md bg-[var(--color-admin-sunken)] text-[var(--color-admin-muted)]">
+      <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] text-[var(--color-admin-muted)]">
         {icon}
       </span>
       <div className="min-w-0 flex-1">

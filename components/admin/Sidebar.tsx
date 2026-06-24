@@ -14,15 +14,18 @@ import {
   PanelsTopLeft,
   Tag,
   Users,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
 import { hasPermission } from "@/lib/admin/auth";
 import type { Permission } from "@/lib/admin/types";
+
+import { useNavDrawer } from "./AdminGate";
 
 type NavItem = {
   href: string;
@@ -72,6 +75,7 @@ const COLLAPSE_KEY = "admin:sidebar:collapsed:v1";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { open, setOpen } = useNavDrawer();
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -82,7 +86,7 @@ export function Sidebar() {
     } catch {}
   }, []);
 
-  const toggle = () => {
+  const toggleCollapsed = () => {
     setCollapsed((c) => {
       const next = !c;
       try {
@@ -93,63 +97,231 @@ export function Sidebar() {
   };
 
   return (
-    <aside
-      className={cn(
-        "shrink-0 h-dvh sticky top-0 border-r border-[var(--color-admin-border)]",
-        "bg-[var(--color-admin-panel)] flex flex-col z-40 transition-[width] duration-200",
-        collapsed ? "w-[64px]" : "w-[240px]",
-      )}
-      aria-label="Navigation admin"
+    <>
+      {/* ── Rail desktop (lg+) : repliable, hairline, collant ───────────── */}
+      <aside
+        className={cn(
+          "hidden lg:flex shrink-0 h-dvh sticky top-0 flex-col",
+          "border-r border-[var(--color-admin-border)] bg-[var(--color-admin-panel)]",
+          "transition-[width] duration-200 ease-out motion-reduce:transition-none",
+          collapsed ? "w-[68px]" : "w-[260px]",
+        )}
+        style={{ zIndex: "var(--z-admin-sidebar)" }}
+        aria-label="Navigation principale"
+      >
+        <SidebarBrand collapsed={collapsed} />
+        <SidebarNav pathname={pathname} collapsed={collapsed} />
+        <SidebarFooter collapsed={collapsed} onToggle={toggleCollapsed} />
+      </aside>
+
+      {/* ── Tiroir hors-canevas (< lg) ──────────────────────────────────── */}
+      <MobileDrawer open={open} onClose={() => setOpen(false)} pathname={pathname} />
+    </>
+  );
+}
+
+/* ── Tiroir mobile : backdrop, ESC, scroll-lock, focus-trap-lite ───────── */
+
+function MobileDrawer({
+  open,
+  onClose,
+  pathname,
+}: {
+  open: boolean;
+  onClose: () => void;
+  pathname: string | null;
+}) {
+  const panelRef = useRef<HTMLElement | null>(null);
+
+  // Verrou de défilement du corps pendant que le tiroir est ouvert.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  // Fermeture sur Échap + focus-trap allégé (Tab cycle dans le panneau).
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    },
+    [onClose],
+  );
+
+  // Au montage ouvert : on déplace le focus dans le panneau.
+  useEffect(() => {
+    if (open) panelRef.current?.focus();
+  }, [open]);
+
+  return (
+    <div
+      className={cn("lg:hidden", !open && "pointer-events-none")}
+      onKeyDown={onKeyDown}
     >
+      {/* Backdrop */}
       <div
         className={cn(
-          "h-14 flex items-center gap-2.5 px-3 border-b border-[var(--color-admin-divider)]",
-          collapsed && "justify-center px-0",
+          "fixed inset-0 bg-[var(--color-admin-scrim)] transition-opacity duration-200 ease-out",
+          "motion-reduce:transition-none",
+          open ? "opacity-100" : "opacity-0",
+        )}
+        style={{ zIndex: "var(--z-admin-overlay)" }}
+        aria-hidden
+        onClick={onClose}
+      />
+
+      {/* Panneau */}
+      <aside
+        ref={panelRef as React.RefObject<HTMLElement>}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation principale"
+        tabIndex={-1}
+        className={cn(
+          "fixed inset-y-0 left-0 w-[284px] max-w-[86vw] flex flex-col outline-none",
+          "border-r border-[var(--color-admin-border)] bg-[var(--color-admin-panel)]",
+          "shadow-[var(--shadow-admin-lg)]",
+          "transition-transform duration-[220ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]",
+          "motion-reduce:transition-none",
+          open ? "translate-x-0" : "-translate-x-full",
+        )}
+        style={{ zIndex: "var(--z-admin-modal)" }}
+      >
+        <div className="h-16 flex items-center gap-2.5 px-4 border-b border-[var(--color-admin-divider)]">
+          <BrandMark />
+          <BrandText />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fermer la navigation"
+            className={cn(
+              "ml-auto inline-flex size-9 items-center justify-center rounded-[var(--radius-admin-md)]",
+              "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
+              "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+            )}
+          >
+            <X className="size-5" strokeWidth={1.75} />
+          </button>
+        </div>
+        <SidebarNav pathname={pathname} collapsed={false} touch />
+      </aside>
+    </div>
+  );
+}
+
+/* ── Sous-composants partagés rail/tiroir ──────────────────────────────── */
+
+function BrandMark() {
+  return (
+    <div className="inline-flex size-9 items-center justify-center rounded-[var(--radius-admin-md)] bg-marine text-white shrink-0 shadow-[var(--shadow-admin-xs)]">
+      <PanelsTopLeft className="size-[18px]" strokeWidth={1.75} />
+    </div>
+  );
+}
+
+function BrandText() {
+  return (
+    <div className="min-w-0">
+      <p className="text-[14px] font-semibold leading-tight tracking-tight text-[var(--color-admin-text)] truncate">
+        Notre Hôtel
+      </p>
+      <p className="text-[11px] leading-tight text-[var(--color-admin-muted)] truncate">
+        Espace d&apos;administration
+      </p>
+    </div>
+  );
+}
+
+function SidebarBrand({ collapsed }: { collapsed: boolean }) {
+  return (
+    <div
+      className={cn(
+        "h-16 flex items-center gap-2.5 border-b border-[var(--color-admin-divider)]",
+        collapsed ? "justify-center px-0" : "px-4",
+      )}
+    >
+      <BrandMark />
+      {!collapsed ? <BrandText /> : null}
+    </div>
+  );
+}
+
+function SidebarNav({
+  pathname,
+  collapsed,
+  touch = false,
+}: {
+  pathname: string | null;
+  collapsed: boolean;
+  /** Cibles tactiles ≥44px (tiroir mobile). */
+  touch?: boolean;
+}) {
+  return (
+    <nav className="flex-1 overflow-y-auto scroll-dark px-3 py-4">
+      {sections.map((section) => (
+        <SidebarSection
+          key={section.label}
+          section={section}
+          pathname={pathname}
+          collapsed={collapsed}
+          touch={touch}
+        />
+      ))}
+    </nav>
+  );
+}
+
+function SidebarFooter({
+  collapsed,
+  onToggle,
+}: {
+  collapsed: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div className="border-t border-[var(--color-admin-divider)] p-3">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label={collapsed ? "Déplier la barre latérale" : "Replier la barre latérale"}
+        className={cn(
+          "w-full inline-flex items-center gap-2.5 h-9 rounded-[var(--radius-admin-md)] text-[13px] font-medium",
+          "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
+          "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+          collapsed ? "justify-center px-0" : "px-2.5",
         )}
       >
-        <div className="inline-flex size-8 items-center justify-center rounded-md bg-marine text-white shrink-0">
-          <PanelsTopLeft className="size-4" />
-        </div>
-        {!collapsed ? (
-          <div className="min-w-0">
-            <p className="font-display text-[13px] leading-tight tracking-tight text-[var(--color-admin-text)] truncate">
-              Notre Hôtel
-            </p>
-            <p className="text-[10px] uppercase tracking-[0.1em] text-[var(--color-admin-muted)]">
-              Aperture · Admin
-            </p>
-          </div>
-        ) : null}
-      </div>
-
-      <nav className="flex-1 overflow-y-auto scroll-dark py-3">
-        {sections.map((section) => (
-          <SidebarSection
-            key={section.label}
-            section={section}
-            pathname={pathname}
-            collapsed={collapsed}
-          />
-        ))}
-      </nav>
-
-      <div className="border-t border-[var(--color-admin-divider)] p-2">
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={collapsed ? "Déplier la barre latérale" : "Replier la barre latérale"}
-          className={cn(
-            "w-full inline-flex items-center gap-2 h-8 rounded-md text-[12px] font-medium",
-            "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)] hover:bg-[var(--color-admin-sunken)]",
-            "transition-colors",
-            collapsed ? "justify-center px-0" : "px-2",
-          )}
-        >
-          {collapsed ? <ChevronsRight className="size-4" /> : <ChevronsLeft className="size-4" />}
-          {!collapsed ? <span>Replier</span> : null}
-        </button>
-      </div>
-    </aside>
+        {collapsed ? (
+          <ChevronsRight className="size-[18px]" strokeWidth={1.75} />
+        ) : (
+          <ChevronsLeft className="size-[18px]" strokeWidth={1.75} />
+        )}
+        {!collapsed ? <span>Replier</span> : null}
+      </button>
+    </div>
   );
 }
 
@@ -157,10 +329,12 @@ function SidebarSection({
   section,
   pathname,
   collapsed,
+  touch = false,
 }: {
   section: NavSection;
   pathname: string | null;
   collapsed: boolean;
+  touch?: boolean;
 }) {
   const visible = section.items.filter((item) =>
     item.permission ? hasPermission(item.permission) : true,
@@ -168,30 +342,32 @@ function SidebarSection({
   if (visible.length === 0) return null;
 
   return (
-    <div className="mb-1.5">
+    <div className="mb-3 last:mb-0">
       {!collapsed ? (
-        <p className="px-4 pt-3 pb-1.5 text-[10px] uppercase tracking-[0.12em] font-medium text-[var(--color-admin-faint)]">
+        <p className="px-2.5 pb-1.5 text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-faint)]">
           {section.label}
         </p>
       ) : (
-        <div className="my-1 mx-auto h-px w-6 bg-[var(--color-admin-divider)]" aria-hidden />
+        <div className="my-2 mx-auto h-px w-7 bg-[var(--color-admin-divider)]" aria-hidden />
       )}
-      <ul className="px-2 space-y-0.5">
+      <ul className="space-y-1">
         {visible.map((item) => {
           const active = item.exact
             ? pathname === item.href
-            : pathname?.startsWith(item.href);
+            : pathname?.startsWith(item.href) ?? false;
           const Icon = item.icon;
           return (
             <li key={item.href}>
               <Link
                 href={item.href}
                 className={cn(
-                  "group inline-flex w-full items-center gap-2.5 rounded-md h-9 text-[13px]",
-                  "transition-colors duration-150",
+                  "group inline-flex w-full items-center gap-3 rounded-[var(--radius-admin-md)] text-[13.5px]",
+                  touch ? "h-11" : "h-10",
+                  "transition-colors duration-150 motion-reduce:transition-none",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
                   collapsed ? "justify-center px-0" : "px-2.5",
                   active
-                    ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] font-medium"
+                    ? "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)] font-medium"
                     : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)] hover:bg-[var(--color-admin-sunken)]",
                 )}
                 aria-current={active ? "page" : undefined}
@@ -199,8 +375,10 @@ function SidebarSection({
               >
                 <Icon
                   className={cn(
-                    "size-[18px] shrink-0",
-                    active ? "text-marine" : "text-[var(--color-admin-faint)] group-hover:text-[var(--color-admin-muted)]",
+                    "size-5 shrink-0 transition-colors duration-150 motion-reduce:transition-none",
+                    active
+                      ? "text-[var(--color-admin-accent)]"
+                      : "text-[var(--color-admin-faint)] group-hover:text-[var(--color-admin-muted)]",
                   )}
                   strokeWidth={1.75}
                 />

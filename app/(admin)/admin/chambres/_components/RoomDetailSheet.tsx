@@ -195,9 +195,9 @@ export function RoomDetailSheet({
     >
       <div className="space-y-5">
         {/* Statut actuel */}
-        <section className="rounded-lg bg-[var(--color-admin-sunken)]/60 p-3">
+        <section className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)]/60 p-3">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
+            <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)]">
               Statut actuel
             </span>
             <RoomStatusPill status={room.status} />
@@ -226,8 +226,8 @@ export function RoomDetailSheet({
 
         {/* Occupant actuel */}
         {room.status === "occupied" && occupyingReservation ? (
-          <section className="rounded-lg ring-1 ring-[var(--color-admin-border)] p-3">
-            <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
+          <section className="rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border)] p-3">
+            <p className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)]">
               Occupant actuel
             </p>
             <div className="mt-2 flex items-start justify-between gap-3">
@@ -302,7 +302,7 @@ export function RoomDetailSheet({
 
         {/* Badge si maintenance / OOO */}
         {room.status === "maintenance" || room.status === "out-of-order" ? (
-          <div className="rounded-lg bg-[var(--color-admin-danger-bg)]/30 p-3">
+          <div className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-danger-bg)]/30 p-3">
             <Badge tone={room.status === "maintenance" ? "violet" : "danger"} small>
               {room.status === "maintenance" ? "Intervention en cours" : "Hors service"}
             </Badge>

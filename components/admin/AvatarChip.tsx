@@ -14,12 +14,15 @@ export function Avatar({
   className?: string;
 }) {
   const dim = size === "xs" ? "size-6" : size === "sm" ? "size-7" : "size-8";
-  const text = size === "xs" ? "text-[9px]" : size === "sm" ? "text-[10.5px]" : "text-[11.5px]";
+  const text =
+    size === "xs" ? "text-[9px]" : size === "sm" ? "text-[10.5px]" : "text-[11.5px]";
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full bg-[var(--color-admin-sunken)]",
-        "ring-1 ring-[var(--color-admin-border)] text-[var(--color-admin-muted)] font-medium",
+        "inline-flex items-center justify-center rounded-[var(--radius-admin-full)]",
+        "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)]",
+        "shadow-[inset_0_0_0_1px_var(--color-admin-border)] font-semibold tracking-tight uppercase",
+        "tabular-nums leading-none",
         dim,
         text,
         className,

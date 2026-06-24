@@ -14,18 +14,18 @@ export function ErrorState({
   retryLabel?: string;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center px-6 py-12">
-      <div className="inline-flex size-10 items-center justify-center rounded-full bg-[var(--color-admin-danger-bg)] text-[var(--color-admin-danger-fg)]">
+    <div className="flex flex-col items-center justify-center px-6 py-14 text-center">
+      <div className="inline-flex size-12 items-center justify-center rounded-[var(--radius-admin-lg)] bg-[var(--color-admin-danger-bg)] text-[var(--color-admin-danger-fg)]">
         <AlertOctagon className="size-5" />
       </div>
-      <h3 className="mt-4 text-[15px] font-medium text-[var(--color-admin-text)]">{title}</h3>
+      <h3 className="mt-4 text-[15px] font-semibold text-[var(--color-admin-text)]">{title}</h3>
       {body ? (
-        <p className="mt-1.5 max-w-md text-[13px] leading-5 text-[var(--color-admin-muted)]">
+        <p className="mt-1.5 max-w-sm text-[13px] leading-5 text-[var(--color-admin-muted)]">
           {body}
         </p>
       ) : null}
       {onRetry ? (
-        <Button variant="secondary" size="sm" className="mt-5" onClick={onRetry}>
+        <Button variant="secondary" size="sm" className="mt-6" onClick={onRetry}>
           {retryLabel}
         </Button>
       ) : null}

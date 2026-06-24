@@ -636,7 +636,7 @@ function ApercuTab({
             </Row>
           </dl>
           {reservation.notes ? (
-            <div className="mt-4 rounded-md bg-[var(--color-admin-sunken)] p-3 text-[13px] text-[var(--color-admin-text)]">
+            <div className="mt-4 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] p-3 text-[13px] text-[var(--color-admin-text)]">
               <p className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)] mb-1">
                 Notes
               </p>
@@ -801,7 +801,7 @@ function ClientTab({ guest }: { guest: Guest | null }) {
             {guest.notes.map((n) => (
               <div
                 key={n.id}
-                className="rounded-md border border-[var(--color-admin-divider)] p-3"
+                className="rounded-[var(--radius-admin-md)] border border-[var(--color-admin-divider)] p-3"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Badge
@@ -902,7 +902,7 @@ function FactureTab({
             </li>
           ))}
         </ul>
-        <div className="border-t border-[var(--color-admin-divider)] p-5 space-y-1.5 bg-[var(--color-admin-sunken)]/40 rounded-b-xl">
+        <div className="border-t border-[var(--color-admin-divider)] p-5 space-y-1.5 bg-[var(--color-admin-sunken)]/40 rounded-b-[var(--radius-admin-xl)]">
           <div className="flex items-baseline justify-between text-[13px]">
             <span className="text-[var(--color-admin-muted)]">Total</span>
             <span className="tnum text-[var(--color-admin-text)]">
@@ -1030,7 +1030,7 @@ function GuestCard({ guest }: { guest: Guest | null }) {
         {guest.phone ? (
           <a
             href={`tel:${guest.phone.replace(/\s/g, "")}`}
-            className="flex items-center gap-2 rounded-md bg-[var(--color-admin-sunken)] px-3 py-2 text-[12.5px] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)] transition-colors"
+            className="flex items-center gap-2 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2 text-[12.5px] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)] transition-colors"
           >
             <Phone className="size-3.5 text-[var(--color-admin-muted)]" />
             <span className="tnum">{guest.phone}</span>
@@ -1039,7 +1039,7 @@ function GuestCard({ guest }: { guest: Guest | null }) {
         {guest.email ? (
           <a
             href={`mailto:${guest.email}`}
-            className="flex items-center gap-2 rounded-md bg-[var(--color-admin-sunken)] px-3 py-2 text-[12.5px] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)] transition-colors truncate"
+            className="flex items-center gap-2 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2 text-[12.5px] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)] transition-colors truncate"
           >
             <Mail className="size-3.5 text-[var(--color-admin-muted)] shrink-0" />
             <span className="truncate">{guest.email}</span>
@@ -1097,7 +1097,7 @@ function Meta({ label, value }: { label: string; value: React.ReactNode }) {
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="rounded-md bg-[var(--color-admin-sunken)] p-3">
+    <div className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] p-3">
       <p className="text-[10.5px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
         {label}
       </p>

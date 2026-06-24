@@ -289,7 +289,7 @@ export function POSPageClient() {
         <h2 className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
           Sources connectées
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
           {POS_CARDS.map((card) => {
             const stats = statsBySource.get(card.source) ?? { count: 0, revenue: 0 };
             const disabled = card.status === "coming";
@@ -299,7 +299,7 @@ export function POSPageClient() {
                 <CardBody className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <span
-                      className={`inline-flex size-10 items-center justify-center rounded-md ${
+                      className={`inline-flex size-10 items-center justify-center rounded-[var(--radius-admin-md)] ${
                         disabled
                           ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-faint)]"
                           : "bg-[var(--color-admin-info-bg)] text-[var(--color-admin-info-fg)]"
@@ -326,7 +326,7 @@ export function POSPageClient() {
                       <dt className="text-[10px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
                         Notes du jour
                       </dt>
-                      <dd className="mt-1 font-display tnum text-[18px] text-[var(--color-admin-text)]">
+                      <dd className="mt-1 font-semibold tnum text-[18px] text-[var(--color-admin-text)]">
                         {stats.count}
                       </dd>
                     </div>
@@ -334,7 +334,7 @@ export function POSPageClient() {
                       <dt className="text-[10px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
                         CA du jour
                       </dt>
-                      <dd className="mt-1 font-display tnum text-[18px] text-[var(--color-admin-text)]">
+                      <dd className="mt-1 font-semibold tnum text-[18px] text-[var(--color-admin-text)]">
                         {fmtDA(stats.revenue)}
                       </dd>
                     </div>
@@ -638,11 +638,11 @@ function PosNoteDialog({
               </Field>
             </div>
 
-            <div className="flex items-center justify-between rounded-md bg-[var(--color-admin-sunken)] px-3 py-2.5">
+            <div className="flex items-center justify-between rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2.5">
               <span className="text-[12.5px] text-[var(--color-admin-muted)]">
                 Total ligne
               </span>
-              <span className="tnum font-display text-[15px] text-[var(--color-admin-text)]">
+              <span className="tnum font-semibold text-[15px] text-[var(--color-admin-text)]">
                 {fmtDA(
                   Number.isFinite(Number(qty)) && Number.isFinite(Number(price))
                     ? Number(qty) * Number(price)

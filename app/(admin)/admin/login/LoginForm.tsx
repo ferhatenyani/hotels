@@ -55,7 +55,12 @@ export function LoginForm() {
         />
       </Field>
 
-      <Field label="Mot de passe" htmlFor="password" required error={error ?? undefined}>
+      <Field
+        label="Mot de passe"
+        htmlFor="password"
+        required
+        error={error ?? undefined}
+      >
         <Input
           id="password"
           name="password"
@@ -81,11 +86,11 @@ export function LoginForm() {
         Se connecter
       </Button>
 
-      <div className="pt-4 border-t border-[var(--color-admin-divider)]">
-        <p className="text-[11px] uppercase tracking-[0.1em] text-[var(--color-admin-faint)] mb-2.5">
+      <div className="border-t border-[var(--color-admin-divider)] pt-5">
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--color-admin-muted)]">
           Comptes de démonstration
         </p>
-        <ul className="space-y-1">
+        <ul className="-mx-2 space-y-0.5">
           {demoStaff.map((s) => (
             <li key={s.email}>
               <button
@@ -94,10 +99,12 @@ export function LoginForm() {
                   setEmail(s.email);
                   setPassword("demo");
                 }}
-                className="w-full flex items-center justify-between gap-3 py-1.5 px-2 -mx-2 rounded text-left hover:bg-[var(--color-admin-sunken)] transition-colors"
+                className="flex min-h-11 w-full items-center justify-between gap-3 rounded-[var(--radius-admin-md)] px-2 py-2 text-left transition-colors duration-150 ease-out hover:bg-[var(--color-admin-sunken)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
               >
-                <span className="text-[12.5px] text-[var(--color-admin-text)]">{s.label}</span>
-                <span className="text-[11px] text-[var(--color-admin-muted)] truncate">
+                <span className="text-[13px] text-[var(--color-admin-text)]">
+                  {s.label}
+                </span>
+                <span className="truncate text-[11.5px] text-[var(--color-admin-muted)] tnum">
                   {s.email}
                 </span>
               </button>

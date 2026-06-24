@@ -8,6 +8,11 @@ import { cn } from "@/lib/utils";
 import { EmptyState } from "./EmptyState";
 import { LoadingState } from "./LoadingState";
 
+// Halo de focus clavier (miroir de l'utilitaire `.admin-ring` de globals.css,
+// appliqué via focus-visible — visible au clavier uniquement, jamais à la souris).
+const focusRing =
+  "focus-visible:outline-none focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]";
+
 export type Column<T> = {
   /** Identifiant unique de colonne — utilisé pour le tri. */
   key: string;
@@ -82,17 +87,24 @@ export function DataTable<T>({
     });
   };
 
-  const cellPad = density === "compact" ? "px-3 py-2" : "px-3.5 py-3";
-  const rowH = density === "compact" ? "text-[12.5px]" : "text-[13.5px]";
+  const compact = density === "compact";
+
+  // ── Densités (cf. APERTURE-REDESIGN §1 Typographie) ──────────────────
+  // Confort : text-[14px] · Compact : text-[13px] leading-[18px].
+  const bodyText = compact ? "text-[13px] leading-[18px]" : "text-[14px] leading-5";
+  const cellPad = compact ? "px-3 py-2" : "px-3.5 py-3";
+  // Mode carte (mobile) : densité verticale des paires libellé/valeur.
+  const cardRowGap = compact ? "py-1" : "py-1.5";
+
+  const containerCn = cn(
+    "overflow-hidden rounded-[var(--radius-admin-lg)]",
+    "bg-[var(--color-admin-panel)] ring-1 ring-[var(--color-admin-border)]",
+    className,
+  );
 
   if (loading) {
     return (
-      <div
-        className={cn(
-          "overflow-hidden rounded-xl bg-[var(--color-admin-panel)] ring-1 ring-[var(--color-admin-border)]",
-          className,
-        )}
-      >
+      <div className={containerCn}>
         <LoadingState variant="rows" rows={6} />
       </div>
     );
@@ -100,28 +112,48 @@ export function DataTable<T>({
 
   if (rows.length === 0) {
     return (
-      <div
-        className={cn(
-          "rounded-xl bg-[var(--color-admin-panel)] ring-1 ring-[var(--color-admin-border)]",
-          className,
-        )}
-      >
+      <div className={containerCn}>
         <EmptyState title={emptyTitle} body={emptyBody} action={emptyAction} />
       </div>
     );
   }
 
+  const alignCn = (align?: Column<T>["align"]) =>
+    cn(align === "right" && "text-right", align === "center" && "text-center");
+
+  const hideBelowCn = (hideBelow?: Column<T>["hideBelow"]) =>
+    cn(
+      hideBelow === "md" && "hidden md:table-cell",
+      hideBelow === "lg" && "hidden lg:table-cell",
+    );
+
+  // Lignes interactives : hover calme (sunken), focus visible (halo accent),
+  // état actif tinté (accent-soft) au clic/tap.
+  const interactiveRow = onRowClick
+    ? cn(
+        "cursor-pointer transition-colors duration-150 ease-out outline-none",
+        "hover:bg-[var(--color-admin-sunken)]",
+        "active:bg-[var(--color-admin-accent-soft)]",
+        "focus-visible:bg-[var(--color-admin-sunken)]",
+        focusRing,
+      )
+    : undefined;
+
+  const handleRowKey =
+    onRowClick && ((row: T) => (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onRowClick(row);
+      }
+    });
+
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-xl bg-[var(--color-admin-panel)] ring-1 ring-[var(--color-admin-border)]",
-        className,
-      )}
-    >
-      <div className="w-full overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead className="sticky top-0 z-10 bg-[var(--color-admin-sunken)]">
-            <tr className="text-left">
+    <div className={containerCn}>
+      {/* ── md+ : tableau complet ─────────────────────────────────────── */}
+      <div className="hidden w-full overflow-x-auto md:block">
+        <table className={cn("w-full border-collapse", bodyText)}>
+          <thead className="sticky top-0 z-[var(--z-admin-sticky)] bg-[var(--color-admin-sunken)]">
+            <tr>
               {columns.map((col) => {
                 const isSorted = sort?.key === col.key;
                 const SortIcon = !col.sortable
@@ -135,16 +167,22 @@ export function DataTable<T>({
                   <th
                     key={col.key}
                     scope="col"
-                    style={col.width ? undefined : undefined}
+                    aria-sort={
+                      col.sortable
+                        ? isSorted
+                          ? sort?.dir === "asc"
+                            ? "ascending"
+                            : "descending"
+                          : "none"
+                        : undefined
+                    }
                     className={cn(
-                      "h-10 border-b border-[var(--color-admin-border)] text-[11px] uppercase tracking-[0.06em] font-medium",
-                      "text-[var(--color-admin-muted)]",
+                      "h-10 border-b border-[var(--color-admin-border)] text-left align-middle",
+                      "text-[11px] font-medium uppercase tracking-[0.06em] text-[var(--color-admin-muted)]",
                       cellPad,
                       col.width,
-                      col.align === "right" && "text-right",
-                      col.align === "center" && "text-center",
-                      col.hideBelow === "md" && "hidden md:table-cell",
-                      col.hideBelow === "lg" && "hidden lg:table-cell",
+                      alignCn(col.align),
+                      hideBelowCn(col.hideBelow),
                     )}
                   >
                     {col.sortable ? (
@@ -152,13 +190,27 @@ export function DataTable<T>({
                         type="button"
                         onClick={() => toggleSort(col.key)}
                         className={cn(
-                          "inline-flex items-center gap-1 -mx-1 px-1 py-0.5 rounded transition-colors",
+                          "-mx-1 inline-flex max-w-full items-center gap-1 rounded-[var(--radius-admin-sm)] px-1 py-0.5",
+                          "uppercase tracking-[0.06em] transition-colors duration-150 ease-out",
                           "hover:text-[var(--color-admin-text)]",
+                          focusRing,
+                          col.align === "right" && "ml-auto flex-row-reverse",
+                          col.align === "center" && "mx-auto",
                           isSorted && "text-[var(--color-admin-text)]",
                         )}
                       >
-                        <span>{col.header}</span>
-                        {SortIcon ? <SortIcon className="size-3" /> : null}
+                        <span className="truncate">{col.header}</span>
+                        {SortIcon ? (
+                          <SortIcon
+                            aria-hidden
+                            className={cn(
+                              "size-3 shrink-0",
+                              isSorted
+                                ? "text-[var(--color-admin-accent)]"
+                                : "text-[var(--color-admin-faint)]",
+                            )}
+                          />
+                        ) : null}
                       </button>
                     ) : (
                       <span>{col.header}</span>
@@ -173,10 +225,13 @@ export function DataTable<T>({
               <tr
                 key={rowKey(row)}
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
+                onKeyDown={handleRowKey ? handleRowKey(row) : undefined}
+                tabIndex={onRowClick ? 0 : undefined}
+                role={onRowClick ? "button" : undefined}
                 className={cn(
-                  rowH,
                   "border-b border-[var(--color-admin-divider)] last:border-b-0",
-                  onRowClick && "cursor-pointer hover:bg-[var(--color-admin-sunken)]/60 transition-colors",
+                  "text-[var(--color-admin-text)]",
+                  interactiveRow,
                 )}
               >
                 {columns.map((col) => (
@@ -184,11 +239,9 @@ export function DataTable<T>({
                     key={col.key}
                     className={cn(
                       cellPad,
-                      "align-middle text-[var(--color-admin-text)]",
-                      col.align === "right" && "text-right",
-                      col.align === "center" && "text-center",
-                      col.hideBelow === "md" && "hidden md:table-cell",
-                      col.hideBelow === "lg" && "hidden lg:table-cell",
+                      "align-middle",
+                      alignCn(col.align),
+                      hideBelowCn(col.hideBelow),
                     )}
                   >
                     {col.cell(row, idx)}
@@ -199,6 +252,53 @@ export function DataTable<T>({
           </tbody>
         </table>
       </div>
+
+      {/* ── < md : reflow en cartes empilées (paires libellé/valeur) ───── */}
+      <ul className="divide-y divide-[var(--color-admin-divider)] md:hidden" role="list">
+        {sortedRows.map((row, idx) => {
+          // En carte, on ignore les colonnes basse-priorité (hideBelow),
+          // exactement comme le tableau les masque sous leur breakpoint.
+          const cardCols = columns.filter((c) => c.hideBelow !== "md" && c.hideBelow !== "lg");
+          return (
+            <li key={rowKey(row)}>
+              <div
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                onKeyDown={handleRowKey ? handleRowKey(row) : undefined}
+                tabIndex={onRowClick ? 0 : undefined}
+                role={onRowClick ? "button" : undefined}
+                className={cn(
+                  "flex min-h-[44px] flex-col gap-1 px-4 py-3",
+                  bodyText,
+                  "text-[var(--color-admin-text)]",
+                  interactiveRow,
+                )}
+              >
+                {cardCols.map((col) => (
+                  <div
+                    key={col.key}
+                    className={cn(
+                      "flex items-start justify-between gap-3",
+                      cardRowGap,
+                    )}
+                  >
+                    <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.06em] text-[var(--color-admin-muted)]">
+                      {col.header}
+                    </span>
+                    <span
+                      className={cn(
+                        "min-w-0 break-words text-right",
+                        col.align === "left" && "text-left",
+                      )}
+                    >
+                      {col.cell(row, idx)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
@@ -214,7 +314,7 @@ export function DensityToggle({
 }) {
   return (
     <div
-      className="inline-flex rounded-md ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5"
+      className="inline-flex rounded-[var(--radius-admin-md)] bg-[var(--color-admin-panel)] p-0.5 ring-1 ring-[var(--color-admin-border-strong)]"
       role="group"
       aria-label="Densité du tableau"
     >
@@ -228,8 +328,10 @@ export function DensityToggle({
           key={opt.value}
           type="button"
           onClick={() => onChange(opt.value)}
+          aria-pressed={value === opt.value}
           className={cn(
-            "h-7 px-2.5 text-[11.5px] font-medium rounded transition-colors",
+            "h-7 rounded-[var(--radius-admin-sm)] px-2.5 text-[11.5px] font-medium",
+            cn("transition-colors duration-150 ease-out", focusRing),
             value === opt.value
               ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]"
               : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",

@@ -29,10 +29,10 @@ export function TaskCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "group block w-full rounded-lg bg-[var(--color-admin-panel)] p-3 text-left",
-        "ring-1 ring-[var(--color-admin-border)]",
-        "transition-[transform,box-shadow] duration-150 ease-out",
-        "hover:-translate-y-[1px] hover:shadow-sm hover:ring-[var(--color-admin-border-strong)]",
+        "group block w-full rounded-[var(--radius-admin-md)] bg-[var(--color-admin-panel)] p-3 text-left",
+        "shadow-[var(--shadow-admin-xs)] ring-1 ring-[var(--color-admin-border)]",
+        "transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none",
+        "hover:-translate-y-px hover:shadow-[var(--shadow-admin-sm)] hover:ring-[var(--color-admin-border-strong)] motion-reduce:hover:translate-y-0",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
       )}
     >

@@ -344,7 +344,7 @@ export function ReservationsListClient() {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value as PeriodFilter)}
-            className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
             aria-label="Filtrer par période"
           >
             {PERIODS.map((p) => (
@@ -371,7 +371,7 @@ export function ReservationsListClient() {
               value={customFrom}
               max={customTo}
               onChange={(e) => setCustomFrom(e.target.value)}
-              className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+              className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -387,7 +387,7 @@ export function ReservationsListClient() {
               value={customTo}
               min={customFrom}
               onChange={(e) => setCustomTo(e.target.value)}
-              className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+              className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
             />
           </div>
           <p className="text-[12px] text-[var(--color-admin-muted)] ml-auto">

@@ -293,7 +293,7 @@ export function InvoiceDetailClient({ invoiceId }: { invoiceId: string }) {
               }
             />
             <CardBody>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3">
                 <StatTile
                   label="Total"
                   value={fmtDA(invoice.totalDA)}
@@ -700,11 +700,11 @@ function ItemsTab({
             density="comfortable"
             className="rounded-none border-0 ring-0 shadow-none"
           />
-          <div className="flex items-center justify-between gap-3 px-4 py-4 border-t border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)]/40 rounded-b-xl">
+          <div className="flex items-center justify-between gap-3 px-4 py-4 border-t border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)] rounded-b-[var(--radius-admin-lg)]">
             <span className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
               Total facture
             </span>
-            <span className="font-display tnum text-[20px] leading-7 text-[var(--color-admin-text)]">
+            <span className="font-semibold tnum text-[20px] leading-7 text-[var(--color-admin-text)]">
               {fmtDA(invoice.totalDA)}
             </span>
           </div>
@@ -1094,11 +1094,11 @@ function AddItemDialog({
             )}
           />
         </Field>
-        <div className="flex items-center justify-between rounded-md bg-[var(--color-admin-sunken)] px-3 py-2.5">
+        <div className="flex items-center justify-between rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2.5">
           <span className="text-[12.5px] text-[var(--color-admin-muted)]">
             Total ligne
           </span>
-          <span className="tnum font-display text-[15px] text-[var(--color-admin-text)]">
+          <span className="tnum font-semibold text-[15px] text-[var(--color-admin-text)]">
             {fmtDA(previewTotal)}
           </span>
         </div>

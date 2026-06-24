@@ -21,40 +21,95 @@
   --breakpoint-xs: 30rem;
 
   /* ─────────────────────────────────────────────────────────────────────
-     APERTURE — admin / back-office tokens
+     APERTURE v2 — admin / back-office design tokens
      ─────────────────────────────────────────────────────────────────────
-     Scoped to the (admin) route group. Cool-gray surfaces (vs the warm
-     cream of the guest site) keep staff focused on data. Marine forest
-     green stays the brand anchor; status hues are derived to read at a
-     glance on dense tables.
-  */
-  --color-admin-bg: #f7f7f8;
-  --color-admin-panel: #ffffff;
-  --color-admin-sunken: #f1f1f3;
-  --color-admin-border: #e6e6e9;
-  --color-admin-border-strong: #d3d3d7;
-  --color-admin-divider: #ececef;
-  --color-admin-text: #151316;
-  --color-admin-muted: #6b6b70;
-  --color-admin-faint: #9a9aa0;
+     Apple-like register: true-neutral surfaces (a whisper cool), one
+     controlled accent (Lac Vert marine green), generous whitespace, soft
+     layered depth. Scoped to the (admin) route group via `.admin-shell`
+     so the warm guest site stays untouched. Status hues stay legible on
+     dense tables. Never signal status by color alone — colour + icon +
+     label, always the three.
 
-  /* Status tints — pair `bg`+`fg` per status, never use color alone. */
-  --color-admin-ok-bg: #dbeae0;
-  --color-admin-ok-fg: #1f4a37;
-  --color-admin-warn-bg: #fbeed0;
-  --color-admin-warn-fg: #6f550c;
-  --color-admin-danger-bg: #f3d6d6;
-  --color-admin-danger-fg: #7a1d1d;
-  --color-admin-info-bg: #d7e6f3;
-  --color-admin-info-fg: #1d4f7a;
-  --color-admin-muted-bg: #e2e2e6;
+     Neutral ramp is built on Apple's system grays (#1d1d1f / #6e6e73 /
+     #f5f5f7 / #a1a1a6) so the admin reads like macOS, not a web template.
+  */
+  --color-admin-bg: #f5f5f7;          /* app canvas — Apple light gray */
+  --color-admin-panel: #ffffff;        /* cards, tables, forms */
+  --color-admin-sunken: #efeff1;       /* table headers, secondary zones */
+  --color-admin-border: #e4e4e7;       /* hairline borders, separators */
+  --color-admin-border-strong: #cdcdd2;/* active / passive-focus borders */
+  --color-admin-divider: #ededf0;      /* internal horizontal rules */
+  --color-admin-text: #1d1d1f;         /* primary ink — Apple near-black */
+  --color-admin-muted: #62626a;        /* secondary text (≥4.5:1 on panel) */
+  --color-admin-faint: #8e8e96;        /* tertiary text, placeholders */
+
+  /* Accent — single controlled hue. `marine` (#1f4a37) is the brand
+     anchor; these are admin-local aliases so primitives never hardcode it. */
+  --color-admin-accent: #1f4a37;
+  --color-admin-accent-hover: #1a3f2f;
+  --color-admin-accent-press: #143226;
+  --color-admin-accent-soft: #eaf1ed;  /* tinted accent surface (selected) */
+  --color-admin-accent-ring: #1f4a3766;/* focus ring (accent @ 40%) */
+
+  /* Status tints — pair `bg`+`fg` per status, never use color alone.
+     Softened toward Apple's muted system palette; fg verified ≥4.5:1. */
+  --color-admin-ok-bg: #e2efe7;
+  --color-admin-ok-fg: #1d4634;
+  --color-admin-warn-bg: #fbf0d3;
+  --color-admin-warn-fg: #6b520c;
+  --color-admin-danger-bg: #f7dedb;
+  --color-admin-danger-fg: #8a2018;
+  --color-admin-info-bg: #dde9f5;
+  --color-admin-info-fg: #1f4f78;
+  --color-admin-muted-bg: #e7e7ea;
   --color-admin-muted-fg: #4a4a50;
-  --color-admin-violet-bg: #e7e2f1;
-  --color-admin-violet-fg: #4a3580;
-  --color-admin-amber-bg: #fce2c4;
-  --color-admin-amber-fg: #874715;
+  --color-admin-violet-bg: #e9e5f3;
+  --color-admin-violet-fg: #463381;
+  --color-admin-amber-bg: #fbe6cb;
+  --color-admin-amber-fg: #82460f;
   --color-admin-solid-bg: #1f4a37;
   --color-admin-solid-fg: #ffffff;
+
+  /* Admin typography — system stack first (SF Pro on Apple, Inter
+     fallback elsewhere). Applied at the `.admin-shell` root; the guest
+     site keeps Switzer/Erode. */
+  --font-admin: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-admin-numeric: "SF Pro Text", -apple-system, BlinkMacSystemFont,
+    "Inter", system-ui, sans-serif;
+
+  /* Admin radii — continuous, generous, consistent. */
+  --radius-admin-xs: 5px;   /* dots, tiny chips */
+  --radius-admin-sm: 7px;   /* badges, small controls */
+  --radius-admin-md: 9px;   /* buttons, inputs, menu items */
+  --radius-admin-lg: 13px;  /* cards, panels */
+  --radius-admin-xl: 18px;  /* modals, sheets, large surfaces */
+  --radius-admin-full: 9999px;
+
+  /* Admin elevation — soft, low-contrast, layered (macOS depth). */
+  --shadow-admin-xs: 0 1px 1.5px rgba(20, 20, 24, 0.04);
+  --shadow-admin-sm: 0 1px 2px rgba(20, 20, 24, 0.05), 0 1px 1px rgba(20, 20, 24, 0.03);
+  --shadow-admin-md: 0 6px 16px rgba(20, 20, 24, 0.07), 0 2px 4px rgba(20, 20, 24, 0.04);
+  --shadow-admin-lg: 0 16px 40px rgba(20, 20, 24, 0.12), 0 4px 10px rgba(20, 20, 24, 0.06);
+  --shadow-admin-pop: 0 10px 28px rgba(20, 20, 24, 0.14), 0 2px 6px rgba(20, 20, 24, 0.07);
+
+  /* Scrim behind overlays (drawer, modal, sheet) + ink-on-accent text. */
+  --color-admin-scrim: rgba(20, 20, 24, 0.4);
+  --color-admin-on-accent: #ffffff;
+
+  /* Overlay motion — single source for the calm macOS enter curve. */
+  --ease-admin-overlay: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-admin-overlay: 220ms;
+  --duration-admin-fast: 150ms;
+
+  /* Admin z-index scale — semantic, never arbitrary 9999. */
+  --z-admin-sidebar: 40;
+  --z-admin-sticky: 30;
+  --z-admin-dropdown: 50;
+  --z-admin-overlay: 60;
+  --z-admin-modal: 70;
+  --z-admin-toast: 80;
+  --z-admin-tooltip: 90;
 }
 
 @layer base {
@@ -206,6 +261,59 @@
   }
   .scroll-dark::-webkit-scrollbar-thumb:hover {
     background-color: rgba(21, 19, 22, 0.5);
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   APERTURE v2 — admin shell scope
+   Everything below is gated on `.admin-shell` (applied by AdminGate and the
+   login page) so it can never leak into the guest site. System font stack,
+   normal body weight, crisp text rendering, refined controls.
+   ─────────────────────────────────────────────────────────────────────── */
+@layer base {
+  .admin-shell {
+    font-family: var(--font-admin);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.006em;
+    color: var(--color-admin-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings carry weight contrast against the 400 body. */
+  .admin-shell :is(h1, h2, h3, h4) {
+    font-family: var(--font-admin);
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  /* Native form controls inherit the system stack inside admin. */
+  .admin-shell :is(input, textarea, select, button) {
+    font-family: inherit;
+  }
+
+  /* Accent-tinted, accessible text selection. */
+  .admin-shell ::selection {
+    background: var(--color-admin-accent-soft);
+    color: var(--color-admin-accent-press);
+  }
+
+  /* Tabular numerals everywhere numbers must align (prices, counts, IDs). */
+  .admin-shell .tnum,
+  .admin-shell [data-numeric] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}
+
+@layer utilities {
+  /* Apple-like focus ring — soft accent halo, used by interactive primitives. */
+  .admin-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3.5px var(--color-admin-accent-ring);
   }
 }
 

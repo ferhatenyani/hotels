@@ -290,7 +290,7 @@ export function PaymentsListClient() {
         subtitle="Vue globale des encaissements — toutes méthodes, tous folios."
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatTile
           label="Encaissé aujourd'hui"
           value={fmtDA(kpis.cashedToday)}
@@ -335,11 +335,11 @@ export function PaymentsListClient() {
           </>
         }
         trailing={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <select
               value={cashier}
               onChange={(e) => setCashier(e.target.value)}
-              className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+              className="h-9 cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] pl-3 pr-8 text-[16px] md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
               aria-label="Filtrer par caissier"
             >
               <option value="all">Tous les caissiers</option>
@@ -352,7 +352,7 @@ export function PaymentsListClient() {
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value as PeriodFilter)}
-              className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+              className="h-9 cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] pl-3 pr-8 text-[16px] md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
               aria-label="Filtrer par période"
             >
               {PERIODS.map((p) => (

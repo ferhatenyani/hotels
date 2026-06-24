@@ -249,7 +249,7 @@ export function TaskCreateDialog({
         </Field>
 
         {withRoomStatusUpdate && roomStatusOnCreate ? (
-          <div className="flex items-start justify-between gap-3 rounded-md bg-[var(--color-admin-sunken)]/60 p-3">
+          <div className="flex items-start justify-between gap-3 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)]/60 p-3">
             <div className="min-w-0">
               <p className="text-[13px] font-medium text-[var(--color-admin-text)]">
                 Basculer la chambre en « {roomStatusLabels[roomStatusOnCreate]} »

@@ -8,6 +8,7 @@ import { Badge } from "@/components/admin/Badge";
 import { Button } from "@/components/admin/Button";
 import { Card, CardBody, CardHeader } from "@/components/admin/Card";
 import { EmptyState } from "@/components/admin/EmptyState";
+import { ErrorState } from "@/components/admin/ErrorState";
 import { Field, Select, Textarea } from "@/components/admin/form";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Sheet } from "@/components/admin/Sheet";
@@ -51,6 +52,7 @@ export function MessagesClient({
   const [messages, setMessages] = useState<Message[]>([]);
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [selectedThreadId, setSelectedThreadId] = useState<string | null>(
     initialThreadId ?? null,
   );
@@ -87,13 +89,23 @@ export function MessagesClient({
   }, [initialThreadId]);
 
   useEffect(() => {
-    void Promise.all([repo.messages.list(), repo.guests.list()]).then(
-      ([m, g]) => {
+    let cancelled = false;
+    setError(false);
+    void Promise.all([repo.messages.list(), repo.guests.list()])
+      .then(([m, g]) => {
+        if (cancelled) return;
         setMessages(m);
         setGuests(g);
         setLoading(false);
-      },
-    );
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setError(true);
+        setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [tick]);
 
   const guestById = (id: string) => guests.find((g) => g.id === id);
@@ -270,16 +282,27 @@ export function MessagesClient({
         }
       />
 
-      {loading ? (
+      {error ? (
+        <Card>
+          <ErrorState
+            title="Messagerie indisponible"
+            body={"Le chargement des conversations a échoué. Réessayez dans un instant."}
+            onRetry={() => {
+              setLoading(true);
+              setTick((t) => t + 1);
+            }}
+          />
+        </Card>
+      ) : loading ? (
         <Card>
           <CardBody>
             <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4">
               <div className="space-y-2 animate-pulse">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="h-16 rounded-md bg-[var(--color-admin-sunken)]" />
+                  <div key={i} className="h-16 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)]" />
                 ))}
               </div>
-              <div className="hidden lg:block h-[460px] rounded-md bg-[var(--color-admin-sunken)] animate-pulse" />
+              <div className="hidden lg:block h-[460px] rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] animate-pulse" />
             </div>
           </CardBody>
         </Card>
@@ -594,10 +617,10 @@ function MessageBubble({
       ) : null}
       <div
         className={cn(
-          "max-w-[80%] rounded-2xl px-3.5 py-2 ring-1 shadow-sm",
+          "max-w-[80%] rounded-[var(--radius-admin-lg)] px-3.5 py-2 shadow-[var(--shadow-admin-xs)]",
           isInbound
-            ? "bg-[var(--color-admin-sunken)] ring-[var(--color-admin-border)] text-[var(--color-admin-text)] rounded-bl-md"
-            : "bg-marine text-white ring-transparent rounded-br-md",
+            ? "bg-[var(--color-admin-sunken)] ring-1 ring-[var(--color-admin-border)] text-[var(--color-admin-text)] rounded-bl-[var(--radius-admin-sm)]"
+            : "bg-[var(--color-admin-accent)] text-white rounded-br-[var(--radius-admin-sm)]",
         )}
       >
         {message.subject ? (

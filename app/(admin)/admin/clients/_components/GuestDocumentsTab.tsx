@@ -167,7 +167,7 @@ export function GuestDocumentsTab({
               <li key={doc.id}>
                 <Card className="ring-0 shadow-none border border-[var(--color-admin-border)]">
                   <CardBody className="flex items-start gap-3">
-                    <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[var(--color-admin-sunken)] text-[var(--color-admin-muted)]">
+                    <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] text-[var(--color-admin-muted)]">
                       <Icon className="size-4" />
                     </span>
                     <div className="min-w-0 flex-1">

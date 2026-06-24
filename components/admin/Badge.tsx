@@ -59,9 +59,11 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full font-medium tracking-tight whitespace-nowrap",
+        "inline-flex items-center gap-1 rounded-[var(--radius-admin-full)]",
+        "font-medium tracking-tight whitespace-nowrap leading-none",
+        "[&_svg]:shrink-0 [&_svg]:-ms-0.5",
         toneFill[tone],
-        small ? "h-5 px-2 text-[10.5px]" : "h-6 px-2.5 text-[11.5px]",
+        small ? "h-5 px-2 text-[10.5px] [&_svg]:size-3" : "h-6 px-2.5 text-[11.5px] [&_svg]:size-3.5",
         className,
       )}
     >

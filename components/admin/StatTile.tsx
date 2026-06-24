@@ -44,7 +44,8 @@ export function StatTile({
   return (
     <div
       className={cn(
-        "rounded-xl bg-[var(--color-admin-panel)] ring-1 ring-[var(--color-admin-border)] p-4",
+        "rounded-[var(--radius-admin-lg)] bg-[var(--color-admin-panel)] p-4",
+        "shadow-[var(--shadow-admin-sm)] ring-1 ring-[var(--color-admin-border)]",
         className,
       )}
     >
@@ -59,7 +60,7 @@ export function StatTile({
         ) : null}
       </div>
       <div className="mt-2 flex items-baseline gap-3">
-        <span className="font-display tnum text-[28px] leading-9 tracking-tight text-[var(--color-admin-text)]">
+        <span className="tnum text-[28px] font-semibold leading-8 tracking-tight text-[var(--color-admin-text)]">
           {value}
         </span>
         {delta ? (

@@ -378,7 +378,7 @@ export function ArriveesClient() {
       >
         {target ? (
           <div className="space-y-4">
-            <div className="rounded-md bg-[var(--color-admin-sunken)] p-3 space-y-1">
+            <div className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] p-3 space-y-1">
               <div className="text-[12.5px] text-[var(--color-admin-text)] font-medium">
                 {(() => {
                   const g = guestById.get(target.guestId);

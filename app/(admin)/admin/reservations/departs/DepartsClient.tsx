@@ -348,7 +348,7 @@ export function DepartsClient() {
       >
         {target ? (
           <div className="space-y-4">
-            <div className="rounded-md bg-[var(--color-admin-sunken)] p-3 space-y-1">
+            <div className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] p-3 space-y-1">
               <div className="text-[12.5px] font-medium text-[var(--color-admin-text)]">
                 {(() => {
                   const g = guestById.get(target.guestId);
@@ -362,7 +362,7 @@ export function DepartsClient() {
               </div>
             </div>
 
-            <div className="rounded-md border border-[var(--color-admin-divider)] p-3 space-y-1.5">
+            <div className="rounded-[var(--radius-admin-md)] border border-[var(--color-admin-divider)] p-3 space-y-1.5">
               <div className="flex items-baseline justify-between text-[12.5px]">
                 <span className="text-[var(--color-admin-muted)]">Total séjour</span>
                 <span className="tnum text-[var(--color-admin-text)]">
@@ -386,7 +386,7 @@ export function DepartsClient() {
             </div>
 
             {balanceDA(target) > 0 ? (
-              <div className="flex items-start gap-2 rounded-md bg-[var(--color-admin-warn-bg)] p-3">
+              <div className="flex items-start gap-2 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-warn-bg)] p-3">
                 <AlertTriangle className="size-4 mt-0.5 text-[var(--color-admin-warn-fg)] shrink-0" />
                 <div className="text-[12.5px] text-[var(--color-admin-warn-fg)]">
                   <p className="font-medium">

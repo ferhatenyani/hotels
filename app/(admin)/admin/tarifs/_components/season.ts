@@ -1,6 +1,8 @@
 // Mapping local : saison → tone du Badge. Aligné sur le brief :
 // basse=info, moyenne=ok, haute=warn, tres-haute=danger.
 
+import { Flame, Snowflake, Sun, type LucideIcon } from "lucide-react";
+
 import type { Tone } from "@/components/admin/tone";
 import type { Season } from "@/lib/admin/types";
 
@@ -9,6 +11,15 @@ export const seasonTone: Record<Season, Tone> = {
   moyenne: "ok",
   haute: "warn",
   "tres-haute": "danger",
+};
+
+// Icône Lucide par saison — un statut n'est jamais signalé par la couleur
+// seule (brief Aperture). Intensité de demande : flocon → soleil → flamme.
+export const seasonIcon: Record<Season, LucideIcon> = {
+  basse: Snowflake,
+  moyenne: Sun,
+  haute: Sun,
+  "tres-haute": Flame,
 };
 
 /** Couleur de fond utilisée par la vue calendrier (cellule de jour). */

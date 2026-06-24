@@ -17,7 +17,7 @@ import { AvatarChip } from "@/components/admin/AvatarChip";
 import { Badge } from "@/components/admin/Badge";
 import { Button } from "@/components/admin/Button";
 import { Card, CardBody, CardHeader } from "@/components/admin/Card";
-import { Field, Input, RadioGroup, Select, Textarea } from "@/components/admin/form";
+import { DatePicker, Field, Input, RadioGroup, Select, Textarea } from "@/components/admin/form";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { useToast } from "@/components/admin/Toast";
 
@@ -357,18 +357,16 @@ export function NouvelleReservationClient() {
             <CardBody className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <Field label="Arrivée" htmlFor="ci" required>
-                  <Input
+                  <DatePicker
                     id="ci"
-                    type="date"
                     value={checkIn}
                     max={checkOut}
                     onChange={(e) => setCheckIn(e.target.value)}
                   />
                 </Field>
                 <Field label="Départ" htmlFor="co" required>
-                  <Input
+                  <DatePicker
                     id="co"
-                    type="date"
                     value={checkOut}
                     min={checkIn}
                     onChange={(e) => setCheckOut(e.target.value)}
@@ -422,7 +420,7 @@ export function NouvelleReservationClient() {
               }
               subtitle="Trouvez un client existant ou créez-en un nouveau."
               actions={
-                <div className="inline-flex rounded-md ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5">
+                <div className="inline-flex rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5">
                   {(
                     [
                       { id: "existing", label: "Client existant" },
@@ -453,7 +451,7 @@ export function NouvelleReservationClient() {
                       className="pl-8"
                     />
                   </div>
-                  <div className="rounded-lg ring-1 ring-[var(--color-admin-border)] overflow-hidden">
+                  <div className="rounded-[var(--radius-admin-lg)] ring-1 ring-[var(--color-admin-border)] overflow-hidden">
                     {matchingGuests.length === 0 ? (
                       <div className="px-3 py-5 text-center text-[12.5px] text-[var(--color-admin-muted)]">
                         Aucun client ne correspond. Passez en mode {"« nouveau client »"}.
@@ -691,7 +689,7 @@ export function NouvelleReservationClient() {
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--color-admin-muted)]">
                   Total
                 </span>
-                <span className="font-display text-[22px] leading-7 tracking-tight tnum text-[var(--color-admin-text)]">
+                <span className="text-[22px] leading-7 font-semibold tracking-tight tnum text-[var(--color-admin-text)]">
                   {fmtDA(totalDA)}
                 </span>
               </div>
@@ -755,7 +753,7 @@ function Stepper({
   return (
     <div
       id={id}
-      className="inline-flex items-center h-9 rounded-md ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] overflow-hidden"
+      className="inline-flex items-center h-9 rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] overflow-hidden"
     >
       <button
         type="button"

@@ -19,7 +19,13 @@ export type Tone =
   | "amber"
   | "solid";
 
-/** Bandeau plein de la pastille / pill (background + foreground). */
+/**
+ * Bandeau plein de la pastille / pill (background + foreground).
+ * Chaque tone associe son fond `--color-admin-{tone}-bg` à son texte
+ * `--color-admin-{tone}-fg` — paire toujours utilisée ensemble. Pas de
+ * bordure : la pastille teintée se lit nettement sur panneau blanc (style
+ * iOS/macOS, sobre).
+ */
 export const toneFill: Record<Tone, string> = {
   ok: "bg-[var(--color-admin-ok-bg)] text-[var(--color-admin-ok-fg)]",
   warn: "bg-[var(--color-admin-warn-bg)] text-[var(--color-admin-warn-fg)]",

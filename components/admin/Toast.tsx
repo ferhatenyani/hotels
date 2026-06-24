@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertOctagon, CheckCircle2, Info, X } from "lucide-react";
+import { AlertOctagon, AlertTriangle, CheckCircle2, Info, X } from "lucide-react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -58,7 +58,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {mounted
         ? createPortal(
             <div
-              className="pointer-events-none fixed inset-x-4 top-4 z-[200] flex flex-col items-end gap-2 sm:right-4 sm:left-auto"
+              className="pointer-events-none fixed inset-x-4 top-4 flex flex-col items-end gap-2.5 sm:left-auto sm:right-4"
+              style={{ zIndex: "var(--z-admin-toast)" }}
               role="region"
               aria-label="Notifications"
             >
@@ -93,22 +94,25 @@ function ToastBubble({ toast, onDismiss }: { toast: Toast; onDismiss: () => void
       ? AlertOctagon
       : toast.tone === "ok"
         ? CheckCircle2
-        : Info;
+        : toast.tone === "warn" || toast.tone === "amber"
+          ? AlertTriangle
+          : Info;
 
   return (
     <div
       role="status"
       aria-live="polite"
       className={cn(
-        "pointer-events-auto w-full max-w-sm rounded-lg shadow-lg ring-1 ring-[var(--color-admin-border)]",
-        "bg-[var(--color-admin-panel)] p-3 pr-2 flex gap-3",
+        "pointer-events-auto flex w-full max-w-sm gap-3 rounded-[var(--radius-admin-lg)] p-3.5 pr-2.5",
+        "bg-[var(--color-admin-panel)] shadow-[var(--shadow-admin-lg)] ring-1 ring-[var(--color-admin-border)]",
         "animate-in fade-in slide-in-from-top-2 duration-200",
         closing && "animate-out fade-out slide-out-to-top-2",
       )}
     >
       <span
+        aria-hidden
         className={cn(
-          "inline-flex size-7 shrink-0 items-center justify-center rounded-md",
+          "inline-flex size-7 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)]",
           toneFill[toast.tone ?? "info"],
         )}
       >
@@ -128,7 +132,7 @@ function ToastBubble({ toast, onDismiss }: { toast: Toast; onDismiss: () => void
         type="button"
         aria-label="Fermer"
         onClick={onDismiss}
-        className="inline-flex size-7 shrink-0 items-center justify-center rounded text-[var(--color-admin-faint)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)]"
+        className="inline-flex size-7 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)] text-[var(--color-admin-faint)] transition-colors hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-admin-accent-ring)]"
       >
         <X className="size-3.5" />
       </button>

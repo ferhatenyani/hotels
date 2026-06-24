@@ -24,24 +24,42 @@ type CommonProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-medium tracking-tight whitespace-nowrap " +
-  "rounded-md transition-[background-color,color,border-color,box-shadow] duration-150 ease-out " +
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine " +
-  "disabled:opacity-50 disabled:pointer-events-none";
+  "inline-flex select-none items-center justify-center gap-2 font-medium tracking-tight whitespace-nowrap " +
+  "rounded-[var(--radius-admin-md)] " +
+  "transition-[background-color,color,border-color,box-shadow,transform] duration-150 ease-out " +
+  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 " +
+  "focus-visible:outline-[var(--color-admin-accent)] " +
+  "focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)] " +
+  "active:translate-y-px " +
+  "disabled:opacity-50 disabled:pointer-events-none disabled:shadow-none disabled:active:translate-y-0";
 
 const variants: Record<Variant, string> = {
+  // Filled accent — soft raised shadow, calm hover/press via accent tokens.
   primary:
-    "bg-marine text-white shadow-sm hover:bg-[#163a2b] active:bg-[#0f2c20]",
+    "bg-[var(--color-admin-accent)] text-white shadow-[var(--shadow-admin-sm)] " +
+    "hover:bg-[var(--color-admin-accent-hover)] hover:shadow-[var(--shadow-admin-xs)] " +
+    "active:bg-[var(--color-admin-accent-press)] active:shadow-none",
+  // Hairline surface — inset 1px border, lifts to a stronger hairline on hover.
   secondary:
     "bg-[var(--color-admin-panel)] text-[var(--color-admin-text)] " +
-    "shadow-[inset_0_0_0_1px_var(--color-admin-border-strong)] " +
-    "hover:bg-[var(--color-admin-sunken)]",
+    "shadow-[inset_0_0_0_1px_var(--color-admin-border-strong),var(--shadow-admin-xs)] " +
+    "hover:bg-[var(--color-admin-sunken)] " +
+    "active:bg-[var(--color-admin-border)] active:shadow-[inset_0_0_0_1px_var(--color-admin-border-strong)]",
+  // Quiet — no chrome until hovered.
   ghost:
-    "bg-transparent text-[var(--color-admin-text)] hover:bg-[var(--color-admin-sunken)]",
+    "bg-transparent text-[var(--color-admin-text)] " +
+    "hover:bg-[var(--color-admin-sunken)] active:bg-[var(--color-admin-border)]",
+  // Tinted fill — sits on panel without a border.
   subtle:
-    "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)]",
+    "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] " +
+    "hover:bg-[var(--color-admin-border)] active:bg-[var(--color-admin-border-strong)]",
+  // Filled danger — uses the danger foreground as the surface, focuses on the danger hue.
   danger:
-    "bg-[var(--color-admin-danger-fg)] text-white shadow-sm hover:bg-[#5d1313]",
+    "bg-[var(--color-admin-danger-fg)] text-white shadow-[var(--shadow-admin-sm)] " +
+    "hover:opacity-90 hover:shadow-[var(--shadow-admin-xs)] " +
+    "active:opacity-100 active:shadow-none " +
+    "focus-visible:outline-[var(--color-admin-danger-fg)] " +
+    "focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-danger-bg)]",
 };
 
 const sizes: Record<Size, string> = {

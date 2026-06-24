@@ -4,9 +4,11 @@ import {
   BedDouble,
   CalendarDays,
   Layers,
+  Minus,
   Plus,
   Table2,
   Tag,
+  TrendingDown,
   TrendingUp,
   Trash2,
 } from "lucide-react";
@@ -39,7 +41,7 @@ import {
   seasonLabels,
 } from "@/lib/admin/types";
 
-import { seasonDayBg, seasonTone } from "./season";
+import { seasonDayBg, seasonIcon, seasonTone } from "./season";
 
 type ViewMode = "table" | "calendar";
 type ScopeTab = "all" | "current" | "archive";
@@ -200,11 +202,14 @@ export function RatesClient() {
     {
       key: "season",
       header: "Saison",
-      cell: (r) => (
-        <Badge tone={seasonTone[r.season]} small>
-          {seasonLabels[r.season]}
-        </Badge>
-      ),
+      cell: (r) => {
+        const SeasonIcon = seasonIcon[r.season];
+        return (
+          <Badge tone={seasonTone[r.season]} small icon={<SeasonIcon aria-hidden />}>
+            {seasonLabels[r.season]}
+          </Badge>
+        );
+      },
       width: "w-40",
     },
     {
@@ -246,9 +251,13 @@ export function RatesClient() {
             : pct < 0
               ? "text-[var(--color-admin-danger-fg)]"
               : "text-[var(--color-admin-muted)]";
+        const SpreadIcon = pct > 0 ? TrendingUp : pct < 0 ? TrendingDown : Minus;
         const sign = pct > 0 ? "+" : "";
         return (
-          <span className={`tnum text-[12.5px] ${tone}`}>
+          <span
+            className={`inline-flex items-center justify-end gap-1 tnum text-[12.5px] ${tone}`}
+          >
+            <SpreadIcon className="size-3" aria-hidden />
             {sign}
             {fmtPct(pct, 1)}
           </span>
@@ -321,36 +330,33 @@ export function RatesClient() {
         />
 
         {/* Toggle de vue */}
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div
-            className="inline-flex rounded-md ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5"
+            className="inline-flex rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5"
             role="group"
             aria-label="Mode de vue"
           >
-            <button
-              type="button"
-              onClick={() => setView("table")}
-              className={`h-8 inline-flex items-center gap-1.5 px-2.5 text-[11.5px] font-medium rounded transition-colors ${
-                view === "table"
-                  ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]"
-                  : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]"
-              }`}
-            >
-              <Table2 className="size-3.5" />
-              Vue tableau
-            </button>
-            <button
-              type="button"
-              onClick={() => setView("calendar")}
-              className={`h-8 inline-flex items-center gap-1.5 px-2.5 text-[11.5px] font-medium rounded transition-colors ${
-                view === "calendar"
-                  ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]"
-                  : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]"
-              }`}
-            >
-              <CalendarDays className="size-3.5" />
-              Vue calendrier annuel
-            </button>
+            {(
+              [
+                { id: "table", label: "Vue tableau", Icon: Table2 },
+                { id: "calendar", label: "Vue calendrier", Icon: CalendarDays },
+              ] as const
+            ).map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setView(id)}
+                aria-pressed={view === id}
+                className={`inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-admin-sm)] px-3 text-[12px] font-medium transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)] ${
+                  view === id
+                    ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]"
+                    : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]"
+                }`}
+              >
+                <Icon className="size-3.5" aria-hidden />
+                {label}
+              </button>
+            ))}
           </div>
           <span className="text-[12px] text-[var(--color-admin-muted)] tnum">
             {filteredRates.length} {filteredRates.length > 1 ? "tarifs" : "tarif"}
@@ -667,7 +673,7 @@ function RateSheet({
         {error ? (
           <div
             role="alert"
-            className="rounded-md bg-[var(--color-admin-danger-bg)] px-3 py-2 text-[12.5px] text-[var(--color-admin-danger-fg)]"
+            className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-danger-bg)] px-3 py-2 text-[12.5px] text-[var(--color-admin-danger-fg)]"
           >
             {error}
           </div>
@@ -786,7 +792,7 @@ function CalendarYearView({ rates, year }: { rates: Rate[]; year: number }) {
         subtitle="Survolez un jour pour voir les tarifs applicables."
       />
       <CardBody>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {monthNames.map((m, idx) => (
             <MiniMonth
               key={m}
@@ -833,7 +839,7 @@ function MiniMonth({
   const todayIso = new Date().toISOString().slice(0, 10);
 
   return (
-    <div className="rounded-lg ring-1 ring-[var(--color-admin-border)] bg-[var(--color-admin-panel)] p-3">
+    <div className="rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border)] bg-[var(--color-admin-panel)] p-3">
       <p className="text-[12px] font-medium text-[var(--color-admin-text)] mb-2 flex items-baseline justify-between">
         <span>{monthName}</span>
         <span className="tnum text-[10.5px] text-[var(--color-admin-faint)]">{year}</span>
@@ -865,7 +871,7 @@ function MiniMonth({
             <span
               key={i}
               title={titleParts.join("\n")}
-              className={`aspect-square inline-flex items-center justify-center rounded-[3px] text-[9.5px] font-medium tnum ${
+              className={`aspect-square inline-flex items-center justify-center rounded-[var(--radius-admin-xs)] text-[9.5px] font-medium tnum ${
                 s
                   ? seasonDayBg[s]
                   : "bg-[var(--color-admin-sunken)] text-[var(--color-admin-faint)]"
@@ -893,7 +899,7 @@ function CalendarLegend() {
       {allSeasons.map((s) => (
         <span key={s} className="inline-flex items-center gap-1.5">
           <span
-            className={`inline-block size-3 rounded-[2px] ${seasonDayBg[s].split(" ")[0]}`}
+            className={`inline-block size-3 rounded-[var(--radius-admin-xs)] ${seasonDayBg[s].split(" ")[0]}`}
             aria-hidden
           />
           <span className="text-[11.5px] text-[var(--color-admin-text)]">
@@ -903,7 +909,7 @@ function CalendarLegend() {
       ))}
       <span className="inline-flex items-center gap-1.5">
         <span
-          className="inline-block size-3 rounded-[2px] bg-[var(--color-admin-sunken)]"
+          className="inline-block size-3 rounded-[var(--radius-admin-xs)] bg-[var(--color-admin-sunken)]"
           aria-hidden
         />
         <span className="text-[11.5px] text-[var(--color-admin-muted)]">

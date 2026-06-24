@@ -2,6 +2,19 @@
 // Aucun import depuis d'autres domaines — utilitaires purs.
 
 import {
+  Ban,
+  BedDouble,
+  Check,
+  CheckCircle2,
+  Circle,
+  Eye,
+  PlayCircle,
+  Sparkles,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
+
+import {
   type Room,
   type RoomStatus,
   type RoomTypeCode,
@@ -46,6 +59,20 @@ export function distinctFloors(rooms: Room[]): number[] {
   return Array.from(new Set(rooms.map((r) => r.floor))).sort((a, b) => a - b);
 }
 
+/**
+ * Icône Lucide par statut chambre — alignée sur le mapping
+ * `ADMIN-CONVENTIONS §2.2`. Sert à ne jamais signaler un statut par la
+ * couleur seule (couleur + icône + libellé, toujours les trois).
+ */
+export const roomStatusIcon: Record<RoomStatus, LucideIcon> = {
+  "vacant-clean": Check,
+  occupied: BedDouble,
+  "vacant-dirty": Sparkles,
+  inspection: Eye,
+  "out-of-order": Ban,
+  maintenance: Wrench,
+};
+
 /** Statut humain ↔ tuile : couleur de surface plus saturée que la pastille. */
 export function roomTileSurface(status: RoomStatus): string {
   switch (status) {
@@ -65,6 +92,17 @@ export function roomTileSurface(status: RoomStatus): string {
 }
 
 // ─── Tâches ────────────────────────────────────────────────────────────
+
+/**
+ * Icône Lucide par statut de tâche — pour les colonnes du tableau Kanban
+ * (couleur + icône + libellé, jamais la couleur seule).
+ */
+export const taskStatusIcon: Record<TaskStatus, LucideIcon> = {
+  pending: Circle,
+  "in-progress": PlayCircle,
+  blocked: Ban,
+  done: CheckCircle2,
+};
 
 /** Mapping priorité → tone. */
 export const taskPriorityTone: Record<TaskPriority, Tone> = {

@@ -346,7 +346,7 @@ export function InvoicesListClient() {
         }
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatTile
           label="Chiffre d'affaires du mois"
           value={fmtDA(kpis.revenue)}
@@ -396,7 +396,7 @@ export function InvoicesListClient() {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value as PeriodFilter)}
-            className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-9 cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] pl-3 pr-8 text-[16px] md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
             aria-label="Filtrer par période"
           >
             {PERIODS.map((p) => (
@@ -664,7 +664,7 @@ function NewInvoiceDialog({
             </Field>
 
             {selectedGuest ? (
-              <div className="rounded-md bg-[var(--color-admin-sunken)] px-3 py-2.5">
+              <div className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2.5">
                 <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
                   Client rattaché
                 </p>
@@ -741,11 +741,11 @@ function NewInvoiceDialog({
                   }))}
                 />
               </Field>
-              <div className="flex items-center justify-between rounded-md bg-[var(--color-admin-sunken)] px-3 py-2.5">
+              <div className="flex items-center justify-between rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2.5">
                 <span className="text-[12.5px] text-[var(--color-admin-muted)]">
                   Total ligne
                 </span>
-                <span className="tnum font-display text-[15px] text-[var(--color-admin-text)]">
+                <span className="tnum font-semibold text-[15px] text-[var(--color-admin-text)]">
                   {fmtDA(
                     Number.isFinite(Number(itemQty)) && Number.isFinite(Number(itemPrice))
                       ? Number(itemQty) * Number(itemPrice)

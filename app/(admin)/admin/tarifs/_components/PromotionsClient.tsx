@@ -4,11 +4,15 @@ import {
   Archive,
   Banknote,
   BedDouble,
+  CircleSlash,
+  Moon,
   Percent,
   Plus,
+  Power,
   Tag,
   TicketPercent,
   TrendingUp,
+  type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -58,6 +62,13 @@ const kindTone: Record<PromoKind, Tone> = {
   percent: "info",
   fixed: "ok",
   "free-night": "violet",
+};
+
+// Icône Lucide par type de remise — la couleur seule ne signale jamais (brief).
+const kindIcon: Record<PromoKind, LucideIcon> = {
+  percent: Percent,
+  fixed: Banknote,
+  "free-night": Moon,
 };
 
 function formatPromoValue(p: Promo): string {
@@ -157,7 +168,7 @@ export function PromotionsClient() {
       key: "code",
       header: "Code",
       cell: (p) => (
-        <span className="font-display tnum uppercase font-medium text-[var(--color-admin-text)]">
+        <span className="tnum uppercase font-semibold text-[var(--color-admin-text)]">
           {p.code}
         </span>
       ),
@@ -175,16 +186,19 @@ export function PromotionsClient() {
     {
       key: "kind",
       header: "Type",
-      cell: (p) => (
-        <span className="inline-flex items-center gap-2">
-          <Badge tone={kindTone[p.kind]} small>
-            {promoKindLabels[p.kind]}
-          </Badge>
-          <span className="tnum text-[12.5px] text-[var(--color-admin-text)]">
-            {formatPromoValue(p)}
+      cell: (p) => {
+        const KindIcon = kindIcon[p.kind];
+        return (
+          <span className="inline-flex items-center gap-2">
+            <Badge tone={kindTone[p.kind]} small icon={<KindIcon aria-hidden />}>
+              {promoKindLabels[p.kind]}
+            </Badge>
+            <span className="tnum text-[12.5px] text-[var(--color-admin-text)]">
+              {formatPromoValue(p)}
+            </span>
           </span>
-        </span>
-      ),
+        );
+      },
       width: "w-56",
       hideBelow: "md",
     },
@@ -216,7 +230,17 @@ export function PromotionsClient() {
       key: "status",
       header: "Statut",
       cell: (p) => (
-        <Badge tone={p.active ? "ok" : "muted"} small>
+        <Badge
+          tone={p.active ? "ok" : "muted"}
+          small
+          icon={
+            p.active ? (
+              <Power aria-hidden />
+            ) : (
+              <CircleSlash aria-hidden />
+            )
+          }
+        >
           {p.active ? "Active" : "Inactive"}
         </Badge>
       ),
@@ -558,7 +582,7 @@ function PromoDialog({
         {error ? (
           <div
             role="alert"
-            className="rounded-md bg-[var(--color-admin-danger-bg)] px-3 py-2 text-[12.5px] text-[var(--color-admin-danger-fg)]"
+            className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-danger-bg)] px-3 py-2 text-[12.5px] text-[var(--color-admin-danger-fg)]"
           >
             {error}
           </div>
@@ -680,9 +704,9 @@ function PromoDialog({
         </Field>
 
         {scope === "selected" ? (
-          <div className="rounded-md border border-[var(--color-admin-border)] p-3 space-y-2">
+          <div className="rounded-[var(--radius-admin-md)] border border-[var(--color-admin-border)] p-3 space-y-2">
             <Label>Chambres éligibles</Label>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {allRoomTypes.map((t) => {
                 const active = selectedTypes.has(t);
                 return (
@@ -690,13 +714,14 @@ function PromoDialog({
                     key={t}
                     type="button"
                     onClick={() => toggleType(t)}
-                    className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-medium transition-colors ${
+                    aria-pressed={active}
+                    className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-[var(--radius-admin-full)] text-[12px] font-medium transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)] ${
                       active
-                        ? "bg-marine text-white"
+                        ? "bg-[var(--color-admin-accent)] text-white"
                         : "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)]"
                     }`}
                   >
-                    <BedDouble className="size-3" />
+                    <BedDouble className="size-3.5" aria-hidden />
                     {roomTypeLabels[t]}
                   </button>
                 );
@@ -704,7 +729,6 @@ function PromoDialog({
             </div>
           </div>
         ) : null}
-
       </div>
     </Dialog>
   );

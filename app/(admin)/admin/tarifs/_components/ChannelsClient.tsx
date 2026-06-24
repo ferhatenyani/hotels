@@ -2,20 +2,24 @@
 
 import {
   AlertOctagon,
+  AlertTriangle,
   BarChart3,
   CheckCircle2,
+  CircleCheck,
   Globe2,
   Loader2,
   Percent,
+  PlugZap,
   RefreshCw,
   ShieldAlert,
   Wifi,
+  type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { Badge } from "@/components/admin/Badge";
 import { Button } from "@/components/admin/Button";
-import { Card, CardBody, CardHeader } from "@/components/admin/Card";
+import { Card, CardBody, CardFooter, CardHeader } from "@/components/admin/Card";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { ErrorState } from "@/components/admin/ErrorState";
 import { LoadingState } from "@/components/admin/LoadingState";
@@ -42,6 +46,16 @@ const channelStatusTone: Record<ChannelStatus, Tone> = {
   warn: "warn",
   error: "danger",
   off: "muted",
+};
+
+// Icône Lucide par statut canal — un statut n'est jamais signalé par la
+// couleur seule (brief Aperture). « syncing » garde son spinner dédié.
+const channelStatusIcon: Record<ChannelStatus, LucideIcon> = {
+  synced: CircleCheck,
+  syncing: Loader2,
+  warn: AlertTriangle,
+  error: AlertOctagon,
+  off: PlugZap,
 };
 
 /** Mapping channel.id → ReservationSource pour l'agrégation. */
@@ -325,8 +339,8 @@ export function ChannelsClient() {
                       className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="flex items-start gap-3 min-w-0">
-                        <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[var(--color-admin-warn-bg)] text-[var(--color-admin-warn-fg)]">
-                          <AlertOctagon className="size-4" />
+                        <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)] bg-[var(--color-admin-warn-bg)] text-[var(--color-admin-warn-fg)]">
+                          <AlertOctagon className="size-4" aria-hidden />
                         </span>
                         <div className="min-w-0">
                           <p className="text-[13.5px] font-medium text-[var(--color-admin-text)]">
@@ -402,20 +416,30 @@ function ChannelCard({
         <div className="flex items-center gap-3 min-w-0">
           <ChannelBadge name={channel.name} large />
           <div className="min-w-0">
-            <p className="font-display text-[16px] leading-5 tracking-tight text-[var(--color-admin-text)] truncate">
+            <p className="text-[15px] font-semibold leading-5 tracking-tight text-[var(--color-admin-text)] truncate">
               {channel.name}
             </p>
-            <p className="mt-0.5 text-[11.5px] text-[var(--color-admin-muted)]">
+            <p className="mt-0.5 text-[11.5px] text-[var(--color-admin-muted)] tnum">
               {channel.lastSyncedAt
                 ? `Dernière sync ${fmtRelative(channel.lastSyncedAt)}`
                 : "Jamais synchronisé"}
             </p>
           </div>
         </div>
-        <Badge tone={channelStatusTone[channel.status]} small>
-          {channel.status === "syncing" ? (
-            <Loader2 className="size-3 animate-spin" aria-hidden />
-          ) : null}
+        <Badge
+          tone={channelStatusTone[channel.status]}
+          small
+          icon={
+            channel.status === "syncing" ? (
+              <Loader2 className="animate-spin" aria-hidden />
+            ) : (
+              (() => {
+                const StatusIcon = channelStatusIcon[channel.status];
+                return <StatusIcon aria-hidden />;
+              })()
+            )
+          }
+        >
           {channelStatusLabels[channel.status]}
         </Badge>
       </div>
@@ -439,13 +463,13 @@ function ChannelCard({
       </div>
 
       {showWarning && channel.statusMessage ? (
-        <div className="mx-5 mb-3 flex items-start gap-2 rounded-md bg-[var(--color-admin-warn-bg)]/60 px-3 py-2 text-[12.5px] text-[var(--color-admin-warn-fg)]">
+        <div className="mx-5 mb-3 flex items-start gap-2 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-warn-bg)] px-3 py-2 text-[12.5px] text-[var(--color-admin-warn-fg)]">
           <AlertOctagon className="size-3.5 mt-0.5 shrink-0" aria-hidden />
           <span>{channel.statusMessage}</span>
         </div>
       ) : null}
 
-      <div className="mt-auto flex items-center justify-between gap-3 px-5 py-3 border-t border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)]/40 rounded-b-xl">
+      <CardFooter className="mt-auto flex-wrap">
         <span className="inline-flex items-center gap-2">
           <Switch
             checked={channel.enabled}
@@ -467,7 +491,7 @@ function ChannelCard({
         >
           Synchroniser maintenant
         </Button>
-      </div>
+      </CardFooter>
     </Card>
   );
 }
@@ -484,7 +508,7 @@ function InlineStat({
   helper?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-md bg-[var(--color-admin-sunken)]/50 px-3 py-2">
+    <div className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] px-3 py-2">
       <p className="text-[10.5px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
         {label}
       </p>
@@ -518,7 +542,7 @@ function ChannelBadge({ name, large }: { name: string; large?: boolean }) {
   const cls = palette[Math.abs(hash) % palette.length];
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-md font-display font-medium tracking-tight ${cls} ${
+      className={`inline-flex items-center justify-center rounded-[var(--radius-admin-md)] font-semibold tracking-tight ${cls} ${
         large ? "size-10 text-[14px]" : "size-7 text-[10.5px]"
       }`}
       aria-label={`Logo ${name}`}

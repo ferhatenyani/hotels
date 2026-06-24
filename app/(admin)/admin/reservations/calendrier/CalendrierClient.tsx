@@ -1,12 +1,13 @@
 "use client";
 
-import { ArrowLeft, ChevronLeft, ChevronRight, KeyRound } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, CalendarX2, ChevronLeft, ChevronRight, KeyRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { Badge } from "@/components/admin/Badge";
 import { Button } from "@/components/admin/Button";
 import { Card, CardBody, CardHeader } from "@/components/admin/Card";
+import { Dialog } from "@/components/admin/Dialog";
+import { EmptyState } from "@/components/admin/EmptyState";
 import { ErrorState } from "@/components/admin/ErrorState";
 import { LoadingState } from "@/components/admin/LoadingState";
 import { PageHeader } from "@/components/admin/PageHeader";
@@ -155,7 +156,7 @@ export function CalendrierClient() {
 
       <Card className="p-2.5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="inline-flex items-center rounded-md ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5">
+          <div className="inline-flex items-center rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5">
             <button
               type="button"
               onClick={() => shiftStart(-7)}
@@ -188,7 +189,7 @@ export function CalendrierClient() {
             type="date"
             value={startIso}
             onChange={(e) => setStartIso(e.target.value)}
-            className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
           />
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -201,7 +202,7 @@ export function CalendrierClient() {
             onChange={(e) =>
               setFloorFilter(e.target.value === "all" ? "all" : Number(e.target.value))
             }
-            className="h-8 rounded-md bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
           >
             <option value="all">Tous les étages</option>
             {floors.map((f) => (
@@ -224,6 +225,33 @@ export function CalendrierClient() {
       ) : loading ? (
         <Card>
           <LoadingState variant="block" />
+        </Card>
+      ) : visibleRooms.length === 0 ? (
+        <Card>
+          <EmptyState
+            icon={<CalendarX2 className="size-5" />}
+            title="Aucune chambre à afficher"
+            body={
+              floorFilter === "all"
+                ? "Aucune chambre n'est encore enregistrée. Ajoutez-en depuis le module Chambres."
+                : "Aucune chambre sur cet étage. Choisissez « Tous les étages » pour élargir la vue."
+            }
+            action={
+              floorFilter === "all" ? (
+                <Button variant="secondary" size="sm" href="/admin/chambres">
+                  Voir les chambres
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setFloorFilter("all")}
+                >
+                  Tous les étages
+                </Button>
+              )
+            }
+          />
         </Card>
       ) : (
         <Card>
@@ -380,39 +408,41 @@ function CreatePopover({
     return isoDay(d);
   };
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-    >
-      <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-150"
-        onClick={onClose}
-      />
-      <div className="relative w-full max-w-sm rounded-xl bg-[var(--color-admin-panel)] shadow-lg ring-1 ring-[var(--color-admin-border)] p-4 animate-in fade-in zoom-in-95 duration-150">
-        <h3 className="font-display text-[16px] leading-6 tracking-tight text-[var(--color-admin-text)]">
-          Créer une réservation
-        </h3>
-        <p className="mt-1 text-[12.5px] text-[var(--color-admin-muted)]">
+    <Dialog
+      open
+      onClose={onClose}
+      title="Créer une réservation"
+      description={
+        <>
           Chambre {info.roomNumber}
           {room ? ` · ${roomStatusLabels[room.status]}` : ""} · nuit du{" "}
           <span className="tnum">{fmtDate(info.iso)}</span>.
-        </p>
-        <div className="mt-4 flex items-center justify-end gap-2">
+        </>
+      }
+      size="sm"
+      footer={
+        <>
           <Button variant="ghost" size="sm" onClick={onClose}>
             Annuler
           </Button>
-          <Link
+          <Button
+            variant="primary"
+            size="sm"
             href={`/admin/reservations/nouvelle?checkIn=${info.iso}&checkOut=${nextDay(info.iso)}&room=${info.roomNumber}`}
             onClick={onClose}
-            className="inline-flex items-center justify-center gap-2 h-8 px-3 text-[12.5px] font-medium rounded-md bg-marine text-white hover:bg-[#163a2b] transition-colors"
+            leftIcon={<KeyRound className="size-3.5" />}
           >
-            <KeyRound className="size-3.5" />
             Continuer
-          </Link>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </>
+      }
+    >
+      <p className="text-[13px] text-[var(--color-admin-muted)]">
+        Le formulaire de création s&apos;ouvrira pré-rempli avec cette chambre et
+        cette nuit. Vous pourrez ajuster les dates et les occupants avant de
+        valider.
+      </p>
+    </Dialog>
   );
 }
 

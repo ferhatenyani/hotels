@@ -180,8 +180,8 @@ export function TaskDetailSheet({
       <div className="space-y-5">
         {/* Body / contexte */}
         {task.body ? (
-          <section className="rounded-lg bg-[var(--color-admin-sunken)]/60 p-3">
-            <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)] mb-1">
+          <section className="rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)]/60 p-3">
+            <p className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)] mb-1">
               Contexte
             </p>
             <p className="text-[13px] leading-5 text-[var(--color-admin-text)] whitespace-pre-wrap">
@@ -336,8 +336,8 @@ export function TaskDetailSheet({
             />
           </Field>
         ) : task.resolution ? (
-          <section className="rounded-lg ring-1 ring-[var(--color-admin-border)] p-3">
-            <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)] mb-1">
+          <section className="rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border)] p-3">
+            <p className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)] mb-1">
               Résolution
             </p>
             <p className="text-[13px] leading-5 text-[var(--color-admin-text)] whitespace-pre-wrap">
@@ -359,7 +359,7 @@ function Meta({
 }) {
   return (
     <div className="space-y-0.5">
-      <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
+      <p className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)]">
         {label}
       </p>
       <p className="text-[12.5px]">{value}</p>

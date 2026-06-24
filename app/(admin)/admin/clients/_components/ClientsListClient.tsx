@@ -7,7 +7,9 @@ import { useEffect, useMemo, useState } from "react";
 import { AvatarChip } from "@/components/admin/AvatarChip";
 import { Badge } from "@/components/admin/Badge";
 import { Button } from "@/components/admin/Button";
+import { Card } from "@/components/admin/Card";
 import { Column, DataTable } from "@/components/admin/DataTable";
+import { ErrorState } from "@/components/admin/ErrorState";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { StatTile } from "@/components/admin/StatTile";
 import { FilterChip, Toolbar } from "@/components/admin/Toolbar";
@@ -40,6 +42,7 @@ export function ClientsListClient() {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [search, setSearch] = useState("");
   const [langFilter, setLangFilter] = useState<LangFilter>("all");
   const [tierFilter, setTierFilter] = useState<TierFilter>("all");
@@ -48,13 +51,23 @@ export function ClientsListClient() {
   useEffect(() => subscribe(() => setTick((t) => t + 1)), []);
 
   useEffect(() => {
-    void Promise.all([repo.guests.list(), repo.reservations.list()]).then(
-      ([g, r]) => {
+    let cancelled = false;
+    setError(false);
+    void Promise.all([repo.guests.list(), repo.reservations.list()])
+      .then(([g, r]) => {
+        if (cancelled) return;
         setGuests(g);
         setReservations(r);
         setLoading(false);
-      },
-    );
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setError(true);
+        setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [tick]);
 
   const filteredGuests = useMemo(() => {
@@ -291,6 +304,18 @@ export function ClientsListClient() {
         }
       />
 
+      {error ? (
+        <Card>
+          <ErrorState
+            title="Chargement impossible"
+            body={"Le fichier clients n'a pas pu être chargé. Réessayez dans un instant."}
+            onRetry={() => {
+              setLoading(true);
+              setTick((t) => t + 1);
+            }}
+          />
+        </Card>
+      ) : (
       <DataTable
         columns={columns}
         rows={filteredGuests}
@@ -332,6 +357,7 @@ export function ClientsListClient() {
         }
         onRowClick={(g) => router.push(`/admin/clients/${g.id}`)}
       />
+      )}
 
       <NewGuestDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
     </>

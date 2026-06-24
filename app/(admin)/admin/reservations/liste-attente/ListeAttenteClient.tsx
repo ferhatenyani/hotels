@@ -381,7 +381,7 @@ export function ListeAttenteClient() {
                     {day.conflicts.map((c) => (
                       <div
                         key={c.type}
-                        className="rounded-md border border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)]/40 p-3"
+                        className="rounded-[var(--radius-admin-md)] border border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)]/40 p-3"
                       >
                         <div className="flex items-baseline justify-between gap-3 mb-2">
                           <span className="text-[13px] font-medium text-[var(--color-admin-text)]">

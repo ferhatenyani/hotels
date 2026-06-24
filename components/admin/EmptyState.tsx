@@ -24,14 +24,14 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center px-6 py-12",
+        "flex flex-col items-center justify-center px-6 py-14 text-center",
         className,
       )}
     >
       <div
         className={cn(
-          "inline-flex size-10 items-center justify-center rounded-full",
-          "bg-[var(--color-admin-sunken)] text-[var(--color-admin-muted)]",
+          "inline-flex size-12 items-center justify-center rounded-[var(--radius-admin-lg)]",
+          "bg-[var(--color-admin-sunken)] text-[var(--color-admin-muted)] ring-1 ring-[var(--color-admin-border)]",
           tone && toneText[tone],
         )}
       >
@@ -39,18 +39,18 @@ export function EmptyState({
       </div>
       <h3
         className={cn(
-          "mt-4 text-[15px] font-medium text-[var(--color-admin-text)]",
+          "mt-4 text-[15px] font-semibold text-[var(--color-admin-text)]",
           tone && toneText[tone],
         )}
       >
         {title}
       </h3>
       {body ? (
-        <p className="mt-1.5 max-w-md text-[13px] leading-5 text-[var(--color-admin-muted)]">
+        <p className="mt-1.5 max-w-sm text-[13px] leading-5 text-[var(--color-admin-muted)]">
           {body}
         </p>
       ) : null}
-      {action ? <div className="mt-5">{action}</div> : null}
+      {action ? <div className="mt-6">{action}</div> : null}
     </div>
   );
 }
