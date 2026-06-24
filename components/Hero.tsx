@@ -171,11 +171,26 @@ export default function Hero() {
     [checkIn, checkOut],
   );
 
+  // Range-pick handler.
+  //  - First click sets `from` only → popover STAYS open and the inline hint
+  //    flips to "Now pick check-out →" so the user understands the next move.
+  //  - Second click on a later date completes the range and dismisses.
+  //  - Second click on an earlier date restarts the range with the new `from`
+  //    (default react-day-picker behaviour) — popover stays open.
   const onRangeSelect = (next: DateRange | undefined) => {
     setCheckIn(next?.from);
     setCheckOut(next?.to);
-    if (next?.from && next?.to) setDatesOpen(false);
+    if (next?.from && next?.to) {
+      // Tiny delay so the user sees the completed range painted before the
+      // popover slides out — avoids the "did anything happen?" feel.
+      window.setTimeout(() => setDatesOpen(false), 160);
+    }
   };
+
+  // True after the user picks check-in but hasn't picked check-out yet.
+  // Drives the visual "pick the next date" cue inside the trigger AND the
+  // inline status text under the calendar.
+  const awaitingCheckOut = Boolean(checkIn) && !checkOut;
 
   // ---- Mobile sheet handlers -------------------------------------------
 
@@ -411,16 +426,35 @@ export default function Hero() {
                       </span>
                     </span>
                     <span aria-hidden className="my-3 w-px bg-ink/10" />
-                    <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[72px]">
+                    <span
+                      className={cn(
+                        "relative flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[72px] transition-colors",
+                        awaitingCheckOut && "bg-marine/[0.05]",
+                      )}
+                    >
                       <span className={fieldLabel}>Check-out</span>
                       <span
                         className={cn(
                           fieldValue,
-                          checkOut ? "text-ink font-medium" : "text-ink/45",
+                          checkOut
+                            ? "text-ink font-medium"
+                            : awaitingCheckOut
+                              ? "text-marine font-medium"
+                              : "text-ink/45",
                         )}
                       >
-                        {checkOut ? format(checkOut, "EEE, MMM d") : "Add date"}
+                        {checkOut
+                          ? format(checkOut, "EEE, MMM d")
+                          : awaitingCheckOut
+                            ? "Pick check-out →"
+                            : "Add date"}
                       </span>
+                      {awaitingCheckOut && (
+                        <span
+                          aria-hidden
+                          className="absolute inset-x-0 bottom-0 h-[2px] bg-marine animate-pulse"
+                        />
+                      )}
                     </span>
                     <CalendarDays
                       className="self-center mr-5 h-4 w-4 text-ink/40 shrink-0"
@@ -443,10 +477,19 @@ export default function Hero() {
                       classNames={calendarClassNames}
                     />
                     <div className="mt-2 flex items-center justify-between border-t border-ink/10 px-1 pt-3">
-                      <span className="font-sans text-[12px] text-ink/60">
+                      <span
+                        className={cn(
+                          "font-sans text-[12px] transition-colors",
+                          awaitingCheckOut
+                            ? "text-marine font-medium"
+                            : "text-ink/60",
+                        )}
+                      >
                         {nights > 0
                           ? `${nights} night${nights > 1 ? "s" : ""}`
-                          : "Select your dates"}
+                          : awaitingCheckOut
+                            ? "Now pick check-out →"
+                            : "Pick your check-in date"}
                       </span>
                       <button
                         type="button"

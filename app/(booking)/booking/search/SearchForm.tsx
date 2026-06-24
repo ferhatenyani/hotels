@@ -121,11 +121,20 @@ export default function SearchForm({
     [checkIn, checkOut],
   );
 
+  // Range-pick handler. Mirrors Hero.tsx:
+  //  - First click sets `from`, popover stays open, inline hint flips to
+  //    "Now pick check-out →".
+  //  - Second click on a later date completes the range and dismisses with a
+  //    short delay so the painted range is visible first.
   const onRangeSelect = (next: DateRange | undefined) => {
     setCheckIn(next?.from);
     setCheckOut(next?.to);
-    if (next?.from && next?.to) setDatesOpen(false);
+    if (next?.from && next?.to) {
+      window.setTimeout(() => setDatesOpen(false), 160);
+    }
   };
+
+  const awaitingCheckOut = Boolean(checkIn) && !checkOut;
 
   const goToResults = () => {
     if (!checkIn || !checkOut) {
@@ -250,16 +259,35 @@ export default function SearchForm({
                   </span>
                 </span>
                 <span aria-hidden className="my-3 w-px bg-ink/10" />
-                <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[80px]">
+                <span
+                  className={cn(
+                    "relative flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[80px] transition-colors",
+                    awaitingCheckOut && "bg-marine/[0.05]",
+                  )}
+                >
                   <span className={fieldLabel}>Check-out</span>
                   <span
                     className={cn(
                       fieldValue,
-                      checkOut ? "text-ink font-medium" : "text-ink/55",
+                      checkOut
+                        ? "text-ink font-medium"
+                        : awaitingCheckOut
+                          ? "text-marine font-medium"
+                          : "text-ink/55",
                     )}
                   >
-                    {checkOut ? format(checkOut, "EEE, MMM d") : "Add date"}
+                    {checkOut
+                      ? format(checkOut, "EEE, MMM d")
+                      : awaitingCheckOut
+                        ? "Pick check-out →"
+                        : "Add date"}
                   </span>
+                  {awaitingCheckOut && (
+                    <span
+                      aria-hidden
+                      className="absolute inset-x-0 bottom-0 h-[2px] bg-marine animate-pulse"
+                    />
+                  )}
                 </span>
                 <CalendarDays
                   className="self-center mr-5 h-4 w-4 text-ink/40 shrink-0"
@@ -282,10 +310,19 @@ export default function SearchForm({
                   classNames={calendarClassNames}
                 />
                 <div className="mt-2 flex items-center justify-between border-t border-ink/10 px-1 pt-3">
-                  <span className="font-sans text-[12px] text-ink/60">
+                  <span
+                    className={cn(
+                      "font-sans text-[12px] transition-colors",
+                      awaitingCheckOut
+                        ? "text-marine font-medium"
+                        : "text-ink/60",
+                    )}
+                  >
                     {nights > 0
                       ? `${nights} night${nights > 1 ? "s" : ""}`
-                      : "Select your dates"}
+                      : awaitingCheckOut
+                        ? "Now pick check-out →"
+                        : "Pick your check-in date"}
                   </span>
                   <button
                     type="button"
