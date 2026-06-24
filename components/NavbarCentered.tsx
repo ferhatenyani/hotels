@@ -46,22 +46,11 @@ export default function NavbarCentered() {
       return;
     }
     const onScroll = () => {
-      // Mobile: overHero just tracks "at top of page" — pill mode at rest,
-      // edge-to-edge bar once the user starts scrolling. Threshold of 16px
-      // gives a small dead zone so accidental nudges don't flip the state.
-      if (window.matchMedia("(max-width: 767px)").matches) {
-        setOverHero(window.scrollY < 16);
-        return;
-      }
-      const hero = document.getElementById("top");
-      if (!hero) {
-        setOverHero(false);
-        return;
-      }
-      const rect = hero.getBoundingClientRect();
-      // The nav is ~72px tall when expanded, ~56px compact. Once the hero's
-      // bottom edge is above ~64px, the nav is no longer over it.
-      setOverHero(rect.bottom > 64);
+      // Tie the morph to scroll distance from the top, not the hero's
+      // viewport position — the bar should start morphing the instant the
+      // user scrolls, not after the hero leaves the viewport. 16px dead
+      // zone avoids flipping the state on accidental nudges.
+      setOverHero(window.scrollY < 16);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
