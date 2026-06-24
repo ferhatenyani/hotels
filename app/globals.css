@@ -43,13 +43,14 @@
   --color-admin-muted: #62626a;        /* secondary text (≥4.5:1 on panel) */
   --color-admin-faint: #8e8e96;        /* tertiary text, placeholders */
 
-  /* Accent — single controlled hue. `marine` (#1f4a37) is the brand
-     anchor; these are admin-local aliases so primitives never hardcode it. */
-  --color-admin-accent: #1f4a37;
-  --color-admin-accent-hover: #1a3f2f;
-  --color-admin-accent-press: #143226;
-  --color-admin-accent-soft: #eaf1ed;  /* tinted accent surface (selected) */
-  --color-admin-accent-ring: #1f4a3766;/* focus ring (accent @ 40%) */
+  /* Accent — single controlled hue. Apple system blue (#007AFF): the admin
+     back-office accent for CTAs, active states, links, focus rings, badges.
+     Scoped to `.admin-shell`; the warm guest site keeps its own palette. */
+  --color-admin-accent: #007aff;
+  --color-admin-accent-hover: #0a6fe0;
+  --color-admin-accent-press: #0a60c2;
+  --color-admin-accent-soft: #e8f1ff;  /* tinted accent surface (selected) */
+  --color-admin-accent-ring: #007aff66;/* focus ring (accent @ 40%) */
 
   /* Status tints — pair `bg`+`fg` per status, never use color alone.
      Softened toward Apple's muted system palette; fg verified ≥4.5:1. */
@@ -67,7 +68,7 @@
   --color-admin-violet-fg: #463381;
   --color-admin-amber-bg: #fbe6cb;
   --color-admin-amber-fg: #82460f;
-  --color-admin-solid-bg: #1f4a37;
+  --color-admin-solid-bg: #007aff;
   --color-admin-solid-fg: #ffffff;
 
   /* Admin typography — system stack first (SF Pro on Apple, Inter

@@ -126,7 +126,7 @@ export function GuestDocumentsTab({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
         <p className="text-[12.5px] text-[var(--color-admin-muted)]">
           {sortedDocs.length === 0
             ? "Aucun justificatif enregistré."
@@ -137,6 +137,7 @@ export function GuestDocumentsTab({
           size="sm"
           leftIcon={<FilePlus2 className="size-4" />}
           onClick={() => setOpen(true)}
+          className="w-full sm:w-auto"
         >
           Ajouter un document
         </Button>

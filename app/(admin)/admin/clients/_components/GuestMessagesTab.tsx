@@ -88,7 +88,7 @@ export function GuestMessagesTab({ guest }: { guest: Guest }) {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
         <p className="text-[12.5px] text-[var(--color-admin-muted)]">
           {threads.length} conversation{threads.length > 1 ? "s" : ""} ·{" "}
           {messages.length} message{messages.length > 1 ? "s" : ""} au total.
@@ -98,6 +98,7 @@ export function GuestMessagesTab({ guest }: { guest: Guest }) {
           size="sm"
           href={`/admin/clients/messages?guest=${guest.id}`}
           leftIcon={<MessageSquare className="size-4" />}
+          className="w-full sm:w-auto"
         >
           Ouvrir la messagerie
         </Button>
@@ -108,9 +109,9 @@ export function GuestMessagesTab({ guest }: { guest: Guest }) {
           <li key={t.threadId}>
             <Link
               href={`/admin/clients/messages?guest=${guest.id}&thread=${t.threadId}`}
-              className="block"
+              className="block rounded-[var(--radius-admin-lg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             >
-              <Card className="ring-0 shadow-none border border-[var(--color-admin-border)] hover:bg-[var(--color-admin-sunken)]/60 transition-colors">
+              <Card className="ring-0 shadow-none border border-[var(--color-admin-border)] transition-colors hover:border-[var(--color-admin-accent)] hover:bg-[var(--color-admin-accent-soft)]/40">
                 <CardBody className="flex items-start gap-3">
                   <span
                     className={

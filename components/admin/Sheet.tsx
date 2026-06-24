@@ -140,11 +140,19 @@ export function Sheet({
             size="sm"
           />
         </div>
-        <div className="scroll-dark flex-1 overflow-y-auto px-5 py-5">
+        <div
+          className="scroll-dark flex-1 overflow-y-auto px-5 py-5"
+          // Sans pied de page, le contenu défilant doit dégager l'encoche iOS.
+          style={footer ? undefined : { paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
+        >
           {children}
         </div>
         {footer ? (
-          <div className="flex shrink-0 items-center justify-end gap-2 border-t border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)]/40 px-5 py-3.5">
+          <div
+            className="flex shrink-0 items-center justify-end gap-2 border-t border-[var(--color-admin-divider)] bg-[var(--color-admin-sunken)]/40 px-5 py-3.5"
+            // Respecte l'encoche / barre d'accueil iOS en feuille basse (mobile).
+            style={{ paddingBottom: "max(0.875rem, env(safe-area-inset-bottom))" }}
+          >
             {footer}
           </div>
         ) : null}

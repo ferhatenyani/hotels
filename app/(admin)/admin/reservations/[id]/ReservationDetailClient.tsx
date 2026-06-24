@@ -733,7 +733,7 @@ function ClientTab({ guest }: { guest: Guest | null }) {
               <Row icon={<Mail className="size-4" />} label="E-mail">
                 <a
                   href={`mailto:${guest.email}`}
-                  className="hover:text-marine transition-colors"
+                  className="hover:text-[var(--color-admin-accent)] transition-colors"
                 >
                   {guest.email}
                 </a>
@@ -743,7 +743,7 @@ function ClientTab({ guest }: { guest: Guest | null }) {
               <Row icon={<Phone className="size-4" />} label="Téléphone">
                 <a
                   href={`tel:${guest.phone.replace(/\s/g, "")}`}
-                  className="hover:text-marine transition-colors tnum"
+                  className="hover:text-[var(--color-admin-accent)] transition-colors tnum"
                 >
                   {guest.phone}
                 </a>

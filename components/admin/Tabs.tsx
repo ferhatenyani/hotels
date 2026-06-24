@@ -19,7 +19,10 @@ export function Tabs({
     <div
       role="tablist"
       className={cn(
-        "flex items-end gap-1 overflow-x-auto border-b border-[var(--color-admin-divider)]",
+        // `scroll-dark` : barre de défilement discrète quand les onglets
+        // débordent (mobile). `pt-0.5` laisse respirer le halo de focus
+        // clavier, sinon rogné par l'overflow.
+        "scroll-dark flex items-end gap-1 overflow-x-auto pt-0.5 border-b border-[var(--color-admin-divider)]",
         className,
       )}
     >

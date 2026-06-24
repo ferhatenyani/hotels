@@ -426,32 +426,42 @@ export function RatesClient() {
 
       <Toolbar
         filters={
+          // Mobile-first : chaque groupe (Saison / Type) s'enroule sur sa
+          // propre ligne avec son intitulé en tête ; le séparateur vertical
+          // n'apparaît qu'à partir de md où les groupes peuvent cohabiter.
           <>
-            <span className="text-[11px] uppercase tracking-[0.06em] text-[var(--color-admin-faint)] mr-1">
-              Saison
-            </span>
-            {allSeasons.map((s) => (
-              <FilterChip
-                key={s}
-                label={seasonLabels[s]}
-                active={seasonFilters.has(s)}
-                onClick={() => toggleSeason(s)}
-                onClear={() => toggleSeason(s)}
-              />
-            ))}
-            <span className="mx-1 h-4 w-px bg-[var(--color-admin-divider)]" aria-hidden />
-            <span className="text-[11px] uppercase tracking-[0.06em] text-[var(--color-admin-faint)] mr-1">
-              Type
-            </span>
-            {allRoomTypes.map((t) => (
-              <FilterChip
-                key={t}
-                label={roomTypeLabels[t]}
-                active={typeFilters.has(t)}
-                onClick={() => toggleType(t)}
-                onClear={() => toggleType(t)}
-              />
-            ))}
+            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+              <span className="text-[11px] uppercase tracking-[0.06em] text-[var(--color-admin-faint)] mr-1">
+                Saison
+              </span>
+              {allSeasons.map((s) => (
+                <FilterChip
+                  key={s}
+                  label={seasonLabels[s]}
+                  active={seasonFilters.has(s)}
+                  onClick={() => toggleSeason(s)}
+                  onClear={() => toggleSeason(s)}
+                />
+              ))}
+            </div>
+            <span
+              className="mx-1 hidden h-4 w-px bg-[var(--color-admin-divider)] md:block"
+              aria-hidden
+            />
+            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+              <span className="text-[11px] uppercase tracking-[0.06em] text-[var(--color-admin-faint)] mr-1">
+                Type
+              </span>
+              {allRoomTypes.map((t) => (
+                <FilterChip
+                  key={t}
+                  label={roomTypeLabels[t]}
+                  active={typeFilters.has(t)}
+                  onClick={() => toggleType(t)}
+                  onClear={() => toggleType(t)}
+                />
+              ))}
+            </div>
           </>
         }
       />
@@ -784,7 +794,7 @@ function CalendarYearView({ rates, year }: { rates: Rate[]; year: number }) {
       <CardHeader
         title={
           <span className="inline-flex items-center gap-2">
-            <CalendarDays className="size-4 text-marine" />
+            <CalendarDays className="size-4 text-[var(--color-admin-accent)]" />
             {"Calendrier saisonnier "}
             <span className="tnum">{year}</span>
           </span>
@@ -877,7 +887,7 @@ function MiniMonth({
                   : "bg-[var(--color-admin-sunken)] text-[var(--color-admin-faint)]"
               } ${
                 isToday
-                  ? "ring-1 ring-[var(--color-marine)] ring-offset-1 ring-offset-[var(--color-admin-panel)]"
+                  ? "ring-1 ring-[var(--color-admin-accent)] ring-offset-1 ring-offset-[var(--color-admin-panel)]"
                   : ""
               }`}
             >

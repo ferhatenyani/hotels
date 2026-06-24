@@ -309,7 +309,7 @@ export function ListeAttenteClient() {
         <CardHeader
           title={
             <span className="inline-flex items-center gap-2">
-              <ListChecks className="size-4 text-marine" />
+              <ListChecks className="size-4 text-[var(--color-admin-accent)]" />
               Options à confirmer
             </span>
           }
@@ -348,7 +348,7 @@ export function ListeAttenteClient() {
         <CardHeader
           title={
             <span className="inline-flex items-center gap-2">
-              <AlertOctagon className="size-4 text-marine" />
+              <AlertOctagon className="size-4 text-[var(--color-admin-accent)]" />
               Risque de surbooking
             </span>
           }
@@ -398,7 +398,7 @@ export function ListeAttenteClient() {
                               <li key={r.id}>
                                 <Link
                                   href={`/admin/reservations/${r.id}`}
-                                  className="flex items-center justify-between gap-3 px-2 py-1 rounded hover:bg-[var(--color-admin-panel)] transition-colors"
+                                  className="flex items-center justify-between gap-3 px-2 py-1.5 rounded hover:bg-[var(--color-admin-accent-soft)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
                                 >
                                   <span className="flex items-center gap-2 min-w-0">
                                     <span className="tnum text-[11.5px] text-[var(--color-admin-muted)]">

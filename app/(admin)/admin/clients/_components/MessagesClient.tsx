@@ -413,9 +413,11 @@ function ThreadsSidebar({
               type="button"
               onClick={() => onSelect(t.threadId)}
               className={cn(
-                "flex w-full items-start gap-3 px-3.5 py-3 text-left transition-colors",
+                "relative flex w-full items-start gap-3 px-3.5 py-3 text-left transition-colors",
+                "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--color-admin-accent)]",
+                // Fil sélectionné : liseré accent à gauche + surface teintée accent.
                 isActive
-                  ? "bg-[var(--color-admin-sunken)]"
+                  ? "bg-[var(--color-admin-accent-soft)] before:absolute before:inset-y-0 before:left-0 before:w-[3px] before:bg-[var(--color-admin-accent)]"
                   : "hover:bg-[var(--color-admin-sunken)]/60",
               )}
               aria-current={isActive ? "true" : undefined}
@@ -427,7 +429,14 @@ function ThreadsSidebar({
               />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="truncate text-[13px] font-medium text-[var(--color-admin-text)]">
+                  <span
+                    className={cn(
+                      "truncate text-[13px] font-medium",
+                      isActive
+                        ? "text-[var(--color-admin-accent)]"
+                        : "text-[var(--color-admin-text)]",
+                    )}
+                  >
                     {fmtName(t.guest?.firstName, t.guest?.lastName)}
                   </span>
                   <span className="ml-auto shrink-0 text-[11px] tnum text-[var(--color-admin-faint)]">
@@ -553,16 +562,18 @@ function ThreadView({
             />
           </Field>
         </div>
-        <div className="flex items-center justify-between gap-2">
+        {/* Mobile : canal et bouton empilés sur toute la largeur (cibles ≥40px).
+            Tablette+ : alignés sur une ligne. */}
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-[11.5px] uppercase tracking-[0.06em] text-[var(--color-admin-muted)]">
+            <span className="shrink-0 text-[11.5px] uppercase tracking-[0.06em] text-[var(--color-admin-muted)]">
               Canal
             </span>
             <Select
               value={draftChannel}
               onChange={(e) => onDraftChannelChange(e.target.value as MessageChannel)}
               aria-label="Canal d'envoi"
-              className="h-8 text-[12.5px]"
+              className="h-10 w-full text-[13px] sm:h-8 sm:w-auto sm:text-[12.5px]"
             >
               {(["email", "sms", "in-app"] as MessageChannel[]).map((c) => (
                 <option key={c} value={c}>
@@ -578,6 +589,7 @@ function ThreadView({
             loading={sending}
             loadingLabel={"Envoi …"}
             leftIcon={<Send className="size-4" />}
+            className="w-full sm:w-auto"
           >
             Envoyer
           </Button>

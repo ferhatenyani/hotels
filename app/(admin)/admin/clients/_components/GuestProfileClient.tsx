@@ -212,7 +212,7 @@ export function GuestProfileClient({ guestId }: { guestId: string }) {
                   value={
                     <a
                       href={`tel:${guest.phone.replace(/\s+/g, "")}`}
-                      className="tnum text-[var(--color-admin-text)] hover:text-marine transition-colors"
+                      className="tnum text-[var(--color-admin-text)] hover:text-[var(--color-admin-accent)] transition-colors"
                     >
                       {guest.phone}
                     </a>
@@ -224,7 +224,7 @@ export function GuestProfileClient({ guestId }: { guestId: string }) {
                   value={
                     <a
                       href={`mailto:${guest.email}`}
-                      className="text-[var(--color-admin-text)] hover:text-marine transition-colors break-all"
+                      className="text-[var(--color-admin-text)] hover:text-[var(--color-admin-accent)] transition-colors break-all"
                     >
                       {guest.email}
                     </a>

@@ -31,9 +31,9 @@ export function Toolbar({
         className,
       )}
     >
-      <div className="flex items-center gap-2 min-w-0 flex-1">
+      <div className="flex flex-col gap-2.5 min-w-0 flex-1 md:flex-row md:items-center md:gap-2">
         {onSearch ? (
-          <div className="relative w-full md:max-w-sm">
+          <div className="relative w-full md:max-w-sm md:shrink-0">
             <Search
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[var(--color-admin-faint)]"
               strokeWidth={1.75}
@@ -48,7 +48,7 @@ export function Toolbar({
                 "h-10 w-full rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] pl-9 pr-9 text-[16px] md:text-[13.5px]",
                 "text-[var(--color-admin-text)] placeholder:text-[var(--color-admin-faint)]",
                 "transition-shadow duration-150 motion-reduce:transition-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-[-1px] focus-visible:outline-marine",
+                "focus-visible:outline-2 focus-visible:outline-offset-[-1px] focus-visible:outline-[var(--color-admin-accent)]",
               )}
               aria-label="Rechercher"
             />
@@ -65,11 +65,13 @@ export function Toolbar({
           </div>
         ) : null}
         {filters ? (
+          // Mobile: filters wrap onto their own line beneath the search field,
+          // never crowding it. Tablet+: they sit inline.
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">{filters}</div>
         ) : null}
       </div>
       {trailing ? (
-        <div className="flex items-center gap-2 shrink-0">{trailing}</div>
+        <div className="flex items-center gap-2 shrink-0 max-md:[&>*]:flex-1">{trailing}</div>
       ) : null}
     </div>
   );
@@ -91,7 +93,8 @@ export function FilterChip({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 h-8 pl-3 rounded-[var(--radius-admin-full)] text-[12px] font-medium transition-colors duration-150",
+        // Comfortable tap target on touch (40px), tighter on pointer-precise viewports.
+        "inline-flex items-center gap-1 h-10 md:h-8 pl-3 rounded-[var(--radius-admin-full)] text-[13px] md:text-[12px] font-medium transition-colors duration-150",
         active
           ? "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)] pr-1.5 ring-1 ring-inset ring-[var(--color-admin-accent)]/15"
           : "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)] pr-3",
@@ -100,7 +103,7 @@ export function FilterChip({
       <button
         type="button"
         onClick={onClick}
-        className="rounded-[var(--radius-admin-full)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+        className="rounded-[var(--radius-admin-full)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
       >
         {label}
       </button>
@@ -109,7 +112,7 @@ export function FilterChip({
           type="button"
           onClick={onClear}
           aria-label="Retirer ce filtre"
-          className="ml-0.5 flex size-5 items-center justify-center rounded-full hover:bg-[var(--color-admin-accent)]/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-marine"
+          className="ml-0.5 flex size-5 items-center justify-center rounded-full hover:bg-[var(--color-admin-accent)]/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--color-admin-accent)]"
         >
           <X className="size-3.5" strokeWidth={1.75} />
         </button>

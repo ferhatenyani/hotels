@@ -309,7 +309,7 @@ export function NouvelleReservationClient() {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <KeyRound className="size-4 text-marine" />
+                  <KeyRound className="size-4 text-[var(--color-admin-accent)]" />
                   Type de séjour
                 </span>
               }
@@ -348,7 +348,7 @@ export function NouvelleReservationClient() {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <CalendarDays className="size-4 text-marine" />
+                  <CalendarDays className="size-4 text-[var(--color-admin-accent)]" />
                   Dates & occupants
                 </span>
               }
@@ -414,7 +414,7 @@ export function NouvelleReservationClient() {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <Users className="size-4 text-marine" />
+                  <Users className="size-4 text-[var(--color-admin-accent)]" />
                   Client
                 </span>
               }
@@ -431,7 +431,7 @@ export function NouvelleReservationClient() {
                       key={opt.id}
                       type="button"
                       onClick={() => setGuestMode(opt.id)}
-                      className={`h-7 px-2.5 text-[11.5px] font-medium rounded transition-colors ${guestMode === opt.id ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]" : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]"}`}
+                      className={`h-7 px-2.5 text-[11.5px] font-medium rounded transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)] ${guestMode === opt.id ? "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent-press)]" : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]"}`}
                     >
                       {opt.label}
                     </button>
@@ -465,7 +465,7 @@ export function NouvelleReservationClient() {
                               <button
                                 type="button"
                                 onClick={() => setSelectedGuestId(g.id)}
-                                className={`w-full px-3 py-2.5 flex items-center justify-between gap-3 transition-colors ${active ? "bg-[var(--color-admin-ok-bg)]/40" : "hover:bg-[var(--color-admin-sunken)]"}`}
+                                className={`w-full px-3 py-2.5 flex items-center justify-between gap-3 transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--color-admin-accent)] ${active ? "bg-[var(--color-admin-accent-soft)]" : "hover:bg-[var(--color-admin-sunken)]"}`}
                               >
                                 <AvatarChip
                                   firstName={g.firstName}
@@ -479,7 +479,7 @@ export function NouvelleReservationClient() {
                                     </Badge>
                                   ) : null}
                                   {active ? (
-                                    <Check className="size-4 text-marine" />
+                                    <Check className="size-4 text-[var(--color-admin-accent)]" />
                                   ) : null}
                                 </span>
                               </button>
@@ -565,7 +565,7 @@ export function NouvelleReservationClient() {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <BedDouble className="size-4 text-marine" />
+                  <BedDouble className="size-4 text-[var(--color-admin-accent)]" />
                   Chambre & tarif
                 </span>
               }
@@ -759,7 +759,7 @@ function Stepper({
         type="button"
         onClick={() => onChange(clamp(value - 1))}
         aria-label="Diminuer"
-        className="h-9 w-9 inline-flex items-center justify-center text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors"
+        className="h-9 w-9 inline-flex items-center justify-center text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
       >
         −
       </button>
@@ -770,7 +770,7 @@ function Stepper({
         type="button"
         onClick={() => onChange(clamp(value + 1))}
         aria-label="Augmenter"
-        className="h-9 w-9 inline-flex items-center justify-center text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors"
+        className="h-9 w-9 inline-flex items-center justify-center text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
       >
         +
       </button>

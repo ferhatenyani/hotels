@@ -30,7 +30,7 @@ export function PageHeader({
                   {c.href && !last ? (
                     <Link
                       href={c.href}
-                      className="rounded-[var(--radius-admin-xs)] hover:text-[var(--color-admin-text)] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+                      className="rounded-[var(--radius-admin-xs)] hover:text-[var(--color-admin-text)] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
                     >
                       {c.label}
                     </Link>
@@ -65,7 +65,11 @@ export function PageHeader({
           ) : null}
         </div>
         {actions ? (
-          <div className="flex items-center gap-2 shrink-0 flex-wrap">{actions}</div>
+          // Mobile : les actions s'étirent (cibles tactiles confortables) ;
+          // tablette+ : elles reprennent leur largeur naturelle, alignées à droite.
+          <div className="flex items-center gap-2 shrink-0 flex-wrap max-sm:w-full max-sm:[&>*]:flex-1">
+            {actions}
+          </div>
         ) : null}
       </div>
     </header>

@@ -75,7 +75,7 @@ export function Topbar() {
           "lg:hidden inline-flex size-11 items-center justify-center rounded-[var(--radius-admin-md)] shrink-0",
           "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
           "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
         )}
       >
         <Menu className="size-[20px]" strokeWidth={1.75} />
@@ -89,7 +89,7 @@ export function Topbar() {
             "hidden md:inline-flex items-center gap-2 h-9 pl-3 pr-2.5 rounded-[var(--radius-admin-md)]",
             "text-[13px] text-[var(--color-admin-muted)] bg-[var(--color-admin-sunken)]",
             "hover:bg-[var(--color-admin-border)] transition-colors duration-150",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
           )}
         >
           <span>Commande rapide</span>
@@ -107,7 +107,7 @@ export function Topbar() {
           "hidden lg:inline-flex items-center gap-1.5 h-9 px-2.5 rounded-[var(--radius-admin-md)] text-[12.5px] font-medium",
           "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
           "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
         )}
         title="Réinitialiser les données de démo"
       >
@@ -121,7 +121,7 @@ export function Topbar() {
           "relative inline-flex size-11 lg:size-10 items-center justify-center rounded-[var(--radius-admin-md)] shrink-0",
           "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
           "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
         )}
         aria-label={unreadLabel}
       >
@@ -143,7 +143,7 @@ export function Topbar() {
           className={cn(
             "inline-flex items-center gap-2 h-11 lg:h-10 pl-1 pr-1.5 sm:pr-2 rounded-[var(--radius-admin-md)]",
             "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
           )}
           aria-haspopup="menu"
           aria-expanded={menuOpen}
@@ -194,7 +194,7 @@ export function Topbar() {
                   className={cn(
                     "w-full inline-flex items-center justify-between gap-2 px-2.5 h-9 rounded-[var(--radius-admin-sm)] text-[13px]",
                     "transition-colors duration-150",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
                     r === session.role
                       ? "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)] font-medium"
                       : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)] hover:bg-[var(--color-admin-sunken)]",

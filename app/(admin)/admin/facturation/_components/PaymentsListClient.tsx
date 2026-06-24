@@ -203,7 +203,7 @@ export function PaymentsListClient() {
       cell: (p) => (
         <Link
           href={`/admin/facturation/${p.invoice.id}`}
-          className="tnum text-[12.5px] font-medium text-[var(--color-admin-text)] hover:text-marine underline-offset-2 hover:underline"
+          className="tnum text-[12.5px] font-medium text-[var(--color-admin-text)] hover:text-[var(--color-admin-accent)] underline-offset-2 hover:underline"
         >
           {p.invoice.ref}
         </Link>
@@ -335,11 +335,11 @@ export function PaymentsListClient() {
           </>
         }
         trailing={
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full flex-col gap-2 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center md:w-auto">
             <select
               value={cashier}
               onChange={(e) => setCashier(e.target.value)}
-              className="h-9 cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] pl-3 pr-8 text-[16px] md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
+              className="h-10 w-full cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] ring-1 ring-[var(--color-admin-border)] pl-3 pr-8 text-[16px] min-[400px]:w-auto md:h-9 md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
               aria-label="Filtrer par caissier"
             >
               <option value="all">Tous les caissiers</option>
@@ -352,7 +352,7 @@ export function PaymentsListClient() {
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value as PeriodFilter)}
-              className="h-9 cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] pl-3 pr-8 text-[16px] md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
+              className="h-10 w-full cursor-pointer appearance-none rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] ring-1 ring-[var(--color-admin-border)] pl-3 pr-8 text-[16px] min-[400px]:w-auto md:h-9 md:text-[12.5px] text-[var(--color-admin-text)] outline-none transition-shadow duration-150 focus-visible:shadow-[0_0_0_3.5px_var(--color-admin-accent-ring)]"
               aria-label="Filtrer par période"
             >
               {PERIODS.map((p) => (

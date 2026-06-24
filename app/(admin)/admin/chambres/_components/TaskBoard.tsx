@@ -59,7 +59,7 @@ export function TaskBoard({
               aria-label={taskStatusLabels[status]}
               className={
                 "flex w-[82vw] shrink-0 snap-start flex-col rounded-[var(--radius-admin-lg)] " +
-                "bg-[var(--color-admin-sunken)]/50 ring-1 ring-[var(--color-admin-border)] p-3 " +
+                "bg-[var(--color-admin-sunken)]/50 ring-1 ring-[var(--color-admin-border)] shadow-[var(--shadow-admin-xs)] p-3 " +
                 "min-h-[220px] sm:w-[60vw] md:w-auto md:shrink"
               }
             >

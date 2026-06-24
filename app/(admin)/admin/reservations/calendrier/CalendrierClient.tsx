@@ -154,21 +154,23 @@ export function CalendrierClient() {
         }
       />
 
+      {/* Barre de filtres — mobile-first : empilée et pleine largeur sur
+          petit écran, puis répartie en ligne dès md:. */}
       <Card className="p-2.5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="inline-flex items-center rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:flex-wrap">
+          <div className="inline-flex items-center self-start rounded-[var(--radius-admin-md)] ring-1 ring-[var(--color-admin-border-strong)] bg-[var(--color-admin-panel)] p-0.5">
             <button
               type="button"
               onClick={() => shiftStart(-7)}
               aria-label="Semaine précédente"
-              className="size-7 inline-flex items-center justify-center rounded text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors"
+              className="size-10 sm:size-9 inline-flex items-center justify-center rounded text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             >
               <ChevronLeft className="size-4" />
             </button>
             <button
               type="button"
               onClick={() => setStartIso(isoDay(new Date()))}
-              className="h-7 px-2.5 text-[11.5px] font-medium rounded text-[var(--color-admin-text)] hover:bg-[var(--color-admin-sunken)] transition-colors"
+              className="h-10 sm:h-9 px-3 text-[12px] font-medium rounded text-[var(--color-admin-text)] hover:bg-[var(--color-admin-sunken)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             >
               Aujourd&apos;hui
             </button>
@@ -176,7 +178,7 @@ export function CalendrierClient() {
               type="button"
               onClick={() => shiftStart(7)}
               aria-label="Semaine suivante"
-              className="size-7 inline-flex items-center justify-center rounded text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors"
+              className="size-10 sm:size-9 inline-flex items-center justify-center rounded text-[var(--color-admin-muted)] hover:bg-[var(--color-admin-sunken)] hover:text-[var(--color-admin-text)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             >
               <ChevronRight className="size-4" />
             </button>
@@ -189,10 +191,10 @@ export function CalendrierClient() {
             type="date"
             value={startIso}
             onChange={(e) => setStartIso(e.target.value)}
-            className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-10 sm:h-9 w-full sm:w-auto rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2.5 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
           />
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:flex-wrap">
           <label htmlFor="cal-floor" className="sr-only">
             Étage
           </label>
@@ -202,7 +204,7 @@ export function CalendrierClient() {
             onChange={(e) =>
               setFloorFilter(e.target.value === "all" ? "all" : Number(e.target.value))
             }
-            className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-10 sm:h-9 w-full sm:w-auto rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12.5px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
           >
             <option value="all">Tous les étages</option>
             {floors.map((f) => (
@@ -279,15 +281,15 @@ export function CalendrierClient() {
                   return (
                     <div
                       key={isoDay(d)}
-                      className={`border-b border-r border-[var(--color-admin-border)] h-12 px-1 flex flex-col items-center justify-center text-center ${today ? "bg-[var(--color-admin-info-bg)]" : isWeekend(d) ? "bg-[var(--color-admin-sunken)]/60" : "bg-[var(--color-admin-sunken)]"}`}
+                      className={`border-b border-r border-[var(--color-admin-border)] h-12 px-1 flex flex-col items-center justify-center text-center ${today ? "bg-[var(--color-admin-accent-soft)]" : isWeekend(d) ? "bg-[var(--color-admin-sunken)]/60" : "bg-[var(--color-admin-sunken)]"}`}
                     >
                       <span
-                        className={`text-[9.5px] uppercase tracking-[0.05em] ${today ? "text-[var(--color-admin-info-fg)] font-semibold" : "text-[var(--color-admin-muted)]"}`}
+                        className={`text-[9.5px] uppercase tracking-[0.05em] ${today ? "text-[var(--color-admin-accent)] font-semibold" : "text-[var(--color-admin-muted)]"}`}
                       >
                         {wd}
                       </span>
                       <span
-                        className={`text-[12.5px] font-medium tnum ${today ? "text-[var(--color-admin-info-fg)]" : "text-[var(--color-admin-text)]"}`}
+                        className={`text-[12.5px] font-medium tnum ${today ? "text-[var(--color-admin-accent)]" : "text-[var(--color-admin-text)]"}`}
                       >
                         {dayN}
                       </span>
@@ -374,7 +376,7 @@ function FloorRow({
             onClick={() => onCellClick(iso, occupied)}
             title={tooltip}
             aria-label={tooltip}
-            className={`relative h-12 border-b border-r border-[var(--color-admin-border)] p-1 transition-colors ${stripeBg} ${occupied ? "cursor-grab active:cursor-grabbing" : "hover:bg-[var(--color-admin-sunken)] cursor-pointer"}`}
+            className={`relative h-12 border-b border-r border-[var(--color-admin-border)] p-1 transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--color-admin-accent)] ${stripeBg} ${occupied ? "cursor-grab active:cursor-grabbing" : "hover:bg-[var(--color-admin-sunken)] cursor-pointer"}`}
           >
             {res ? (
               <span

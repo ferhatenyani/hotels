@@ -99,10 +99,10 @@ function RoomTile({
         "group relative flex min-h-[60px] flex-col items-start justify-between gap-1.5 rounded-[var(--radius-admin-md)] p-2.5 text-left",
         "transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none",
         "hover:-translate-y-px hover:shadow-[var(--shadow-admin-sm)] motion-reduce:hover:translate-y-0",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
         roomTileSurface(room.status),
         highlighted &&
-          "ring-2 ring-marine ring-offset-2 ring-offset-[var(--color-admin-panel)]",
+          "ring-2 ring-[var(--color-admin-accent)] ring-offset-2 ring-offset-[var(--color-admin-panel)]",
       )}
     >
       <span className="flex w-full items-center justify-between gap-1">

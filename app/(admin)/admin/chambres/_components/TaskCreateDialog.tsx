@@ -183,7 +183,7 @@ export function TaskCreateDialog({
           />
         </Field>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Chambre concernée" htmlFor="task-room">
             <Select
               id="task-room"
@@ -213,7 +213,7 @@ export function TaskCreateDialog({
           </Field>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Affectée à" htmlFor="task-assign">
             <Select
               id="task-assign"

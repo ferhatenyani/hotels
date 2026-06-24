@@ -149,7 +149,7 @@ export function RoomDetailSheet({
       onClose={onClose}
       title={
         <span className="inline-flex items-center gap-2">
-          <BedDouble className="size-4 text-marine" />
+          <BedDouble className="size-4 text-[var(--color-admin-accent)]" />
           Chambre <span className="tnum">{room.number}</span>
         </span>
       }
@@ -165,7 +165,7 @@ export function RoomDetailSheet({
                 href={`/rooms/${room.publicSlug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-marine hover:underline"
+                className="text-[var(--color-admin-accent)] hover:underline"
               >
                 Voir la fiche publique
               </Link>
@@ -245,7 +245,7 @@ export function RoomDetailSheet({
               </div>
               <Link
                 href={`/admin/reservations/${occupyingReservation.id}`}
-                className="shrink-0 text-[12px] font-medium text-marine hover:underline whitespace-nowrap"
+                className="shrink-0 text-[12px] font-medium text-[var(--color-admin-accent)] hover:underline whitespace-nowrap"
               >
                 Voir la réservation
               </Link>
@@ -310,7 +310,7 @@ export function RoomDetailSheet({
               Une tâche maintenance est probablement associée. Consultez{" "}
               <Link
                 href="/admin/chambres/maintenance"
-                className="text-marine hover:underline"
+                className="text-[var(--color-admin-accent)] hover:underline"
                 onClick={onClose}
               >
                 la page Maintenance

@@ -230,6 +230,9 @@ export function DataTable<T>({
                 role={onRowClick ? "button" : undefined}
                 className={cn(
                   "border-b border-[var(--color-admin-divider)] last:border-b-0",
+                  // Subtle zebra so dense rows never visually merge (Apple/Finder
+                  // register). Hover / active states below still win.
+                  "even:bg-[var(--color-admin-bg)]/55",
                   "text-[var(--color-admin-text)]",
                   interactiveRow,
                 )}

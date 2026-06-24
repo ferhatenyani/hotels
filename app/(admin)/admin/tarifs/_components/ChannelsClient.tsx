@@ -264,7 +264,7 @@ export function ChannelsClient() {
           <CardHeader
             title={
               <span className="inline-flex items-center gap-2">
-                <BarChart3 className="size-4 text-marine" />
+                <BarChart3 className="size-4 text-[var(--color-admin-accent)]" />
                 {"Réservations par canal — 30 derniers jours"}
               </span>
             }
@@ -277,9 +277,9 @@ export function ChannelsClient() {
                 body="Aucun canal n'a généré de réservation sur les 30 derniers jours."
               />
             ) : (
-              <ul className="space-y-3">
+              <ul className="divide-y divide-[var(--color-admin-divider)]">
                 {perChannel.map(({ channel, count, pct }) => (
-                  <li key={channel.id} className="space-y-1.5">
+                  <li key={channel.id} className="space-y-1.5 py-3 first:pt-0 last:pb-0">
                     <div className="flex items-center justify-between gap-3">
                       <span className="inline-flex items-center gap-2 min-w-0">
                         <ChannelBadge name={channel.name} />
@@ -292,13 +292,13 @@ export function ChannelsClient() {
                           </Badge>
                         ) : null}
                       </span>
-                      <span className="tnum text-[12.5px] font-medium text-[var(--color-admin-text)]">
+                      <span className="shrink-0 whitespace-nowrap tnum text-[12.5px] font-medium text-[var(--color-admin-text)]">
                         {fmtNumber(count)} {count > 1 ? "réservations" : "réservation"}
                       </span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-[var(--color-admin-sunken)] overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-marine transition-[width] duration-500"
+                        className="h-full rounded-full bg-[var(--color-admin-accent)] transition-[width] duration-500"
                         style={{ width: `${pct}%` }}
                         aria-hidden
                       />
@@ -315,7 +315,7 @@ export function ChannelsClient() {
           <CardHeader
             title={
               <span className="inline-flex items-center gap-2">
-                <ShieldAlert className="size-4 text-marine" />
+                <ShieldAlert className="size-4 text-[var(--color-admin-accent)]" />
                 Risques double-booking
               </span>
             }
@@ -530,7 +530,7 @@ function ChannelBadge({ name, large }: { name: string; large?: boolean }) {
   let init = words[0]?.[0] ?? "?";
   if (words.length > 1) init += words[words.length - 1][0];
   init = init.toUpperCase();
-  // Couleur déterministe basée sur le nom — palette interne (marine + complémentaires).
+  // Couleur déterministe basée sur le nom — palette de graphe interne (teintes distinctes).
   const palette = [
     "bg-[var(--color-admin-info-bg)] text-[var(--color-admin-info-fg)]",
     "bg-[var(--color-admin-violet-bg)] text-[var(--color-admin-violet-fg)]",

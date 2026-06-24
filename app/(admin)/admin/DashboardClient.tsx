@@ -408,7 +408,7 @@ export function DashboardClient() {
               <CardHeader
                 title={
                   <span className="inline-flex items-center gap-2">
-                    <LogIn className="size-4 text-marine" />
+                    <LogIn className="size-4 text-[var(--color-admin-accent)]" />
                     Arrivées du jour
                   </span>
                 }
@@ -444,7 +444,7 @@ export function DashboardClient() {
               <CardHeader
                 title={
                   <span className="inline-flex items-center gap-2">
-                    <LogOut className="size-4 text-marine" />
+                    <LogOut className="size-4 text-[var(--color-admin-accent)]" />
                     Départs du jour
                   </span>
                 }
@@ -483,7 +483,7 @@ export function DashboardClient() {
               <CardHeader
                 title={
                   <span className="inline-flex items-center gap-2">
-                    <BedDouble className="size-4 text-marine" />
+                    <BedDouble className="size-4 text-[var(--color-admin-accent)]" />
                     Plan des chambres
                   </span>
                 }
@@ -504,7 +504,7 @@ export function DashboardClient() {
               <CardHeader
                 title={
                   <span className="inline-flex items-center gap-2">
-                    <Wrench className="size-4 text-marine" />
+                    <Wrench className="size-4 text-[var(--color-admin-accent)]" />
                     Tâches en cours
                   </span>
                 }
@@ -542,7 +542,7 @@ export function DashboardClient() {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <Clock className="size-4 text-marine" />
+                  <Clock className="size-4 text-[var(--color-admin-accent)]" />
                   Activité récente
                 </span>
               }

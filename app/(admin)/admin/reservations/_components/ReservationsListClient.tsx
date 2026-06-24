@@ -344,7 +344,7 @@ export function ReservationsListClient() {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value as PeriodFilter)}
-            className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+            className="h-10 md:h-8 w-full md:w-auto rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 pl-2.5 pr-7 text-[12.5px] text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             aria-label="Filtrer par période"
           >
             {PERIODS.map((p) => (
@@ -356,9 +356,11 @@ export function ReservationsListClient() {
         }
       />
 
+      {/* Période personnalisée — mobile-first : champs empilés pleine
+          largeur, puis alignés en ligne dès sm:. */}
       {period === "custom" ? (
-        <Card className="px-4 py-3 flex flex-wrap items-end gap-3">
-          <div className="flex flex-col gap-1">
+        <Card className="px-4 py-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+          <div className="flex flex-col gap-1 w-full sm:w-auto">
             <label
               htmlFor="periode-debut"
               className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)]"
@@ -371,10 +373,10 @@ export function ReservationsListClient() {
               value={customFrom}
               max={customTo}
               onChange={(e) => setCustomFrom(e.target.value)}
-              className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+              className="h-10 sm:h-8 w-full sm:w-auto rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2.5 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 w-full sm:w-auto">
             <label
               htmlFor="periode-fin"
               className="text-[11px] uppercase tracking-[0.06em] font-medium text-[var(--color-admin-muted)]"
@@ -387,10 +389,10 @@ export function ReservationsListClient() {
               value={customTo}
               min={customFrom}
               onChange={(e) => setCustomTo(e.target.value)}
-              className="h-8 rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-marine"
+              className="h-10 sm:h-8 w-full sm:w-auto rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] border-0 px-2.5 text-[12.5px] tnum text-[var(--color-admin-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]"
             />
           </div>
-          <p className="text-[12px] text-[var(--color-admin-muted)] ml-auto">
+          <p className="text-[12px] text-[var(--color-admin-muted)] sm:ml-auto">
             {filtered.length} séjour{filtered.length > 1 ? "s" : ""} chevauchent
             cette fenêtre.
           </p>

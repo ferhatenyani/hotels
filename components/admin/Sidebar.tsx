@@ -219,7 +219,7 @@ function MobileDrawer({
               "ml-auto inline-flex size-9 items-center justify-center rounded-[var(--radius-admin-md)]",
               "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
               "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
             )}
           >
             <X className="size-5" strokeWidth={1.75} />
@@ -235,7 +235,7 @@ function MobileDrawer({
 
 function BrandMark() {
   return (
-    <div className="inline-flex size-9 items-center justify-center rounded-[var(--radius-admin-md)] bg-marine text-white shrink-0 shadow-[var(--shadow-admin-xs)]">
+    <div className="inline-flex size-9 items-center justify-center rounded-[var(--radius-admin-md)] bg-[var(--color-admin-accent)] text-white shrink-0 shadow-[var(--shadow-admin-xs)]">
       <PanelsTopLeft className="size-[18px]" strokeWidth={1.75} />
     </div>
   );
@@ -310,7 +310,7 @@ function SidebarFooter({
           "w-full inline-flex items-center gap-2.5 h-9 rounded-[var(--radius-admin-md)] text-[13px] font-medium",
           "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
           "hover:bg-[var(--color-admin-sunken)] transition-colors duration-150",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
           collapsed ? "justify-center px-0" : "px-2.5",
         )}
       >
@@ -364,7 +364,7 @@ function SidebarSection({
                   "group inline-flex w-full items-center gap-3 rounded-[var(--radius-admin-md)] text-[13.5px]",
                   touch ? "h-11" : "h-10",
                   "transition-colors duration-150 motion-reduce:transition-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
                   collapsed ? "justify-center px-0" : "px-2.5",
                   active
                     ? "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)] font-medium"

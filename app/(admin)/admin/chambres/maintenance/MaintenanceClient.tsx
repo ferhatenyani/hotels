@@ -386,7 +386,7 @@ export function MaintenanceClient() {
                 return (
                   <li
                     key={r.number}
-                    className="flex flex-wrap items-start gap-3 px-5 py-3"
+                    className="flex flex-wrap items-start gap-3 px-5 py-3 transition-colors duration-150 even:bg-[var(--color-admin-bg)]/55 hover:bg-[var(--color-admin-sunken)]/50"
                   >
                     <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-admin-md)] bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] tnum text-[13px] font-medium">
                       <BedDouble className="size-3.5 mr-1 text-[var(--color-admin-faint)]" />
@@ -480,7 +480,7 @@ export function MaintenanceClient() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="inline-flex h-8 items-center rounded-[var(--radius-admin-sm)] px-2 text-[12px] text-[var(--color-admin-muted)] underline-offset-2 transition-colors duration-150 hover:text-[var(--color-admin-text)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-marine"
+                className="inline-flex h-8 items-center rounded-[var(--radius-admin-sm)] px-2 text-[12px] text-[var(--color-admin-muted)] underline-offset-2 transition-colors duration-150 hover:text-[var(--color-admin-text)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--color-admin-accent)]"
               >
                 Tout effacer
               </button>
@@ -590,9 +590,9 @@ function ViewToggle({
             aria-pressed={active}
             className={cn(
               "h-10 rounded-[var(--radius-admin-sm)] px-3 text-[12.5px] font-medium transition-colors duration-150 md:h-8",
-              "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-marine",
+              "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--color-admin-accent)]",
               active
-                ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)]"
+                ? "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)] ring-1 ring-inset ring-[var(--color-admin-accent)]/15"
                 : "text-[var(--color-admin-muted)] hover:text-[var(--color-admin-text)]",
             )}
           >

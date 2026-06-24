@@ -287,7 +287,7 @@ export function InvoiceDetailClient({ invoiceId }: { invoiceId: string }) {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <CircleDollarSign className="size-4 text-marine" />
+                  <CircleDollarSign className="size-4 text-[var(--color-admin-accent)]" />
                   Récapitulatif
                 </span>
               }
@@ -341,7 +341,7 @@ export function InvoiceDetailClient({ invoiceId }: { invoiceId: string }) {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <Hash className="size-4 text-marine" />
+                  <Hash className="size-4 text-[var(--color-admin-accent)]" />
                   Client
                 </span>
               }
@@ -406,7 +406,7 @@ export function InvoiceDetailClient({ invoiceId }: { invoiceId: string }) {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <CalendarDays className="size-4 text-marine" />
+                  <CalendarDays className="size-4 text-[var(--color-admin-accent)]" />
                   Réservation
                 </span>
               }
@@ -475,7 +475,7 @@ export function InvoiceDetailClient({ invoiceId }: { invoiceId: string }) {
             <CardHeader
               title={
                 <span className="inline-flex items-center gap-2">
-                  <TicketCheck className="size-4 text-marine" />
+                  <TicketCheck className="size-4 text-[var(--color-admin-accent)]" />
                   Actions
                 </span>
               }

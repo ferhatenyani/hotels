@@ -33,7 +33,7 @@ export function TaskCard({
         "shadow-[var(--shadow-admin-xs)] ring-1 ring-[var(--color-admin-border)]",
         "transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none",
         "hover:-translate-y-px hover:shadow-[var(--shadow-admin-sm)] hover:ring-[var(--color-admin-border-strong)] motion-reduce:hover:translate-y-0",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-admin-accent)]",
       )}
     >
       <div className="flex items-start justify-between gap-2">

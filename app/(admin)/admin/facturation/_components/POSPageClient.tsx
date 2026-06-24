@@ -240,7 +240,7 @@ export function POSPageClient() {
           <div className="min-w-0">
             <Link
               href={`/admin/facturation/${it.invoice.id}`}
-              className="block tnum text-[12.5px] font-medium text-[var(--color-admin-text)] hover:text-marine underline-offset-2 hover:underline"
+              className="block tnum text-[12.5px] font-medium text-[var(--color-admin-text)] hover:text-[var(--color-admin-accent)] underline-offset-2 hover:underline"
             >
               {room ? `Ch. ${room}` : it.invoice.ref}
             </Link>
@@ -302,7 +302,7 @@ export function POSPageClient() {
                       className={`inline-flex size-10 items-center justify-center rounded-[var(--radius-admin-md)] ${
                         disabled
                           ? "bg-[var(--color-admin-sunken)] text-[var(--color-admin-faint)]"
-                          : "bg-[var(--color-admin-info-bg)] text-[var(--color-admin-info-fg)]"
+                          : "bg-[var(--color-admin-accent-soft)] text-[var(--color-admin-accent)]"
                       }`}
                     >
                       <Icon className="size-5" strokeWidth={1.75} aria-hidden />
@@ -334,7 +334,13 @@ export function POSPageClient() {
                       <dt className="text-[10px] uppercase tracking-[0.08em] font-medium text-[var(--color-admin-muted)]">
                         CA du jour
                       </dt>
-                      <dd className="mt-1 font-semibold tnum text-[18px] text-[var(--color-admin-text)]">
+                      <dd
+                        className={`mt-1 font-semibold tnum text-[18px] ${
+                          stats.revenue > 0
+                            ? "text-[var(--color-admin-accent)]"
+                            : "text-[var(--color-admin-text)]"
+                        }`}
+                      >
                         {fmtDA(stats.revenue)}
                       </dd>
                     </div>
