@@ -1,0 +1,117 @@
+"use client";
+
+import { Search, X } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import { IconButton } from "./Button";
+
+export function Toolbar({
+  search,
+  onSearch,
+  searchPlaceholder = "Rechercher…",
+  filters,
+  trailing,
+  className,
+}: {
+  search?: string;
+  onSearch?: (q: string) => void;
+  searchPlaceholder?: string;
+  /** Chips / select de filtres au centre. */
+  filters?: React.ReactNode;
+  /** Bouton CTA primaire à droite (ex: « Nouvelle réservation »). */
+  trailing?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-3 md:flex-row md:items-center md:justify-between",
+        "rounded-xl bg-[var(--color-admin-panel)] ring-1 ring-[var(--color-admin-border)] p-2.5",
+        className,
+      )}
+    >
+      <div className="flex items-center gap-2 min-w-0 flex-1">
+        {onSearch ? (
+          <div className="relative w-full md:max-w-sm">
+            <Search
+              className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-[var(--color-admin-faint)]"
+              aria-hidden
+            />
+            <input
+              type="search"
+              value={search ?? ""}
+              onChange={(e) => onSearch(e.target.value)}
+              placeholder={searchPlaceholder}
+              className={cn(
+                "h-9 w-full rounded-md bg-[var(--color-admin-sunken)] pl-8 pr-8 text-[13.5px]",
+                "text-[var(--color-admin-text)] placeholder:text-[var(--color-admin-faint)]",
+                "focus-visible:outline-2 focus-visible:outline-offset-[-1px] focus-visible:outline-marine",
+              )}
+              aria-label="Rechercher"
+            />
+            {search ? (
+              <IconButton
+                aria-label="Effacer la recherche"
+                size="sm"
+                icon={<X className="size-3.5" />}
+                onClick={() => onSearch("")}
+                className="absolute right-1 top-1/2 -translate-y-1/2 size-6"
+                type="button"
+              />
+            ) : null}
+          </div>
+        ) : null}
+        {filters ? (
+          <div className="flex items-center gap-1.5 flex-wrap min-w-0">{filters}</div>
+        ) : null}
+      </div>
+      {trailing ? (
+        <div className="flex items-center gap-2 shrink-0">{trailing}</div>
+      ) : null}
+    </div>
+  );
+}
+
+// ─── Filter chip (utilisable comme bouton de filtre actif) ─────────────
+
+export function FilterChip({
+  label,
+  active,
+  onClick,
+  onClear,
+}: {
+  label: React.ReactNode;
+  active?: boolean;
+  onClick?: () => void;
+  onClear?: () => void;
+}) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 h-7 pl-2.5 rounded-full text-[11.5px] font-medium transition-colors",
+        active
+          ? "bg-marine text-white pr-1"
+          : "bg-[var(--color-admin-sunken)] text-[var(--color-admin-text)] hover:bg-[var(--color-admin-border)] pr-2.5",
+      )}
+    >
+      <button
+        type="button"
+        onClick={onClick}
+        className="focus-visible:outline-none"
+      >
+        {label}
+      </button>
+      {active && onClear ? (
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label="Retirer ce filtre"
+          className="ml-0.5 flex size-5 items-center justify-center rounded-full hover:bg-white/10"
+        >
+          <X className="size-3" />
+        </button>
+      ) : null}
+    </span>
+  );
+}

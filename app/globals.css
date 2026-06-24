@@ -19,6 +19,42 @@
   --font-serif: "Erode", ui-serif, Georgia, serif;
   /* Extra breakpoint for large phones (used for heading scale, etc.). */
   --breakpoint-xs: 30rem;
+
+  /* ─────────────────────────────────────────────────────────────────────
+     APERTURE — admin / back-office tokens
+     ─────────────────────────────────────────────────────────────────────
+     Scoped to the (admin) route group. Cool-gray surfaces (vs the warm
+     cream of the guest site) keep staff focused on data. Marine forest
+     green stays the brand anchor; status hues are derived to read at a
+     glance on dense tables.
+  */
+  --color-admin-bg: #f7f7f8;
+  --color-admin-panel: #ffffff;
+  --color-admin-sunken: #f1f1f3;
+  --color-admin-border: #e6e6e9;
+  --color-admin-border-strong: #d3d3d7;
+  --color-admin-divider: #ececef;
+  --color-admin-text: #151316;
+  --color-admin-muted: #6b6b70;
+  --color-admin-faint: #9a9aa0;
+
+  /* Status tints — pair `bg`+`fg` per status, never use color alone. */
+  --color-admin-ok-bg: #dbeae0;
+  --color-admin-ok-fg: #1f4a37;
+  --color-admin-warn-bg: #fbeed0;
+  --color-admin-warn-fg: #6f550c;
+  --color-admin-danger-bg: #f3d6d6;
+  --color-admin-danger-fg: #7a1d1d;
+  --color-admin-info-bg: #d7e6f3;
+  --color-admin-info-fg: #1d4f7a;
+  --color-admin-muted-bg: #e2e2e6;
+  --color-admin-muted-fg: #4a4a50;
+  --color-admin-violet-bg: #e7e2f1;
+  --color-admin-violet-fg: #4a3580;
+  --color-admin-amber-bg: #fce2c4;
+  --color-admin-amber-fg: #874715;
+  --color-admin-solid-bg: #1f4a37;
+  --color-admin-solid-fg: #ffffff;
 }
 
 @layer base {
@@ -130,6 +166,26 @@
       black 94%,
       transparent 100%
     );
+  }
+
+  /* Aperture admin — tabular numerals for prices/quantities/dates. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "ss01" 1;
+  }
+
+  /* Aperture admin — subtle hairline used on tables, panels, sidebar. */
+  .hairline {
+    box-shadow: 0 0 0 1px var(--color-admin-border);
+  }
+
+  /* Aperture admin — small dot indicator (status, online, unread). */
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    display: inline-block;
+    flex: none;
   }
 
   /* Slim, ink-tinted scrollbar for popover lists (Guests dropdown). */
