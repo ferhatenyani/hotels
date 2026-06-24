@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { LoginForm } from "./LoginForm";
 
@@ -64,11 +65,29 @@ export default function AdminLoginPage() {
           </p>
 
           <div className="mt-8">
-            <LoginForm />
+            <Suspense fallback={<LoginFormSkeleton />}>
+              <LoginForm />
+            </Suspense>
           </div>
         </div>
       </section>
     </main>
+  );
+}
+
+function LoginFormSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse" aria-hidden>
+      <div className="space-y-1.5">
+        <div className="h-3 w-24 rounded bg-[var(--color-admin-sunken)]" />
+        <div className="h-9 rounded-md bg-[var(--color-admin-sunken)]" />
+      </div>
+      <div className="space-y-1.5">
+        <div className="h-3 w-24 rounded bg-[var(--color-admin-sunken)]" />
+        <div className="h-9 rounded-md bg-[var(--color-admin-sunken)]" />
+      </div>
+      <div className="h-11 rounded-md bg-[var(--color-admin-sunken)]" />
+    </div>
   );
 }
 
