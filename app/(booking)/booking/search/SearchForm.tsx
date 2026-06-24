@@ -121,15 +121,21 @@ export default function SearchForm({
     [checkIn, checkOut],
   );
 
-  // Range-pick handler. Mirrors Hero.tsx:
-  //  - First click sets `from`, popover stays open, inline hint flips to
-  //    "Now pick check-out →".
-  //  - Second click on a later date completes the range and dismisses with a
-  //    short delay so the painted range is visible first.
+  // Range-pick handler. Mirrors Hero.tsx — react-day-picker v10 returns
+  // `{from, to}` set to the SAME day on the first click in range mode, so we
+  // must treat that as "still picking check-in" and only dismiss when the
+  // user has actually selected a different end day. `min={1}` on the calendar
+  // makes the second click required.
   const onRangeSelect = (next: DateRange | undefined) => {
-    setCheckIn(next?.from);
-    setCheckOut(next?.to);
-    if (next?.from && next?.to) {
+    const from = next?.from;
+    const to = next?.to;
+    const rangeComplete =
+      Boolean(from && to) && from!.getTime() !== to!.getTime();
+
+    setCheckIn(from);
+    setCheckOut(rangeComplete ? to : undefined);
+
+    if (rangeComplete) {
       window.setTimeout(() => setDatesOpen(false), 160);
     }
   };
@@ -301,6 +307,7 @@ export default function SearchForm({
               >
                 <Calendar
                   mode="range"
+                  min={1}
                   numberOfMonths={months}
                   selected={popoverRange}
                   onSelect={onRangeSelect}

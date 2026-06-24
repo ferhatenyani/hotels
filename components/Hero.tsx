@@ -172,15 +172,23 @@ export default function Hero() {
   );
 
   // Range-pick handler.
-  //  - First click sets `from` only → popover STAYS open and the inline hint
-  //    flips to "Now pick check-out →" so the user understands the next move.
-  //  - Second click on a later date completes the range and dismisses.
-  //  - Second click on an earlier date restarts the range with the new `from`
-  //    (default react-day-picker behaviour) — popover stays open.
+  //  - First click sets `from`. react-day-picker v10 in `mode="range"` returns
+  //    `{from: date, to: date}` (same day) on the first click — NOT `to:
+  //    undefined` — so we must treat a same-day "range" as "still picking
+  //    check-in" and keep the popover open. `min={1}` on the calendar enforces
+  //    at least one night, which is what makes the second click required.
+  //  - Second click on a later day completes the range and dismisses.
+  //  - Second click on an earlier day restarts the range with the new `from`.
   const onRangeSelect = (next: DateRange | undefined) => {
-    setCheckIn(next?.from);
-    setCheckOut(next?.to);
-    if (next?.from && next?.to) {
+    const from = next?.from;
+    const to = next?.to;
+    const rangeComplete =
+      Boolean(from && to) && from!.getTime() !== to!.getTime();
+
+    setCheckIn(from);
+    setCheckOut(rangeComplete ? to : undefined);
+
+    if (rangeComplete) {
       // Tiny delay so the user sees the completed range painted before the
       // popover slides out — avoids the "did anything happen?" feel.
       window.setTimeout(() => setDatesOpen(false), 160);
@@ -468,6 +476,7 @@ export default function Hero() {
                   >
                     <Calendar
                       mode="range"
+                      min={1}
                       numberOfMonths={months}
                       selected={popoverRange}
                       onSelect={onRangeSelect}

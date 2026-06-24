@@ -1,11 +1,11 @@
 // Booking funnel layout — slim, focused, conversion-first. No main nav,
-// no chat FAB, no marketing footer. Just a logo + support line, the step
-// rail, the page, and a minimal footer with the policy/FAQ links.
+// no chat FAB. Step rail above the content, and the same marketing Footer
+// as the rest of the site below so the chrome stays consistent end-to-end.
 
 import { Suspense } from "react";
 
 import BookingHeader from "@/components/booking/BookingHeader";
-import BookingFooter from "@/components/booking/BookingFooter";
+import Footer from "@/components/Footer";
 import StepRail from "@/components/booking/StepRail";
 
 export default function BookingLayout({
@@ -22,7 +22,7 @@ export default function BookingLayout({
         <StepRail />
       </Suspense>
       <main className="flex-1 flex flex-col">{children}</main>
-      <BookingFooter />
+      <Footer />
     </div>
   );
 }
