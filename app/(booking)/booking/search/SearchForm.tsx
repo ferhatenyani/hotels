@@ -78,6 +78,7 @@ export default function SearchForm({
   const [adults, setAdults] = useState(initialAdults);
   const [children, setChildren] = useState(initialChildren);
   const [datesOpen, setDatesOpen] = useState(false);
+  const [guestsOpen, setGuestsOpen] = useState(false);
   const [months, setMonths] = useState(1);
 
   // Mobile sheet state — buffered drafts so partial picks don't leak to the
@@ -136,7 +137,12 @@ export default function SearchForm({
     setCheckOut(rangeComplete ? to : undefined);
 
     if (rangeComplete) {
-      window.setTimeout(() => setDatesOpen(false), 160);
+      // Chain checkin → checkout → guests on desktop, mirroring the mobile
+      // bottom-sheet flow.
+      window.setTimeout(() => {
+        setDatesOpen(false);
+        setGuestsOpen(true);
+      }, 160);
     }
   };
 
@@ -345,7 +351,7 @@ export default function SearchForm({
               </PopoverContent>
             </Popover>
 
-            <Popover>
+            <Popover open={guestsOpen} onOpenChange={setGuestsOpen}>
               <PopoverTrigger
                 aria-label="Guests"
                 className={cn(fieldShell, "flex-1 h-[80px]")}

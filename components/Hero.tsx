@@ -53,6 +53,7 @@ export default function Hero() {
   const [checkIn, setCheckIn] = useState<Date | undefined>();
   const [checkOut, setCheckOut] = useState<Date | undefined>();
   const [datesOpen, setDatesOpen] = useState(false);
+  const [guestsOpen, setGuestsOpen] = useState(false);
   const [months, setMonths] = useState(1);
   const [videoReady, setVideoReady] = useState(false);
 
@@ -190,8 +191,13 @@ export default function Hero() {
 
     if (rangeComplete) {
       // Tiny delay so the user sees the completed range painted before the
-      // popover slides out — avoids the "did anything happen?" feel.
-      window.setTimeout(() => setDatesOpen(false), 160);
+      // popover slides out — avoids the "did anything happen?" feel. Then
+      // open the Guests popover so desktop chains checkin → checkout →
+      // guests, exactly like the mobile bottom-sheet flow.
+      window.setTimeout(() => {
+        setDatesOpen(false);
+        setGuestsOpen(true);
+      }, 160);
     }
   };
 
@@ -372,7 +378,7 @@ export default function Hero() {
                 aria-label="Check availability"
                 className="flex items-stretch divide-x divide-ink/10"
               >
-                <Popover>
+                <Popover open={guestsOpen} onOpenChange={setGuestsOpen}>
                   <PopoverTrigger
                     aria-label="Guests"
                     className={cn(fieldShell, "flex-1")}
