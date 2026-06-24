@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ),
-  title: "Hôtel du Lac Béjaïa — Le Calme au Centre Ville",
+  title: "Notre Hôtel — Le Calme au Cœur de la Ville",
   description:
-    "A calm, modern hotel in the heart of Béjaïa, on Lac Mézaïa facing Gouraya — lake-view rooms, a gastronomic restaurant and a 498 m² events hall.",
+    "Un hôtel moderne et calme au cœur de la ville — chambres avec vue, restaurant gastronomique et salle de réception de 498 m².",
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="font-sans" suppressHydrationWarning>
+    <html lang="fr" className="font-sans" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />

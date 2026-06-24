@@ -1,7 +1,7 @@
-// /dining — the restaurant in full. Server Component. Expands the home
-// section into a quiet editorial page: opening blurb + service hours ledger,
-// three highlights, the carte by service, an inline reservation form, and a
-// cross-link to /rooms.
+// /dining — le restaurant en détail. Server Component. Expanse la section
+// d'accueil en une page éditoriale calme : introduction + horaires, trois
+// points forts, la carte par service, un formulaire de réservation en ligne,
+// et un renvoi vers /rooms.
 //
 // Archetype: Editorial page (CONVENTIONS §11).
 //   PageHero (default)
@@ -18,14 +18,15 @@ import Section from "@/components/site/Section";
 import SectionHeading from "@/components/site/SectionHeading";
 import { Button } from "@/components/site/Button";
 
+import { hotel } from "@/lib/data/hotel";
 import { diningHours, diningMenu, diningHighlights } from "@/lib/data/dining";
 
 import DiningReservationForm from "./DiningReservationForm";
 
 export const metadata: Metadata = {
-  title: "Dining — Hôtel du Lac, Béjaïa",
+  title: `Restaurant — ${hotel.name}, ${hotel.city}`,
   description:
-    "A short carte d'excellence ouverte sur le monde, served above Lac Mézaïa. Breakfast 06:30–10:30 (included), lunch 12:00–14:30, dinner 19:00–22:00.",
+    "Une carte d'excellence ouverte sur le monde, servie au-dessus de la ville. Petit-déjeuner 06h30–10h30 (inclus), déjeuner 12h00–14h30, dîner 19h00–22h00.",
 };
 
 export default function DiningPage() {
@@ -34,11 +35,11 @@ export default function DiningPage() {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="The restaurant"
-        heading="A table with a view of the water"
-        description="Une carte d'excellence ouverte sur le monde — set against the wide, panoramic view of Lac Mézaïa."
+        eyebrow="Le restaurant"
+        heading="Une table avec vue"
+        description="Une carte d'excellence ouverte sur le monde — face au panorama de la ville."
         image="/images/exhibit-dining-room.jpg"
-        imageAlt="The restaurant at Hôtel du Lac, overlooking Lac Mézaïa"
+        imageAlt={`Le restaurant de ${hotel.name}, ouvert sur la ville`}
       />
 
       {/* INTRO + HOURS — opening blurb on the left, hours ledger on the right.
@@ -47,23 +48,24 @@ export default function DiningPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-7">
             <SectionHeading
-              eyebrow="An evening above the lake"
+              eyebrow="Une soirée en hauteur"
               heading={opening.title}
               description={opening.body}
             />
             <p className="mt-5 md:mt-6 font-sans font-normal text-[15px] md:text-[16px] leading-[1.7] md:leading-[1.75] text-graybase max-w-xl">
-              Our restaurant carries all the comfort of a true house of
-              gastronomy — <span className="italic">une carte d&apos;excellence
-              ouverte sur le monde</span>. Mornings begin with the breakfast
-              guests so often single out: fresh fruit and warm pastries. Lunch
-              and dinner follow against the lake and the mountain.
+              Notre restaurant offre tout le confort d'une véritable maison de
+              gastronomie — <span className="italic">une carte d&apos;excellence
+              ouverte sur le monde</span>. Les matinées commencent par le
+              petit-déjeuner que nos hôtes citent si souvent : fruits frais et
+              viennoiseries chaudes. Le déjeuner et le dîner suivent, au-dessus
+              du paysage.
             </p>
           </div>
 
           {/* HOURS — desktop ledger; mobile renders chips below the copy. */}
           <div className="lg:col-span-5 lg:pt-2">
             <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55 mb-4 md:mb-5">
-              Service hours
+              Horaires de service
             </p>
 
             {/* Desktop ledger */}
@@ -119,8 +121,8 @@ export default function DiningPage() {
       {/* HIGHLIGHTS — three stacked-to-grid cards. */}
       <Section tone="cream" grain size="default">
         <SectionHeading
-          eyebrow="What the room offers"
-          heading="Three reasons the table earns its place"
+          eyebrow="Ce que la salle propose"
+          heading="Trois raisons pour lesquelles la table mérite sa place"
         />
 
         <ul className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
@@ -147,9 +149,9 @@ export default function DiningPage() {
       {/* MENUS — three cards, one per service. Stack mobile → side-by-side. */}
       <Section tone="white" size="default" id="menus">
         <SectionHeading
-          eyebrow="The carte"
-          heading="What you'll find on the table"
-          description="A short carte that changes with the season — Algerian classics, Mediterranean staples, and a quiet line of dishes from further afield."
+          eyebrow="La carte"
+          heading="Ce que vous trouverez à table"
+          description="Une carte courte qui change avec la saison — classiques algériens, incontournables méditerranéens et une ligne discrète de plats venus de plus loin."
         />
 
         <div className="mt-10 md:mt-14 lg:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
@@ -196,32 +198,32 @@ export default function DiningPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-5">
             <SectionHeading
-              eyebrow="Reserve a table"
-              heading="Save a window seat"
-              description="A note to the maître d' — we'll come back to confirm. For same-day tables, do telephone the desk."
+              eyebrow="Réserver une table"
+              heading="Garder une place près de la fenêtre"
+              description="Un mot au maître d'hôtel — nous reviendrons confirmer. Pour les tables du jour, n'hésitez pas à téléphoner à la réception."
             />
 
             <ul className="mt-8 md:mt-10 flex flex-col gap-3 md:gap-4">
               <li className="flex items-baseline gap-3 border-t border-ink/15 pt-3">
                 <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                  By phone
+                  Par téléphone
                 </span>
                 <a
-                  href="tel:+21344202022"
+                  href={`tel:${hotel.contact.phonePrimary.replace(/\s+/g, "")}`}
                   className="ml-auto font-sans tabular-nums text-[15px] text-ink hover:text-marine transition-colors max-md:min-h-[44px] max-md:inline-flex max-md:items-center"
                 >
-                  +213 44 20 20 22
+                  {hotel.contact.phonePrimary}
                 </a>
               </li>
               <li className="flex items-baseline gap-3 border-t border-ink/15 pt-3">
                 <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                  By email
+                  Par e-mail
                 </span>
                 <a
-                  href="mailto:contact@hoteldulacvert.dz"
+                  href={`mailto:${hotel.contact.email}`}
                   className="ml-auto font-sans text-[14px] text-ink hover:text-marine transition-colors max-md:min-h-[44px] max-md:inline-flex max-md:items-center"
                 >
-                  contact@hoteldulacvert.dz
+                  {hotel.contact.email}
                 </a>
               </li>
             </ul>
@@ -238,27 +240,27 @@ export default function DiningPage() {
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
           <div className="max-w-[44ch]">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/55 mb-3">
-              Staying with us?
+              Vous séjournez chez nous ?
             </p>
             <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-white text-balance">
-              Breakfast is included with every room — fresh fruit and warm
-              pastries, from 06:30.
+              Le petit-déjeuner est inclus avec chaque chambre — fruits frais
+              et viennoiseries chaudes, dès 06h30.
             </h2>
             <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-white/70 max-w-[42ch]">
-              Each room looks out over Lac Mézaïa, with the same table waiting
-              downstairs.
+              Chaque chambre s'ouvre sur la ville, avec la même table qui
+              attend en bas.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 md:justify-end">
             <Button href="/rooms" variant="primary" size="default" arrow>
-              See rooms
+              Voir les chambres
             </Button>
             <Button
               href="/booking/search"
               variant="ghost-light"
               size="default"
             >
-              Reserve a stay
+              Réserver un séjour
             </Button>
           </div>
         </div>

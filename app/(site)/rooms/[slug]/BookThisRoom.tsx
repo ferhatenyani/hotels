@@ -17,7 +17,16 @@ import { cn } from "@/lib/utils";
 import Stepper from "@/components/site/Stepper";
 import { formatDA } from "@/lib/data/hotel";
 import { bookingHref } from "@/lib/booking/params";
-import type { Room } from "@/lib/data/rooms";
+import type { Room, RoomBedType } from "@/lib/data/rooms";
+
+// Affichage en français des types de lit (singulier/pluriel).
+const bedLabels: Record<RoomBedType, { singular: string; plural: string }> = {
+  single: { singular: "lit simple", plural: "lits simples" },
+  double: { singular: "lit double", plural: "lits doubles" },
+  twin: { singular: "lit jumeau", plural: "lits jumeaux" },
+  triple: { singular: "lit triple", plural: "lits triples" },
+  queen: { singular: "lit queen size", plural: "lits queen size" },
+};
 
 type Props = {
   room: Room;
@@ -94,23 +103,23 @@ export default function BookThisRoom({ room, initial }: Props) {
         submit();
       }}
       className="border border-ink/10 bg-white rounded-2xl shadow-[0_18px_44px_-24px_rgba(21,19,22,0.22)] overflow-hidden"
-      aria-label={`Book the ${room.name}`}
+      aria-label={`Réserver ${room.name}`}
     >
       {/* Header: price + per-night */}
       <div className="px-5 md:px-6 pt-5 md:pt-6 pb-4 border-b border-ink/10">
         <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55">
-          From
+          À partir de
         </p>
         <p className="mt-1.5 font-display font-semibold text-[28px] md:text-[30px] text-ink leading-none">
           {formatDA(room.priceDA)}
           <span className="font-sans text-[12px] font-normal text-graybase ml-1.5">
-            / night
+            / nuit
           </span>
         </p>
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-sans text-[12px] text-graybase">
           <li className="inline-flex items-center gap-1.5">
             <Users className="h-3.5 w-3.5 text-ink/55" strokeWidth={1.75} />
-            Sleeps {room.sleeps}
+            Couchage : {room.sleeps}
           </li>
           <li className="inline-flex items-center gap-1.5">
             <Maximize2
@@ -122,7 +131,7 @@ export default function BookThisRoom({ room, initial }: Props) {
           <li className="inline-flex items-center gap-1.5">
             <Bed className="h-3.5 w-3.5 text-ink/55" strokeWidth={1.75} />
             {room.beds
-              .map((b) => `${b.count} ${b.type}${b.count > 1 ? "s" : ""}`)
+              .map((b) => `${b.count} ${b.count > 1 ? bedLabels[b.type].plural : bedLabels[b.type].singular}`)
               .join(" · ")}
           </li>
         </ul>
@@ -132,7 +141,7 @@ export default function BookThisRoom({ room, initial }: Props) {
       <div className="px-5 md:px-6 py-4 grid grid-cols-2 gap-3 border-b border-ink/10">
         <label className="flex flex-col gap-1.5">
           <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55">
-            Check-in
+            Arrivée
           </span>
           <input
             type="date"
@@ -153,7 +162,7 @@ export default function BookThisRoom({ room, initial }: Props) {
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55">
-            Check-out
+            Départ
           </span>
           <input
             type="date"
@@ -168,16 +177,16 @@ export default function BookThisRoom({ room, initial }: Props) {
       {/* Steppers */}
       <div className="px-5 md:px-6 py-2 divide-y divide-ink/10 border-b border-ink/10">
         <Stepper
-          label="Adults"
-          hint="13+ years"
+          label="Adultes"
+          hint="13 ans et plus"
           value={adults}
           min={1}
           max={Math.max(room.sleeps, 1)}
           onChange={setAdults}
         />
         <Stepper
-          label="Children"
-          hint="0–12 years"
+          label="Enfants"
+          hint="0 à 12 ans"
           value={childrenCount}
           min={0}
           max={Math.max(room.sleeps - 1, 0)}
@@ -190,7 +199,7 @@ export default function BookThisRoom({ room, initial }: Props) {
         {liveTotal ? (
           <div className="mb-3 flex items-baseline justify-between font-sans text-[13px] text-graybase">
             <span>
-              {formatDA(room.priceDA)} × {nights} night
+              {formatDA(room.priceDA)} × {nights} nuit
               {nights === 1 ? "" : "s"}
             </span>
             <span className="font-display font-semibold text-[16px] text-ink">
@@ -199,7 +208,7 @@ export default function BookThisRoom({ room, initial }: Props) {
           </div>
         ) : (
           <p className="mb-3 font-sans text-[12px] text-ink/55">
-            Pick dates to see the room total.
+            Choisissez les dates pour voir le total de la chambre.
           </p>
         )}
         {overCapacity && (
@@ -207,14 +216,14 @@ export default function BookThisRoom({ room, initial }: Props) {
             role="alert"
             className="mb-3 font-sans text-[12px] text-destructive"
           >
-            This room sleeps {room.sleeps}. Try the {" "}
+            Cette chambre accueille {room.sleeps} personnes. Consultez la {" "}
             <a
               href="/rooms"
               className="underline underline-offset-2 hover:text-marine"
             >
-              listing
+              liste
             </a>{" "}
-            for larger spaces.
+            pour des espaces plus grands.
           </p>
         )}
         <button
@@ -225,14 +234,14 @@ export default function BookThisRoom({ room, initial }: Props) {
             "disabled:opacity-40 disabled:pointer-events-none",
           )}
         >
-          Reserve
+          Réserver
           <ArrowRight
             className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/btn:translate-x-0.5"
             strokeWidth={2.25}
           />
         </button>
         <p className="mt-3 font-sans text-[11px] text-ink/55 text-center">
-          No payment required to hold a room.
+          Aucun paiement requis pour bloquer une chambre.
         </p>
       </div>
     </form>
@@ -272,10 +281,10 @@ export default function BookThisRoom({ room, initial }: Props) {
             </span>
             <span className="mt-1 font-sans text-[11px] uppercase tracking-[0.18em] text-ink/55">
               {liveTotal
-                ? `Total · ${nights} night${nights === 1 ? "" : "s"}`
+                ? `Total · ${nights} nuit${nights === 1 ? "" : "s"}`
                 : mobileOpen
-                  ? "Close picker"
-                  : "Pick dates"}
+                  ? "Fermer le sélecteur"
+                  : "Choisir les dates"}
             </span>
           </button>
           <button
@@ -293,7 +302,7 @@ export default function BookThisRoom({ room, initial }: Props) {
               "disabled:opacity-40 disabled:pointer-events-none",
             )}
           >
-            Reserve
+            Réserver
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} />
           </button>
         </div>

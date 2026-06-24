@@ -9,10 +9,10 @@ if (typeof window !== "undefined") {
 }
 
 const stats = [
-  { value: "4.3", target: 4.3, suffix: "", label: "Guest rating", stars: true },
-  { value: "124", target: 124, suffix: "", label: "Rooms & suites" },
-  { value: "498 m²", target: 498, suffix: " m²", label: "Events hall" },
-  { value: "Lac Mézaïa", target: null, suffix: "", label: "On the lakefront" },
+  { value: "4.3", target: 4.3, suffix: "", label: "Note des hôtes", stars: true },
+  { value: "124", target: 124, suffix: "", label: "Chambres & suites" },
+  { value: "498 m²", target: 498, suffix: " m²", label: "Salle de réception" },
+  { value: "Centre-ville", target: null, suffix: "", label: "Au cœur de la ville" },
 ];
 
 // 86% fill ≈ 4.3 / 5 — a clipped green layer over muted base stars.

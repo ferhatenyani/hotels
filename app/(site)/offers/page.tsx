@@ -14,11 +14,11 @@ import SectionHeading from "@/components/site/SectionHeading";
 import { Button } from "@/components/site/Button";
 
 import { offers } from "@/lib/data/offers";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Offers — Stay longer, save a little more · Hôtel du Lac, Béjaïa",
-  description:
-    "Seasonal packages at Hôtel du Lac, Béjaïa — long weekends on the lake, family stays, business midweek, and wedding-party room blocks. Book direct for the best rate.",
+  title: `Offres — Restez plus longtemps, économisez un peu plus · ${hotel.name}, ${hotel.city}`,
+  description: `Forfaits saisonniers à ${hotel.name}, ${hotel.city} — longs week-ends, séjours en famille, milieu de semaine en affaires et blocs de chambres pour les mariages. Réservez en direct pour le meilleur tarif.`,
 };
 
 // Reassurance row — three quick promises so visitors don't have to read all
@@ -26,18 +26,18 @@ export const metadata: Metadata = {
 const howItWorks: { n: string; title: string; body: string }[] = [
   {
     n: "01",
-    title: "Apply at booking",
-    body: "Tap the offer. The code travels with you to the booking screen and is applied automatically — no copy-pasting from a newsletter.",
+    title: "Appliqué à la réservation",
+    body: "Touchez l'offre. Le code vous accompagne jusqu'à l'écran de réservation et s'applique automatiquement — pas de copier-coller depuis une newsletter.",
   },
   {
     n: "02",
-    title: "Subject to availability",
-    body: "Offers run on selected rooms and date windows. If the room you want isn't available on those dates, the desk will quote you a close alternative.",
+    title: "Sous réserve de disponibilité",
+    body: "Les offres s'appliquent à certaines chambres et à des fenêtres de dates. Si la chambre souhaitée n'est pas disponible à ces dates, la réception vous proposera une alternative proche.",
   },
   {
     n: "03",
-    title: "Cancel up to 48 h before",
-    body: "Standard rates remain freely cancellable up to forty-eight hours before arrival. Non-refundable rates are clearly flagged before you confirm.",
+    title: "Annulation jusqu'à 48 h avant",
+    body: "Les tarifs standards restent librement annulables jusqu'à quarante-huit heures avant l'arrivée. Les tarifs non remboursables sont clairement signalés avant confirmation.",
   },
 ];
 
@@ -45,19 +45,19 @@ export default function OffersPage() {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="Offers"
-        heading="Stay a little longer, save a little more"
-        description="A handful of seasonal packages — for the long weekend, the family trip, the business week, and the wedding party. Each one applies at the booking step; no codes to remember."
+        eyebrow="Offres"
+        heading="Restez un peu plus longtemps, économisez un peu plus"
+        description="Une poignée de forfaits saisonniers — pour le long week-end, le voyage en famille, la semaine d'affaires et le mariage. Chacun s'applique à l'étape de réservation ; aucun code à retenir."
         image="/images/exhibit-corner-suite.jpg"
-        imageAlt="A lake-view corner suite at Hôtel du Lac"
+        imageAlt={`Une suite d'angle à ${hotel.name}`}
         height="short"
       />
 
       <Section tone="white" size="default">
         <SectionHeading
-          eyebrow="Current packages"
-          heading={`${offers.length} ways to make the stay sweeter`}
-          description="All offers are bookable direct on this site. The price you see is the price at the desk — no third-party surprises."
+          eyebrow="Forfaits actuels"
+          heading={`${offers.length} façons de rendre le séjour plus doux`}
+          description="Toutes les offres sont réservables en direct sur ce site. Le prix affiché est le prix à la réception — pas de surprise via un tiers."
         />
 
         <ul className="mt-10 md:mt-14 lg:mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 lg:grid-cols-3 lg:gap-8">
@@ -71,7 +71,7 @@ export default function OffersPage() {
                   <a
                     href={`/offers/${offer.slug}`}
                     className="block relative overflow-hidden h-[210px] md:h-[230px] lg:h-[260px]"
-                    aria-label={`Read more about ${offer.name}`}
+                    aria-label={`En savoir plus sur ${offer.name}`}
                   >
                     <Image
                       src={offer.image}
@@ -124,7 +124,7 @@ export default function OffersPage() {
                       ))}
                       {extra > 0 && (
                         <li className="font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-marine pl-[15px]">
-                          +{extra} more
+                          +{extra} de plus
                         </li>
                       )}
                     </ul>
@@ -144,7 +144,7 @@ export default function OffersPage() {
                         arrow
                         className="flex-1 min-w-[200px]"
                       >
-                        Reserve with this offer
+                        Réserver avec cette offre
                       </Button>
                       {offer.related && (
                         <Button
@@ -167,9 +167,9 @@ export default function OffersPage() {
       {/* How offers work — three quick promises. */}
       <Section tone="cream" grain size="compact">
         <SectionHeading
-          eyebrow="How offers work"
-          heading="Three small promises"
-          description="Each offer is built to slot into the standard booking flow without friction. Here's what to expect."
+          eyebrow="Comment fonctionnent les offres"
+          heading="Trois petites promesses"
+          description="Chaque offre s'intègre au parcours de réservation standard sans friction. Voici ce à quoi vous attendre."
         />
         <ol className="mt-10 md:mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
           {howItWorks.map((step) => (
@@ -196,28 +196,25 @@ export default function OffersPage() {
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
           <div className="max-w-[44ch]">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/55 mb-3">
-              Not sure which fits?
+              Vous hésitez ?
             </p>
             <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-white text-balance">
-              Tell the desk the shape of the trip — we&apos;ll point you to the
-              right package.
+              Dites-nous la forme du voyage — nous vous orienterons vers le bon forfait.
             </h2>
             <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-white/70 max-w-[42ch]">
-              A long weekend, a family of five, a business team for the week,
-              the wedding of a cousin — write a sentence, we&apos;ll write
-              back.
+              Un long week-end, une famille de cinq, une équipe en déplacement pour la semaine, le mariage d&apos;un cousin — écrivez une phrase, nous vous répondrons.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 md:justify-end">
             <Button href="/contact" variant="ghost-light" size="default" arrow>
-              Write to the desk
+              Écrire à la réception
             </Button>
             <Button
-              href="tel:+21344202022"
+              href={`tel:${hotel.contact.phonePrimary.replace(/\s+/g, "")}`}
               variant="primary"
               size="default"
             >
-              Call · +213 44 20 20 22
+              Appeler · {hotel.contact.phonePrimary}
             </Button>
           </div>
         </div>

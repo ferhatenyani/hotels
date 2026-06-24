@@ -19,11 +19,12 @@ import SearchForm from "./SearchForm";
 import { encodeDate, searchParamsToBooking } from "@/lib/booking/params";
 import { getRoomBySlug } from "@/lib/data/rooms";
 import { getOfferByPromoCode } from "@/lib/data/offers";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Find your stay — Hôtel du Lac",
+  title: `Trouver votre séjour — ${hotel.name}`,
   description:
-    "Pick your dates and the number of guests. Direct booking — we confirm every reservation ourselves.",
+    "Choisissez vos dates et le nombre de voyageurs. Réservation directe — nous confirmons chaque réservation nous-mêmes.",
 };
 
 export default async function SearchPage(props: PageProps<"/booking/search">) {
@@ -36,11 +37,11 @@ export default async function SearchPage(props: PageProps<"/booking/search">) {
 
   return (
     <Section tone="white" size="compact" maxWidth="narrow">
-      {/* Locked-room chip */}
+      {/* Pastille chambre verrouillée */}
       {lockedRoom ? (
         <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 border border-marine/20 bg-marine/[0.04] rounded-full pl-4 pr-2 py-2 max-w-fit">
           <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-marine">
-            Reserving
+            Réservation
           </span>
           <span className="font-display text-[14px] font-medium text-ink leading-none">
             {lockedRoom.name}
@@ -50,26 +51,26 @@ export default async function SearchPage(props: PageProps<"/booking/search">) {
             className="ml-1 inline-flex items-center gap-1 rounded-full bg-white border border-ink/10 px-3 py-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-ink/70 hover:text-ink hover:border-ink/25 transition-colors max-md:min-h-[36px]"
           >
             <ArrowLeft className="h-3 w-3" strokeWidth={2} />
-            Change room
+            Changer de chambre
           </Link>
         </div>
       ) : null}
 
-      {/* Funnel headers drop the eyebrow scaffolding — the StepRail above
-          already names the step. The h1 carries the moment. */}
+      {/* Les en-têtes du tunnel laissent tomber la surbrille — le StepRail
+          ci-dessus nomme déjà l'étape. Le h1 porte le moment. */}
       <header className="max-w-[44ch]">
         <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[48px] leading-[1.05] tracking-tight text-ink text-balance">
-          When would you like
+          Quand souhaitez-vous
           <br className="hidden sm:block" />
-          <span className="italic font-normal">to be at the lake?</span>
+          <span className="italic font-normal">venir nous voir&nbsp;?</span>
         </h1>
         <span aria-hidden className="mt-5 md:mt-6 block h-px w-14 bg-marine" />
         <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-graybase">
-          Pick your check-in and check-out, and tell us who&apos;s coming.
+          Choisissez votre arrivée et votre départ, et dites-nous qui vient.
         </p>
       </header>
 
-      {/* Promo badge */}
+      {/* Badge promo */}
       {promoOffer ? (
         <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border border-marine/25 bg-marine/[0.04] px-4 py-3">
           <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-marine/10 text-marine">
@@ -77,7 +78,7 @@ export default async function SearchPage(props: PageProps<"/booking/search">) {
           </span>
           <div className="flex flex-col min-w-0">
             <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-marine">
-              Promo applied
+              Promo appliquée
             </span>
             <span className="mt-0.5 font-display text-[15px] font-medium text-ink">
               {promoOffer.name}{" "}
@@ -93,8 +94,8 @@ export default async function SearchPage(props: PageProps<"/booking/search">) {
             <BadgeAlert className="h-4 w-4" strokeWidth={1.75} />
           </span>
           <p className="font-sans text-[13.5px] text-ink/75">
-            Code <span className="font-medium text-ink">{q.promo}</span> not
-            recognised — searching without a discount.
+            Code <span className="font-medium text-ink">{q.promo}</span> non
+            reconnu — recherche sans réduction.
           </p>
         </div>
       ) : null}

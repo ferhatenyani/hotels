@@ -1,7 +1,7 @@
-// Single source of truth for the room catalogue. Prices in DA. Sizes and
-// per-room features come from the demo content pack (HOTEL-DU-LAC-DEMO-CONTENT.md).
-// Adding `slug` and `gallery` so /rooms/[slug] can deep-link and show more than
-// one image per room without changing existing usages.
+// Source unique de vérité pour le catalogue des chambres. Prix en DA. Les
+// tailles et caractéristiques par chambre sont génériques pour cette démo.
+// Le slug et la galerie permettent à /rooms/[slug] de pointer en lien profond
+// et d'afficher plusieurs images par chambre sans casser l'existant.
 
 export type RoomBedType = "single" | "double" | "twin" | "triple" | "queen";
 
@@ -26,29 +26,29 @@ export type RoomFeature =
 export type Room = {
   slug: string;
   name: string;
-  /** Short tagline used on cards (1 line). */
+  /** Court slogan utilisé sur les cartes (1 ligne). */
   tagline: string;
-  /** Long description for /rooms/[slug]. 2–4 sentences, brand voice. */
+  /** Description longue pour /rooms/[slug]. 2–4 phrases, voix de la marque. */
   description: string;
-  /** Short blurb used on the listing card (existing Rooms.tsx pattern). */
+  /** Court résumé utilisé sur la carte de listing (motif existant Rooms.tsx). */
   cardDescription: string;
   sleeps: number;
-  /** Display string for the size column on cards ("52 m²" or "Lake view"). */
+  /** Chaîne d'affichage de la taille sur les cartes (« 52 m² » ou « Vue panoramique »). */
   sizeDisplay: string;
-  /** Actual sqm when known, for filtering. null when not published. */
+  /** Surface réelle quand connue, pour le filtrage. null si non publié. */
   sqm: number | null;
-  /** Nightly price in DA. */
+  /** Prix par nuit en DA. */
   priceDA: number;
   beds: { type: RoomBedType; count: number }[];
-  /** Lead image used on cards. */
+  /** Image principale utilisée sur les cartes. */
   cover: string;
   coverAlt: string;
-  /** Extra images for the detail page gallery. */
+  /** Images supplémentaires pour la galerie de la page détail. */
   gallery: { src: string; alt: string }[];
   features: RoomFeature[];
-  /** What the room is best for — surfaces on the detail page. */
+  /** À qui cette chambre convient le mieux — affiché sur la page détail. */
   bestFor: string[];
-  /** Featured on the home page Rooms.tsx (legacy 3-card layout). */
+  /** Mis en avant sur le Rooms.tsx de la page d'accueil (mise en page héritée à 3 cartes). */
   featured: boolean;
 };
 
@@ -56,30 +56,30 @@ export const rooms: Room[] = [
   {
     slug: "suite-senior",
     name: "Suite Senior",
-    tagline: "Fifty-two square metres of calm, above the lake.",
+    tagline: "Cinquante-deux mètres carrés de calme, avec vue panoramique.",
     cardDescription:
-      "Fifty-two square metres of calm — a living corner, a dressing room, and a wide window over Lac Mézaïa and Gouraya.",
+      "Cinquante-deux mètres carrés de calme — un coin salon, un dressing et une large baie ouverte sur le paysage.",
     description:
-      "A suite that takes its time. A living corner faces the lake, a dressing room runs the length of the entry, and a wide picture window holds Yemma Gouraya at the green edge of Béjaïa. Wake to the water, work from the desk, return from the city to a room that quietly resets.",
+      "Une suite qui prend son temps. Un coin salon face à la vue, un dressing qui longe l'entrée et une large fenêtre panoramique. Réveillez-vous face au paysage, travaillez au bureau, revenez de la ville dans une chambre qui apaise.",
     sleeps: 2,
     sizeDisplay: "52 m²",
     sqm: 52,
     priceDA: 12500,
     beds: [{ type: "queen", count: 1 }],
     cover: "/images/exhibit-corner-suite.jpg",
-    coverAlt: "The Suite Senior's living corner, overlooking the lake",
+    coverAlt: "Le coin salon de la Suite Senior, ouvert sur la vue",
     gallery: [
       {
         src: "/images/exhibit-corner-suite.jpg",
-        alt: "The Suite Senior's living corner",
+        alt: "Le coin salon de la Suite Senior",
       },
       {
         src: "/images/exhibit-suite-dawn.jpg",
-        alt: "Morning light over the lake from the suite window",
+        alt: "Lumière du matin depuis la fenêtre de la suite",
       },
       {
         src: "/images/exhibit-guest-room.jpg",
-        alt: "The Suite Senior's bedroom",
+        alt: "La chambre de la Suite Senior",
       },
     ],
     features: [
@@ -98,32 +98,32 @@ export const rooms: Room[] = [
       "minibar-water",
       "non-smoking",
     ],
-    bestFor: ["Couples", "Business with extra space", "A long weekend"],
+    bestFor: ["Couples", "Voyage d'affaires avec espace supplémentaire", "Un long week-end"],
     featured: true,
   },
   {
-    slug: "chambre-double-vue-lac",
-    name: "Chambre Double — Vue Lac",
-    tagline: "The everyday comfort guests come back for.",
+    slug: "chambre-double-vue",
+    name: "Chambre Double — Vue Panoramique",
+    tagline: "Le confort quotidien que nos hôtes reviennent chercher.",
     cardDescription:
-      "A bright, modern room with a lounge corner and a walk-in shower, the lake at the window — the everyday comfort guests come back for.",
+      "Une chambre lumineuse et moderne avec un coin salon et une douche à l'italienne, vue panoramique — le confort quotidien que nos hôtes reviennent chercher.",
     description:
-      "A modern room that does the simple things well. A bright lounge corner, a walk-in shower, and the lake at the window. Built for one or two — the room our regulars ask for by name, for business or a quiet city break.",
+      "Une chambre moderne qui fait bien les choses simples. Un coin salon lumineux, une douche à l'italienne et la vue à la fenêtre. Pensée pour une ou deux personnes — la chambre que nos habitués demandent par son nom, pour les affaires ou pour une escapade en ville.",
     sleeps: 2,
-    sizeDisplay: "Lake view",
+    sizeDisplay: "Vue panoramique",
     sqm: null,
     priceDA: 8300,
     beds: [{ type: "double", count: 1 }],
     cover: "/images/exhibit-guest-room.jpg",
-    coverAlt: "A Chambre Double with a view of Lac Mézaïa",
+    coverAlt: "Une Chambre Double avec vue panoramique",
     gallery: [
       {
         src: "/images/exhibit-guest-room.jpg",
-        alt: "Inside the Chambre Double",
+        alt: "À l'intérieur de la Chambre Double",
       },
       {
         src: "/images/exhibit-suite-dawn.jpg",
-        alt: "Lake view from the Chambre Double",
+        alt: "Vue depuis la Chambre Double",
       },
     ],
     features: [
@@ -141,17 +141,17 @@ export const rooms: Room[] = [
       "minibar-water",
       "non-smoking",
     ],
-    bestFor: ["Couples", "Business travel", "A short city stay"],
+    bestFor: ["Couples", "Voyage d'affaires", "Court séjour en ville"],
     featured: true,
   },
   {
     slug: "appartement",
     name: "Appartement",
-    tagline: "One hundred and two square metres, above the water.",
+    tagline: "Cent deux mètres carrés, au-dessus de l'horizon.",
     cardDescription:
-      "Our largest space — one hundred and two square metres, with a full bathtub and room for the whole family, above the water.",
+      "Notre plus grand espace — cent deux mètres carrés, avec une baignoire complète et de la place pour toute la famille.",
     description:
-      "Our largest space — a hundred and two square metres laid out like a small apartment. A full bathtub, a generous sitting area, room for the family, and the lake on three sides of the day. Best when you want space without leaving the centre of the city.",
+      "Notre plus grand espace — cent deux mètres carrés disposés comme un petit appartement. Une baignoire complète, un séjour généreux, de la place pour la famille et une vue qui accompagne la journée. Idéal quand vous voulez de l'espace sans quitter le centre-ville.",
     sleeps: 4,
     sizeDisplay: "102 m²",
     sqm: 102,
@@ -161,19 +161,19 @@ export const rooms: Room[] = [
       { type: "single", count: 2 },
     ],
     cover: "/images/exhibit-suite-dawn.jpg",
-    coverAlt: "The Appartement at dawn, above the water",
+    coverAlt: "L'Appartement à l'aube, ouvert sur le paysage",
     gallery: [
       {
         src: "/images/exhibit-suite-dawn.jpg",
-        alt: "The Appartement at dawn",
+        alt: "L'Appartement à l'aube",
       },
       {
         src: "/images/exhibit-corner-suite.jpg",
-        alt: "Living area of the Appartement",
+        alt: "Espace de vie de l'Appartement",
       },
       {
         src: "/images/exhibit-guest-room.jpg",
-        alt: "Bedroom of the Appartement",
+        alt: "Chambre de l'Appartement",
       },
     ],
     features: [
@@ -193,26 +193,26 @@ export const rooms: Room[] = [
       "family-friendly",
       "non-smoking",
     ],
-    bestFor: ["Families", "Longer stays", "Two couples sharing"],
+    bestFor: ["Familles", "Séjours longs", "Deux couples partageant"],
     featured: true,
   },
   {
     slug: "chambre-single",
     name: "Chambre Single",
-    tagline: "A single room with the same lake at the window.",
+    tagline: "Une chambre individuelle avec la même belle vue.",
     cardDescription:
-      "A single room, calm and well-appointed, with the same view of Lac Mézaïa as the rest of the house.",
+      "Une chambre individuelle, calme et bien équipée, avec la même vue que le reste de la maison.",
     description:
-      "Solo travel made simple. A single bed, a quiet desk, and the same wide view of Lac Mézaïa and Gouraya — no compromise on the part of the room you actually live in.",
+      "Le voyage en solo, simplement. Un lit simple, un bureau tranquille et la même belle vue panoramique — sans compromis sur la part de la chambre que l'on vit vraiment.",
     sleeps: 1,
-    sizeDisplay: "Lake view",
+    sizeDisplay: "Vue panoramique",
     sqm: null,
     priceDA: 7300,
     beds: [{ type: "single", count: 1 }],
     cover: "/images/exhibit-guest-room.jpg",
-    coverAlt: "A single room with a lake view",
+    coverAlt: "Une chambre individuelle avec vue",
     gallery: [
-      { src: "/images/exhibit-guest-room.jpg", alt: "The single room" },
+      { src: "/images/exhibit-guest-room.jpg", alt: "La chambre individuelle" },
     ],
     features: [
       "lake-view",
@@ -227,29 +227,29 @@ export const rooms: Room[] = [
       "minibar-water",
       "non-smoking",
     ],
-    bestFor: ["Solo travel", "Business midweek"],
+    bestFor: ["Voyage en solo", "Affaires en semaine"],
     featured: false,
   },
   {
     slug: "chambre-twin",
     name: "Chambre Twin",
-    tagline: "Two beds, the same lake.",
+    tagline: "Deux lits, la même vue.",
     cardDescription:
-      "Two singles, a shared lounge corner, and a wide window over the water — for friends, colleagues or siblings.",
+      "Deux lits simples, un coin salon partagé et une large fenêtre — pour amis, collègues ou frères et sœurs.",
     description:
-      "Twin singles in a bright room that opens to the lake. A shared lounge corner makes it easy to talk at the end of the day; the layout works whether you're travelling with a friend, a colleague or a sibling.",
+      "Deux lits simples dans une chambre lumineuse ouverte sur la vue. Un coin salon partagé facilite la conversation en fin de journée ; l'agencement convient aussi bien à un ami, un collègue qu'à un frère ou une sœur.",
     sleeps: 2,
-    sizeDisplay: "Twin · lake view",
+    sizeDisplay: "Twin · vue panoramique",
     sqm: null,
     priceDA: 8300,
     beds: [{ type: "single", count: 2 }],
     cover: "/images/exhibit-guest-room.jpg",
-    coverAlt: "A twin room with two singles and a lake view",
+    coverAlt: "Une chambre twin avec deux lits simples et une vue panoramique",
     gallery: [
-      { src: "/images/exhibit-guest-room.jpg", alt: "The twin room" },
+      { src: "/images/exhibit-guest-room.jpg", alt: "La chambre twin" },
       {
         src: "/images/exhibit-corner-suite.jpg",
-        alt: "Lounge corner of the twin room",
+        alt: "Coin salon de la chambre twin",
       },
     ],
     features: [
@@ -266,29 +266,29 @@ export const rooms: Room[] = [
       "minibar-water",
       "non-smoking",
     ],
-    bestFor: ["Friends", "Colleagues sharing", "Siblings"],
+    bestFor: ["Amis", "Collègues qui partagent", "Frères et sœurs"],
     featured: false,
   },
   {
     slug: "chambre-familiale",
     name: "Chambre Familiale",
-    tagline: "A family room over the lake.",
+    tagline: "Une chambre familiale avec vue.",
     cardDescription:
-      "Three singles, family-friendly amenities, and the same view of Lac Mézaïa and Gouraya — for a family that wants to stay together.",
+      "Trois lits simples, des équipements adaptés à la famille et la même belle vue — pour une famille qui veut rester ensemble.",
     description:
-      "A family-sized room with three singles, designed for the family that wants to stay in one space. The bathroom is full-featured, the wardrobe is generous, and the view is the one the whole hotel is known for.",
+      "Une chambre de taille familiale avec trois lits simples, conçue pour la famille qui veut rester dans un même espace. La salle de bain est complète, la penderie généreuse et la vue est celle pour laquelle tout l'hôtel est connu.",
     sleeps: 3,
-    sizeDisplay: "Family · lake view",
+    sizeDisplay: "Familiale · vue panoramique",
     sqm: null,
     priceDA: 9300,
     beds: [{ type: "single", count: 3 }],
     cover: "/images/exhibit-guest-room.jpg",
-    coverAlt: "A family room with three singles",
+    coverAlt: "Une chambre familiale avec trois lits simples",
     gallery: [
-      { src: "/images/exhibit-guest-room.jpg", alt: "The family room" },
+      { src: "/images/exhibit-guest-room.jpg", alt: "La chambre familiale" },
       {
         src: "/images/exhibit-corner-suite.jpg",
-        alt: "Family room sitting area",
+        alt: "Espace salon de la chambre familiale",
       },
     ],
     features: [
@@ -305,7 +305,7 @@ export const rooms: Room[] = [
       "family-friendly",
       "non-smoking",
     ],
-    bestFor: ["Families with one child", "Three travellers"],
+    bestFor: ["Familles avec un enfant", "Trois voyageurs"],
     featured: false,
   },
 ];
@@ -318,7 +318,7 @@ export function getFeaturedRooms(): Room[] {
   return rooms.filter((r) => r.featured);
 }
 
-/** Find rooms that can sleep the requested party. */
+/** Trouve les chambres pouvant accueillir la composition demandée. */
 export function getRoomsForParty(
   adults: number,
   children: number,
@@ -328,20 +328,20 @@ export function getRoomsForParty(
 }
 
 export const featureLabels: Record<RoomFeature, string> = {
-  "lake-view": "Lac Mézaïa view",
-  "gouraya-view": "Yemma Gouraya view",
-  wifi: "Free Wi-Fi",
-  ac: "Air conditioning",
-  tv: "Flat-screen TV",
-  safe: "In-room safe",
-  desk: "Desk",
-  dressing: "Dressing area",
-  "walk-in-shower": "Walk-in shower",
-  bathtub: "Bathtub",
-  hairdryer: "Hair dryer",
-  bathrobe: "Bathrobe",
-  "minibar-water": "Free mineral water",
-  "lounge-corner": "Lounge corner",
-  "non-smoking": "Non-smoking",
-  "family-friendly": "Family-friendly",
+  "lake-view": "Vue panoramique",
+  "gouraya-view": "Vue sur le parc",
+  wifi: "Wi-Fi gratuit",
+  ac: "Climatisation",
+  tv: "Télévision écran plat",
+  safe: "Coffre-fort",
+  desk: "Bureau",
+  dressing: "Dressing",
+  "walk-in-shower": "Douche à l'italienne",
+  bathtub: "Baignoire",
+  hairdryer: "Sèche-cheveux",
+  bathrobe: "Peignoir",
+  "minibar-water": "Eau minérale gratuite",
+  "lounge-corner": "Coin salon",
+  "non-smoking": "Non-fumeur",
+  "family-friendly": "Adapté aux familles",
 };

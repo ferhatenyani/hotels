@@ -1,6 +1,6 @@
-// FAQ content. Topics ordered by the real friction points called out in the
-// demo content pack — check-in document policy first (the dominant Algerian
-// hospitality friction), then practical questions (parking, breakfast, etc.).
+// Contenu FAQ. Sujets organisés par les vraies questions des hôtes — d'abord
+// la politique des documents au check-in, puis les questions pratiques
+// (parking, petit-déjeuner, etc.).
 
 export type FAQItem = {
   q: string;
@@ -15,127 +15,127 @@ export type FAQGroup = {
 
 export const faqGroups: FAQGroup[] = [
   {
-    title: "Arrival & check-in",
+    title: "Arrivée & check-in",
     blurb:
-      "What to bring, when to arrive, and how the desk handles the small things.",
+      "Ce qu'il faut apporter, quand arriver et comment la réception gère les petits détails.",
     items: [
       {
-        q: "What time can I check in?",
-        a: "Check-in opens at 14:00. Earlier arrivals are welcome — we'll hold your luggage at the desk and call you as soon as the room is ready. The desk is staffed twenty-four hours a day.",
+        q: "À quelle heure puis-je faire le check-in ?",
+        a: "Le check-in ouvre à 14:00. Les arrivées plus tôt sont les bienvenues — nous gardons vos bagages à la réception et vous appelons dès que la chambre est prête. La réception est ouverte vingt-quatre heures sur vingt-quatre.",
       },
       {
-        q: "What documents do I need to present?",
-        a: "All guests must present a valid ID at check-in (passport or national ID). For couples, Algerian law requires proof of marriage (the marriage booklet, livret de famille, or the certificate). We mention this here so it doesn't surprise you at the desk — it is a national requirement, not a hotel rule.",
+        q: "Quels documents dois-je présenter ?",
+        a: "Tous les hôtes doivent présenter une pièce d'identité valide au check-in (passeport ou carte d'identité nationale). Pour les couples, la loi exige un justificatif de mariage (livret de famille ou certificat). Nous le mentionnons ici pour éviter toute surprise — c'est une exigence nationale, pas une règle de l'hôtel.",
       },
       {
-        q: "Can I arrive late at night?",
-        a: "Yes. The reception is staffed twenty-four hours a day. If you're arriving after midnight, a quick note on your booking helps us be ready for you.",
+        q: "Puis-je arriver tard dans la nuit ?",
+        a: "Oui. La réception est ouverte vingt-quatre heures sur vingt-quatre. Si vous arrivez après minuit, un petit mot sur votre réservation nous aide à être prêts pour vous.",
       },
       {
-        q: "What is check-out?",
-        a: "Check-out is at 12:00. We can usually hold your room until 13:00 or 14:00 at no charge — ask the desk the night before, and we'll arrange it where availability allows.",
+        q: "À quelle heure est le check-out ?",
+        a: "Le check-out est à 12:00. Nous pouvons généralement garder votre chambre jusqu'à 13:00 ou 14:00 sans frais — demandez la veille au soir et nous arrangeons cela selon les disponibilités.",
       },
     ],
   },
   {
-    title: "Getting here & parking",
-    blurb: "From the airport, the station, and around the city.",
+    title: "Y venir & parking",
+    blurb: "Depuis l'aéroport, la gare et dans la ville.",
     items: [
       {
-        q: "How far is the airport?",
-        a: "Soummam–Abane Ramdane Airport is roughly three to six kilometres away — about fifteen minutes by car in normal traffic. Taxis are available outside arrivals.",
+        q: "À quelle distance se trouve l'aéroport ?",
+        a: "L'aéroport est à environ trois à six kilomètres — environ quinze minutes en voiture en circulation normale. Des taxis sont disponibles à la sortie des arrivées.",
       },
       {
-        q: "Is there parking on site?",
-        a: "Yes, free private parking, accessible twenty-four hours a day. No reservation is needed for guest parking.",
+        q: "Y a-t-il un parking sur place ?",
+        a: "Oui, parking privé gratuit, accessible vingt-quatre heures sur vingt-quatre. Aucune réservation n'est nécessaire pour le parking des hôtes.",
       },
       {
-        q: "Can you arrange an airport pickup?",
-        a: "We can help arrange a transfer with a local provider, but it isn't included in the rate. Send a note with your arrival details and we'll come back with options and pricing.",
+        q: "Pouvez-vous organiser une navette depuis l'aéroport ?",
+        a: "Nous pouvons vous aider à organiser un transfert avec un prestataire local, mais il n'est pas inclus dans le tarif. Envoyez un mot avec les détails de votre arrivée et nous reviendrons vers vous avec des options et des tarifs.",
       },
     ],
   },
   {
-    title: "Rooms, breakfast & the restaurant",
-    blurb: "What's included, when meals are served, and what we can do for you in the room.",
+    title: "Chambres, petit-déjeuner & restaurant",
+    blurb: "Ce qui est inclus, quand les repas sont servis et ce que nous pouvons faire pour vous dans la chambre.",
     items: [
       {
-        q: "Is breakfast included?",
-        a: "Yes. Breakfast is included for all our guests, served from 06:30 to 10:30 in the lake-view restaurant. It's the meal our guests mention most often — fresh fruit, warm pastries, and eggs to order.",
+        q: "Le petit-déjeuner est-il inclus ?",
+        a: "Oui. Le petit-déjeuner est inclus pour tous nos hôtes, servi de 06:30 à 10:30 dans le restaurant. C'est le repas que nos hôtes citent le plus souvent — fruits frais, viennoiseries chaudes et œufs à la commande.",
       },
       {
-        q: "Do you have lake-view rooms?",
-        a: "Every favoured room looks over Lac Mézaïa and the green slopes of Yemma Gouraya — that's the room you're booking, almost without exception. A handful of rooms face the city side; ask the desk if you'd prefer one.",
+        q: "Avez-vous des chambres avec vue ?",
+        a: "Toutes nos chambres privilégiées s'ouvrent sur le paysage — c'est la chambre que vous réservez, presque sans exception. Quelques chambres donnent côté ville ; demandez à la réception si vous préférez l'une d'entre elles.",
       },
       {
-        q: "Can I have a meal in my room?",
-        a: "Yes, room service is available during restaurant hours. The full carte is reachable from your room phone.",
+        q: "Puis-je prendre un repas dans ma chambre ?",
+        a: "Oui, le service en chambre est disponible pendant les heures du restaurant. Toute la carte est accessible depuis le téléphone de votre chambre.",
       },
       {
-        q: "Are you family-friendly?",
-        a: "Very. We have family and triple rooms, the breakfast spread works well for children, and the team will help with anything you need on the night.",
+        q: "Êtes-vous adaptés aux familles ?",
+        a: "Très. Nous avons des chambres familiales et triples, le petit-déjeuner convient bien aux enfants et l'équipe vous aidera avec tout ce dont vous avez besoin pour la nuit.",
       },
     ],
   },
   {
-    title: "The hotel & amenities",
-    blurb: "What we have, what we don't, and what to expect.",
+    title: "L'hôtel & les équipements",
+    blurb: "Ce que nous avons, ce que nous n'avons pas et à quoi vous attendre.",
     items: [
       {
-        q: "Do you have a swimming pool or spa?",
-        a: "No — Hôtel du Lac is a calm, modern city hotel, not a resort. We don't have a pool, a spa or a gym on site. We'd rather tell you up front than have you discover it on arrival.",
+        q: "Avez-vous une piscine ou un spa ?",
+        a: "Non — notre établissement est un hôtel de ville moderne et calme, pas un resort. Nous n'avons pas de piscine, ni de spa, ni de salle de sport sur place. Nous préférons vous le dire d'avance plutôt que vous le découvriez à l'arrivée.",
       },
       {
-        q: "Do you have Wi-Fi?",
-        a: "Yes, free Wi-Fi throughout the hotel — strong enough for video calls in every room we've tested.",
+        q: "Avez-vous le Wi-Fi ?",
+        a: "Oui, Wi-Fi gratuit dans tout l'hôtel — assez performant pour des appels vidéo dans toutes les chambres que nous avons testées.",
       },
       {
-        q: "Are the rooms air-conditioned?",
-        a: "Every room has air conditioning, with controls in the room.",
+        q: "Les chambres sont-elles climatisées ?",
+        a: "Chaque chambre est climatisée, avec une commande dans la chambre.",
       },
       {
-        q: "Is there a lift?",
-        a: "Please ask at the desk when you book — we'll confirm based on your floor and any accessibility needs.",
+        q: "Y a-t-il un ascenseur ?",
+        a: "Veuillez le demander à la réception lors de votre réservation — nous confirmerons en fonction de votre étage et de vos besoins éventuels en accessibilité.",
       },
     ],
   },
   {
-    title: "Booking, payment & cancellation",
-    blurb: "How to reserve, how we hold the room, and how cancellations work.",
+    title: "Réservation, paiement & annulation",
+    blurb: "Comment réserver, comment nous bloquons la chambre et comment fonctionnent les annulations.",
     items: [
       {
-        q: "How should I book?",
-        a: "Direct booking is the simplest path — through this site, by email at contact@hoteldulacvert.dz, or by phone at +213 44 20 20 22. Direct bookings are confirmed by us, so there are no surprises at the desk.",
+        q: "Comment dois-je réserver ?",
+        a: "La réservation directe est la voie la plus simple — par ce site, par e-mail ou par téléphone. Les réservations directes sont confirmées par nos soins, donc il n'y a pas de surprise à la réception.",
       },
       {
-        q: "Do you take credit cards?",
-        a: "Yes, all major cards. We also accept cash settlement at the desk if you prefer.",
+        q: "Acceptez-vous les cartes de crédit ?",
+        a: "Oui, toutes les cartes principales. Nous acceptons également le règlement en espèces à la réception si vous le préférez.",
       },
       {
-        q: "What is your cancellation policy?",
-        a: "Free cancellation up to forty-eight hours before arrival on standard rates. Promotional and non-refundable rates are clearly marked at booking, with their own terms.",
+        q: "Quelle est votre politique d'annulation ?",
+        a: "Annulation gratuite jusqu'à quarante-huit heures avant l'arrivée sur les tarifs standard. Les tarifs promotionnels et non remboursables sont clairement indiqués lors de la réservation, avec leurs propres conditions.",
       },
       {
-        q: "Will I be charged at booking?",
-        a: "Standard rates are held with a card but charged only at the hotel. Non-refundable rates are charged at booking — this is shown clearly before you confirm.",
+        q: "Serai-je débité au moment de la réservation ?",
+        a: "Les tarifs standard sont garantis par carte mais facturés uniquement à l'hôtel. Les tarifs non remboursables sont facturés à la réservation — c'est clairement indiqué avant la confirmation.",
       },
     ],
   },
   {
-    title: "Events & meetings",
-    blurb: "Weddings, conferences, and everything in between.",
+    title: "Événements & réunions",
+    blurb: "Mariages, conférences et tout ce qu'il y a entre les deux.",
     items: [
       {
-        q: "Can I hold a wedding here?",
-        a: "Yes — the hall seats up to one hundred and seventy guests and is one of Béjaïa's go-to venues for weddings, baptêmes and engagements. Visit the Events page or write to the desk to start the conversation.",
+        q: "Puis-je organiser un mariage chez vous ?",
+        a: "Oui — la salle peut accueillir jusqu'à cent soixante-dix invités et c'est l'un des lieux les plus prisés pour les mariages, baptêmes et fiançailles. Visitez la page Événements ou écrivez à la réception pour entamer la conversation.",
       },
       {
-        q: "Do you have meeting rooms for business?",
-        a: "Yes, adaptable rooms with projector, microphone, Wi-Fi and a coffee-break service. Catering ranges from morning coffee to a full dinner — tell us the day and we'll shape the room.",
+        q: "Avez-vous des salles de réunion pour les affaires ?",
+        a: "Oui, des salles modulables avec vidéoprojecteur, microphone, Wi-Fi et un service pause-café. La restauration va du café du matin au dîner complet — dites-nous la journée et nous adaptons la salle.",
       },
       {
-        q: "Can you block rooms for our wedding guests?",
-        a: "Yes. We can hold ten or more rooms together at a reduced group rate, with a private check-in for the wedding party — see the Wedding Party Block on the Offers page.",
+        q: "Pouvez-vous bloquer des chambres pour nos invités de mariage ?",
+        a: "Oui. Nous pouvons bloquer dix chambres ou plus ensemble à un tarif groupe réduit, avec un check-in privé pour les invités du mariage — voir le Pack Mariage sur la page Offres.",
       },
     ],
   },

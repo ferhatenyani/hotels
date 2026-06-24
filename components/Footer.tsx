@@ -49,24 +49,24 @@ function FacebookGlyph(props: React.SVGProps<SVGSVGElement>) {
 // storytelling pages. Splitting them in the footer makes the IA legible at a
 // glance — what to do (book/manage), and what to read (rooms/dining/events).
 const bookLinks = [
-  { label: "Rooms", href: "/rooms", sectionId: "rooms" },
-  { label: "Offers", href: "/offers" },
-  { label: "Reserve", href: "/booking/search" },
-  { label: "Find my booking", href: "/booking/lookup" },
+  { label: "Chambres", href: "/rooms", sectionId: "rooms" },
+  { label: "Offres", href: "/offers" },
+  { label: "Réserver", href: "/booking/search" },
+  { label: "Retrouver ma réservation", href: "/booking/lookup" },
 ];
 
 const exploreLinks = [
-  { label: "Dining", href: "/dining", sectionId: "dining" },
-  { label: "Events & Meetings", href: "/events", sectionId: "events" },
-  { label: "Discover Béjaïa", href: "/discover-bejaia" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "About", href: "/about" },
+  { label: "Restaurant", href: "/dining", sectionId: "dining" },
+  { label: "Événements & Réunions", href: "/events", sectionId: "events" },
+  { label: "Découvrir la région", href: "/decouvrir" },
+  { label: "Galerie", href: "/gallery" },
+  { label: "À propos", href: "/about" },
   { label: "Contact", href: "/contact", sectionId: "contact" },
 ];
 
 const utilityLinks = [
   { label: "FAQ", href: "/faq" },
-  { label: "Policies", href: "/policies" },
+  { label: "Conditions", href: "/policies" },
 ];
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -119,7 +119,7 @@ export default function Footer() {
               {hotel.tagline}
             </p>
             <p className="mt-4 font-sans text-[14px] leading-[1.65] text-white/55 max-w-[36ch]">
-              A quiet hotel on the lake, in the heart of Béjaïa.
+              Un hôtel tranquille, au cœur de la ville.
             </p>
 
             {/* Slim accent line. Marine green = brand. Sits just above the
@@ -135,7 +135,7 @@ export default function Footer() {
               full tap target (≥64px) with icon + label + value. */}
           <div className="footer-col md:col-span-7 lg:col-span-5">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/40 mb-3.5">
-              Reservations
+              Réservations
             </p>
             <div className="grid grid-cols-1 gap-2.5 xs:grid-cols-2">
               <a
@@ -147,7 +147,7 @@ export default function Footer() {
                 </span>
                 <span className="flex min-w-0 flex-col">
                   <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-white/45 leading-none">
-                    Call
+                    Appeler
                   </span>
                   <span className="mt-1.5 font-sans text-[14px] text-white leading-tight tabular-nums truncate">
                     {hotel.contact.phonePrimary}
@@ -184,7 +184,7 @@ export default function Footer() {
               </span>
               <span className="flex min-w-0 flex-1 flex-col">
                 <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-white/45 leading-none">
-                  Find us
+                  Nous trouver
                 </span>
                 <span className="mt-1.5 font-sans text-[13px] text-white/85 leading-[1.55]">
                   {hotel.address.street}
@@ -207,7 +207,7 @@ export default function Footer() {
           {/* Book column. */}
           <div className="footer-col md:col-span-6 lg:col-span-3">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/40 mb-4">
-              Book
+              Réserver
             </p>
             <ul className="flex flex-col gap-0.5 font-sans text-[15px] text-white/75">
               {bookLinks.map((link) => (
@@ -231,7 +231,7 @@ export default function Footer() {
           {/* Explore column. */}
           <div className="footer-col md:col-span-6 lg:col-span-3">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/40 mb-4">
-              Explore
+              Découvrir
             </p>
             <ul className="flex flex-col gap-0.5 font-sans text-[15px] text-white/75">
               {exploreLinks.map((link) => (
@@ -256,7 +256,7 @@ export default function Footer() {
               hit area stays generous; same rhythm on desktop, stacked. */}
           <div className="footer-col md:col-span-12 lg:col-span-3">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/40 mb-4">
-              Connect
+              Nous suivre
             </p>
             <ul className="flex items-center gap-3">
               <li>
@@ -264,7 +264,7 @@ export default function Footer() {
                   href={hotel.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Hôtel du Lac on Instagram"
+                  aria-label={`${hotel.name} sur Instagram`}
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/80 transition-colors hover:border-marine/60 hover:bg-marine/15 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
                 >
                   <InstagramGlyph className="h-[18px] w-[18px]" />
@@ -275,7 +275,7 @@ export default function Footer() {
                   href={hotel.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Hôtel du Lac on Facebook"
+                  aria-label={`${hotel.name} sur Facebook`}
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/80 transition-colors hover:border-marine/60 hover:bg-marine/15 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
                 >
                   <FacebookGlyph className="h-[18px] w-[18px]" />
@@ -283,7 +283,7 @@ export default function Footer() {
               </li>
             </ul>
             <p className="mt-5 font-sans text-[12px] leading-[1.6] text-white/45 max-w-[28ch]">
-              Updates from the lake — rooms, events, and a quiet view or two.
+              Des nouvelles de l'hôtel — chambres, événements et un aperçu de la vue.
             </p>
           </div>
         </div>

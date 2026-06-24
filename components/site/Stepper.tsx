@@ -54,7 +54,7 @@ export default function Stepper({
       </div>
       <div className={cn("flex items-center", large ? "gap-4" : "gap-3")}>
         <StepButton
-          ariaLabel={`Remove one ${label.toLowerCase()}`}
+          ariaLabel={`Retirer un ${label.toLowerCase()}`}
           disabled={value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
           large={large}
@@ -70,7 +70,7 @@ export default function Stepper({
           {value}
         </span>
         <StepButton
-          ariaLabel={`Add one ${label.toLowerCase()}`}
+          ariaLabel={`Ajouter un ${label.toLowerCase()}`}
           disabled={value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
           large={large}

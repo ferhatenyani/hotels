@@ -104,11 +104,11 @@ export default function SearchForm({
 
   const guestsLabel =
     adults + children === 0
-      ? "Add guests"
+      ? "Ajouter des voyageurs"
       : [
-          `${adults} adult${adults > 1 ? "s" : ""}`,
+          `${adults} adulte${adults > 1 ? "s" : ""}`,
           children > 0
-            ? `${children} child${children > 1 ? "ren" : ""}`
+            ? `${children} enfant${children > 1 ? "s" : ""}`
             : null,
         ]
           .filter(Boolean)
@@ -150,15 +150,15 @@ export default function SearchForm({
 
   const goToResults = () => {
     if (!checkIn || !checkOut) {
-      setError("Pick a check-in and check-out date to see availability.");
+      setError("Sélectionnez une date d'arrivée et de départ pour voir les disponibilités.");
       return;
     }
     if (checkIn >= checkOut) {
-      setError("Check-out has to be after check-in.");
+      setError("Le départ doit être après l'arrivée.");
       return;
     }
     if (adults < 1) {
-      setError("Add at least one adult.");
+      setError("Ajoutez au moins un adulte.");
       return;
     }
     setError(null);
@@ -231,10 +231,10 @@ export default function SearchForm({
 
   const chipDates =
     checkIn && checkOut
-      ? `${format(checkIn, "MMM d")} → ${format(checkOut, "MMM d")}`
+      ? `${format(checkIn, "d MMM")} → ${format(checkOut, "d MMM")}`
       : checkIn
-        ? `${format(checkIn, "MMM d")} · pick check-out`
-        : "Add dates";
+        ? `${format(checkIn, "d MMM")} · choisir le départ`
+        : "Ajouter des dates";
 
   const draftNights =
     draftCheckIn && draftCheckOut
@@ -250,24 +250,24 @@ export default function SearchForm({
             e.preventDefault();
             goToResults();
           }}
-          aria-label="Find your stay"
+          aria-label="Trouver votre séjour"
           className="rounded-2xl border border-ink/12 bg-white shadow-[0_24px_50px_-30px_rgba(21,19,22,0.22)] overflow-hidden"
         >
           <div className="flex items-stretch divide-x divide-ink/10">
             <Popover open={datesOpen} onOpenChange={setDatesOpen}>
               <PopoverTrigger
-                aria-label="Check-in and check-out dates"
+                aria-label="Dates d'arrivée et de départ"
                 className="group/field relative flex flex-[1.7] items-stretch text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]"
               >
                 <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[80px]">
-                  <span className={fieldLabel}>Check-in</span>
+                  <span className={fieldLabel}>Arrivée</span>
                   <span
                     className={cn(
                       fieldValue,
                       checkIn ? "text-ink font-medium" : "text-ink/55",
                     )}
                   >
-                    {checkIn ? format(checkIn, "EEE, MMM d") : "Add date"}
+                    {checkIn ? format(checkIn, "EEE d MMM") : "Ajouter une date"}
                   </span>
                 </span>
                 <span aria-hidden className="my-3 w-px bg-ink/10" />
@@ -277,7 +277,7 @@ export default function SearchForm({
                     awaitingCheckOut && "bg-marine/[0.05]",
                   )}
                 >
-                  <span className={fieldLabel}>Check-out</span>
+                  <span className={fieldLabel}>Départ</span>
                   <span
                     className={cn(
                       fieldValue,
@@ -289,10 +289,10 @@ export default function SearchForm({
                     )}
                   >
                     {checkOut
-                      ? format(checkOut, "EEE, MMM d")
+                      ? format(checkOut, "EEE d MMM")
                       : awaitingCheckOut
-                        ? "Pick check-out →"
-                        : "Add date"}
+                        ? "Choisir le départ →"
+                        : "Ajouter une date"}
                   </span>
                   {awaitingCheckOut && (
                     <span
@@ -332,10 +332,10 @@ export default function SearchForm({
                     )}
                   >
                     {nights > 0
-                      ? `${nights} night${nights > 1 ? "s" : ""}`
+                      ? `${nights} nuit${nights > 1 ? "s" : ""}`
                       : awaitingCheckOut
-                        ? "Now pick check-out →"
-                        : "Pick your check-in date"}
+                        ? "Choisissez maintenant le départ →"
+                        : "Choisissez votre date d'arrivée"}
                   </span>
                   <button
                     type="button"
@@ -345,7 +345,7 @@ export default function SearchForm({
                     }}
                     className="font-sans text-[11px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors"
                   >
-                    Clear
+                    Effacer
                   </button>
                 </div>
               </PopoverContent>
@@ -353,12 +353,12 @@ export default function SearchForm({
 
             <Popover open={guestsOpen} onOpenChange={setGuestsOpen}>
               <PopoverTrigger
-                aria-label="Guests"
+                aria-label="Voyageurs"
                 className={cn(fieldShell, "flex-1 h-[80px]")}
               >
                 <span className={fieldLabel}>
                   <Users className="h-3 w-3 text-ink/40" strokeWidth={2} />
-                  Guests
+                  Voyageurs
                 </span>
                 <span
                   className={cn(
@@ -377,8 +377,8 @@ export default function SearchForm({
                 className="w-[320px] max-w-[calc(100vw-1.5rem)] p-2"
               >
                 <Stepper
-                  label="Adults"
-                  hint="Ages 13+"
+                  label="Adultes"
+                  hint="13 ans et plus"
                   value={adults}
                   min={1}
                   max={10}
@@ -386,8 +386,8 @@ export default function SearchForm({
                 />
                 <div className="h-px bg-ink/10 mx-3" />
                 <Stepper
-                  label="Children"
-                  hint="Ages 0–12"
+                  label="Enfants"
+                  hint="0–12 ans"
                   value={children}
                   min={0}
                   max={6}
@@ -400,7 +400,7 @@ export default function SearchForm({
               type="submit"
               className="group/cta h-[80px] w-[220px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
-              Find rooms
+              Voir les chambres
               <ArrowRight
                 className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
                 strokeWidth={2.25}
@@ -419,17 +419,17 @@ export default function SearchForm({
         )}
       </div>
 
-      {/* MOBILE: stacked input chips. */}
+      {/* MOBILE : pastilles d'entrée empilées. */}
       <div className="md:hidden flex flex-col gap-3 pb-24">
         <button
           type="button"
           onClick={() => openSheet("checkin")}
-          aria-label="Select check-in date"
+          aria-label="Choisir la date d'arrivée"
           className="flex flex-col items-start justify-center gap-1.5 rounded-2xl border border-ink/12 bg-white px-4 py-3.5 min-h-[64px] text-left transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.12)]"
         >
           <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 font-medium leading-none">
             <CalendarDays className="h-3 w-3" strokeWidth={2} />
-            Check-in
+            Arrivée
           </span>
           <span
             className={cn(
@@ -437,19 +437,19 @@ export default function SearchForm({
               checkIn ? "text-ink font-medium" : "text-ink/55",
             )}
           >
-            {checkIn ? format(checkIn, "EEE, d MMM yyyy") : "Add date"}
+            {checkIn ? format(checkIn, "EEE d MMM yyyy") : "Ajouter une date"}
           </span>
         </button>
 
         <button
           type="button"
           onClick={() => openSheet("checkout")}
-          aria-label="Select check-out date"
+          aria-label="Choisir la date de départ"
           className="flex flex-col items-start justify-center gap-1.5 rounded-2xl border border-ink/12 bg-white px-4 py-3.5 min-h-[64px] text-left transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.12)]"
         >
           <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 font-medium leading-none">
             <CalendarDays className="h-3 w-3" strokeWidth={2} />
-            Check-out
+            Départ
           </span>
           <span
             className={cn(
@@ -457,19 +457,19 @@ export default function SearchForm({
               checkOut ? "text-ink font-medium" : "text-ink/55",
             )}
           >
-            {checkOut ? format(checkOut, "EEE, d MMM yyyy") : "Add date"}
+            {checkOut ? format(checkOut, "EEE d MMM yyyy") : "Ajouter une date"}
           </span>
         </button>
 
         <button
           type="button"
           onClick={() => openSheet("guests")}
-          aria-label="Select guests"
+          aria-label="Choisir les voyageurs"
           className="flex flex-col items-start justify-center gap-1.5 rounded-2xl border border-ink/12 bg-white px-4 py-3.5 min-h-[64px] text-left transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.12)]"
         >
           <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 font-medium leading-none">
             <Users className="h-3 w-3" strokeWidth={2} />
-            Guests
+            Voyageurs
           </span>
           <span
             className={cn(
@@ -490,31 +490,31 @@ export default function SearchForm({
           </p>
         )}
 
-        {/* Sticky bottom CTA. */}
+        {/* CTA collante en bas. */}
         <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-ink/10 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <button
             type="button"
             onClick={goToResults}
             className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90"
           >
-            {chipDates !== "Add dates" && nights > 0
-              ? `Find rooms · ${nights} night${nights > 1 ? "s" : ""}`
-              : "Find rooms"}
+            {chipDates !== "Ajouter des dates" && nights > 0
+              ? `Voir les chambres · ${nights} nuit${nights > 1 ? "s" : ""}`
+              : "Voir les chambres"}
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
           </button>
         </div>
       </div>
 
-      {/* Mobile sequenced sheet — same archetype as Hero.tsx. */}
+      {/* Bottom sheet séquencé mobile — même archétype que Hero.tsx. */}
       <BottomSheet
         open={sheetOpen}
         onClose={closeSheet}
         title={
           sheetStep === "checkin"
-            ? "Check-in"
+            ? "Arrivée"
             : sheetStep === "checkout"
-              ? "Check-out"
-              : "Guests"
+              ? "Départ"
+              : "Voyageurs"
         }
         onBack={sheetStep !== "checkin" ? back : undefined}
         bodyClassName="pb-2"
@@ -526,7 +526,7 @@ export default function SearchForm({
               disabled={!draftCheckIn}
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
-              Continue
+              Continuer
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
             </button>
           ) : sheetStep === "checkout" ? (
@@ -536,10 +536,10 @@ export default function SearchForm({
               disabled={!draftCheckOut}
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
-              Continue
+              Continuer
               {draftNights > 0 ? (
                 <span className="font-normal normal-case tracking-normal ml-1 opacity-80">
-                  · {draftNights} night{draftNights > 1 ? "s" : ""}
+                  · {draftNights} nuit{draftNights > 1 ? "s" : ""}
                 </span>
               ) : null}
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
@@ -550,7 +550,7 @@ export default function SearchForm({
               onClick={commit}
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px]"
             >
-              Find rooms
+              Voir les chambres
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
             </button>
           )
@@ -574,8 +574,8 @@ export default function SearchForm({
         {sheetStep === "guests" && (
           <div className="pt-2">
             <Stepper
-              label="Adults"
-              hint="Ages 13+"
+              label="Adultes"
+              hint="13 ans et plus"
               value={draftAdults}
               min={1}
               max={10}
@@ -584,8 +584,8 @@ export default function SearchForm({
             />
             <div className="h-px bg-ink/10 my-1" />
             <Stepper
-              label="Children"
-              hint="Ages 0–12"
+              label="Enfants"
+              hint="0–12 ans"
               value={draftChildren}
               min={0}
               max={6}
@@ -595,11 +595,11 @@ export default function SearchForm({
             {draftCheckIn && draftCheckOut ? (
               <p className="mt-6 rounded-xl bg-ink/[0.04] px-4 py-3 font-sans text-[13px] text-ink/70">
                 <span className="font-medium text-ink">
-                  {format(draftCheckIn, "EEE, MMM d")} →{" "}
-                  {format(draftCheckOut, "EEE, MMM d")}
+                  {format(draftCheckIn, "EEE d MMM")} →{" "}
+                  {format(draftCheckOut, "EEE d MMM")}
                 </span>
                 <span className="block text-[12px] text-ink/55 mt-0.5">
-                  {draftNights} night{draftNights > 1 ? "s" : ""}
+                  {draftNights} nuit{draftNights > 1 ? "s" : ""}
                 </span>
               </p>
             ) : null}

@@ -40,29 +40,29 @@ function discountFor(
   if (!offer) return { discount: 0 };
 
   switch (offer.promoCode.toUpperCase()) {
-    case "LAKE3":
-      // "Third night free" — approximated as 1/3 off if 3+ nights are booked.
-      // Otherwise no discount yet (the offer requires the 3rd night).
+    case "WEEK3":
+      // « 3e nuit offerte » — approximée comme -1/3 si 3 nuits ou plus sont
+      // réservées. Sinon pas de remise (l'offre exige la 3e nuit).
       return {
         discount: Math.round(roomSubtotal * (1 / 3)),
-        label: `${offer.name} · 3rd night free`,
+        label: `${offer.name} · 3e nuit offerte`,
       };
     case "WORKWEEK10":
       return {
         discount: Math.round(roomSubtotal * 0.1),
-        label: `${offer.name} · 10% midweek`,
+        label: `${offer.name} · -10 % semaine`,
       };
-    case "WEDDING10":
+    case "MARIAGE10":
       return {
         discount: Math.round(roomSubtotal * 0.1),
-        label: `${offer.name} · group rate`,
+        label: `${offer.name} · tarif groupe`,
       };
-    case "FAMILY15":
-      // Family rate is "15% off the 2nd room" — illustrative single-room
-      // breakdown applies a flat 8% to keep the math readable in the demo.
+    case "FAMILLE15":
+      // Le tarif famille est « -15 % sur la 2e chambre » — pour cet exemple à
+      // une seule chambre, on applique -8 % pour garder le calcul lisible.
       return {
         discount: Math.round(roomSubtotal * 0.08),
-        label: `${offer.name} · 15% off second room`,
+        label: `${offer.name} · -15 % sur la seconde chambre`,
       };
     default:
       return { discount: 0 };
@@ -100,9 +100,9 @@ export function computeBreakdown(
   };
 }
 
-/** Build a short booking reference like HDL-2026-7F3A1. */
+/** Construit une référence de réservation courte, par ex. RES-2026-7F3A1. */
 export function makeBookingRef(): string {
   const year = new Date().getFullYear();
   const code = Math.random().toString(36).toUpperCase().slice(2, 7);
-  return `HDL-${year}-${code}`;
+  return `RES-${year}-${code}`;
 }

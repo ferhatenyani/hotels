@@ -34,9 +34,9 @@ import { hotel } from "@/lib/data/hotel";
 import EventEnquiryForm from "./EventEnquiryForm";
 
 export const metadata: Metadata = {
-  title: "Events & Meetings — Hôtel du Lac, Béjaïa",
+  title: `Événements et Réunions — ${hotel.name}, ${hotel.city}`,
   description:
-    "A 498 m² hall that seats 170, divisible into two, with equipped meeting rooms and bespoke catering. Weddings, conferences and celebrations in the heart of Béjaïa.",
+    "Une salle de 498 m² qui accueille jusqu'à 170 personnes assises, divisible en deux, avec des salles de réunion équipées et une restauration sur mesure. Mariages, conférences et célébrations au cœur de la ville.",
 };
 
 // Map data-layer icon names → real lucide components. Keeps the data layer
@@ -51,21 +51,21 @@ const iconMap: Record<EventType["icon"], LucideIcon> = {
 };
 
 const stats = [
-  { value: "498 m²", label: "Reception hall" },
-  { value: "170", label: "Seated guests" },
-  { value: "÷ 2", label: "Divisible halls" },
-  { value: "Equipped", label: "Meeting rooms" },
+  { value: "498 m²", label: "Salle de réception" },
+  { value: "170", label: "Invités assis" },
+  { value: "÷ 2", label: "Salles divisibles" },
+  { value: "Équipées", label: "Salles de réunion" },
 ];
 
 export default function EventsPage() {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="Celebrations & conferences"
-        heading="A 498 m² hall for the days that matter"
-        description="From weddings and engagements to seminars and conferences — one of Béjaïa's gathering places, above the lake."
+        eyebrow="Célébrations et conférences"
+        heading="Une salle de 498 m² pour les jours qui comptent"
+        description={`Des mariages et fiançailles aux séminaires et conférences — l'un des lieux de rassemblement de ${hotel.city}, au cœur de la ville.`}
         image="/images/exhibit-salon.jpg"
-        imageAlt="The 498 m² reception hall at Hôtel du Lac, dressed for an event"
+        imageAlt={`La salle de réception de 498 m² à ${hotel.name}, dressée pour un événement`}
       />
 
       {/* STATS BANNER — mirrors Events.tsx <dl> pattern, lifted into white surface. */}
@@ -98,9 +98,9 @@ export default function EventsPage() {
       {/* EVENT TYPES — 1/2/3 col grid. */}
       <Section tone="white" size="default">
         <SectionHeading
-          eyebrow="What we host"
-          heading="From a baptism to a national conference"
-          description="The hall adapts. We've held wedding banquets for 170, seminars for board-level groups, Yennayer parties with a live DJ and quiet panels for a clinical society."
+          eyebrow="Ce que nous accueillons"
+          heading="D'un baptême à une conférence nationale"
+          description="La salle s'adapte. Nous avons accueilli des banquets de mariage pour 170 convives, des séminaires de comités de direction, des soirées de fin d'année avec DJ en direct et de discrètes tables rondes pour des sociétés savantes."
         />
 
         <ul className="mt-10 md:mt-14 lg:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
@@ -135,9 +135,9 @@ export default function EventsPage() {
       {/* HALL CAPACITY — table on desktop, card stack on mobile. */}
       <Section tone="cream" grain size="default" id="capacity">
         <SectionHeading
-          eyebrow="How the hall fits"
-          heading="Six ways to set the room"
-          description="The 498 m² hall configures around the format — a banquet of 170, a panel of 220, or two halves of 85 when the night calls for a quieter room."
+          eyebrow="Comment la salle s'agence"
+          heading="Six façons de disposer la salle"
+          description="La salle de 498 m² se configure selon le format — un banquet de 170, une assemblée de 220, ou deux moitiés de 85 lorsque la soirée appelle une salle plus intime."
         />
 
         {/* Desktop table */}
@@ -146,10 +146,10 @@ export default function EventsPage() {
             <thead>
               <tr className="border-b border-ink/15">
                 <th className="text-left font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55 px-6 py-4">
-                  Setup
+                  Configuration
                 </th>
                 <th className="text-left font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55 px-6 py-4">
-                  Capacity
+                  Capacité
                 </th>
                 <th className="text-left font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55 px-6 py-4">
                   Note
@@ -212,9 +212,9 @@ export default function EventsPage() {
       {/* MEETING EQUIPMENT — 2-col bullet list on tablet+, single col mobile. */}
       <Section tone="white" size="default">
         <SectionHeading
-          eyebrow="What's in the room"
-          heading="Equipped, with a hand on the wheel"
-          description="Everything a working day needs — and a quiet technician on standby when something matters."
+          eyebrow="Ce que comprend la salle"
+          heading="Équipée, avec une main sur la barre"
+          description="Tout ce dont une journée de travail a besoin — et un technicien discret en veille pour les moments qui comptent."
         />
 
         <ul className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-2 gap-x-10 md:gap-x-16 gap-y-0">
@@ -237,9 +237,9 @@ export default function EventsPage() {
       {/* HOW WE WORK — numbered timeline with marine accent. */}
       <Section tone="cream" grain size="default">
         <SectionHeading
-          eyebrow="How we work"
-          heading="From first note to last guest"
-          description="A short, honest process — every stage owned by the same person on our side, so the day-of has no surprises."
+          eyebrow="Notre façon de travailler"
+          heading="De la première note au dernier invité"
+          description="Un processus court et honnête — chaque étape pilotée par la même personne chez nous, pour que le jour J ne réserve aucune surprise."
         />
 
         <ol className="mt-10 md:mt-14 lg:mt-16 relative max-w-[820px]">
@@ -275,26 +275,25 @@ export default function EventsPage() {
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
           <div className="max-w-[44ch]">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/55 mb-3">
-              Plan your event
+              Planifiez votre événement
             </p>
             <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-white text-balance">
-              Tell us about the day. A quote, usually within twenty-four hours.
+              Parlez-nous de la journée. Un devis, généralement sous vingt-quatre heures.
             </h2>
             <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-white/70 max-w-[42ch]">
-              The desk holds the dates while we firm up the details — layout,
-              catering, room blocks for guests staying with us.
+              La réception bloque les dates pendant que nous affinons les détails — agencement, restauration, blocs de chambres pour vos invités qui logent chez nous.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 md:justify-end">
             <Button href="#enquiry" variant="primary" size="default" arrow>
-              Send an enquiry
+              Envoyer une demande
             </Button>
             <Button
               href={`tel:${hotel.contact.phonePrimary.replace(/\s+/g, "")}`}
               variant="ghost-light"
               size="default"
             >
-              Call {hotel.contact.phonePrimary}
+              Appeler {hotel.contact.phonePrimary}
             </Button>
           </div>
         </div>
@@ -305,15 +304,15 @@ export default function EventsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-5">
             <SectionHeading
-              eyebrow="A few details"
-              heading="Send us the day on paper"
-              description="The more you can tell us up front — date, party size, the shape you're imagining — the closer the first quote will land."
+              eyebrow="Quelques détails"
+              heading="Envoyez-nous votre journée sur papier"
+              description="Plus vous nous en dites en amont — date, taille du groupe, format imaginé — plus le premier devis sera juste."
             />
 
             <ul className="mt-8 md:mt-10 flex flex-col gap-3 md:gap-4">
               <li className="flex items-baseline gap-3 border-t border-ink/15 pt-3">
                 <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                  Events desk
+                  Service événements
                 </span>
                 <a
                   href={`tel:${hotel.contact.phonePrimary.replace(/\s+/g, "")}`}
@@ -324,7 +323,7 @@ export default function EventsPage() {
               </li>
               <li className="flex items-baseline gap-3 border-t border-ink/15 pt-3">
                 <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                  Email
+                  E-mail
                 </span>
                 <a
                   href={`mailto:${hotel.contact.email}`}
@@ -335,10 +334,10 @@ export default function EventsPage() {
               </li>
               <li className="flex items-baseline gap-3 border-t border-ink/15 pt-3">
                 <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                  Open
+                  Horaires
                 </span>
                 <span className="ml-auto font-sans text-[14px] text-ink">
-                  10:00 – 19:00
+                  10h00 – 19h00
                 </span>
               </li>
             </ul>

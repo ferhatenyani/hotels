@@ -27,11 +27,12 @@ import BookingSummary, {
   BookingSummaryChip,
 } from "@/components/booking/BookingSummary";
 import GuestForm from "./GuestForm";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Your details — Hôtel du Lac",
+  title: `Vos informations — ${hotel.name}`,
   description:
-    "Tell us who's coming. Direct booking — we confirm every reservation ourselves.",
+    "Dites-nous qui vient. Réservation directe — nous confirmons chaque réservation nous-mêmes.",
 };
 
 export default async function GuestPage(props: PageProps<"/booking/guest">) {
@@ -48,14 +49,14 @@ export default async function GuestPage(props: PageProps<"/booking/guest">) {
     <Section tone="white" size="compact">
       <header className="max-w-[44ch]">
           <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
-            Tell us <span className="italic font-normal">who&apos;s coming.</span>
+            Dites-nous <span className="italic font-normal">qui vient.</span>
           </h1>
           <span
             aria-hidden
             className="mt-5 md:mt-6 block h-px w-14 bg-marine"
           />
           <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-graybase">
-            We keep these details only to prepare your stay.
+            Nous gardons ces informations uniquement pour préparer votre séjour.
           </p>
         </header>
 

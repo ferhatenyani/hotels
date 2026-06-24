@@ -8,13 +8,13 @@ import { useState, type FormEvent } from "react";
 import { Field, TextArea } from "@/components/site/FormField";
 
 const eventTypeOptions = [
-  "Wedding",
-  "Engagement / Baptême",
-  "Birthday",
-  "Conference",
-  "Seminar / Off-site",
+  "Mariage",
+  "Fiançailles / Baptême",
+  "Anniversaire",
+  "Conférence",
+  "Séminaire / Hors site",
   "Concert / Soirée",
-  "Other",
+  "Autre",
 ];
 
 export default function EventEnquiryForm() {
@@ -35,10 +35,10 @@ export default function EventEnquiryForm() {
       <div className="p-6 sm:p-10 lg:p-12">
         <div className="flex items-baseline justify-between gap-4 mb-6 md:mb-10">
           <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
-            Event enquiry
+            Demande d'événement
           </p>
           <p className="font-display italic text-[13px] text-marine">
-            No.{" "}
+            N°{" "}
             <span className="tabular-nums">{new Date().getFullYear()}</span>
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function EventEnquiryForm() {
                   the select inline, since FormField only ships input/textarea. */}
               <SelectField
                 index="01"
-                label="Event type"
+                label="Type d'événement"
                 name="eventType"
                 required
                 options={eventTypeOptions}
@@ -68,17 +68,17 @@ export default function EventEnquiryForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-9">
               <Field
                 index="03"
-                label="Guest count"
+                label="Nombre d'invités"
                 type="number"
                 name="guestCount"
                 min={1}
                 max={500}
-                placeholder="Approximate"
+                placeholder="Approximatif"
                 required
               />
               <Field
                 index="04"
-                label="Your name"
+                label="Votre nom"
                 type="text"
                 name="name"
                 autoComplete="name"
@@ -89,7 +89,7 @@ export default function EventEnquiryForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-9">
               <Field
                 index="05"
-                label="Email"
+                label="E-mail"
                 type="email"
                 name="email"
                 autoComplete="email"
@@ -97,7 +97,7 @@ export default function EventEnquiryForm() {
               />
               <Field
                 index="06"
-                label="Phone"
+                label="Téléphone"
                 type="tel"
                 name="phone"
                 autoComplete="tel"
@@ -107,22 +107,21 @@ export default function EventEnquiryForm() {
 
             <TextArea
               index="07"
-              label="Tell us about the day"
+              label="Parlez-nous de la journée"
               name="message"
               rows={5}
-              placeholder="Any details on catering, layout, room blocks for guests — anything that helps shape the first quote."
+              placeholder="Détails sur la restauration, l'agencement, les blocs de chambres pour vos invités — tout ce qui aide à façonner le premier devis."
             />
 
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <p className="font-sans text-[12px] leading-relaxed text-graybase max-w-sm">
-                A first quote, usually within the day. We&apos;ll come back by
-                phone or email — whichever you prefer.
+                Un premier devis, généralement dans la journée. Nous reviendrons vers vous par téléphone ou par e-mail — comme vous préférez.
               </p>
               <button
                 type="submit"
                 className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-white bg-marine border border-marine rounded-full px-8 py-4 max-md:min-h-[52px] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
               >
-                Send enquiry
+                Envoyer la demande
                 <svg
                   aria-hidden
                   viewBox="0 0 24 24"
@@ -200,7 +199,7 @@ function SelectField({
           className="w-full bg-transparent font-sans font-normal text-[16px] text-ink outline-none pb-3 max-md:min-h-[44px] max-md:pt-2 appearance-none cursor-pointer pr-6"
         >
           <option value="" disabled>
-            Choose…
+            Choisir…
           </option>
           {options.map((opt) => (
             <option key={opt} value={opt}>
@@ -257,18 +256,17 @@ function Confirmation() {
           </svg>
         </span>
         <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-marine">
-          With the events team
+          Auprès de l'équipe événements
         </p>
       </div>
       <p className="font-display text-2xl sm:text-[28px] leading-[1.2] tracking-tight text-ink max-w-md">
-        Your enquiry is on the desk.{" "}
+        Votre demande est sur le bureau.{" "}
         <span className="italic font-normal text-graybase">
-          A first quote is on its way back to you.
+          Un premier devis est en route vers vous.
         </span>
       </p>
       <p className="font-sans text-[14px] leading-[1.7] text-graybase max-w-md">
-        Usually within the day, often sooner. If the date is pressing, telephone
-        the desk directly — the events line is open through the day.
+        Généralement dans la journée, souvent plus tôt. Si la date est urgente, téléphonez directement à la réception — la ligne événements est ouverte toute la journée.
       </p>
     </div>
   );

@@ -191,7 +191,7 @@ export default function ChatModal() {
         ref={buttonRef}
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Open concierge chat"
+        aria-label="Ouvrir la conciergerie"
         aria-expanded={open}
         aria-hidden="true"
         tabIndex={-1}
@@ -216,7 +216,7 @@ export default function ChatModal() {
         ref={modalRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Hôtel du Lac concierge"
+        aria-label="Conciergerie"
         style={{ opacity: 0, pointerEvents: "none" }}
         className="fixed z-[90] flex flex-col overflow-hidden bg-white border border-ink/15
                    bottom-6 right-6 w-[380px] h-[520px] rounded-[12px]
@@ -227,12 +227,12 @@ export default function ChatModal() {
           <span
             className="font-display text-[16px] font-medium tracking-tight text-ink"
           >
-            Concierge
+            Conciergerie
           </span>
           <button
             type="button"
             onClick={close}
-            aria-label="Close chat"
+            aria-label="Fermer la conversation"
             className="flex h-9 w-9 max-md:h-11 max-md:w-11 items-center justify-center rounded-[8px] text-ink/55 transition-colors hover:bg-ink/[0.05] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
           >
             <X className="h-4 w-4" strokeWidth={1.75} />
@@ -245,15 +245,15 @@ export default function ChatModal() {
         >
           <ul className="flex flex-col gap-3">
             <Bubble side="bot">
-              Welcome to Hôtel du Lac. How may I help you today?
+              Bienvenue. Comment puis-je vous aider aujourd'hui ?
             </Bubble>
             <Bubble side="user">
-              Do you have a lake-view room for two next weekend?
+              Auriez-vous une chambre avec vue pour deux le week-end prochain ?
             </Bubble>
             <Bubble side="bot">
-              We do — the Suite Senior (52 m², lounge corner) and the Chambre
-              Double Vue Lac both look over Lac Mézaïa. Would you like rates and
-              availability?
+              Bien sûr — la Suite Senior (52 m², coin salon) et la Chambre Double
+              Vue Panoramique offrent toutes deux une belle vue. Souhaitez-vous
+              connaître les tarifs et disponibilités ?
             </Bubble>
             <li className="flex justify-start">
               <div className="flex items-center gap-[5px] rounded-[12px] rounded-bl-[3px] bg-ink/[0.06] px-4 py-3">
@@ -269,7 +269,7 @@ export default function ChatModal() {
                     }}
                   />
                 ))}
-                <span className="sr-only">Concierge is typing</span>
+                <span className="sr-only">La conciergerie est en train d'écrire</span>
               </div>
             </li>
           </ul>
@@ -281,14 +281,14 @@ export default function ChatModal() {
         >
           <input
             type="text"
-            placeholder="Type a message..."
+            placeholder="Écrivez un message..."
             aria-label="Message"
             className="h-10 max-md:h-11 flex-1 rounded-[8px] border border-transparent bg-ink/[0.04] px-3 text-[13px] max-md:text-[16px] font-medium text-ink placeholder:text-ink/45 outline-none transition-colors focus:border-ink/20 focus:bg-white"
             style={{ fontFamily: "var(--font-sans)" }}
           />
           <button
             type="submit"
-            aria-label="Send message"
+            aria-label="Envoyer le message"
             className="flex h-10 w-10 max-md:h-11 max-md:w-11 shrink-0 items-center justify-center rounded-[8px] bg-marine text-white transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
           >
             <Send className="h-4 w-4" strokeWidth={1.75} />

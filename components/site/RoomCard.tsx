@@ -32,9 +32,9 @@ export default function RoomCard({
   room,
   variant = "default",
   primaryHref,
-  primaryLabel = "Reserve",
+  primaryLabel = "Réserver",
   secondaryHref,
-  secondaryLabel = "View room",
+  secondaryLabel = "Voir la chambre",
   quote,
 }: Props) {
   const detailHref = `/rooms/${room.slug}`;
@@ -51,7 +51,7 @@ export default function RoomCard({
       <Link
         href={detailHref}
         className="block overflow-hidden relative h-[200px] sm:h-[240px] md:h-[220px] lg:h-[240px]"
-        aria-label={`See ${room.name} details`}
+        aria-label={`Voir les détails de la ${room.name}`}
       >
         <Image
           src={room.cover}
@@ -67,7 +67,7 @@ export default function RoomCard({
         />
         {/* Price chip on mobile only — quick scan, no scroll. */}
         <span className="md:hidden absolute top-3 left-3 inline-flex items-center rounded-full bg-white/95 backdrop-blur-sm px-3 py-1.5 font-display text-[13px] font-semibold text-ink leading-none shadow-sm">
-          from {formatDA(room.priceDA)}
+          à partir de {formatDA(room.priceDA)}
         </span>
       </Link>
 
@@ -90,7 +90,7 @@ export default function RoomCard({
           </Link>
         </h3>
         <p className="font-sans text-[10.5px] md:text-[11px] uppercase tracking-[0.22em] text-ink/55 mt-2.5 md:mt-3 inline-flex items-center gap-2 flex-wrap">
-          <span>Sleeps {room.sleeps}</span>
+          <span>{room.sleeps} pers.</span>
           <span aria-hidden className="h-[3px] w-[3px] rounded-full bg-ink/35" />
           <span>{room.sizeDisplay}</span>
         </p>
@@ -108,19 +108,19 @@ export default function RoomCard({
         <div className="mt-auto pt-5 md:pt-6 border-t border-ink/10 flex flex-wrap items-end justify-between gap-3 md:gap-4">
           <div className="hidden md:block">
             <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55">
-              {quote ? `${quote.nights} night${quote.nights > 1 ? "s" : ""}` : "From"}
+              {quote ? `${quote.nights} nuit${quote.nights > 1 ? "s" : ""}` : "À partir de"}
             </p>
             <p className="font-display font-semibold text-[24px] md:text-[26px] text-ink mt-1.5 leading-none">
               {quote ? formatDA(quote.total) : formatDA(room.priceDA)}
               {!quote && (
                 <span className="font-sans text-[12px] font-normal text-graybase ml-1">
-                  / night
+                  / nuit
                 </span>
               )}
             </p>
           </div>
           <p className="md:hidden font-sans text-[11px] uppercase tracking-[0.18em] text-ink/55">
-            {quote ? `Total · ${quote.nights} night${quote.nights > 1 ? "s" : ""}` : "Per night"}
+            {quote ? `Total · ${quote.nights} nuit${quote.nights > 1 ? "s" : ""}` : "Par nuit"}
           </p>
           <div className="flex items-center gap-2 ml-auto">
             {secondHref && (

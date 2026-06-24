@@ -1,5 +1,5 @@
-// /policies — narrow editorial column. Privacy · Terms of stay ·
-// Cancellation · House rules. Server Component, all copy inlined for the
+// /policies — narrow editorial column. Confidentialité · Conditions de séjour ·
+// Annulation · Règlement intérieur. Server Component, all copy inlined for the
 // demo (no CMS).
 //
 // Voice: human, plain, brand-aligned. Avoids legalese. References the
@@ -16,17 +16,18 @@ import { hotel } from "@/lib/data/hotel";
 
 // Last-updated stamp — hardcoded to today's date per the build brief
 // (the orchestrator passed it through the system context).
-const LAST_UPDATED = "23 June 2026";
+const LAST_UPDATED = "24 juin 2026";
 
 export const metadata: Metadata = {
-  title: "Policies — What we promise, what we ask · Hôtel du Lac, Béjaïa",
-  description:
-    "Privacy, terms of stay, cancellation, and house rules at Hôtel du Lac, Béjaïa — written in plain English, kept short, no legalese.",
+  title: `Politiques — Ce que nous promettons, ce que nous demandons · ${hotel.name}, ${hotel.city}`,
+  description: `Confidentialité, conditions de séjour, annulation et règlement intérieur à ${hotel.name}, ${hotel.city} — rédigés en français clair, sans jargon juridique.`,
 };
 
 type Policy = {
   id: string;
   eyebrow: string;
+  /** Court intitulé utilisé dans le menu de navigation en haut de page. */
+  navLabel: string;
   title: string;
   paragraphs: React.ReactNode[];
 };
@@ -34,56 +35,60 @@ type Policy = {
 const policies: Policy[] = [
   {
     id: "privacy",
-    eyebrow: "01 · Privacy",
-    title: "How we look after your data",
+    eyebrow: "01 · Confidentialité",
+    navLabel: "Confidentialité",
+    title: "Comment nous protégeons vos données",
     paragraphs: [
-      <>We collect the smallest amount of information we need to run the booking: a name, contact details, the dates of the stay, and a card for the hold. That&apos;s it.</>,
-      <>When you write to the desk through the contact form, we keep the message until the conversation is closed, then we delete it. We don&apos;t pass your details to anyone else, and we don&apos;t sell or rent the list — there is no list.</>,
-      <>Bookings made through third-party channels (Booking.com, Expedia, agents) are governed by those platforms&apos; privacy terms in addition to ours. We strongly prefer direct booking, both for your comfort and ours — fewer hands on your data, fewer chances of a mix-up.</>,
-      <>If you&apos;d like to know what we hold about you, or you&apos;d like us to delete it, write to <a href={`mailto:${hotel.contact.email}`} className="underline decoration-marine/40 underline-offset-2 hover:text-marine">{hotel.contact.email}</a> and we&apos;ll come back within a working day.</>,
-      <>The hotel&apos;s closed-circuit cameras cover public areas — the entrance, the lobby, the corridors — for the safety of guests and staff. Footage is kept for a short window and reviewed only when there&apos;s reason.</>,
-      <>For payments we use a regulated provider; the card itself never lands on our servers. The cookies on this site are limited to what makes the site work — session, language, the booking funnel&apos;s URL state. We don&apos;t run third-party analytics or advertising trackers.</>,
+      <>Nous collectons le strict minimum d&apos;informations nécessaires à la réservation : un nom, des coordonnées, les dates du séjour et une carte pour la pré-autorisation. C&apos;est tout.</>,
+      <>Lorsque vous écrivez à la réception via le formulaire de contact, nous conservons le message jusqu&apos;à la clôture de la conversation, puis nous le supprimons. Nous ne transmettons pas vos coordonnées à des tiers et nous ne vendons ni ne louons de liste — il n&apos;y a aucune liste.</>,
+      <>Les réservations effectuées par des canaux tiers (Booking.com, Expedia, agences) sont régies par la politique de confidentialité de ces plateformes en plus de la nôtre. Nous préférons fortement la réservation directe, pour votre confort comme pour le nôtre — moins de mains sur vos données, moins de risques d&apos;erreurs.</>,
+      <>Si vous souhaitez connaître les informations que nous détenons sur vous, ou demander leur suppression, écrivez à <a href={`mailto:${hotel.contact.email}`} className="underline decoration-marine/40 underline-offset-2 hover:text-marine">{hotel.contact.email}</a> et nous reviendrons vers vous sous un jour ouvré.</>,
+      <>Les caméras en circuit fermé de l&apos;hôtel couvrent les espaces publics — l&apos;entrée, le lobby, les couloirs — pour la sécurité des clients et du personnel. Les images sont conservées sur une courte période et ne sont consultées qu&apos;en cas de besoin.</>,
+      <>Pour les paiements, nous faisons appel à un prestataire agréé ; la carte elle-même ne transite jamais par nos serveurs. Les cookies de ce site se limitent à ce qui fait fonctionner le site — session, langue, état d&apos;URL du tunnel de réservation. Nous n&apos;utilisons ni traqueurs publicitaires ni outils d&apos;analyse tiers.</>,
     ],
   },
   {
     id: "terms",
-    eyebrow: "02 · Terms of stay",
-    title: "What a stay with us means",
+    eyebrow: "02 · Conditions de séjour",
+    navLabel: "Conditions",
+    title: "Ce qu'un séjour chez nous implique",
     paragraphs: [
-      <>A confirmed reservation is a small contract: you let us know when to expect you and what kind of room to prepare; we hold that room and welcome you on arrival. The price you saw at confirmation is the price you&apos;ll pay — plus the {hotel.tourismTaxDA} DA per-person, per-night tourism tax that the city collects through us.</>,
-      <>Check-in opens at 14:00; check-out is at 12:00. Earlier arrivals are welcome — we&apos;ll hold your luggage at the desk and call you when the room is ready. Late check-outs are usually possible at no charge if you ask the night before; subject to the day&apos;s arrivals.</>,
-      <>Every guest presents a valid ID at check-in (passport or national ID). For couples, Algerian law requires proof of marriage — the livret de famille, the marriage booklet, or the certificate. This is a national requirement, not a hotel rule; we mention it everywhere so it doesn&apos;t surprise you at the desk.</>,
-      <>Children are welcome at any age. A cot or extra bed can be added on request, subject to room size — write a note with your reservation so we know.</>,
-      <>The hotel has 124 rooms, free private parking (day and night), a 24-hour reception and a multilingual team. What we don&apos;t have: a swimming pool, a spa, or a fitness room. We&apos;d rather tell you up front than have you discover it on arrival.</>,
-      <>If anything goes wrong with the room, please tell the desk straight away — we&apos;ll fix what we can fix immediately, and arrange a different room where we can&apos;t.</>,
+      <>Une réservation confirmée est un petit contrat : vous nous indiquez quand vous attendre et quel type de chambre préparer ; nous gardons cette chambre et vous accueillons à l&apos;arrivée. Le prix affiché à la confirmation est celui que vous paierez — auxquels s&apos;ajoute la taxe de séjour de {hotel.tourismTaxDA} DA par personne et par nuit, que la ville perçoit par notre intermédiaire.</>,
+      <>L&apos;arrivée s&apos;effectue à partir de 14h00 ; le départ à 12h00. Les arrivées anticipées sont les bienvenues — nous gardons vos bagages à la réception et vous appelons dès que la chambre est prête. Les départs tardifs sont généralement possibles sans frais si vous le demandez la veille ; sous réserve des arrivées du jour.</>,
+      <>Chaque client présente une pièce d&apos;identité valide à l&apos;arrivée (passeport ou carte d&apos;identité nationale). Pour les couples, la loi peut exiger un justificatif de mariage — livret de famille, livret de mariage ou acte de mariage. Il s&apos;agit d&apos;une exigence légale et non d&apos;une règle de l&apos;hôtel ; nous le mentionnons partout pour que cela ne vous surprenne pas à la réception.</>,
+      <>Les enfants sont les bienvenus à tout âge. Un lit bébé ou un lit d&apos;appoint peut être ajouté sur demande, selon la taille de la chambre — ajoutez une note à votre réservation pour nous le faire savoir.</>,
+      <>L&apos;hôtel compte 124 chambres, un parking privé gratuit (jour et nuit), une réception 24h/24 et une équipe multilingue. Ce que nous n&apos;avons pas : piscine, spa ou salle de sport. Nous préférons vous le dire en amont plutôt que vous le laissiez découvrir à l&apos;arrivée.</>,
+      <>Si quelque chose ne va pas avec votre chambre, signalez-le immédiatement à la réception — nous corrigerons ce qui peut l&apos;être sur-le-champ et organiserons un changement de chambre si nécessaire.</>,
     ],
   },
   {
     id: "cancellation",
-    eyebrow: "03 · Cancellation",
-    title: "Plans change — here&apos;s how that works",
+    eyebrow: "03 · Annulation",
+    navLabel: "Annulation",
+    title: "Les plans changent — voici comment ça marche",
     paragraphs: [
-      <>Standard rates are freely cancellable up to forty-eight hours before arrival. Until that window closes, you can move or cancel the booking from your confirmation email or by writing to the desk — at no cost.</>,
-      <>Cancellations made inside the forty-eight-hour window, or no-shows on the day, are charged the first night of the stay. We don&apos;t do this lightly; it&apos;s how we make late-cancelled rooms work in a small operation.</>,
-      <>Promotional and non-refundable rates are clearly marked at booking, with their own terms. Where a rate is non-refundable, we&apos;ll say so before you confirm — and we&apos;ll ask you to confirm again.</>,
-      <>If the cancellation is due to a serious event — a hospitalisation, a bereavement, a force-majeure travel ban — write to the desk with what you can share, and we&apos;ll work it out together. We&apos;d rather meet you next year than charge you this one.</>,
-      <>Group bookings of ten or more rooms, weddings, and conferences are governed by the contract you sign with the events team; that contract carries its own cancellation schedule. Ask the events team for a copy if you need to reread it.</>,
-      <>Refunds, when due, are returned to the same card or account that paid — usually within five working days, sometimes a little longer depending on the bank.</>,
+      <>Les tarifs standards sont librement annulables jusqu&apos;à quarante-huit heures avant l&apos;arrivée. Tant que cette fenêtre n&apos;est pas fermée, vous pouvez déplacer ou annuler la réservation depuis votre e-mail de confirmation ou en écrivant à la réception — sans frais.</>,
+      <>Les annulations effectuées dans la fenêtre des quarante-huit heures, ou les non-présentations le jour même, sont facturées la première nuit du séjour. Nous ne le faisons pas à la légère ; c&apos;est ainsi qu&apos;une petite structure parvient à rentabiliser les chambres annulées tardivement.</>,
+      <>Les tarifs promotionnels et non remboursables sont clairement signalés à la réservation, avec leurs propres conditions. Quand un tarif est non remboursable, nous vous le précisons avant confirmation — et nous vous demandons de confirmer à nouveau.</>,
+      <>Si l&apos;annulation est due à un événement grave — hospitalisation, deuil, interdiction de voyager pour cas de force majeure — écrivez à la réception avec ce que vous pouvez partager, et nous trouverons une solution ensemble. Nous préférons vous revoir l&apos;année prochaine plutôt que de vous facturer cette année.</>,
+      <>Les réservations de groupe de dix chambres ou plus, les mariages et les conférences sont régis par le contrat que vous signez avec l&apos;équipe événements ; ce contrat porte son propre calendrier d&apos;annulation. Demandez-en une copie à l&apos;équipe événements si vous souhaitez le relire.</>,
+      <>Les remboursements, lorsqu&apos;ils sont dus, sont reversés sur la même carte ou le même compte que celui qui a réglé — généralement sous cinq jours ouvrés, parfois un peu plus selon la banque.</>,
     ],
   },
   {
     id: "house-rules",
-    eyebrow: "04 · House rules",
-    title: "Small things that keep the house calm",
+    eyebrow: "04 · Règlement intérieur",
+    navLabel: "Règlement",
+    title: "Les petites choses qui maintiennent la maison calme",
     paragraphs: [
-      <>The whole hotel is non-smoking, indoors. Smoking is welcome on the small terrace by the lobby; smoking in a room incurs a deep-clean charge because the next guest can smell it for days.</>,
-      <>Quiet hours run from 22:00 to 07:00. We&apos;re a sleep hotel in the middle of a busy city; the calm in the rooms is what most of our guests come back for, so we ask the favour of low voices in the corridors after ten.</>,
-      <>Pets aren&apos;t accepted in the rooms, with the exception of registered assistance animals — write ahead so we can prepare the room properly.</>,
-      <>The events hall is busy on weekends: weddings, baptisms, engagements, conferences. We&apos;ll let you know if your stay overlaps, and we&apos;ll place you on a floor away from the music where we can.</>,
-      <>The breakfast room serves from 06:30 to 10:30. We can pack a take-away breakfast if you have an early flight or a long drive — drop a note at the desk the night before.</>,
-      <>Lost-and-found items are kept for thirty days. If you think you&apos;ve left something behind, write to the desk with the date and the room number and we&apos;ll have a look.</>,
-      <>Damage to the room or its furnishings is billed at cost. Accidents happen — tell us, we&apos;ll work it out without drama.</>,
-      <>And: thank you. Hotels rely on guests being kind to each other and to the staff; the warmth in the welcome is something we try to earn, and to deserve, with every stay.</>,
+      <>L&apos;ensemble de l&apos;hôtel est non-fumeur en intérieur. Il est possible de fumer sur la petite terrasse près du lobby ; fumer dans une chambre entraîne des frais de nettoyage en profondeur, car le prochain client peut le sentir pendant des jours.</>,
+      <>Les horaires de calme s&apos;étendent de 22h00 à 7h00. Nous sommes un hôtel de sommeil au milieu d&apos;une ville animée ; le calme dans les chambres est ce pour quoi la plupart de nos clients reviennent, alors nous demandons la courtoisie de baisser la voix dans les couloirs après vingt-deux heures.</>,
+      <>Les animaux ne sont pas acceptés dans les chambres, à l&apos;exception des animaux d&apos;assistance enregistrés — prévenez-nous à l&apos;avance pour que nous puissions préparer correctement la chambre.</>,
+      <>La salle des événements est animée le week-end : mariages, baptêmes, fiançailles, conférences. Nous vous prévenons si votre séjour coïncide et nous vous placerons sur un étage éloigné de la musique lorsque cela est possible.</>,
+      <>La salle du petit-déjeuner sert de 6h30 à 10h30. Nous pouvons préparer un petit-déjeuner à emporter si vous avez un vol matinal ou une longue route — laissez un mot à la réception la veille.</>,
+      <>Les objets perdus et trouvés sont conservés pendant trente jours. Si vous pensez avoir oublié quelque chose, écrivez à la réception avec la date et le numéro de chambre et nous le chercherons.</>,
+      <>Les dégradations de la chambre ou de son mobilier sont facturées au coût réel. Les accidents arrivent — dites-le nous, nous trouverons une solution sans drame.</>,
+      <>Et : merci. Les hôtels reposent sur la gentillesse des clients entre eux et envers le personnel ; la chaleur de l&apos;accueil est quelque chose que nous essayons de mériter, séjour après séjour.</>,
     ],
   },
 ];
@@ -92,11 +97,11 @@ export default function PoliciesPage() {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="Policies"
-        heading="What we promise, what we ask"
-        description="Four short sections — privacy, terms, cancellation, and house rules. Written in plain English, kept human."
+        eyebrow="Politiques"
+        heading="Ce que nous promettons, ce que nous demandons"
+        description="Quatre courtes sections — confidentialité, conditions, annulation et règlement intérieur. Rédigées en français clair, à hauteur d'humain."
         image="/images/exhibit-corner-suite.jpg"
-        imageAlt="The Suite Senior's living corner at Hôtel du Lac"
+        imageAlt={`Le coin salon de la Suite Senior à ${hotel.name}`}
         height="short"
       />
 
@@ -105,21 +110,20 @@ export default function PoliciesPage() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-10 pb-10 md:pb-14 border-b border-ink/10">
           <div>
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-              Last updated · <span className="text-ink">{LAST_UPDATED}</span>
+              Dernière mise à jour · <span className="text-ink">{LAST_UPDATED}</span>
             </p>
             <h2 className="font-display font-medium text-[24px] md:text-[28px] leading-tight tracking-tight text-ink max-w-[36ch] text-balance">
-              A short, plain index of what we ask of you, and what we owe in
-              return.
+              Un sommaire bref et clair de ce que nous attendons de vous et de ce que nous vous devons en retour.
             </h2>
           </div>
-          <nav aria-label="Jump to a policy" className="flex flex-wrap gap-2">
+          <nav aria-label="Aller à une politique" className="flex flex-wrap gap-2">
             {policies.map((p) => (
               <a
                 key={p.id}
                 href={`#${p.id}`}
                 className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/70 border border-ink/15 rounded-full px-4 py-2.5 min-h-[44px] transition-colors hover:bg-ink hover:border-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
               >
-                {p.title.split(" ").slice(0, 1).join(" ").replace(/[—,.]/, "")}
+                {p.navLabel}
               </a>
             ))}
           </nav>
@@ -160,15 +164,14 @@ export default function PoliciesPage() {
         {/* Closing — back-to-top + contact link. */}
         <div className="mt-16 md:mt-20 pt-10 border-t border-ink/10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <p className="font-sans text-[14px] md:text-[15px] leading-[1.7] text-graybase max-w-[44ch]">
-            Questions about any of this? Write to the desk and we&apos;ll come
-            back in plain English.
+            Une question sur tout cela ? Écrivez à la réception et nous reviendrons vers vous en français clair.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Button href="/contact" variant="primary" size="default" arrow>
-              Write to the desk
+              Écrire à la réception
             </Button>
             <Button href="/faq" variant="ghost" size="default">
-              See the FAQ
+              Voir la FAQ
             </Button>
           </div>
         </div>

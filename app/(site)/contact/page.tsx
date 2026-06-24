@@ -20,9 +20,8 @@ import { hotel } from "@/lib/data/hotel";
 import ContactLetterForm from "./ContactLetterForm";
 
 export const metadata: Metadata = {
-  title: "Contact — Reach the desk · Hôtel du Lac, Béjaïa",
-  description:
-    "Telephone, email, address and directions to Hôtel du Lac in Aamriou, central Béjaïa. The desk is staffed twenty-four hours a day.",
+  title: `Contact — Joindre la réception · ${hotel.name}, ${hotel.city}`,
+  description: `Téléphone, e-mail, adresse et itinéraire pour ${hotel.name} au cœur de ${hotel.city}. La réception est ouverte vingt-quatre heures sur vingt-quatre.`,
 };
 
 type LedgerLine = { text: string; href?: string };
@@ -33,7 +32,7 @@ type LedgerItem = { label: string; lines: LedgerLine[] };
 // truth stays single.
 const ledger: LedgerItem[] = [
   {
-    label: "The hotel",
+    label: "L'hôtel",
     lines: [
       { text: hotel.address.street },
       {
@@ -42,7 +41,7 @@ const ledger: LedgerItem[] = [
     ],
   },
   {
-    label: "Reservations",
+    label: "Réservations",
     lines: [
       { text: hotel.contact.email, href: `mailto:${hotel.contact.email}` },
       {
@@ -56,14 +55,14 @@ const ledger: LedgerItem[] = [
     ],
   },
   {
-    label: "Languages spoken",
+    label: "Langues parlées",
     lines: hotel.numbers.languagesSpoken.map((l) => ({ text: l })),
   },
   {
-    label: "Hours of the desk",
+    label: "Horaires de la réception",
     lines: [
-      { text: "Twenty-four hours a day, every day" },
-      { text: "Check-in 14:00 · Check-out 12:00" },
+      { text: "Vingt-quatre heures sur vingt-quatre, tous les jours" },
+      { text: "Arrivée 14h00 · Départ 12h00" },
     ],
   },
 ];
@@ -72,19 +71,19 @@ const ledger: LedgerItem[] = [
 // hides them above lg). Each one is ≥ 56 px tall and shows the value plainly.
 const tiles = [
   {
-    label: "Call the desk",
+    label: "Appeler la réception",
     value: hotel.contact.phonePrimary,
     href: `tel:${hotel.contact.phonePrimary.replace(/\s+/g, "")}`,
     icon: Phone,
   },
   {
-    label: "Second line",
+    label: "Seconde ligne",
     value: hotel.contact.phoneSecondary,
     href: `tel:${hotel.contact.phoneSecondary.replace(/\s+/g, "")}`,
     icon: Phone,
   },
   {
-    label: "Email reservations",
+    label: "E-mail réservations",
     value: hotel.contact.email,
     href: `mailto:${hotel.contact.email}`,
     icon: Mail,
@@ -95,11 +94,11 @@ export default function ContactPage() {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="Reach the desk"
-        heading="Write to us — we'll write back"
-        description="A telephone is answered at any hour. An email is replied to within the day. A letter is read with care."
+        eyebrow="Joindre la réception"
+        heading="Écrivez-nous — nous vous répondrons"
+        description="Le téléphone est décroché à toute heure. Un e-mail reçoit une réponse dans la journée. Une lettre est lue avec soin."
         image="/images/hero-poster.jpg"
-        imageAlt="Hôtel du Lac, Béjaïa — the lake at the window"
+        imageAlt={`${hotel.name}, ${hotel.city} — la ville à la fenêtre`}
         height="short"
       />
 
@@ -110,12 +109,12 @@ export default function ContactPage() {
           {/* Letterhead column — order-2 on mobile so the form leads. */}
           <div className="lg:col-span-5 lg:pt-2 order-2 lg:order-1">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
-              The desk, in detail
+              La réception, en détail
             </p>
             <h2 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
-              Four ways to reach us —
+              Quatre façons de nous joindre —
               <br className="hidden sm:block" />
-              <span className="italic font-normal">pick the one you like.</span>
+              <span className="italic font-normal">choisissez celle qui vous va.</span>
             </h2>
             <span aria-hidden className="mt-5 md:mt-7 block h-px w-14 bg-marine" />
 
@@ -165,9 +164,9 @@ export default function ContactPage() {
       {/* Tap-to-call / tap-to-email tile grid. */}
       <Section tone="white" size="compact">
         <SectionHeading
-          eyebrow="In a hurry?"
-          heading="Tap to call, tap to write"
-          description="Each line goes to the same desk — pick whichever fits the moment. The number is also good for a quick text on WhatsApp."
+          eyebrow="Pressé ?"
+          heading="Toucher pour appeler, toucher pour écrire"
+          description="Chaque ligne aboutit à la même réception — choisissez celle qui convient au moment. Le numéro fonctionne aussi pour un rapide message sur WhatsApp."
         />
         <ul className="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {tiles.map((tile) => {
@@ -203,13 +202,12 @@ export default function ContactPage() {
       {/* Finding us — map embed + directions. */}
       <Section tone="white" size="default" id="finding-us">
         <SectionHeading
-          eyebrow="Finding us"
-          heading="On the edge of Lac Mézaïa, in Aamriou"
+          eyebrow="Nous trouver"
+          heading={`Au cœur de ${hotel.city}`}
           description={
             <>
-              Hôtel du Lac sits in the Aamriou district of central Béjaïa, a
-              short step from the seafront and a few minutes from
-              Soummam–Abane Ramdane airport. Plus Code{" "}
+              {hotel.name} se trouve au centre de {hotel.city}, à un court pas
+              du front de mer et à quelques minutes de l'aéroport. Plus Code{" "}
               <span className="tabular-nums text-ink">
                 {hotel.address.plusCode}
               </span>
@@ -222,7 +220,7 @@ export default function ContactPage() {
           {/* Map — lazy-loaded iframe. Aspect ratio flips wider on desktop. */}
           <div className="lg:col-span-8 aspect-[16/9] lg:aspect-[21/9] overflow-hidden border border-ink/10 bg-ink/5">
             <iframe
-              title="Hôtel du Lac on OpenStreetMap"
+              title={`${hotel.name} sur OpenStreetMap`}
               src="https://www.openstreetmap.org/export/embed.html?bbox=5.04,36.74,5.08,36.76&layer=mapnik&marker=36.747,5.061"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -253,24 +251,25 @@ export default function ContactPage() {
 
             <div className="mt-8 pt-6 border-t border-ink/15">
               <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/60 mb-3">
-                Getting in
+                Pour venir
               </p>
               <ul className="flex flex-col gap-3 font-sans text-[14px] leading-[1.65] text-graybase">
                 <li>
-                  <span className="text-ink font-medium">From the airport:</span>{" "}
-                  Taxis wait outside arrivals; the ride is roughly fifteen
-                  minutes. We&apos;re happy to help arrange a private transfer —
-                  drop a note with your flight details.
+                  <span className="text-ink font-medium">Depuis l'aéroport :</span>{" "}
+                  Les taxis attendent à la sortie des arrivées ; le trajet
+                  dure environ quinze minutes. Nous pouvons aussi organiser un
+                  transfert privé — laissez-nous un mot avec les détails de
+                  votre vol.
                 </li>
                 <li>
-                  <span className="text-ink font-medium">From the station:</span>{" "}
-                  About ten minutes by car. Walkable in good weather if you
-                  travel light.
+                  <span className="text-ink font-medium">Depuis la gare :</span>{" "}
+                  Environ dix minutes en voiture. À pied par beau temps si
+                  vous voyagez léger.
                 </li>
                 <li>
-                  <span className="text-ink font-medium">Parking:</span> Free
-                  private parking on site, accessible day and night — no
-                  reservation needed.
+                  <span className="text-ink font-medium">Parking :</span>{" "}
+                  Parking privé gratuit sur place, accessible jour et nuit —
+                  aucune réservation nécessaire.
                 </li>
               </ul>
             </div>
@@ -287,47 +286,48 @@ export default function ContactPage() {
               <Clock className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </span>
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/55 mb-3">
-              Twenty-four-hour reception
+              Réception 24 heures sur 24
             </p>
             <h3 className="font-display font-medium text-[24px] md:text-[28px] leading-tight tracking-tight text-white text-balance">
-              Arrive at any hour — the desk is staffed.
+              Arrivez à toute heure — la réception est tenue.
             </h3>
             <p className="mt-4 font-sans text-[15px] leading-[1.7] text-white/70 max-w-[42ch]">
-              If your flight lands after midnight, drop us a line beforehand
-              and we&apos;ll have the room ready and a warm welcome at the
-              door.
+              Si votre vol atterrit après minuit, faites-nous signe à
+              l'avance et nous aurons la chambre prête et un accueil
+              chaleureux à la porte.
             </p>
           </div>
 
-          {/* Document policy — flagged amber so it's clearly a heads-up, not
+          {/* Document policy — flagged cream so it's clearly a heads-up, not
               the marketing register. */}
           <div className="border-l border-white/15 pl-8 md:pl-12">
             <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream/15 text-cream mb-5">
               <MapPin className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </span>
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-cream mb-3">
-              A heads-up · Check-in
+              À noter · Arrivée
             </p>
             <h3 className="font-display font-medium text-[24px] md:text-[28px] leading-tight tracking-tight text-white text-balance">
-              Bring an ID for everyone — and for couples, the marriage booklet.
+              Une pièce d'identité pour chacun — et pour les couples, le livret de famille.
             </h3>
             <p className="mt-4 font-sans text-[15px] leading-[1.7] text-white/70 max-w-[42ch]">
-              All guests present a valid ID at check-in (passport or national
-              ID). For couples, Algerian law requires proof of marriage — the
-              livret de famille, the booklet, or the certificate. We mention
-              it here so it doesn&apos;t surprise you at the desk: it is a
-              national requirement, not a hotel rule.
+              Tous les clients présentent une pièce d'identité valide à
+              l'arrivée (passeport ou carte nationale). Pour les couples, la
+              réglementation locale exige une preuve de mariage — livret de
+              famille ou certificat. Nous le mentionnons ici pour qu'aucune
+              surprise ne vous attende à la réception : il s'agit d'une
+              exigence nationale, et non d'une règle de l'hôtel.
             </p>
           </div>
         </div>
       </Section>
 
-      {/* Decorative full-bleed lake image — visual breath before the footer. */}
+      {/* Decorative full-bleed image — visual breath before the footer. */}
       <Section tone="white" size="compact" fullBleed>
         <div className="relative w-full h-[260px] sm:h-[320px] md:h-[420px] lg:h-[520px] overflow-hidden">
           <Image
             src="/images/exhibit-suite-dawn.jpg"
-            alt="Dawn over Lac Mézaïa from a Hôtel du Lac window"
+            alt={`Lumière de l'aube depuis une fenêtre de ${hotel.name}`}
             fill
             sizes="100vw"
             className="object-cover"

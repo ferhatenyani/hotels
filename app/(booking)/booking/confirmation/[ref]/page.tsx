@@ -1,22 +1,24 @@
-// /booking/confirmation/[ref] — step 6. Reservation receipt.
+// /booking/confirmation/[ref] — étape 6. Reçu de réservation.
 //
-// Server Component awaits params and hands the ref to the client child,
-// which:
-//   - Looks up the booking in localStorage `hdl:bookings` by ref.
-//   - If found, shows the "sealed and sent" success state with the booking
-//     reference, room/dates summary, guest name, total, an "Add to
-//     calendar" .ics download, and a hint to /booking/lookup.
-//   - If not found, surfaces a calm "we couldn't find this reservation in
-//     your browser — please call the desk" with the phone number.
+// Le Server Component attend les params et transmet la ref à l'enfant
+// client qui :
+//   - Cherche la réservation dans localStorage `hdl:bookings` par ref.
+//   - Si trouvée, affiche l'état de succès « envoyée et scellée » avec la
+//     référence de réservation, le récap chambre/dates, le nom du
+//     voyageur, le total, un téléchargement « Ajouter au calendrier »
+//     (.ics) et un lien vers /booking/lookup.
+//   - Sinon, propose un « impossible de retrouver cette réservation dans
+//     votre navigateur — appelez la réception » avec le numéro.
 
 import type { Metadata } from "next";
 
 import ConfirmationClient from "./ConfirmationClient";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Reservation confirmed — Hôtel du Lac",
+  title: `Réservation confirmée — ${hotel.name}`,
   description:
-    "Your reservation is in. We confirm every booking ourselves — direct booking, no third parties.",
+    "Votre réservation est prise en compte. Nous confirmons chaque réservation nous-mêmes — réservation directe, sans intermédiaire.",
 };
 
 export default async function ConfirmationPage(

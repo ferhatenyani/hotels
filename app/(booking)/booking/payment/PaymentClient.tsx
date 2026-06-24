@@ -1,14 +1,16 @@
-// PaymentClient — mocked card form. NEVER CHARGES ANY CARD.
+// PaymentClient — formulaire de carte simulé. NE DÉBITE JAMAIS DE CARTE.
 //
-// The orchestrator brief is explicit: this is a demo flow. The form looks
-// like a real PCI card form but does no network call. On submit we:
-//   1. Generate a booking reference via makeBookingRef.
-//   2. Persist a booking snapshot — room slug, dates, guest, add-ons,
-//      total, ref, timestamp — to localStorage under `hdl:bookings`.
-//   3. Route to /booking/confirmation/[ref], where the client can find the
-//      booking again by ref.
+// Ce flux est explicitement une démo. Le formulaire ressemble à un vrai
+// formulaire PCI, mais ne fait aucun appel réseau. À la soumission, on :
+//   1. Génère une référence de réservation via makeBookingRef.
+//   2. Persiste un instantané de la réservation — slug de chambre, dates,
+//      voyageur, suppléments, total, ref, horodatage — dans localStorage
+//      sous `hdl:bookings`.
+//   3. Route vers /booking/confirmation/[ref], où le client retrouve la
+//      réservation par ref.
 //
-// Card number/expiry/CVC are masked/formatted on input but never sent.
+// Le numéro de carte / l'expiration / le CVC sont masqués/formatés à
+// la saisie, mais ne sont jamais envoyés.
 
 "use client";
 
@@ -31,7 +33,7 @@ import type {
 } from "@/lib/booking/types";
 import { computeBreakdown, makeBookingRef } from "@/lib/booking/pricing";
 import type { Room } from "@/lib/data/rooms";
-import { formatDA } from "@/lib/data/hotel";
+import { formatDA, hotel } from "@/lib/data/hotel";
 
 const GUEST_KEY = "hdl:booking-guest";
 const ADDONS_KEY = "hdl:booking-addons";
@@ -63,7 +65,7 @@ export default function PaymentClient({ room, q }: Props) {
     expiry: "",
     cvc: "",
     cardName: "",
-    billingCountry: "Algeria",
+    billingCountry: hotel.country,
   });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
@@ -89,7 +91,7 @@ export default function PaymentClient({ room, q }: Props) {
     } catch {
       /* ignore */
     }
-    // Pre-fill the cardholder name from the guest if available.
+    // Pré-remplit le nom du titulaire à partir du voyageur si disponible.
     setHydrated(true);
   }, [router, q]);
 
@@ -124,14 +126,14 @@ export default function PaymentClient({ room, q }: Props) {
     }
   };
 
-  // Mask card number into groups of 4 (1234 5678 9012 3456). Strips
-  // non-digits and caps at 16.
+  // Masque le numéro de carte en groupes de 4 (1234 5678 9012 3456).
+  // Retire les non-chiffres et limite à 16.
   const formatCardNumber = (value: string) => {
     const digits = value.replace(/\D/g, "").slice(0, 16);
     return digits.replace(/(\d{4})(?=\d)/g, "$1 ");
   };
 
-  // Format expiry as MM/YY.
+  // Formate la date d'expiration en MM/AA.
   const formatExpiry = (value: string) => {
     const digits = value.replace(/\D/g, "").slice(0, 4);
     if (digits.length < 3) return digits;
@@ -143,25 +145,25 @@ export default function PaymentClient({ room, q }: Props) {
   const validate = (c: CardFields): FieldErrors => {
     const next: FieldErrors = {};
     const digits = c.cardNumber.replace(/\s/g, "");
-    if (digits.length !== 16) next.cardNumber = "Card number must be 16 digits.";
+    if (digits.length !== 16) next.cardNumber = "Le numéro de carte doit comporter 16 chiffres.";
     if (!/^\d{2}\/\d{2}$/.test(c.expiry))
-      next.expiry = "Use MM/YY.";
+      next.expiry = "Utilisez le format MM/AA.";
     else {
       const [mmStr, yyStr] = c.expiry.split("/");
       const mm = Number(mmStr);
-      if (mm < 1 || mm > 12) next.expiry = "Invalid month.";
+      if (mm < 1 || mm > 12) next.expiry = "Mois invalide.";
       else {
-        // Naive expiry future check: assume 20YY.
+        // Vérification naïve de future expiration : on suppose 20AA.
         const yy = Number(yyStr);
         const expDate = new Date(2000 + yy, mm, 0);
-        if (expDate < new Date()) next.expiry = "Card has expired.";
+        if (expDate < new Date()) next.expiry = "La carte a expiré.";
       }
     }
     if (c.cvc.length < 3 || c.cvc.length > 4)
-      next.cvc = "CVC must be 3 or 4 digits.";
-    if (!c.cardName.trim()) next.cardName = "Cardholder name is required.";
+      next.cvc = "Le CVC doit comporter 3 ou 4 chiffres.";
+    if (!c.cardName.trim()) next.cardName = "Le nom du titulaire est requis.";
     if (!c.billingCountry.trim())
-      next.billingCountry = "Billing country is required.";
+      next.billingCountry = "Le pays de facturation est requis.";
     return next;
   };
 
@@ -199,9 +201,10 @@ export default function PaymentClient({ room, q }: Props) {
       list.unshift(snapshot);
       localStorage.setItem(BOOKINGS_KEY, JSON.stringify(list));
     } catch {
-      /* private-mode safe — confirmation page will still render the
-         snapshot in URL ref; if local persistence fails it gracefully
-         degrades to the "couldn't find this reservation" copy. */
+      /* mode privé tolérant — la page de confirmation rendra encore
+         l'instantané par la ref dans l'URL ; si la persistance locale
+         échoue, on bascule proprement sur le texte « réservation
+         introuvable ». */
     }
 
     router.push(bookingHref("confirmation", q, ref));
@@ -225,10 +228,10 @@ export default function PaymentClient({ room, q }: Props) {
       <form
         onSubmit={onSubmit}
         noValidate
-        aria-label="Payment"
+        aria-label="Paiement"
         className="lg:col-span-2 order-2 lg:order-1 flex flex-col gap-6 md:gap-8 pb-28 lg:pb-0"
       >
-        {/* Demo-only badge. THIS IS LOAD-BEARING per the brief. */}
+        {/* Badge démo uniquement. À CONSERVER. */}
         <div
           role="status"
           className="rounded-2xl border border-marine/30 bg-marine/[0.05] p-5 md:p-6 flex items-start gap-4"
@@ -238,20 +241,20 @@ export default function PaymentClient({ room, q }: Props) {
           </span>
           <div className="flex-1 min-w-0">
             <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-marine">
-              Secure (demo) payment
+              Paiement sécurisé (démo)
             </p>
             <p className="mt-1.5 font-display text-[18px] md:text-[20px] font-medium text-ink leading-tight tracking-tight">
-              Demo only — no card is charged.
+              Démo uniquement — aucune carte n&apos;est débitée.
             </p>
             <p className="mt-2 font-sans text-[13px] leading-[1.6] text-ink/70">
-              This page is a faithful preview of the booking flow. Nothing is
-              sent anywhere. We confirm every real reservation ourselves —
-              direct booking, no third parties.
+              Cette page est un aperçu fidèle du tunnel de réservation. Rien
+              n&apos;est envoyé. Nous confirmons chaque vraie réservation
+              nous-mêmes — réservation directe, sans intermédiaire.
             </p>
           </div>
         </div>
 
-        {/* Card form */}
+        {/* Formulaire de carte */}
         <section
           aria-labelledby="card-title"
           className="rounded-2xl border border-ink/10 bg-white p-5 md:p-7 lg:p-9"
@@ -261,18 +264,18 @@ export default function PaymentClient({ room, q }: Props) {
               id="card-title"
               className="font-display text-[20px] md:text-[24px] font-medium text-ink leading-tight tracking-tight"
             >
-              Card details
+              Détails de la carte
             </h2>
             <span className="inline-flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.18em] text-ink/55">
               <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.75} />
-              Demo only
+              Démo uniquement
             </span>
           </div>
 
           <div className="flex flex-col gap-6 md:gap-8">
             <Field
               name="cardNumber"
-              label="Card number"
+              label="Numéro de carte"
               inputMode="numeric"
               autoComplete="cc-number"
               placeholder="1234 5678 9012 3456"
@@ -287,10 +290,10 @@ export default function PaymentClient({ room, q }: Props) {
             <div className="grid grid-cols-2 gap-6 md:gap-8">
               <Field
                 name="expiry"
-                label="Expiry"
+                label="Expiration"
                 inputMode="numeric"
                 autoComplete="cc-exp"
-                placeholder="MM/YY"
+                placeholder="MM/AA"
                 required
                 value={card.expiry}
                 onChange={(e) =>
@@ -313,7 +316,7 @@ export default function PaymentClient({ room, q }: Props) {
 
             <Field
               name="cardName"
-              label="Cardholder name"
+              label="Nom du titulaire"
               autoComplete="cc-name"
               required
               value={card.cardName}
@@ -323,7 +326,7 @@ export default function PaymentClient({ room, q }: Props) {
 
             <Field
               name="billingCountry"
-              label="Billing country"
+              label="Pays de facturation"
               autoComplete="country-name"
               required
               value={card.billingCountry}
@@ -333,23 +336,23 @@ export default function PaymentClient({ room, q }: Props) {
           </div>
 
           <p className="mt-7 font-sans text-[12px] leading-[1.6] text-ink/55">
-            By continuing you agree to our policies. Reminder — this is a
-            demonstration page. No payment provider is contacted, no money
-            moves.
+            En continuant, vous acceptez nos politiques. Rappel — cette page
+            est une démonstration. Aucun prestataire de paiement n&apos;est
+            contacté, aucun montant n&apos;est prélevé.
           </p>
         </section>
 
-        {/* Desktop CTA */}
+        {/* CTA desktop */}
         <div className="hidden lg:flex items-center justify-between gap-6 pt-2">
           <p className="font-sans text-[12px] text-graybase max-w-sm">
-            Total <span className="font-display tabular-nums text-ink">{formatDA(breakdown.total)}</span> — demo confirmation only.
+            Total <span className="font-display tabular-nums text-ink">{formatDA(breakdown.total)}</span> — confirmation de démo uniquement.
           </p>
           <button
             type="submit"
             disabled={submitting}
             className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine disabled:opacity-50"
           >
-            {submitting ? "Confirming…" : "Confirm reservation"}
+            {submitting ? "Confirmation…" : "Confirmer la réservation"}
             <ArrowRight
               className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
               strokeWidth={2.25}
@@ -357,7 +360,7 @@ export default function PaymentClient({ room, q }: Props) {
           </button>
         </div>
 
-        {/* Mobile sticky CTA */}
+        {/* CTA collante mobile */}
         <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-ink/10 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <button
             type="submit"
@@ -365,8 +368,8 @@ export default function PaymentClient({ room, q }: Props) {
             className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90 disabled:opacity-50"
           >
             {submitting
-              ? "Confirming…"
-              : `Confirm · ${formatDA(breakdown.total)}`}
+              ? "Confirmation…"
+              : `Confirmer · ${formatDA(breakdown.total)}`}
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
           </button>
         </div>

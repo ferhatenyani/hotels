@@ -41,14 +41,14 @@ export async function generateMetadata(
   const room = getRoomBySlug(slug);
   if (!room) {
     return {
-      title: "Room not found — Hôtel du Lac",
+      title: `Chambre introuvable — ${hotel.name}`,
     };
   }
   return {
-    title: `${room.name} — Hôtel du Lac, Béjaïa`,
+    title: `${room.name} — ${hotel.name}, ${hotel.city}`,
     description: room.tagline,
     openGraph: {
-      title: `${room.name} — Hôtel du Lac`,
+      title: `${room.name} — ${hotel.name}`,
       description: room.tagline,
       images: [{ url: room.cover, alt: room.coverAlt }],
     },
@@ -77,7 +77,7 @@ export default async function RoomDetailPage(
   return (
     <main className="bg-white pb-24 md:pb-0">
       <PageHero
-        eyebrow="Rooms & Suites"
+        eyebrow="Chambres et Suites"
         heading={room.name}
         description={room.tagline}
         image={room.cover}
@@ -91,7 +91,7 @@ export default async function RoomDetailPage(
       <Section tone="white" size="compact" className="!py-6 md:!py-8">
         <Breadcrumb
           items={[
-            { label: "Rooms", href: "/rooms" },
+            { label: "Chambres", href: "/rooms" },
             { label: room.name },
           ]}
         />
@@ -106,10 +106,10 @@ export default async function RoomDetailPage(
 
             <div className="mt-10 md:mt-14">
               <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-graybase mb-3">
-                About this room
+                À propos de cette chambre
               </p>
               <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-ink text-balance max-w-[34ch]">
-                The shape of the stay
+                La forme du séjour
               </h2>
               <span
                 aria-hidden
@@ -122,10 +122,10 @@ export default async function RoomDetailPage(
 
             <div className="mt-10 md:mt-14">
               <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-graybase mb-3">
-                What's included
+                Ce qui est inclus
               </p>
               <h3 className="font-display font-medium text-[20px] md:text-[24px] tracking-tight leading-[1.15] text-ink">
-                Amenities, in plain words
+                Équipements, en mots simples
               </h3>
               <span
                 aria-hidden
@@ -150,10 +150,10 @@ export default async function RoomDetailPage(
             {room.bestFor.length > 0 && (
               <div className="mt-10 md:mt-14">
                 <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-graybase mb-3">
-                  Best for
+                  Idéal pour
                 </p>
                 <h3 className="font-display font-medium text-[20px] md:text-[24px] tracking-tight leading-[1.15] text-ink">
-                  Who tends to take this room
+                  Qui choisit habituellement cette chambre
                 </h3>
                 <span
                   aria-hidden
@@ -174,16 +174,16 @@ export default async function RoomDetailPage(
 
             <div className="mt-10 md:mt-14 border-t border-ink/10 pt-6 md:pt-8 flex flex-wrap items-baseline gap-x-6 gap-y-3 font-sans text-[13px] md:text-[14px] text-graybase">
               <span>
-                From{" "}
+                À partir de{" "}
                 <span className="font-display font-semibold text-ink text-[16px] md:text-[18px]">
                   {formatDA(room.priceDA)}
                 </span>{" "}
-                / night
+                / nuit
               </span>
               <span aria-hidden className="h-3 w-px bg-ink/15" />
               <span>{room.sizeDisplay}</span>
               <span aria-hidden className="h-3 w-px bg-ink/15" />
-              <span>Sleeps {room.sleeps}</span>
+              <span>Couchage : {room.sleeps}</span>
               <span aria-hidden className="h-3 w-px bg-ink/15" />
               <span>
                 {hotel.shortName} · {hotel.city}
@@ -212,16 +212,16 @@ export default async function RoomDetailPage(
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6 mb-8 md:mb-10">
             <div className="max-w-2xl">
               <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-                Also at the lake
+                Aussi dans la maison
               </p>
               <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-ink text-balance">
-                Other rooms guests pair with this one
+                D&apos;autres chambres que les clients associent à celle-ci
               </h2>
               <span aria-hidden className="mt-5 block h-px w-14 bg-marine" />
             </div>
             <div className="md:shrink-0">
               <Button href="/rooms" variant="secondary" size="default" arrow>
-                See all rooms
+                Voir toutes les chambres
               </Button>
             </div>
           </div>

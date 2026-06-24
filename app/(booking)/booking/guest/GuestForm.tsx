@@ -1,19 +1,20 @@
-// GuestForm — client form for /booking/guest.
+// GuestForm — formulaire client pour /booking/guest.
 //
-// PII NEVER GOES IN THE URL. The booking funnel keeps its non-sensitive
-// state in the URL (dates, room, guest counts, promo) so refresh and
-// link-sharing work. But personal data — names, emails, phones — would
-// leak through history, server logs and shared links. We persist it to
-// `sessionStorage` under "hdl:booking-guest" so it only lives for the
-// life of the tab.
+// LES DONNÉES PERSONNELLES NE TRANSITENT JAMAIS PAR L'URL. Le tunnel de
+// réservation conserve son état non sensible dans l'URL (dates, chambre,
+// nombre de voyageurs, promo) pour que le refresh et le partage de liens
+// fonctionnent. Mais les données personnelles — noms, e-mails, téléphones
+// — fuiteraient via l'historique, les logs serveur et les liens partagés.
+// On les persiste dans `sessionStorage` sous "hdl:booking-guest" pour
+// qu'elles ne vivent que le temps de l'onglet.
 //
-// Form behaviour:
-//   - All required fields validate client-side on submit.
-//   - The first invalid field is focused on submit failure.
-//   - The required check-in acknowledgement (ID + marriage booklet for
-//     couples — Algerian regulation) is wired as `ackCheckInPolicy`.
-//   - On success we route to /booking/review carrying ONLY the URL query
-//     (room + dates + counts), nothing personal.
+// Comportement du formulaire :
+//   - Tous les champs requis sont validés côté client à la soumission.
+//   - Le premier champ invalide reçoit le focus si la soumission échoue.
+//   - L'acceptation de la politique de check-in (pièce d'identité requise)
+//     est câblée en `ackCheckInPolicy`.
+//   - En cas de succès, on route vers /booking/review en ne transportant
+//     que la query d'URL (chambre + dates + voyageurs), rien de personnel.
 
 "use client";
 
@@ -82,15 +83,15 @@ export default function GuestForm({ q }: Props) {
 
   const validate = (d: GuestDetails): FieldErrors => {
     const next: FieldErrors = {};
-    if (!d.firstName.trim()) next.firstName = "First name is required.";
-    if (!d.lastName.trim()) next.lastName = "Last name is required.";
-    if (!d.email.trim()) next.email = "Email is required.";
+    if (!d.firstName.trim()) next.firstName = "Le prénom est requis.";
+    if (!d.lastName.trim()) next.lastName = "Le nom est requis.";
+    if (!d.email.trim()) next.email = "L'e-mail est requis.";
     else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email))
-      next.email = "Use a valid email address.";
-    if (!d.phone.trim()) next.phone = "Phone is required.";
+      next.email = "Utilisez une adresse e-mail valide.";
+    if (!d.phone.trim()) next.phone = "Le téléphone est requis.";
     if (!d.ackCheckInPolicy)
       next.ackCheckInPolicy =
-        "Please acknowledge the check-in policy to continue.";
+        "Veuillez accepter la politique de check-in pour continuer.";
     return next;
   };
 
@@ -138,16 +139,17 @@ export default function GuestForm({ q }: Props) {
       ref={formRef}
       noValidate
       onSubmit={onSubmit}
-      aria-label="Lead guest details"
+      aria-label="Informations du voyageur principal"
       className="flex flex-col gap-7 pb-28 lg:pb-0"
     >
-      {/* Funnel forms intentionally drop the numbered indices used by the
-          editorial Contact letter — index numerals there are voice; here they
-          would read as template scaffolding on a transactional form. */}
+      {/* Les formulaires du tunnel évitent volontairement la numérotation
+          utilisée par la lettre éditoriale de la page Contact — les
+          numéros là-bas sont une voix ; ici ils paraîtraient comme un
+          gabarit sur un formulaire transactionnel. */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
         <Field
           name="firstName"
-          label="First name"
+          label="Prénom"
           autoComplete="given-name"
           required
           value={details.firstName}
@@ -156,7 +158,7 @@ export default function GuestForm({ q }: Props) {
         />
         <Field
           name="lastName"
-          label="Last name"
+          label="Nom"
           autoComplete="family-name"
           required
           value={details.lastName}
@@ -165,7 +167,7 @@ export default function GuestForm({ q }: Props) {
         />
         <Field
           name="email"
-          label="Email"
+          label="E-mail"
           type="email"
           inputMode="email"
           autoComplete="email"
@@ -173,11 +175,11 @@ export default function GuestForm({ q }: Props) {
           value={details.email}
           onChange={(e) => update("email", e.target.value)}
           error={errors.email}
-          helper="We send your confirmation here."
+          helper="Nous y enverrons votre confirmation."
         />
         <Field
           name="phone"
-          label="Phone"
+          label="Téléphone"
           type="tel"
           inputMode="tel"
           autoComplete="tel"
@@ -185,32 +187,30 @@ export default function GuestForm({ q }: Props) {
           value={details.phone}
           onChange={(e) => update("phone", e.target.value)}
           error={errors.phone}
-          helper="In case the front desk needs to reach you."
+          helper="Au cas où la réception doit vous joindre."
         />
         <Field
           name="arrivalTime"
-          label="Arrival time"
-          placeholder="e.g. 14:00"
+          label="Heure d'arrivée"
+          placeholder="ex. 14:00"
           autoComplete="off"
           value={details.arrivalTime ?? ""}
           onChange={(e) => update("arrivalTime", e.target.value)}
-          helper="Optional — helps us prep your room."
+          helper="Optionnel — nous aide à préparer votre chambre."
           wrapperClassName="sm:col-span-2 md:col-span-1"
         />
       </div>
 
       <TextArea
         name="notes"
-        label="A note for the desk"
-        placeholder="Allergies, anniversaries, a quiet floor — anything we should know."
+        label="Un mot pour la réception"
+        placeholder="Allergies, anniversaires, un étage calme — tout ce que nous devrions savoir."
         rows={4}
         value={details.notes ?? ""}
         onChange={(e) => update("notes", e.target.value)}
       />
 
-      {/* ID / marriage booklet acknowledgement — required by Algerian
-          regulation for couples checking in. Surfaced verbatim per the
-          honesty rules in the orchestrator brief. */}
+      {/* Acceptation pièce d'identité — requise au check-in. */}
       <div className="rounded-2xl border border-marine/20 bg-marine/[0.04] p-5 md:p-6">
         <div className="flex items-start gap-4">
           <span className="hidden sm:inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-marine/10 text-marine">
@@ -218,7 +218,7 @@ export default function GuestForm({ q }: Props) {
           </span>
           <div className="flex-1 min-w-0">
             <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-marine mb-2">
-              Check-in policy
+              Politique de check-in
             </p>
             <label
               htmlFor="ackCheckInPolicy"
@@ -238,8 +238,8 @@ export default function GuestForm({ q }: Props) {
                 }
               />
               <span className="font-sans text-[14px] leading-[1.6] text-ink">
-                I understand I&apos;ll need to present a valid ID, and a
-                marriage booklet for couples (Algerian requirement).
+                Je comprends que je devrai présenter une pièce d&apos;identité
+                en règle à l&apos;arrivée.
               </span>
             </label>
             {errors.ackCheckInPolicy && (
@@ -255,18 +255,18 @@ export default function GuestForm({ q }: Props) {
         </div>
       </div>
 
-      {/* Desktop CTA row */}
+      {/* Ligne CTA desktop */}
       <div className="hidden lg:flex items-center justify-between gap-6 pt-4">
         <p className="font-sans text-[12px] text-graybase max-w-sm">
-          We don&apos;t share your details. You can edit them on the next
-          step.
+          Nous ne partageons pas vos informations. Vous pourrez les modifier à
+          l&apos;étape suivante.
         </p>
         <button
           type="submit"
           disabled={submitting}
           className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine disabled:opacity-50"
         >
-          Continue to review
+          Vers le récapitulatif
           <ArrowRight
             className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
             strokeWidth={2.25}
@@ -274,14 +274,14 @@ export default function GuestForm({ q }: Props) {
         </button>
       </div>
 
-      {/* Mobile sticky bottom action bar */}
+      {/* Barre d'action collante en bas (mobile) */}
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-ink/10 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <button
           type="submit"
           disabled={submitting}
           className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90 disabled:opacity-50"
         >
-          Continue to review
+          Vers le récapitulatif
           <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
         </button>
       </div>

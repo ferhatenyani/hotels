@@ -1,89 +1,88 @@
-// "Discover Béjaïa" — concierge-recommended local sights, NOT paid hotel tours.
-// The honesty rule from HOTEL-DU-LAC-DEMO-CONTENT.md §10.4 applies:
-// these are real local attractions framed as concierge picks, never priced.
+// « Découvrir la région » — recommandations du concierge, PAS des excursions
+// payantes de l'hôtel. Présentées comme suggestions locales, jamais tarifées.
 
 export type Experience = {
   slug: string;
   name: string;
-  /** One-line essence used on cards. */
+  /** Phrase essentielle en une ligne utilisée sur les cartes. */
   tagline: string;
-  /** Long-form (1–2 sentences) used on the detail row. */
+  /** Forme longue (1–2 phrases) utilisée sur la rangée détail. */
   description: string;
-  /** "By car · ~15 min", "At the door", "Half day", "In town" — travel time, not paid duration. */
+  /** « En voiture · ~15 min », « Au pas de la porte », « Demi-journée », « En ville » — temps de trajet, pas durée payante. */
   travelTime: string;
-  /** Category for filtering / grouping. */
-  category: "Nature" | "Heritage" | "Coast" | "In-house";
-  /** Local image asset. */
+  /** Catégorie pour le filtrage / regroupement. */
+  category: "Nature" | "Patrimoine" | "Côte" | "À l'hôtel";
+  /** Image locale. */
   image: string;
   imageAlt: string;
 };
 
 export const experiences: Experience[] = [
   {
-    slug: "gouraya-national-park",
-    name: "Gouraya National Park",
-    tagline: "Cedar slopes, sea views, and the Pic des Singes above the bay.",
+    slug: "parc-national",
+    name: "Parc National",
+    tagline: "Pentes boisées, vues sur la mer et un sommet panoramique au-dessus de la baie.",
     description:
-      "A protected mountain park rising directly behind the city — cedar woods, panoramic ridge walks, and the famous Pic des Singes (Peak of the Monkeys) overlooking the bay of Béjaïa.",
-    travelTime: "By car · ~15 min",
+      "Un parc montagneux protégé qui s'élève juste derrière la ville — forêts, balades panoramiques sur la crête et un point de vue célèbre sur toute la baie.",
+    travelTime: "En voiture · ~15 min",
     category: "Nature",
     image: "/images/activity-cliff-path.jpg",
-    imageAlt: "A cliff path in Gouraya National Park",
+    imageAlt: "Un sentier dans le parc national",
   },
   {
-    slug: "cap-carbon-lighthouse",
-    name: "Cap Carbon Lighthouse",
-    tagline: "One of the Mediterranean's highest lighthouses, on a dramatic headland.",
+    slug: "phare-historique",
+    name: "Phare Historique",
+    tagline: "L'un des plus hauts phares de la Méditerranée, sur un cap spectaculaire.",
     description:
-      "A drive along the Corniche to a working lighthouse perched on a sheer headland. One of the Mediterranean's highest, with a wide view of the gulf — best at the slow hour before sunset.",
-    travelTime: "Half day",
-    category: "Coast",
+      "Une route le long de la corniche jusqu'à un phare en activité perché sur un cap abrupt. L'un des plus hauts de la Méditerranée, avec une large vue sur le golfe — à voir à l'heure douce avant le coucher du soleil.",
+    travelTime: "Demi-journée",
+    category: "Côte",
     image: "/images/activity-sunset-sailing.jpg",
-    imageAlt: "The headland near Cap Carbon Lighthouse",
+    imageAlt: "Le cap près du phare",
   },
   {
-    slug: "lac-mezaia",
-    name: "Lac Mézaïa",
-    tagline: "A protected wetland of birdlife and quiet, right outside the hotel.",
+    slug: "reserve-naturelle",
+    name: "Réserve Naturelle",
+    tagline: "Une zone humide protégée, riche en oiseaux et calme, juste devant l'hôtel.",
     description:
-      "Our doorstep. A protected stretch of inland water and birdsong, held quietly inside central Béjaïa — a short walk that resets the day. Bring a quiet pair of shoes and a camera.",
-    travelTime: "At the door",
+      "Notre pas de porte. Une étendue d'eau intérieure protégée et le chant des oiseaux, gardée discrètement au cœur de la ville — une courte promenade qui remet la journée à zéro. Apportez de bonnes chaussures et un appareil photo.",
+    travelTime: "Au pas de la porte",
     category: "Nature",
     image: "/images/activity-garden-breakfast.jpg",
-    imageAlt: "Quiet greenery along Lac Mézaïa",
+    imageAlt: "Verdure tranquille le long de la réserve",
   },
   {
-    slug: "corniche-beaches",
-    name: "The Corniche Beaches",
-    tagline: "Les Aiguades and Boulimat, along Béjaïa's coast road.",
+    slug: "plages-corniche",
+    name: "Plages de la Corniche",
+    tagline: "Des criques et de longues plages le long de la route côtière.",
     description:
-      "The Corniche unrolls north of the city — coves at Les Aiguades, the long curve at Boulimat, and clear water on calm days. Take the coast road slowly; the views are the point.",
-    travelTime: "By car",
-    category: "Coast",
+      "La corniche se déroule au nord de la ville — criques, longues courbes de sable et eau claire les jours calmes. Prenez la route côtière doucement ; les vues sont l'essentiel.",
+    travelTime: "En voiture",
+    category: "Côte",
     image: "/images/activity-sea-bathing.jpg",
-    imageAlt: "A cove along the Béjaïa Corniche",
+    imageAlt: "Une crique le long de la corniche",
   },
   {
-    slug: "casbah-bab-el-bahr",
-    name: "The Casbah & Bab El Bahr",
-    tagline: "The old town, the sea gate and Place Gueydon, in the historic centre.",
+    slug: "vieille-ville",
+    name: "Vieille Ville & Porte Historique",
+    tagline: "La vieille ville, la porte de mer et la place centrale, dans le quartier historique.",
     description:
-      "Walk the old upper city — narrow steps, Ottoman walls, the sea gate Bab El Bahr — and finish with a coffee on Place Gueydon, where Béjaïa watches itself pass the afternoon.",
-    travelTime: "In town",
-    category: "Heritage",
+      "Parcourez la vieille ville haute — ruelles étroites, murs anciens, porte historique — et terminez par un café sur la place principale, où la ville se regarde passer l'après-midi.",
+    travelTime: "En ville",
+    category: "Patrimoine",
     image: "/images/activity-vineyard-walk.jpg",
-    imageAlt: "An old-city alley in Béjaïa",
+    imageAlt: "Une ruelle de la vieille ville",
   },
   {
-    slug: "lake-view-dining",
-    name: "Lake-View Dining",
-    tagline: "An evening table at the hotel restaurant, above Lac Mézaïa.",
+    slug: "diner-vue",
+    name: "Dîner avec Vue",
+    tagline: "Une table le soir au restaurant de l'hôtel, au-dessus du paysage.",
     description:
-      "A table at the hotel restaurant, above the water, as the light goes. Une carte d'excellence ouverte sur le monde — the simplest experience to plan, and often the one guests remember.",
-    travelTime: "In-house",
-    category: "In-house",
+      "Une table au restaurant de l'hôtel, au-dessus du paysage, à mesure que la lumière s'éteint. Une carte d'excellence ouverte sur le monde — l'expérience la plus simple à planifier et souvent celle dont nos hôtes se souviennent.",
+    travelTime: "À l'hôtel",
+    category: "À l'hôtel",
     image: "/images/exhibit-dining-room.jpg",
-    imageAlt: "The restaurant at Hôtel du Lac",
+    imageAlt: "Le restaurant de l'hôtel",
   },
 ];
 

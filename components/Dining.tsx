@@ -10,9 +10,9 @@ if (typeof window !== "undefined") {
 }
 
 const hours = [
-  { label: "Breakfast", value: "06:30 – 10:30 · included" },
-  { label: "Lunch", value: "12:00 – 14:30" },
-  { label: "Dinner", value: "19:00 – 22:00" },
+  { label: "Petit-déjeuner", value: "06:30 – 10:30 · inclus" },
+  { label: "Déjeuner", value: "12:00 – 14:30" },
+  { label: "Dîner", value: "19:00 – 22:00" },
 ];
 
 export default function Dining() {
@@ -86,10 +86,10 @@ export default function Dining() {
 
           {/* Image — order-2 on mobile (between copy and hours), order-1 on desktop. */}
           <div className="dining-image-container overflow-hidden order-2 lg:order-1 relative aspect-[3/2] sm:aspect-[4/3] lg:aspect-[5/4] w-full">
-            {/* TODO(demo): real photo of the restaurant with the Lac Mézaïa view. */}
+            {/* TODO(demo): vraie photo du restaurant avec la vue. */}
             <Image
               src="/images/exhibit-dining-room.jpg"
-              alt="The restaurant at Hôtel du Lac, overlooking Lac Mézaïa"
+              alt="Le restaurant de l'hôtel, ouvert sur la vue"
               width={1200}
               height={1000}
               className="dining-image-parallax absolute inset-0 w-full h-full object-cover will-change-transform"
@@ -100,19 +100,19 @@ export default function Dining() {
           {/* Copy + (desktop) hours — order-1 on mobile, order-2 on desktop. */}
           <div className="dining-copy lg:pl-4 order-1 lg:order-2">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
-              The restaurant
+              Le restaurant
             </p>
             <h2 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-5xl leading-[1.08] tracking-tight text-ink text-balance">
-              A table with a view of the water
+              Une table avec vue
             </h2>
             <span aria-hidden className="mt-5 md:mt-6 block h-px w-14 bg-marine" />
             <p className="mt-5 md:mt-7 font-sans font-normal text-[15px] md:text-[16px] leading-[1.7] md:leading-[1.75] text-graybase max-w-xl">
-              Our restaurant carries all the comfort of a true house of
-              gastronomy — <span className="italic">une carte d&apos;excellence
-              ouverte sur le monde</span> — set against a wide, panoramic view of
-              Lac Mézaïa. Mornings begin with the breakfast guests so often
-              single out: fresh fruit and warm pastries. Lunch and dinner follow
-              against the lake and the mountain.
+              Notre restaurant offre tout le confort d'un véritable haut lieu de
+              gastronomie — <span className="italic">une carte d&apos;excellence
+              ouverte sur le monde</span> — face à un large panorama. Les matins
+              commencent par le petit-déjeuner que nos hôtes citent si souvent :
+              fruits frais et viennoiseries chaudes. Le déjeuner et le dîner
+              suivent face au paysage.
             </p>
 
             {/* Desktop hours — original ledger layout, untouched. */}
@@ -136,7 +136,7 @@ export default function Dining() {
           {/* Hours as chips — mobile/tablet only. */}
           <div className="dining-copy order-3 lg:hidden">
             <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 mb-3">
-              Service hours
+              Horaires de service
             </p>
             <ul className="flex flex-wrap gap-2">
               {hours.map((h) => (

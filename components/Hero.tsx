@@ -155,10 +155,10 @@ export default function Hero() {
 
   const guestsLabel =
     adults + children === 0
-      ? "Add guests"
+      ? "Ajouter des hôtes"
       : [
-          `${adults} adult${adults > 1 ? "s" : ""}`,
-          children > 0 ? `${children} child${children > 1 ? "ren" : ""}` : null,
+          `${adults} adulte${adults > 1 ? "s" : ""}`,
+          children > 0 ? `${children} enfant${children > 1 ? "s" : ""}` : null,
         ]
           .filter(Boolean)
           .join(" · ");
@@ -287,10 +287,10 @@ export default function Hero() {
 
   const chipDates =
     checkIn && checkOut
-      ? `${format(checkIn, "MMM d")} → ${format(checkOut, "MMM d")}`
+      ? `${format(checkIn, "d MMM")} → ${format(checkOut, "d MMM")}`
       : checkIn
-        ? `${format(checkIn, "MMM d")} · pick check-out`
-        : "Add dates";
+        ? `${format(checkIn, "d MMM")} · choisir le départ`
+        : "Ajouter des dates";
 
   const draftNights =
     draftCheckIn && draftCheckOut
@@ -304,7 +304,7 @@ export default function Hero() {
       className="bg-white h-[100svh] flex flex-col"
     >
       <h1 className="sr-only">
-        Hôtel du Lac — lakeside city hotel in Béjaïa, Algeria
+        Notre Hôtel — hôtel au cœur de la ville
       </h1>
 
       {/* Section 1 (mobile) — header spacer at 12svh. Using svh (not dvh)
@@ -346,21 +346,20 @@ export default function Hero() {
           <div className="absolute inset-0 px-5 sm:px-10 lg:px-14 flex flex-col justify-start pt-6 sm:pt-[120px] lg:pt-[140px] pointer-events-none">
             <div className="overflow-hidden">
               <p className="hero-sub font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.24em] text-white/85">
-                Hôtel du Lac · Béjaïa
+                Notre Hôtel · Votre Ville
               </p>
             </div>
             <h2 className="mt-3 font-display font-medium text-white text-[32px] xs:text-[36px] sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-[16ch] text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
               <span className="block overflow-hidden">
-                <span className="hero-title-line block">The calm at the</span>
+                <span className="hero-title-line block">Le calme</span>
               </span>
               <span className="block overflow-hidden">
-                <span className="hero-title-line block">heart of the city</span>
+                <span className="hero-title-line block">au cœur de la ville</span>
               </span>
             </h2>
             <div className="overflow-hidden mt-3 sm:mt-4">
               <p className="hero-desc font-sans font-normal text-[14px] sm:text-[16px] leading-[1.6] text-white/85 max-w-[40ch] [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]">
-                On the edge of Lac Mézaïa, facing Yemma Gouraya — calm for
-                business or family.
+                Un hôtel moderne au centre — la tranquillité pour les affaires ou la famille.
               </p>
             </div>
           </div>
@@ -375,17 +374,17 @@ export default function Hero() {
                   // for what's missing. Router handles the navigation.
                   goToResults();
                 }}
-                aria-label="Check availability"
+                aria-label="Vérifier les disponibilités"
                 className="flex items-stretch divide-x divide-ink/10"
               >
                 <Popover open={guestsOpen} onOpenChange={setGuestsOpen}>
                   <PopoverTrigger
-                    aria-label="Guests"
+                    aria-label="Hôtes"
                     className={cn(fieldShell, "flex-1")}
                   >
                     <span className={fieldLabel}>
                       <Users className="h-3 w-3 text-ink/40" strokeWidth={2} />
-                      Guests
+                      Hôtes
                     </span>
                     <span
                       className={cn(
@@ -404,8 +403,8 @@ export default function Hero() {
                     className="w-[320px] max-w-[calc(100vw-1.5rem)] p-2"
                   >
                     <Stepper
-                      label="Adults"
-                      hint="Ages 13+"
+                      label="Adultes"
+                      hint="13 ans et plus"
                       value={adults}
                       min={1}
                       max={10}
@@ -413,8 +412,8 @@ export default function Hero() {
                     />
                     <div className="h-px bg-ink/10 mx-3" />
                     <Stepper
-                      label="Children"
-                      hint="Ages 0–12"
+                      label="Enfants"
+                      hint="0 à 12 ans"
                       value={children}
                       min={0}
                       max={6}
@@ -425,18 +424,18 @@ export default function Hero() {
 
                 <Popover open={datesOpen} onOpenChange={setDatesOpen}>
                   <PopoverTrigger
-                    aria-label="Check-in and check-out dates"
+                    aria-label="Dates d'arrivée et de départ"
                     className="group/field relative flex flex-[1.7] items-stretch text-left transition-colors hover:bg-ink/[0.025] focus-visible:outline-none focus-visible:bg-ink/[0.04]"
                   >
                     <span className="flex flex-1 flex-col items-start justify-center gap-1 px-5 h-[72px]">
-                      <span className={fieldLabel}>Check-in</span>
+                      <span className={fieldLabel}>Arrivée</span>
                       <span
                         className={cn(
                           fieldValue,
                           checkIn ? "text-ink font-medium" : "text-ink/45",
                         )}
                       >
-                        {checkIn ? format(checkIn, "EEE, MMM d") : "Add date"}
+                        {checkIn ? format(checkIn, "EEE d MMM") : "Ajouter une date"}
                       </span>
                     </span>
                     <span aria-hidden className="my-3 w-px bg-ink/10" />
@@ -446,7 +445,7 @@ export default function Hero() {
                         awaitingCheckOut && "bg-marine/[0.05]",
                       )}
                     >
-                      <span className={fieldLabel}>Check-out</span>
+                      <span className={fieldLabel}>Départ</span>
                       <span
                         className={cn(
                           fieldValue,
@@ -458,10 +457,10 @@ export default function Hero() {
                         )}
                       >
                         {checkOut
-                          ? format(checkOut, "EEE, MMM d")
+                          ? format(checkOut, "EEE d MMM")
                           : awaitingCheckOut
-                            ? "Pick check-out →"
-                            : "Add date"}
+                            ? "Choisir le départ →"
+                            : "Ajouter une date"}
                       </span>
                       {awaitingCheckOut && (
                         <span
@@ -501,10 +500,10 @@ export default function Hero() {
                         )}
                       >
                         {nights > 0
-                          ? `${nights} night${nights > 1 ? "s" : ""}`
+                          ? `${nights} nuit${nights > 1 ? "s" : ""}`
                           : awaitingCheckOut
-                            ? "Now pick check-out →"
-                            : "Pick your check-in date"}
+                            ? "Choisissez la date de départ →"
+                            : "Choisissez votre date d'arrivée"}
                       </span>
                       <button
                         type="button"
@@ -514,7 +513,7 @@ export default function Hero() {
                         }}
                         className="font-sans text-[11px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors"
                       >
-                        Clear
+                        Effacer
                       </button>
                     </div>
                   </PopoverContent>
@@ -524,7 +523,7 @@ export default function Hero() {
                   type="submit"
                   className="group/cta h-[72px] w-[210px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
                 >
-                  Check availability
+                  Vérifier les disponibilités
                   <ArrowRight
                     className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
                     strokeWidth={2.25}
@@ -545,7 +544,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={() => openSheet("checkin")}
-            aria-label="Select dates"
+            aria-label="Choisir les dates"
             className="flex-1 min-w-0 min-h-[56px] flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
           >
             <span className="flex items-center gap-1 text-[10px] uppercase tracking-[0.22em] text-ink/60 font-medium leading-none">
@@ -564,7 +563,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={() => openSheet("guests")}
-            aria-label="Select guests"
+            aria-label="Choisir le nombre d'hôtes"
             className="flex-1 min-w-0 min-h-[56px] flex flex-col items-start justify-center gap-1 rounded-[14px] bg-white border border-ink/10 px-3.5 py-2.5 text-left touch-manipulation transition-colors active:bg-ink/[0.04] shadow-[0_8px_20px_-12px_rgba(21,19,22,0.16)]"
           >
             <span className="flex items-center gap-1 text-[10px] uppercase tracking-[0.22em] text-ink/60 font-medium leading-none">
@@ -585,7 +584,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={onCheckAvailability}
-            aria-label="Check availability"
+            aria-label="Vérifier les disponibilités"
             // 56×56 minimum — primary funnel entry on the smallest viewport.
             className="shrink-0 inline-flex items-center justify-center h-auto min-h-[56px] min-w-[56px] rounded-[14px] bg-marine text-white px-5 transition-colors active:bg-marine/85 touch-manipulation shadow-[0_8px_20px_-8px_rgba(21,19,22,0.24)]"
           >
@@ -605,7 +604,7 @@ export default function Hero() {
             key="concierge-hovering"
             type="button"
             onClick={openConciergeChat}
-            aria-label="Ask the AI concierge"
+            aria-label="Discuter avec la conciergerie IA"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -624,7 +623,7 @@ export default function Hero() {
             key="concierge-docked"
             type="button"
             onClick={openConciergeChat}
-            aria-label="Ask the AI concierge"
+            aria-label="Discuter avec la conciergerie IA"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -650,10 +649,10 @@ export default function Hero() {
         onClose={closeSheet}
         title={
           sheetStep === "checkin"
-            ? "Check-in"
+            ? "Arrivée"
             : sheetStep === "checkout"
-              ? "Check-out"
-              : "Guests"
+              ? "Départ"
+              : "Hôtes"
         }
         onBack={sheetStep !== "checkin" ? back : undefined}
         bodyClassName="pb-2"
@@ -665,7 +664,7 @@ export default function Hero() {
               disabled={!draftCheckIn}
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
-              Continue
+              Continuer
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
             </button>
           ) : sheetStep === "checkout" ? (
@@ -675,10 +674,10 @@ export default function Hero() {
               disabled={!draftCheckOut}
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
-              Continue
+              Continuer
               {draftNights > 0 ? (
                 <span className="font-normal normal-case tracking-normal ml-1 opacity-80">
-                  · {draftNights} night{draftNights > 1 ? "s" : ""}
+                  · {draftNights} nuit{draftNights > 1 ? "s" : ""}
                 </span>
               ) : null}
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
@@ -689,7 +688,7 @@ export default function Hero() {
               onClick={commit}
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px]"
             >
-              Check availability
+              Vérifier les disponibilités
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
             </button>
           )
@@ -713,8 +712,8 @@ export default function Hero() {
         {sheetStep === "guests" && (
           <div className="pt-2">
             <Stepper
-              label="Adults"
-              hint="Ages 13+"
+              label="Adultes"
+              hint="13 ans et plus"
               value={draftAdults}
               min={1}
               max={10}
@@ -723,8 +722,8 @@ export default function Hero() {
             />
             <div className="h-px bg-ink/10 my-1" />
             <Stepper
-              label="Children"
-              hint="Ages 0–12"
+              label="Enfants"
+              hint="0 à 12 ans"
               value={draftChildren}
               min={0}
               max={6}
@@ -734,10 +733,10 @@ export default function Hero() {
             {draftCheckIn && draftCheckOut ? (
               <p className="mt-6 rounded-xl bg-ink/[0.04] px-4 py-3 font-sans text-[13px] text-ink/70">
                 <span className="font-medium text-ink">
-                  {format(draftCheckIn, "EEE, MMM d")} → {format(draftCheckOut, "EEE, MMM d")}
+                  {format(draftCheckIn, "EEE d MMM")} → {format(draftCheckOut, "EEE d MMM")}
                 </span>
                 <span className="block text-[12px] text-ink/55 mt-0.5">
-                  {draftNights} night{draftNights > 1 ? "s" : ""}
+                  {draftNights} nuit{draftNights > 1 ? "s" : ""}
                 </span>
               </p>
             ) : null}
@@ -824,7 +823,7 @@ function Stepper({
       </div>
       <div className={cn("flex items-center", large ? "gap-4" : "gap-3")}>
         <StepButton
-          ariaLabel={`Remove one ${label.toLowerCase()}`}
+          ariaLabel={`Retirer un ${label.toLowerCase()}`}
           disabled={value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
           large={large}
@@ -843,7 +842,7 @@ function Stepper({
           {value}
         </span>
         <StepButton
-          ariaLabel={`Add one ${label.toLowerCase()}`}
+          ariaLabel={`Ajouter un ${label.toLowerCase()}`}
           disabled={value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
           large={large}

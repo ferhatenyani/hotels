@@ -10,10 +10,10 @@ if (typeof window !== "undefined") {
 }
 
 const facts = [
-  { value: "498 m²", target: 498, suffix: " m²", label: "Reception hall" },
-  { value: "170", target: 170, suffix: "", label: "Seated guests" },
-  { value: "÷ 2", target: null, suffix: "", label: "Divisible halls" },
-  { value: "Equipped", target: null, suffix: "", label: "Meeting rooms" },
+  { value: "498 m²", target: 498, suffix: " m²", label: "Salle de réception" },
+  { value: "170", target: 170, suffix: "", label: "Invités assis" },
+  { value: "÷ 2", target: null, suffix: "", label: "Salles divisibles" },
+  { value: "Équipées", target: null, suffix: "", label: "Salles de réunion" },
 ];
 
 export default function Events() {
@@ -109,10 +109,10 @@ export default function Events() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Image — first on mobile to mirror Dining's rhythm; second on desktop. */}
           <div className="events-image-container overflow-hidden relative aspect-[3/2] sm:aspect-[4/3] lg:aspect-[5/4] w-full order-1 lg:order-2">
-            {/* TODO(demo): real photo of the 498 m² hall dressed for a wedding. */}
+            {/* TODO(demo): vraie photo de la salle de 498 m² habillée pour un mariage. */}
             <Image
               src="/images/exhibit-salon.jpg"
-              alt="The 498 m² reception hall at Hôtel du Lac, dressed for an event"
+              alt="La salle de réception de 498 m² de l'hôtel, habillée pour un événement"
               width={1200}
               height={1000}
               className="events-image-parallax absolute inset-0 w-full h-full object-cover will-change-transform"
@@ -123,19 +123,20 @@ export default function Events() {
           {/* Copy */}
           <div className="events-copy order-2 lg:order-1">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/45 mb-3 md:mb-4">
-              Celebrations &amp; conferences
+              Célébrations &amp; conférences
             </p>
             <h2 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-5xl leading-[1.08] tracking-tight text-white text-balance">
-              A 498 m² hall for the days that matter
+              Une salle de 498 m² pour les grands jours
             </h2>
             <span aria-hidden className="mt-5 md:mt-6 block h-px w-14 bg-marine" />
             <p className="mt-5 md:mt-7 font-sans font-normal text-[15px] md:text-[16px] leading-[1.7] md:leading-[1.75] text-white/70 max-w-xl">
-              From weddings and engagements to seminars and conferences, Hôtel du
-              Lac is one of Béjaïa&apos;s gathering places. Our reception hall
-              seats up to 170 guests and divides into two for smaller occasions;
-              our adaptable meeting rooms come equipped with projector,
-              microphone, Wi-Fi and coffee-break service — every event met with
-              bespoke catering, from a morning coffee break to a full dinner.
+              Des mariages et fiançailles aux séminaires et conférences, notre
+              hôtel est l'un des lieux de rassemblement reconnus de la ville.
+              Notre salle de réception accueille jusqu'à 170 invités et se divise
+              en deux pour les occasions plus intimes ; nos salles de réunion
+              modulables sont équipées d'un vidéoprojecteur, d'un microphone, du
+              Wi-Fi et d'un service pause-café — chaque événement bénéficie d'une
+              restauration sur mesure, du café du matin au dîner complet.
             </p>
 
             {/* CTA hoisted above stats on mobile so it appears earlier in the
@@ -144,7 +145,7 @@ export default function Events() {
               href="#contact"
               className="group/cta mt-7 inline-flex lg:hidden items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-7 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
             >
-              Plan your event
+              Organiser votre événement
               <svg
                 aria-hidden
                 viewBox="0 0 24 24"
@@ -182,7 +183,7 @@ export default function Events() {
               href="#contact"
               className="group/cta mt-10 hidden lg:inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
             >
-              Plan your event
+              Organiser votre événement
               <svg
                 aria-hidden
                 viewBox="0 0 24 24"

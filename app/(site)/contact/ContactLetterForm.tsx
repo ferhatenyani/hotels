@@ -21,10 +21,10 @@ export default function ContactLetterForm() {
       <div className="p-6 sm:p-10 lg:p-12">
         <div className="flex items-baseline justify-between gap-4 mb-6 md:mb-10">
           <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
-            A letter to the desk
+            Une lettre à la réception
           </p>
           <p className="font-display italic text-[13px] text-marine">
-            No.{" "}
+            N°{" "}
             <span className="tabular-nums">{new Date().getFullYear()}</span>
           </p>
         </div>
@@ -40,14 +40,14 @@ export default function ContactLetterForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-9">
               <Field
                 index="01"
-                label="Full name"
+                label="Nom complet"
                 required
                 type="text"
                 autoComplete="name"
               />
               <Field
                 index="02"
-                label="Email"
+                label="E-mail"
                 required
                 type="email"
                 autoComplete="email"
@@ -57,35 +57,35 @@ export default function ContactLetterForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-9">
               <Field
                 index="03"
-                label="Telephone"
+                label="Téléphone"
                 type="tel"
                 autoComplete="tel"
-                placeholder="So we can call back if needed"
+                placeholder="Pour vous rappeler si besoin"
               />
               <Field
                 index="04"
-                label="About"
+                label="Sujet"
                 type="text"
-                placeholder="A reservation, an event, a question"
+                placeholder="Une réservation, un événement, une question"
               />
             </div>
 
             <TextArea
               index="05"
               label="Message"
-              placeholder="A few lines is plenty — dates, party size, what matters."
+              placeholder="Quelques lignes suffisent — dates, taille du groupe, ce qui compte."
               rows={5}
             />
 
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <p className="font-sans text-[12px] leading-relaxed text-graybase max-w-sm">
-                We answer in the order letters arrive, usually within the day.
+                Nous répondons dans l'ordre d'arrivée des lettres, généralement dans la journée.
               </p>
               <button
                 type="submit"
                 className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink border border-ink/30 rounded-full px-8 py-4 min-h-[48px] transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
               >
-                Send the letter
+                Envoyer la lettre
                 <svg
                   aria-hidden
                   viewBox="0 0 24 24"
@@ -130,25 +130,26 @@ function SentConfirmation({ onReset }: { onReset: () => void }) {
           </svg>
         </span>
         <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-marine">
-          Sealed and sent
+          Cachetée et envoyée
         </p>
       </div>
       <p className="font-display text-2xl sm:text-[28px] leading-[1.2] tracking-tight text-ink max-w-md">
-        Your note is on the desk.{" "}
+        Votre message est sur le bureau.{" "}
         <span className="italic font-normal text-graybase">
-          A reply is on its way back to you.
+          Une réponse est en route.
         </span>
       </p>
       <p className="font-sans text-[14px] leading-[1.7] text-graybase max-w-md">
-        We answer in the order messages arrive — usually within the day, often
-        sooner. If a date is pressing, do telephone the hotel directly.
+        Nous répondons dans l'ordre d'arrivée des messages — habituellement
+        dans la journée, souvent plus tôt. Si une date presse, n'hésitez pas
+        à téléphoner directement à l'hôtel.
       </p>
       <button
         type="button"
         onClick={onReset}
         className="mt-2 inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-marine hover:text-marine/80 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
       >
-        Write another
+        Écrire une autre lettre
       </button>
     </div>
   );

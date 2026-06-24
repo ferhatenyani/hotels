@@ -22,36 +22,35 @@ type Room = {
   price: string;
 };
 
-// TODO(demo): replace `src` with real Hôtel du Lac room photography. Sizes,
-// prices (DA) and types are from the hotel's own listings; the Double's exact
-// m² is unpublished, so we show its defining feature (lake view) instead.
+// TODO(demo): remplacer `src` par les vraies photos des chambres. Tailles,
+// prix (DA) et types sont génériques pour cette démo.
 const rooms: Room[] = [
   {
     src: "/images/exhibit-corner-suite.jpg",
-    alt: "The Suite Senior's living corner, overlooking the lake",
+    alt: "Le coin salon de la Suite Senior, ouvert sur la vue",
     name: "Suite Senior",
     description:
-      "Fifty-two square metres of calm — a living corner, a dressing room, and a wide window over Lac Mézaïa and Gouraya.",
+      "Cinquante-deux mètres carrés de calme — un coin salon, un dressing et une large baie ouverte sur le paysage.",
     sleeps: 2,
     size: "52 m²",
     price: "12 500 DA",
   },
   {
     src: "/images/exhibit-guest-room.jpg",
-    alt: "A Chambre Double with a view of Lac Mézaïa",
-    name: "Chambre Double — Vue Lac",
+    alt: "Une Chambre Double avec vue panoramique",
+    name: "Chambre Double — Vue Panoramique",
     description:
-      "A bright, modern room with a lounge corner and a walk-in shower, the lake at the window — the everyday comfort guests come back for.",
+      "Une chambre lumineuse et moderne avec un coin salon et une douche à l'italienne, vue panoramique — le confort quotidien que nos hôtes reviennent chercher.",
     sleeps: 2,
-    size: "Lake view",
+    size: "Vue panoramique",
     price: "8 300 DA",
   },
   {
     src: "/images/exhibit-suite-dawn.jpg",
-    alt: "The Appartement at dawn, above the water",
+    alt: "L'Appartement à l'aube, ouvert sur le paysage",
     name: "Appartement",
     description:
-      "Our largest space — one hundred and two square metres, with a full bathtub and room for the whole family, above the water.",
+      "Notre plus grand espace — cent deux mètres carrés, avec une baignoire complète et de la place pour toute la famille.",
     sleeps: 4,
     size: "102 m²",
     price: "15 500 DA",
@@ -202,10 +201,10 @@ export default function Rooms() {
       <div className="max-w-[1280px] mx-auto">
         <div className="rooms-head mb-8 md:mb-14 lg:mb-20 max-w-2xl">
           <p className="rooms-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
-            Rooms &amp; Suites
+            Chambres &amp; Suites
           </p>
           <h2 className="rooms-heading font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-5xl tracking-tight text-ink text-balance leading-[1.08]">
-            Where to rest, above the lake
+            Où poser ses valises
           </h2>
           <span
             aria-hidden
@@ -257,7 +256,7 @@ export default function Rooms() {
                 />
                 {/* Price chip on mobile only — surfaces price without scrolling */}
                 <span className="md:hidden absolute top-3 left-3 inline-flex items-center rounded-full bg-white/95 backdrop-blur-sm px-3 py-1.5 font-display text-[13px] font-semibold text-ink leading-none shadow-sm">
-                  from {room.price}
+                  à partir de {room.price}
                 </span>
               </div>
               <div className="flex flex-col flex-1 bg-white p-5 md:p-7 lg:p-8">
@@ -265,7 +264,7 @@ export default function Rooms() {
                   {room.name}
                 </h3>
                 <p className="font-sans text-[10.5px] md:text-[11px] uppercase tracking-[0.22em] text-ink/55 mt-2.5 md:mt-3 inline-flex items-center gap-2">
-                  <span>Sleeps {room.sleeps}</span>
+                  <span>{room.sleeps} pers.</span>
                   <span
                     aria-hidden
                     className="h-[3px] w-[3px] rounded-full bg-ink/35"
@@ -278,30 +277,30 @@ export default function Rooms() {
                 <div className="mt-auto pt-5 md:pt-6 border-t border-ink/10 flex flex-wrap items-end justify-between gap-3 md:gap-4">
                   <div className="hidden md:block">
                     <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55">
-                      From
+                      À partir de
                     </p>
                     <p className="font-display font-semibold text-[26px] text-ink mt-1.5 leading-none">
                       {room.price}
                       <span className="font-sans text-[12px] font-normal text-graybase ml-1">
-                        / night
+                        / nuit
                       </span>
                     </p>
                   </div>
-                  {/* Mobile: inline "per night" reminder */}
+                  {/* Mobile : rappel « par nuit » en ligne */}
                   <p className="md:hidden font-sans text-[11px] uppercase tracking-[0.18em] text-ink/55">
-                    Per night
+                    Par nuit
                   </p>
                   <Link
                     href={`/booking/search?room=${encodeURIComponent(
                       room.name === "Suite Senior"
                         ? "suite-senior"
-                        : room.name === "Chambre Double — Vue Lac"
-                          ? "chambre-double-vue-lac"
+                        : room.name === "Chambre Double — Vue Panoramique"
+                          ? "chambre-double-vue"
                           : "appartement",
                     )}`}
                     className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/25 rounded-full px-5 py-2.5 max-md:min-h-[44px] max-md:px-6 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
                   >
-                    Reserve
+                    Réserver
                   </Link>
                 </div>
               </div>
@@ -312,16 +311,16 @@ export default function Rooms() {
         {/* Mobile-only dot indicator + swipe hint */}
         <div className="md:hidden mt-5 flex items-center justify-between">
           <span className="font-sans text-[10.5px] uppercase tracking-[0.18em] text-ink/45">
-            Swipe to compare
+            Glisser pour comparer
           </span>
-          <div className="flex items-center gap-2" role="tablist" aria-label="Rooms">
+          <div className="flex items-center gap-2" role="tablist" aria-label="Chambres">
             {rooms.map((room, i) => (
               <button
                 key={room.name}
                 type="button"
                 role="tab"
                 aria-selected={i === activeIndex}
-                aria-label={`Show ${room.name}`}
+                aria-label={`Voir ${room.name}`}
                 onClick={() => scrollToIndex(i)}
                 className={cn(
                   "h-2 rounded-full transition-all duration-300 ease-out",

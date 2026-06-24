@@ -146,7 +146,7 @@ export default function RoomGallery({ items, roomName }: Props) {
           <div
             className="flex items-center gap-2"
             role="tablist"
-            aria-label={`${roomName} gallery`}
+            aria-label={`Galerie ${roomName}`}
           >
             {items.map((it, i) => (
               <button
@@ -154,7 +154,7 @@ export default function RoomGallery({ items, roomName }: Props) {
                 type="button"
                 role="tab"
                 aria-selected={i === active}
-                aria-label={`Show photo ${i + 1} of ${roomName}`}
+                aria-label={`Afficher la photo ${i + 1} de ${roomName}`}
                 onClick={() => scrollToIndex(i)}
                 className={cn(
                   "h-2 rounded-full transition-all duration-300 ease-out",

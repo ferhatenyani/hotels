@@ -1,6 +1,7 @@
-// Generic booking-funnel shimmer. Matches the rhythm of the funnel pages
-// (narrow content area, sticky right-column summary placeholder on lg+).
-// The booking layout already renders header + step rail above this.
+// Squelette générique du tunnel de réservation. Reprend le rythme des
+// pages du tunnel (zone de contenu étroite, placeholder du récapitulatif
+// sticky en colonne de droite en lg+). Le layout de réservation rend déjà
+// l'en-tête + le step rail au-dessus.
 
 export default function BookingLoading() {
   return (
@@ -10,7 +11,7 @@ export default function BookingLoading() {
       aria-live="polite"
     >
       <div className="max-w-[1280px] mx-auto">
-        {/* Header placeholder */}
+        {/* Placeholder d'en-tête */}
         <div className="max-w-[44ch]">
           <div className="h-3 w-32 bg-ink/10 rounded animate-pulse" />
           <div className="mt-4 h-10 md:h-12 w-3/4 bg-ink/10 rounded animate-pulse" />
@@ -19,7 +20,7 @@ export default function BookingLoading() {
           <div className="mt-2 h-4 w-5/6 max-w-sm bg-ink/10 rounded animate-pulse" />
         </div>
 
-        {/* Two-column body placeholder */}
+        {/* Placeholder de corps à deux colonnes */}
         <div className="mt-8 md:mt-12 grid lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2 flex flex-col gap-5">
             <div className="h-24 bg-ink/[0.05] rounded-2xl animate-pulse" />

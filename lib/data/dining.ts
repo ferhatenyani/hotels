@@ -1,7 +1,7 @@
-// Restaurant content. Hours are verbatim from the demo content pack; menu items
-// are illustrative (the demo content explicitly says not to invent prices), so
-// dishes are listed without prices and framed as "a small selection of what
-// you'll find on the carte" — honest and brand-appropriate.
+// Contenu du restaurant. Les horaires viennent du pack de contenu démo ; les
+// plats sont illustratifs (la démo demande de ne pas inventer de prix), donc
+// les plats sont listés sans prix et présentés comme « une petite sélection
+// de ce que vous trouverez à la carte ».
 
 export type DiningHour = { label: string; time: string; note?: string };
 export type MenuSection = {
@@ -12,66 +12,66 @@ export type MenuSection = {
 };
 
 export const diningHours: DiningHour[] = [
-  { label: "Breakfast", time: "06:30 – 10:30", note: "Included for guests" },
-  { label: "Lunch", time: "12:00 – 14:30" },
-  { label: "Dinner", time: "19:00 – 22:00" },
+  { label: "Petit-déjeuner", time: "06:30 – 10:30", note: "Inclus pour nos hôtes" },
+  { label: "Déjeuner", time: "12:00 – 14:30" },
+  { label: "Dîner", time: "19:00 – 22:00" },
 ];
 
 export const diningMenu: MenuSection[] = [
   {
-    title: "Breakfast",
-    eyebrow: "From 06:30",
+    title: "Petit-déjeuner",
+    eyebrow: "À partir de 06:30",
     description:
-      "A generous continental table — the meal guests single out the most. Fresh fruit and warm pastries, served in the lake-view room.",
+      "Une table continentale généreuse — le repas que nos hôtes citent le plus souvent. Fruits frais et viennoiseries chaudes, servis dans la salle avec vue.",
     dishes: [
-      { name: "Fresh seasonal fruit", note: "Cut to order" },
-      { name: "Pastries from the kitchen" },
-      { name: "House preserves and honey from the region" },
-      { name: "Coffee, tea, infusions" },
-      { name: "Eggs to order" },
+      { name: "Fruits frais de saison", note: "Coupés à la commande" },
+      { name: "Viennoiseries maison" },
+      { name: "Confitures maison et miel de la région" },
+      { name: "Café, thé, infusions" },
+      { name: "Œufs à la commande" },
     ],
   },
   {
-    title: "Lunch & Dinner",
-    eyebrow: "A carte d'excellence",
+    title: "Déjeuner & Dîner",
+    eyebrow: "Une carte d'excellence",
     description:
-      "A short carte that changes with the season — Algerian classics, Mediterranean staples, and a quiet line of dishes from further afield. Served above Lac Mézaïa.",
+      "Une carte courte qui change avec la saison — classiques algériens, incontournables méditerranéens et une ligne discrète de plats venus de plus loin. Servie avec vue.",
     dishes: [
       { name: "Crudités du jour" },
-      { name: "Soupe Mézaïa" },
+      { name: "Soupe du chef" },
       { name: "Tajine d'agneau aux pruneaux" },
       { name: "Couscous royal" },
       { name: "Filet de loup, sauce vierge" },
       { name: "Carré d'agneau, jus court" },
-      { name: "Ahi salmon nigiri", note: "From the sushi line" },
+      { name: "Sashimi de saumon", note: "De la ligne sushi" },
       { name: "Pâtisseries maison" },
     ],
   },
   {
-    title: "From the cafeteria",
-    eyebrow: "All day",
+    title: "À la cafétéria",
+    eyebrow: "Toute la journée",
     description:
-      "A quieter room for a coffee between meetings, an after-walk sandwich, or a late tea by the window.",
+      "Une salle plus calme pour un café entre deux réunions, un sandwich après une promenade ou un thé tardif près de la fenêtre.",
     dishes: [
-      { name: "Espresso, cappuccino, mint tea" },
+      { name: "Espresso, cappuccino, thé à la menthe" },
       { name: "Sandwich du jour" },
       { name: "Tarte de saison" },
-      { name: "Fresh juices" },
+      { name: "Jus frais" },
     ],
   },
 ];
 
 export const diningHighlights = [
   {
-    title: "A view that does the work",
-    body: "The room sits high enough over Lac Mézaïa for the lake to fill the window — at lunch, the green slope of Gouraya; at dinner, the city's lights along the water.",
+    title: "Une vue qui fait le travail",
+    body: "La salle est assez haute pour que le paysage remplisse la fenêtre — au déjeuner, les pentes verdoyantes ; au dîner, les lumières de la ville le long de l'horizon.",
   },
   {
-    title: "Breakfast guests come back for",
-    body: "Across hundreds of reviews, the breakfast is the meal guests mention first — fresh fruit cut to order, warm pastries, and a generous spread that opens the day well.",
+    title: "Un petit-déjeuner pour lequel on revient",
+    body: "À travers des centaines d'avis, le petit-déjeuner est le repas que nos hôtes citent en premier — fruits frais coupés à la commande, viennoiseries chaudes et une table généreuse qui ouvre bien la journée.",
   },
   {
     title: "Une carte ouverte sur le monde",
-    body: "An Algerian house at heart, with a quiet international register — a sushi line for the curious, classics for the loyal.",
+    body: "Une maison algérienne dans l'âme, avec un registre international discret — une ligne sushi pour les curieux, des classiques pour les fidèles.",
   },
 ];

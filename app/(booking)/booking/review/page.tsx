@@ -23,11 +23,12 @@ import { getRoomBySlug } from "@/lib/data/rooms";
 
 import Section from "@/components/site/Section";
 import ReviewClient from "./ReviewClient";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Review your booking — Hôtel du Lac",
+  title: `Récapitulatif de votre réservation — ${hotel.name}`,
   description:
-    "Confirm the details and pick a few extras. Direct booking — we confirm every reservation ourselves.",
+    "Confirmez les détails et ajoutez quelques suppléments. Réservation directe — nous confirmons chaque réservation nous-mêmes.",
 };
 
 export default async function ReviewPage(
@@ -46,8 +47,8 @@ export default async function ReviewPage(
     <Section tone="white" size="compact">
       <header className="max-w-[44ch]">
           <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
-            One last look{" "}
-            <span className="italic font-normal">before we set the room.</span>
+            Un dernier regard{" "}
+            <span className="italic font-normal">avant de préparer la chambre.</span>
           </h1>
           <span
             aria-hidden

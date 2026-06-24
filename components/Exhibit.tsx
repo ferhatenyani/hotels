@@ -18,79 +18,67 @@ type Tile = {
   classes: string;
 };
 
-// Single bento grid laid out column-by-column via `grid-flow-col` +
-// `grid-rows-2`. Pattern is T S S T S where T = tall (one tile spanning
-// both rows) and S = stacked pair (two tiles, one per row). Column widths
-// vary deliberately so no two adjacent columns share a rhythm.
-//
-// Mobile sizes (max-md) are ~55% of desktop so the rhythm reads at phone
-// scale. Row-span-2 mobile height = 2 * single_h + mobile_gap(16) = 296.
-// TODO(demo): the real Hôtel du Lac has no pool or spa, so those tiles were
-// removed. Replace each `src` with the matching real photo per the alt text:
-// lake/Gouraya panorama, the restaurant set for the evening, the lobby, room
-// interiors, a family room and the Suite Senior. Placeholder files reuse the
-// template's interior images only — never the pool/spa shots.
-// Mobile sizes (max-md) shrunk to a slim gallery strip:
-// single tile h ≈ 96px, paired with row-span-2 h ≈ 208px (2*96 + 16 gap),
-// halving the section's vertical footprint vs. the desktop layout.
+// Grille bento posée colonne par colonne via `grid-flow-col` + `grid-rows-2`.
+// Motif T S S T S où T = grande tuile (occupant les deux rangées) et S = pile
+// (deux tuiles, une par rangée).
 const tiles: Tile[] = [
-  // Col 1 — tall portrait
+  // Col 1 — portrait haut
   {
     src: "/images/exhibit-suite-dawn.jpg",
-    alt: "A lake-view room at dawn",
+    alt: "Une chambre avec vue à l'aube",
     w: 300,
     h: 484,
     classes: "w-[300px] h-[484px] max-md:w-[140px] max-md:h-[208px] row-span-2",
   },
-  // Col 2 — wide landscape stack
+  // Col 2 — pile paysage large
   {
     src: "/images/exhibit-dining-room.jpg",
-    alt: "The restaurant, set for the evening",
+    alt: "Le restaurant, dressé pour la soirée",
     w: 440,
     h: 230,
     classes: "w-[440px] h-[230px] max-md:w-[200px] max-md:h-[96px]",
   },
   {
     src: "/images/exhibit-salon.jpg",
-    alt: "A quiet corner in the lobby",
+    alt: "Un coin tranquille dans le hall",
     w: 440,
     h: 230,
     classes: "w-[440px] h-[230px] max-md:w-[200px] max-md:h-[96px]",
   },
-  // Col 3 — tighter landscape stack
+  // Col 3 — pile paysage plus serrée
   {
     src: "/images/exhibit-guest-room.jpg",
-    alt: "Inside a guest room",
+    alt: "À l'intérieur d'une chambre",
     w: 320,
     h: 230,
     classes: "w-[320px] h-[230px] max-md:w-[150px] max-md:h-[96px]",
   },
   {
     src: "/images/exhibit-corner-suite.jpg",
-    alt: "The Suite Senior's living corner",
+    alt: "Le coin salon de la Suite Senior",
     w: 320,
     h: 230,
     classes: "w-[320px] h-[230px] max-md:w-[150px] max-md:h-[96px]",
   },
-  // Col 4 — tall portrait
+  // Col 4 — portrait haut
   {
     src: "/images/exhibit-guest-room.jpg",
-    alt: "A family room overlooking Gouraya",
+    alt: "Une chambre familiale avec vue",
     w: 280,
     h: 484,
     classes: "w-[280px] h-[484px] max-md:w-[130px] max-md:h-[208px] row-span-2",
   },
-  // Col 5 — landscape stack
+  // Col 5 — pile paysage
   {
     src: "/images/exhibit-salon.jpg",
-    alt: "The lounge",
+    alt: "Le salon",
     w: 400,
     h: 230,
     classes: "w-[400px] h-[230px] max-md:w-[180px] max-md:h-[96px]",
   },
   {
     src: "/images/exhibit-suite-dawn.jpg",
-    alt: "Morning light over the lake",
+    alt: "Lumière du matin sur le paysage",
     w: 400,
     h: 230,
     classes: "w-[400px] h-[230px] max-md:w-[180px] max-md:h-[96px]",
@@ -264,10 +252,10 @@ export default function Exhibit() {
     >
       <div className="exhibit-head max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 pb-8 md:pb-10 lg:pb-14">
         <p className="exhibit-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
-          A look around
+          Petit aperçu
         </p>
         <h2 className="exhibit-heading font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-5xl leading-[1.08] tracking-tight text-ink max-w-2xl">
-          Spaces and quiet corners
+          Espaces et coins tranquilles
         </h2>
       </div>
 

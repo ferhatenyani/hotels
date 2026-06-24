@@ -1,6 +1,6 @@
-// /discover-bejaia loading skeleton — quiet, matches the listing rhythm.
+// /decouvrir loading skeleton — quiet, matches the listing rhythm.
 
-export default function DiscoverBejaiaLoading() {
+export default function DecouvrirLoading() {
   return (
     <main className="bg-white" aria-busy="true" aria-live="polite">
       {/* PageHero placeholder */}

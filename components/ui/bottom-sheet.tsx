@@ -224,7 +224,7 @@ export default function BottomSheet({
             <button
               type="button"
               onClick={onBack}
-              aria-label="Back"
+              aria-label="Retour"
               className="flex h-11 w-11 -ml-2 items-center justify-center rounded-full text-ink/65 transition-colors hover:bg-ink/[0.05] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
@@ -245,7 +245,7 @@ export default function BottomSheet({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Fermer"
             className="flex h-11 w-11 -mr-2 items-center justify-center rounded-full text-ink/65 transition-colors hover:bg-ink/[0.05] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
           >
             <X className="h-4 w-4" strokeWidth={1.75} />

@@ -20,11 +20,12 @@ import { getRoomBySlug } from "@/lib/data/rooms";
 
 import Section from "@/components/site/Section";
 import PaymentClient from "./PaymentClient";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Payment — Hôtel du Lac",
+  title: `Paiement — ${hotel.name}`,
   description:
-    "Secure (demo) payment. Direct booking — we confirm every reservation ourselves.",
+    "Paiement sécurisé (démo). Réservation directe — nous confirmons chaque réservation nous-mêmes.",
 };
 
 export default async function PaymentPage(
@@ -43,8 +44,8 @@ export default async function PaymentPage(
     <Section tone="white" size="compact">
       <header className="max-w-[44ch]">
           <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
-            Confirm,{" "}
-            <span className="italic font-normal">and we&apos;ll set the room.</span>
+            Confirmez,{" "}
+            <span className="italic font-normal">et nous préparons la chambre.</span>
           </h1>
           <span
             aria-hidden

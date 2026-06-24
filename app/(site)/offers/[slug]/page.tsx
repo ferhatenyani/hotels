@@ -20,16 +20,17 @@ import { Button } from "@/components/site/Button";
 
 import { offers, getOfferBySlug } from "@/lib/data/offers";
 import { rooms, getRoomBySlug } from "@/lib/data/rooms";
+import { hotel } from "@/lib/data/hotel";
 
 // Mapping from offer slug → suggested room slugs to surface in the
 // "Pairs nicely with" rail. Hand-picked so the recommendation reads as
 // editorial, not algorithmic — e.g. the family stay highlights the family
 // and apartment rooms.
 const offerToRoomSlugs: Record<string, string[]> = {
-  "long-weekend-on-the-lake": ["suite-senior", "chambre-double-vue-lac"],
-  "family-stay": ["chambre-familiale", "appartement"],
-  "business-midweek": ["chambre-double-vue-lac", "chambre-single"],
-  "wedding-party-block": ["suite-senior", "appartement"],
+  "long-week-end": ["suite-senior", "chambre-double-vue"],
+  "sejour-famille": ["chambre-familiale", "appartement"],
+  "affaires-semaine": ["chambre-double-vue", "chambre-single"],
+  "pack-mariage": ["suite-senior", "appartement"],
 };
 
 export function generateStaticParams() {
@@ -43,14 +44,14 @@ export async function generateMetadata(
   const offer = getOfferBySlug(slug);
   if (!offer) {
     return {
-      title: "Offer not found — Hôtel du Lac, Béjaïa",
+      title: `Offre introuvable — ${hotel.name}, ${hotel.city}`,
     };
   }
   return {
-    title: `${offer.name} — Offers · Hôtel du Lac, Béjaïa`,
+    title: `${offer.name} — Offres · ${hotel.name}, ${hotel.city}`,
     description: offer.description,
     openGraph: {
-      title: `${offer.name} · Hôtel du Lac, Béjaïa`,
+      title: `${offer.name} · ${hotel.name}, ${hotel.city}`,
       description: offer.description,
       images: [{ url: offer.image, alt: offer.imageAlt }],
     },
@@ -74,7 +75,7 @@ export default async function OfferDetailPage(
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow={`Offer · ${offer.discountLabel}`}
+        eyebrow={`Offre · ${offer.discountLabel}`}
         heading={offer.name}
         image={offer.image}
         imageAlt={offer.imageAlt}
@@ -84,7 +85,7 @@ export default async function OfferDetailPage(
       <Section tone="white" size="compact">
         <Breadcrumb
           items={[
-            { label: "Offers", href: "/offers" },
+            { label: "Offres", href: "/offers" },
             { label: offer.name },
           ]}
         />
@@ -95,7 +96,7 @@ export default async function OfferDetailPage(
           {/* Main column — copy + ledger. */}
           <div className="lg:col-span-7">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
-              About this package
+              À propos de ce forfait
             </p>
             <h2 className="font-display font-medium text-[26px] xs:text-[30px] sm:text-4xl lg:text-[44px] leading-[1.1] tracking-tight text-ink text-balance">
               {offer.tagline}
@@ -111,7 +112,7 @@ export default async function OfferDetailPage(
             {/* All perks — bullet list, no "+ N more" truncation here. */}
             <div className="mt-10 md:mt-14">
               <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/60 mb-4">
-                What&apos;s included
+                Ce qui est inclus
               </p>
               <ul className="flex flex-col gap-3">
                 {offer.perks.map((perk) => (
@@ -135,6 +136,7 @@ export default async function OfferDetailPage(
                 <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/60 mb-4">
                   Conditions
                 </p>
+                {/* « Conditions » – mot identique en français */}
                 <ul className="flex flex-col gap-2.5">
                   {offer.conditions.map((c, i) => (
                     <li
@@ -160,7 +162,7 @@ export default async function OfferDetailPage(
                 className="absolute left-0 right-0 top-0 h-[2px] bg-marine"
               />
               <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
-                Best for
+                Idéal pour
               </p>
               <p className="mt-2 font-display text-[20px] md:text-[22px] leading-tight tracking-tight text-ink">
                 {offer.seasonHint}
@@ -168,7 +170,7 @@ export default async function OfferDetailPage(
 
               <div className="mt-8 pt-8 border-t border-ink/15">
                 <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
-                  Saving
+                  Économie
                 </p>
                 <p className="mt-2 font-display font-medium text-[28px] md:text-[32px] leading-[1.1] tracking-tight text-marine">
                   {offer.discountLabel}
@@ -186,7 +188,7 @@ export default async function OfferDetailPage(
                   arrow
                   className="w-full"
                 >
-                  Reserve with this offer
+                  Réserver avec cette offre
                 </Button>
                 {offer.related && (
                   <Button
@@ -201,8 +203,7 @@ export default async function OfferDetailPage(
               </div>
 
               <p className="mt-6 font-sans text-[12px] leading-[1.65] text-ink/60">
-                Code travels with you to the booking screen — no copy-pasting.
-                Need a hand? Call <a href="tel:+21344202022" className="underline decoration-marine/40 underline-offset-2 hover:text-marine">+213 44 20 20 22</a>.
+                Le code vous accompagne jusqu&apos;à l&apos;écran de réservation — pas de copier-coller. Besoin d&apos;aide ? Appelez <a href={`tel:${hotel.contact.phonePrimary.replace(/\s+/g, "")}`} className="underline decoration-marine/40 underline-offset-2 hover:text-marine">{hotel.contact.phonePrimary}</a>.
               </p>
             </div>
           </aside>
@@ -213,9 +214,9 @@ export default async function OfferDetailPage(
       {relatedRooms.length > 0 && (
         <Section tone="cream" grain size="default">
           <SectionHeading
-            eyebrow="Pairs nicely with"
-            heading={`Rooms that suit ${offer.name.toLowerCase()}`}
-            description="Hand-picked because they match how the package is most often used. The discount code travels through to any room you choose."
+            eyebrow="S'accorde bien avec"
+            heading={`Chambres adaptées à ${offer.name.toLowerCase()}`}
+            description="Sélectionnées à la main parce qu'elles correspondent à la façon dont le forfait est le plus souvent utilisé. Le code de réduction est transmis à toute chambre que vous choisissez."
           />
           <ul className="mt-10 md:mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 lg:gap-8">
             {relatedRooms.map((room) => (
@@ -224,7 +225,7 @@ export default async function OfferDetailPage(
                   room={room}
                   variant="compact"
                   primaryHref={`/booking/search?room=${room.slug}&promo=${encodeURIComponent(offer.promoCode)}`}
-                  primaryLabel="Book with offer"
+                  primaryLabel="Réserver avec l'offre"
                 />
               </li>
             ))}
@@ -237,14 +238,14 @@ export default async function OfferDetailPage(
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-12">
           <div>
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-2">
-              Browse all packages
+              Parcourir tous les forfaits
             </p>
             <p className="font-display text-[22px] md:text-[26px] leading-tight tracking-tight text-ink max-w-[36ch]">
-              See every offer the house is running this season.
+              Découvrez toutes les offres proposées par la maison cette saison.
             </p>
           </div>
           <Button href="/offers" variant="ghost" size="default" arrow>
-            All offers
+            Toutes les offres
           </Button>
         </div>
       </Section>

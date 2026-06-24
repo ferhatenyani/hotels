@@ -1,53 +1,53 @@
-// Core hotel facts. Single source of truth so address, phone, email and the
-// "always-on" copy (tagline, intro lines) stay consistent across every page
-// and metadata block.
+// Faits centraux de l'hôtel. Source unique de vérité pour que l'adresse, le
+// téléphone, l'e-mail et les phrases « toujours présentes » (slogan, lignes
+// d'intro) restent cohérents sur chaque page et bloc de métadonnées.
 
 export const hotel = {
-  name: "Hôtel du Lac",
-  shortName: "Hôtel du Lac",
-  city: "Béjaïa",
-  country: "Algérie",
-  tagline: "Le Calme au Centre Ville",
+  name: "Notre Hôtel",
+  shortName: "Notre Hôtel",
+  city: "Votre Ville",
+  country: "Pays",
+  tagline: "Le Calme au Cœur de la Ville",
   about:
-    "A modern hotel on the edge of Lac Mézaïa, facing Yemma Gouraya — designed to receive you in comfort and quiet, whether you come for business or with family.",
+    "Un hôtel moderne au cœur de la ville — pensé pour vous accueillir dans le confort et la tranquillité, que vous voyagiez pour affaires ou en famille.",
   address: {
-    street: "Rue Hassiba Ben Bouali, Aamriou",
-    postalCode: "06000",
-    city: "Béjaïa",
-    country: "Algérie",
-    /** Plus Code for embedded map fallbacks. */
-    plusCode: "Q323+C2V Béjaïa",
+    street: "Rue de l'Hôtel",
+    postalCode: "00000",
+    city: "Votre Ville",
+    country: "Pays",
+    /** Plus Code de secours pour les cartes intégrées. */
+    plusCode: "0000+00 Ville",
   },
   contact: {
-    phonePrimary: "+213 44 20 20 22",
-    phoneSecondary: "+213 44 20 21 32",
-    fax: "+213 44 20 26 70",
-    email: "contact@hoteldulacvert.dz",
+    phonePrimary: "+00 00 00 00 00",
+    phoneSecondary: "+00 00 00 00 01",
+    fax: "+00 00 00 00 02",
+    email: "contact@notre-hotel.com",
   },
   social: {
-    instagram: "https://www.instagram.com/hotel.du.lac/",
-    facebook: "https://www.facebook.com/hoteldulacbejaia/",
+    instagram: "https://www.instagram.com/notre.hotel/",
+    facebook: "https://www.facebook.com/notrehotel/",
   },
   numbers: {
     rooms: 124,
     eventsHallSqm: 498,
     googleRating: 4.3,
     googleReviewCount: 410,
-    languagesSpoken: ["Arabic", "French", "English"],
+    languagesSpoken: ["Arabe", "Français", "Anglais"],
   },
-  /** Distances to surface on Contact and About. */
+  /** Distances à afficher dans Contact et À propos. */
   distances: [
-    { label: "City centre & seafront", value: "≈ 1 km" },
-    { label: "Lac Mézaïa", value: "On the doorstep" },
-    { label: "Soummam – Abane Ramdane Airport", value: "≈ 3–6 km · 15 min" },
-    { label: "Béjaïa railway station", value: "≈ 3.1 km" },
-    { label: "Gouraya National Park", value: "7–15 min by car" },
+    { label: "Centre-ville & front de mer", value: "≈ 1 km" },
+    { label: "Parc naturel", value: "Au pied de l'hôtel" },
+    { label: "Aéroport international", value: "≈ 3–6 km · 15 min" },
+    { label: "Gare ferroviaire", value: "≈ 3,1 km" },
+    { label: "Réserve naturelle", value: "7–15 min en voiture" },
   ],
-  /** Tourism tax in DA per person per night, applied to the booking total. */
+  /** Taxe de séjour par personne et par nuit, appliquée au total de la réservation. */
   tourismTaxDA: 300,
 };
 
-/** Formats a Dinar amount with a thin space thousands separator and a "DA" suffix. */
+/** Formate un montant en Dinars avec un séparateur fin de milliers et le suffixe « DA ». */
 export function formatDA(amount: number): string {
   // 12500 → "12 500 DA"
   return `${amount.toLocaleString("fr-FR")} DA`;

@@ -31,9 +31,8 @@ import { getOfferByPromoCode } from "@/lib/data/offers";
 import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Choose your room — Hôtel du Lac",
-  description:
-    "Rooms available for your stay at Hôtel du Lac. Direct booking — we confirm every reservation ourselves.",
+  title: `Choisir votre chambre — ${hotel.name}`,
+  description: `Chambres disponibles pour votre séjour à ${hotel.name}. Réservation directe — nous confirmons chaque réservation nous-mêmes.`,
 };
 
 export default async function ResultsPage(
@@ -66,16 +65,16 @@ export default async function ResultsPage(
       <header className="max-w-[44ch]">
         <h1 className="font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-ink text-balance">
           {sorted.length > 0
-            ? `${sorted.length} room${sorted.length === 1 ? "" : "s"} for your stay`
-            : "No room sleeps your party"}
+            ? `${sorted.length} chambre${sorted.length === 1 ? "" : "s"} pour votre séjour`
+            : "Aucune chambre pour votre groupe"}
         </h1>
         <span aria-hidden className="mt-5 md:mt-6 block h-px w-14 bg-marine" />
       </header>
 
-      {/* Modify search chip-row */}
+      {/* Ligne de pastilles pour modifier la recherche */}
       <div className="mt-6 md:mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 border border-ink/10 bg-cream/40 rounded-2xl px-4 py-3 md:px-5 md:py-4">
         <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-          Showing for
+          Affichage pour
         </span>
         {q.checkIn && q.checkOut && (
           <span className="font-sans text-[13px] md:text-[14px] text-ink">
@@ -84,9 +83,9 @@ export default async function ResultsPage(
         )}
         <span aria-hidden className="h-3 w-px bg-ink/15" />
         <span className="font-sans text-[13px] md:text-[14px] text-ink">
-          {q.adults} adult{q.adults === 1 ? "" : "s"}
+          {q.adults} adulte{q.adults === 1 ? "" : "s"}
           {q.children > 0
-            ? ` · ${q.children} child${q.children === 1 ? "" : "ren"}`
+            ? ` · ${q.children} enfant${q.children === 1 ? "" : "s"}`
             : ""}
         </span>
         {promoOffer && (
@@ -102,7 +101,7 @@ export default async function ResultsPage(
           href={modifySearchHref}
           className="ml-auto inline-flex items-center gap-1 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine hover:text-marine/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm px-1"
         >
-          Modify search
+          Modifier la recherche
           <ArrowRight className="h-3 w-3" strokeWidth={2.25} />
         </Link>
       </div>
@@ -126,15 +125,15 @@ export default async function ResultsPage(
                       strokeWidth={2}
                       aria-hidden
                     />
-                    Your pick
+                    Votre choix
                   </span>
                 )}
                 <RoomCard
                   room={room}
                   primaryHref={reserveHref}
-                  primaryLabel="Book"
+                  primaryLabel="Réserver"
                   secondaryHref={`/rooms/${room.slug}`}
-                  secondaryLabel="View room"
+                  secondaryLabel="Voir la chambre"
                   quote={{
                     nights: breakdown.nights,
                     total: breakdown.total,
@@ -147,24 +146,25 @@ export default async function ResultsPage(
       ) : (
         <div className="mt-8 md:mt-10 border border-ink/10 bg-cream/40 rounded-2xl px-6 py-12 md:px-10 md:py-16 text-center">
           <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-            Nothing fits your party
+            Rien ne correspond à votre groupe
           </p>
           <p className="mt-3 font-display text-[22px] md:text-[28px] text-ink leading-tight tracking-tight max-w-[36ch] mx-auto text-balance">
-            No room sleeps {partySize} guests. Try splitting across two rooms,
-            or contact us — we&apos;ll arrange adjoining rooms by hand.
+            Aucune chambre n&apos;accueille {partySize} voyageurs. Essayez de
+            répartir sur deux chambres, ou contactez-nous — nous arrangerons
+            des chambres communicantes à la main.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Button href="/contact" variant="primary" size="default" arrow>
-              Talk to the concierge
+              Contacter la conciergerie
             </Button>
             <Button href={modifySearchHref} variant="secondary" size="default">
-              Change party
+              Modifier le groupe
             </Button>
             <a
               href={`tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}`}
               className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine border border-marine/30 rounded-full px-5 py-2.5 min-h-[44px] hover:bg-marine hover:text-white transition-colors"
             >
-              Call {hotel.contact.phonePrimary}
+              Appeler {hotel.contact.phonePrimary}
             </a>
           </div>
         </div>

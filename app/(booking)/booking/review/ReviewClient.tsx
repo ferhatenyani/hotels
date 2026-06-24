@@ -122,20 +122,21 @@ export default function ReviewClient({ room, q }: Props) {
     );
   }
 
-  // Friendly date strings used in multiple slots.
-  const checkInDate = q.checkIn ? format(q.checkIn, "EEE, d MMM") : "—";
+  // Chaînes de dates amicales utilisées à plusieurs endroits.
+  const checkInDate = q.checkIn ? format(q.checkIn, "EEE d MMM") : "—";
   const checkOutDate = q.checkOut
-    ? format(q.checkOut, "EEE, d MMM yyyy")
+    ? format(q.checkOut, "EEE d MMM yyyy")
     : "—";
   const nights = q.checkIn && q.checkOut ? Math.max(1, Math.round((q.checkOut.getTime() - q.checkIn.getTime()) / 86_400_000)) : 0;
 
   return (
     <div className="mt-8 lg:mt-12 grid lg:grid-cols-3 gap-8 lg:gap-12">
       <div className="lg:col-span-2 order-2 lg:order-1 flex flex-col gap-6 md:gap-8 pb-28 lg:pb-0">
-        {/* Room — full-bleed photo with the room name and an in-image
-            "Change room" link. Photo-first, not card-first. */}
+        {/* Chambre — photo plein cadre avec le nom de la chambre et un
+            lien « Changer de chambre » dans l'image. Photo d'abord, pas
+            carte d'abord. */}
         <section
-          aria-label="Your room"
+          aria-label="Votre chambre"
           className="relative overflow-hidden rounded-2xl border border-ink/10 bg-ink/5 isolate"
         >
           <div className="relative aspect-[16/9] sm:aspect-[21/9]">
@@ -153,13 +154,13 @@ export default function ReviewClient({ room, q }: Props) {
             <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-3 p-5 md:p-7">
               <div className="min-w-0">
                 <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-white/75">
-                  Your room
+                  Votre chambre
                 </p>
                 <p className="mt-2 font-display text-[22px] md:text-[26px] font-medium text-white leading-tight tracking-tight text-balance">
                   {room.name}
                 </p>
                 <p className="mt-1.5 font-sans text-[12.5px] text-white/75">
-                  Sleeps {room.sleeps} · {room.sizeDisplay}
+                  Capacité {room.sleeps} · {room.sizeDisplay}
                 </p>
               </div>
               <Link
@@ -167,28 +168,29 @@ export default function ReviewClient({ room, q }: Props) {
                 className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white/95 hover:bg-white text-ink px-3.5 py-2 min-h-[44px] font-sans text-[10.5px] font-semibold uppercase tracking-[0.18em] backdrop-blur transition-colors"
               >
                 <Pencil className="h-3 w-3" strokeWidth={2} />
-                Change room
+                Changer de chambre
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Stay — dates-led typography. Big tabular dates with the arrow
-            between, party + service times underneath, edit hugs the right. */}
+        {/* Séjour — typographie autour des dates. Grandes dates tabulaires
+            avec la flèche entre, voyageurs + horaires en dessous, le
+            bouton de modification s'aligne à droite. */}
         <section
-          aria-label="Your stay"
+          aria-label="Votre séjour"
           className="rounded-2xl border border-ink/10 bg-cream/40 p-5 md:p-7"
         >
           <div className="flex items-start justify-between gap-3">
             <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/60">
-              Your stay
+              Votre séjour
             </p>
             <Link
               href={bookingHref("search", q)}
               className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-ink/20 px-3.5 py-1.5 min-h-[44px] font-sans text-[10.5px] uppercase tracking-[0.18em] text-ink/70 hover:text-ink hover:border-ink/40 transition-colors"
             >
               <Pencil className="h-3 w-3" strokeWidth={2} />
-              Change dates
+              Changer les dates
             </Link>
           </div>
           <div className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-2">
@@ -206,31 +208,31 @@ export default function ReviewClient({ room, q }: Props) {
             </p>
             {nights > 0 && (
               <span className="font-sans text-[12px] uppercase tracking-[0.2em] text-ink/55">
-                · {nights} night{nights === 1 ? "" : "s"}
+                · {nights} nuit{nights === 1 ? "" : "s"}
               </span>
             )}
           </div>
           <p className="mt-4 font-sans text-[13.5px] text-ink/70">
-            {q.adults} adult{q.adults === 1 ? "" : "s"}
+            {q.adults} adulte{q.adults === 1 ? "" : "s"}
             {q.children > 0
-              ? ` · ${q.children} child${q.children === 1 ? "" : "ren"}`
+              ? ` · ${q.children} enfant${q.children === 1 ? "" : "s"}`
               : ""}
             <span className="text-ink/40 mx-2">·</span>
-            Check-in from 14:00, check-out by 12:00.
+            Arrivée à partir de 14h00, départ avant 12h00.
           </p>
         </section>
 
-        {/* Guest — letter-style. Name leads, ledger of details below,
-            edit affordance smaller and inline. The dl shape sets it apart
-            from the photo card above and the dates card. */}
+        {/* Voyageur — style lettre. Le nom domine, le récap des infos
+            dessous, l'affordance d'édition plus petite et inline. La
+            forme dl la distingue de la photo et de la carte des dates. */}
         <section
-          aria-label="Lead guest"
+          aria-label="Voyageur principal"
           className="rounded-2xl border border-ink/10 bg-white p-5 md:p-7"
         >
           <div className="flex items-baseline justify-between gap-3 mb-5">
             <div className="min-w-0">
               <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/60">
-                Lead guest
+                Voyageur principal
               </p>
               <h2 className="mt-1.5 font-display text-[20px] md:text-[24px] font-medium text-ink leading-tight tracking-tight">
                 {guest.firstName} {guest.lastName}
@@ -241,13 +243,13 @@ export default function ReviewClient({ room, q }: Props) {
               className="shrink-0 inline-flex items-center gap-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-marine hover:text-marine/80 transition-colors min-h-[44px] px-1"
             >
               <Pencil className="h-3 w-3" strokeWidth={2} />
-              Edit details
+              Modifier les infos
             </Link>
           </div>
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 font-sans">
             <div className="border-t border-ink/10 pt-3">
               <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
-                Email
+                E-mail
               </dt>
               <dd className="mt-1.5 text-[14px] text-ink truncate">
                 {guest.email}
@@ -255,7 +257,7 @@ export default function ReviewClient({ room, q }: Props) {
             </div>
             <div className="border-t border-ink/10 pt-3">
               <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
-                Phone
+                Téléphone
               </dt>
               <dd className="mt-1.5 text-[14px] text-ink truncate">
                 {guest.phone}
@@ -264,7 +266,7 @@ export default function ReviewClient({ room, q }: Props) {
             {guest.arrivalTime && (
               <div className="border-t border-ink/10 pt-3">
                 <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
-                  Arrival
+                  Arrivée
                 </dt>
                 <dd className="mt-1.5 text-[14px] text-ink">
                   {guest.arrivalTime}
@@ -274,7 +276,7 @@ export default function ReviewClient({ room, q }: Props) {
             {guest.notes && (
               <div className="border-t border-ink/10 pt-3 sm:col-span-2">
                 <dt className="text-[10px] uppercase tracking-[0.22em] text-ink/60">
-                  Notes for the desk
+                  Notes pour la réception
                 </dt>
                 <dd className="mt-1.5 text-[14px] text-ink whitespace-pre-line leading-[1.6]">
                   {guest.notes}
@@ -284,7 +286,7 @@ export default function ReviewClient({ room, q }: Props) {
           </dl>
         </section>
 
-        {/* Add-ons */}
+        {/* Suppléments */}
         <section
           aria-labelledby="addons-title"
           className="rounded-2xl border border-ink/10 bg-white p-5 md:p-7"
@@ -292,18 +294,18 @@ export default function ReviewClient({ room, q }: Props) {
           <div className="flex items-baseline justify-between gap-3 mb-5">
             <div>
               <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-                Add-ons
+                Suppléments
               </p>
               <h2
                 id="addons-title"
                 className="mt-1.5 font-display text-[20px] md:text-[22px] font-medium text-ink leading-tight tracking-tight"
               >
-                A few small touches.
+                Quelques petites attentions.
               </h2>
             </div>
             {selectedAddOns.length > 0 && (
               <span className="font-sans text-[11px] uppercase tracking-[0.18em] text-marine">
-                {selectedAddOns.length} added
+                {selectedAddOns.length} ajouté{selectedAddOns.length === 1 ? "" : "s"}
               </span>
             )}
           </div>
@@ -353,7 +355,7 @@ export default function ReviewClient({ room, q }: Props) {
                           {formatDA(a.priceDA)}
                           {a.perNight && (
                             <span className="ml-1 font-sans text-[12px] text-ink/60">
-                              / night
+                              / nuit
                             </span>
                           )}
                         </span>
@@ -369,21 +371,21 @@ export default function ReviewClient({ room, q }: Props) {
           </ul>
         </section>
 
-        {/* Desktop CTA */}
+        {/* CTA desktop */}
         <div className="hidden lg:flex items-center justify-between gap-6 pt-2">
           <Link
             href={bookingHref("guest", q)}
             className="inline-flex items-center gap-2 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-ink/65 hover:text-ink transition-colors"
           >
             <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
-            Back to details
+            Retour aux infos
           </Link>
           <button
             type="button"
             onClick={onContinue}
             className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
           >
-            Continue to payment
+            Vers le paiement
             <ArrowRight
               className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
               strokeWidth={2.25}
@@ -410,14 +412,14 @@ export default function ReviewClient({ room, q }: Props) {
         </div>
       </div>
 
-      {/* Mobile sticky bottom action bar */}
+      {/* Barre d'action collante en bas (mobile) */}
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-ink/10 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <button
           type="button"
           onClick={onContinue}
           className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90"
         >
-          Continue to payment
+          Vers le paiement
           <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
         </button>
       </div>

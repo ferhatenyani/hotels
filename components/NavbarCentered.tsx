@@ -10,9 +10,9 @@ import SmartLink from "@/components/site/SmartLink";
 // Each link names its route (for sub-pages) and the home-page section id so
 // SmartLink can scroll-or-navigate at click time per the user's nav contract.
 const leftLinks = [
-  { label: "Rooms", href: "/rooms", sectionId: "rooms" },
-  { label: "Dining", href: "/dining", sectionId: "dining" },
-  { label: "Events", href: "/events", sectionId: "events" },
+  { label: "Chambres", href: "/rooms", sectionId: "rooms" },
+  { label: "Restaurant", href: "/dining", sectionId: "dining" },
+  { label: "Événements", href: "/events", sectionId: "events" },
 ];
 
 const rightLinks = [
@@ -21,10 +21,10 @@ const rightLinks = [
 
 // Mobile menu surfaces every top-level route so the drawer is the full nav.
 const mobileExtraLinks = [
-  { label: "Offers", href: "/offers" },
-  { label: "Discover Béjaïa", href: "/discover-bejaia" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "About", href: "/about" },
+  { label: "Offres", href: "/offers" },
+  { label: "Découvrir la région", href: "/decouvrir" },
+  { label: "Galerie", href: "/gallery" },
+  { label: "À propos", href: "/about" },
 ];
 
 export default function NavbarCentered() {
@@ -180,7 +180,7 @@ export default function NavbarCentered() {
                   : "text-[15px] sm:text-base text-ink focus-visible:outline-navy",
               )}
             >
-              Hôtel du Lac
+              Notre Hôtel
             </SmartLink>
             <span
               className={cn(
@@ -190,7 +190,7 @@ export default function NavbarCentered() {
                   : "max-h-0 opacity-0 mt-0 text-ink/55",
               )}
             >
-              Béjaïa, Algérie
+              Votre Ville
             </span>
           </div>
 
@@ -227,7 +227,7 @@ export default function NavbarCentered() {
                   : "text-ink hover:text-navy focus-visible:outline-navy",
               )}
             >
-              Reserve
+              Réserver
               <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
             </SmartLink>
           </div>
@@ -240,7 +240,7 @@ export default function NavbarCentered() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Site menu"
+        aria-label="Menu du site"
         aria-hidden={!open}
         className={cn(
           "fixed inset-0 z-[80] md:hidden flex flex-col bg-white transition-[opacity,transform] duration-[420ms] ease-out",
@@ -251,12 +251,12 @@ export default function NavbarCentered() {
       >
         <div className="flex h-[72px] items-center px-4">
           <span className="font-display font-semibold text-base text-ink">
-            Hôtel du Lac
+            Notre Hôtel
           </span>
           <button
             type="button"
             onClick={() => setOpen(false)}
-            aria-label="Close menu"
+            aria-label="Fermer le menu"
             className="ml-auto flex h-11 w-11 items-center justify-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy rounded-md"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
@@ -299,14 +299,14 @@ export default function NavbarCentered() {
 
           <div className="mt-auto pt-10">
             <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/45">
-              Béjaïa, Algérie
+              Votre Ville
             </p>
             <SmartLink
               href="/booking/search"
               onAfterClick={() => setOpen(false)}
               className="mt-4 inline-flex w-full min-h-[56px] items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
-              Reserve
+              Réserver
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
             </SmartLink>
           </div>
@@ -328,7 +328,7 @@ function MobileBarContent({
       <button
         type="button"
         onClick={onOpen}
-        aria-label="Open menu"
+        aria-label="Ouvrir le menu"
         aria-expanded={open}
         aria-controls="mobile-menu"
         className="justify-self-start flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy active:bg-ink/[0.04]"
@@ -342,13 +342,13 @@ function MobileBarContent({
         sectionId="top"
         className="justify-self-center font-display font-semibold text-[15px] tracking-tight text-ink whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
       >
-        Hôtel du Lac
+        Notre Hôtel
       </SmartLink>
       <SmartLink
         href="/booking/search"
         className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
       >
-        Reserve
+        Réserver
         <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
       </SmartLink>
     </>

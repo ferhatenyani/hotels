@@ -29,10 +29,10 @@ export default function DiningReservationForm() {
       <div className="p-6 sm:p-10 lg:p-12">
         <div className="flex items-baseline justify-between gap-4 mb-6 md:mb-10">
           <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
-            A note to the maître d&apos;
+            Un mot au maître d&apos;hôtel
           </p>
           <p className="font-display italic text-[13px] text-marine">
-            No.{" "}
+            N°{" "}
             <span className="tabular-nums">{new Date().getFullYear()}</span>
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function DiningReservationForm() {
               />
               <Field
                 index="02"
-                label="Time"
+                label="Heure"
                 type="time"
                 name="time"
                 required
@@ -61,7 +61,7 @@ export default function DiningReservationForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-9">
               <Field
                 index="03"
-                label="Party size"
+                label="Nombre de convives"
                 type="number"
                 name="partySize"
                 min={1}
@@ -71,10 +71,10 @@ export default function DiningReservationForm() {
               />
               <Field
                 index="04"
-                label="Name & contact"
+                label="Nom & contact"
                 type="text"
                 name="contact"
-                placeholder="Name · phone or email"
+                placeholder="Nom · téléphone ou e-mail"
                 autoComplete="name"
                 required
               />
@@ -82,14 +82,14 @@ export default function DiningReservationForm() {
 
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <p className="font-sans text-[12px] leading-relaxed text-graybase max-w-sm">
-                We confirm by phone, usually within the hour. Tables fill
-                quickly on Fridays and Saturdays.
+                Nous confirmons par téléphone, généralement dans l'heure.
+                Les tables se remplissent vite les vendredis et samedis.
               </p>
               <button
                 type="submit"
                 className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink border border-ink/30 rounded-full px-8 py-4 max-md:min-h-[52px] transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
               >
-                Send the note
+                Envoyer le mot
                 <svg
                   aria-hidden
                   viewBox="0 0 24 24"
@@ -134,18 +134,19 @@ function Confirmation() {
           </svg>
         </span>
         <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-marine">
-          On the maître d&apos;s desk
+          Sur le bureau du maître d&apos;hôtel
         </p>
       </div>
       <p className="font-display text-2xl sm:text-[28px] leading-[1.2] tracking-tight text-ink max-w-md">
-        Your table is on the list.{" "}
+        Votre table est sur la liste.{" "}
         <span className="italic font-normal text-graybase">
-          We&apos;ll come back to confirm by phone.
+          Nous reviendrons confirmer par téléphone.
         </span>
       </p>
       <p className="font-sans text-[14px] leading-[1.7] text-graybase max-w-md">
-        For same-day tables and short notice, do telephone the desk directly —
-        the line stays open through service.
+        Pour les tables du jour ou les demandes de dernière minute,
+        n'hésitez pas à téléphoner directement à la réception — la ligne
+        reste ouverte pendant le service.
       </p>
     </div>
   );

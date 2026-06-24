@@ -72,7 +72,7 @@ export default function FAQAccordion() {
       <aside className="hidden lg:block lg:col-span-3">
         <div className="sticky top-24">
           <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/60 mb-4">
-            Jump to
+            Aller à
           </p>
           <ul className="flex flex-col gap-1">
             {filteredGroups.map(({ group }) => {
@@ -123,15 +123,15 @@ export default function FAQAccordion() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search the answers — try 'breakfast', 'parking', 'check-in'…"
-            aria-label="Search the FAQ"
+            placeholder="Rechercher dans les réponses — essayez « petit-déjeuner », « parking », « arrivée »…"
+            aria-label="Rechercher dans la FAQ"
             className="w-full font-sans text-[16px] text-ink placeholder:text-ink/40 bg-cream/40 border border-ink/10 rounded-full pl-11 pr-12 py-4 min-h-[56px] outline-none transition-colors focus:border-marine/40 focus:bg-white"
           />
           {hasQuery && (
             <button
               type="button"
               onClick={() => setQuery("")}
-              aria-label="Clear search"
+              aria-label="Effacer la recherche"
               className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full text-ink/55 hover:bg-ink/5 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
               <X className="h-4 w-4" strokeWidth={1.75} />
@@ -140,8 +140,8 @@ export default function FAQAccordion() {
         </div>
         {hasQuery && (
           <p className="mt-3 font-sans text-[12px] uppercase tracking-[0.2em] text-ink/55">
-            {totalMatches} {totalMatches === 1 ? "answer" : "answers"} matching{" "}
-            <span className="text-ink">&ldquo;{query}&rdquo;</span>
+            {totalMatches} {totalMatches === 1 ? "réponse" : "réponses"} pour{" "}
+            <span className="text-ink">&laquo;&nbsp;{query}&nbsp;&raquo;</span>
           </p>
         )}
 
@@ -160,7 +160,7 @@ export default function FAQAccordion() {
                   className="scroll-mt-24"
                 >
                   <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-                    Group · {String(gi + 1).padStart(2, "0")}
+                    Groupe · {String(gi + 1).padStart(2, "0")}
                   </p>
                   <h2 className="font-display font-medium text-[26px] xs:text-[28px] sm:text-[32px] lg:text-[36px] leading-[1.1] tracking-tight text-ink text-balance">
                     {group.title}
@@ -218,18 +218,17 @@ export default function FAQAccordion() {
         ) : (
           <div className="mt-10 md:mt-14 border border-ink/10 bg-cream/40 rounded-2xl px-6 py-10 md:px-10 md:py-14 text-center">
             <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-              Nothing matches
+              Aucun résultat
             </p>
             <p className="mt-3 font-display text-[22px] md:text-[26px] text-ink leading-tight tracking-tight max-w-[40ch] mx-auto text-balance">
-              We don&apos;t have an answer for that here. Drop a note —
-              we&apos;d rather not guess.
+              Nous n&apos;avons pas de réponse à cela ici. Écrivez-nous un mot — nous préférons ne pas deviner.
             </p>
             <button
               type="button"
               onClick={() => setQuery("")}
               className="mt-6 inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/30 rounded-full px-5 py-3 min-h-[44px] transition-colors duration-300 ease-out hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
             >
-              Clear search
+              Effacer la recherche
             </button>
           </div>
         )}

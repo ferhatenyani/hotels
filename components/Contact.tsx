@@ -3,22 +3,24 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
+import { hotel } from "@/lib/data/hotel";
+
 type LedgerLine = { text: string; href?: string };
 type LedgerItem = { label: string; lines: LedgerLine[] };
 
 const ledger: LedgerItem[] = [
   {
-    label: "The hotel",
+    label: "L'hôtel",
     lines: [
-      { text: "Rue Hassiba Ben Bouali, Aamriou" },
-      { text: "06000 Béjaïa, Algérie" },
+      { text: hotel.address.street },
+      { text: `${hotel.address.postalCode} ${hotel.address.city}, ${hotel.address.country}` },
     ],
   },
   {
-    label: "Reservations",
+    label: "Réservations",
     lines: [
-      { text: "contact@hoteldulacvert.dz", href: "mailto:contact@hoteldulacvert.dz" },
-      { text: "+213 44 20 20 22", href: "tel:+21344202022" },
+      { text: hotel.contact.email, href: `mailto:${hotel.contact.email}` },
+      { text: hotel.contact.phonePrimary, href: `tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}` },
     ],
   },
 ];
@@ -147,7 +149,7 @@ export default function Contact() {
         {/* Mobile/tablet quick-contact bar: tap-to-call + tap-to-email tiles. */}
         <div className="lg:hidden mb-8 grid grid-cols-2 gap-2">
           <a
-            href="tel:+21344202022"
+            href={`tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}`}
             className="flex items-center gap-2.5 rounded-xl border border-ink/10 bg-white/65 backdrop-blur-sm px-3 py-3 min-h-[56px] text-ink transition-colors hover:bg-white"
           >
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-marine/10 text-marine">
@@ -157,15 +159,15 @@ export default function Contact() {
             </span>
             <span className="flex flex-col min-w-0">
               <span className="font-sans text-[10px] uppercase tracking-[0.18em] text-ink/55 leading-none">
-                Call the desk
+                Appeler la réception
               </span>
               <span className="font-sans text-[13px] text-ink mt-1 truncate">
-                +213 44 20 20 22
+                {hotel.contact.phonePrimary}
               </span>
             </span>
           </a>
           <a
-            href="mailto:contact@hoteldulacvert.dz"
+            href={`mailto:${hotel.contact.email}`}
             className="flex items-center gap-2.5 rounded-xl border border-ink/10 bg-white/65 backdrop-blur-sm px-3 py-3 min-h-[56px] text-ink transition-colors hover:bg-white"
           >
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-marine/10 text-marine">
@@ -176,10 +178,10 @@ export default function Contact() {
             </span>
             <span className="flex flex-col min-w-0">
               <span className="font-sans text-[10px] uppercase tracking-[0.18em] text-ink/55 leading-none">
-                Email
+                E-mail
               </span>
               <span className="font-sans text-[12px] text-ink mt-1 truncate">
-                contact@hoteldulacvert.dz
+                {hotel.contact.email}
               </span>
             </span>
           </a>
@@ -189,12 +191,12 @@ export default function Contact() {
           {/* Letterhead column — order-2 on mobile so the form leads. */}
           <div className="contact-letterhead lg:col-span-5 lg:pt-2 order-2 lg:order-1">
             <p className="contact-eyebrow font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3 md:mb-4">
-              Reach the desk
+              Contactez la réception
             </p>
             <h2 className="contact-heading font-display font-medium text-[28px] xs:text-[32px] sm:text-4xl lg:text-[52px] leading-[1.05] tracking-tight text-ink text-balance">
-              Write to us —
+              Écrivez-nous —
               <br className="hidden sm:block" />
-              <span className="italic font-normal">we&apos;ll write back.</span>
+              <span className="italic font-normal">nous répondrons.</span>
             </h2>
             <span
               aria-hidden
@@ -253,10 +255,10 @@ export default function Contact() {
               <div className="p-6 sm:p-10 lg:p-12">
                 <div className="flex items-baseline justify-between gap-4 mb-6 md:mb-10">
                   <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-ink/55">
-                    A letter to the desk
+                    Un mot à la réception
                   </p>
                   <p className="font-display italic text-[13px] text-marine">
-                    No.{" "}
+                    N°{" "}
                     <span className="tabular-nums">
                       {new Date().getFullYear()}
                     </span>
@@ -275,7 +277,7 @@ export default function Contact() {
                       <Field
                         index="01"
                         id="fullname"
-                        label="Full name"
+                        label="Nom complet"
                         required
                         type="text"
                         autoComplete="name"
@@ -283,7 +285,7 @@ export default function Contact() {
                       <Field
                         index="02"
                         id="email"
-                        label="Email"
+                        label="E-mail"
                         required
                         type="email"
                         autoComplete="email"
@@ -293,9 +295,9 @@ export default function Contact() {
                     <Field
                       index="03"
                       id="subject"
-                      label="Subject"
+                      label="Sujet"
                       type="text"
-                      placeholder="Dates, room, a wish"
+                      placeholder="Dates, chambre, un souhait"
                     />
 
                     <Field
@@ -303,19 +305,18 @@ export default function Contact() {
                       id="message"
                       label="Message"
                       textarea
-                      placeholder="A few lines is plenty."
+                      placeholder="Quelques lignes suffisent."
                     />
 
                     <div className="contact-field pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                       <p className="font-sans text-[12px] leading-relaxed text-graybase max-w-sm">
-                        We answer in the order letters arrive, usually within
-                        the day.
+                        Nous répondons dans l'ordre d'arrivée, en général dans la journée.
                       </p>
                       <button
                         type="submit"
                         className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink border border-ink/30 rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
                       >
-                        Send the letter
+                        Envoyer le message
                         <svg
                           aria-hidden
                           viewBox="0 0 24 24"
@@ -470,18 +471,19 @@ function Confirmation() {
           </svg>
         </span>
         <p className="font-sans text-[10px] uppercase tracking-[0.24em] text-marine">
-          Sealed and sent
+          Cachet et envoi
         </p>
       </div>
       <p className="confirm-step font-display text-2xl sm:text-[28px] leading-[1.2] tracking-tight text-ink max-w-md">
-        Your note is on the desk.{" "}
+        Votre mot est arrivé à la réception.{" "}
         <span className="italic font-normal text-graybase">
-          A reply is on its way back to you.
+          Une réponse vous parvient bientôt.
         </span>
       </p>
       <p className="confirm-step font-sans text-[14px] leading-[1.7] text-graybase max-w-md">
-        We answer in the order messages arrive — usually within the day, often
-        sooner. If a date is pressing, do telephone the hotel directly.
+        Nous répondons dans l'ordre d'arrivée des messages — en général dans la
+        journée, souvent plus vite. Pour une date pressée, n'hésitez pas à appeler
+        directement l'hôtel.
       </p>
     </div>
   );

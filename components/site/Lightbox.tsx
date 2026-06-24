@@ -82,12 +82,12 @@ export default function Lightbox({ images, index, onClose, onChange }: Props) {
           className="fixed inset-0 z-[120] bg-ink/[0.85] backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
-          aria-label={`Image ${index! + 1} of ${images.length}`}
+          aria-label={`Image ${index! + 1} sur ${images.length}`}
         >
           {/* Backdrop click → close. Buttons stop propagation. */}
           <button
             type="button"
-            aria-label="Close gallery"
+            aria-label="Fermer la galerie"
             onClick={onClose}
             className="absolute inset-0 cursor-zoom-out"
           />
@@ -96,7 +96,7 @@ export default function Lightbox({ images, index, onClose, onChange }: Props) {
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Fermer"
             className="absolute top-[max(0.75rem,env(safe-area-inset-top))] right-[max(0.75rem,env(safe-area-inset-right))] z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <X className="h-5 w-5" strokeWidth={1.75} />
@@ -143,7 +143,7 @@ export default function Lightbox({ images, index, onClose, onChange }: Props) {
               <button
                 type="button"
                 onClick={goPrev}
-                aria-label="Previous image"
+                aria-label="Image précédente"
                 className="absolute top-1/2 left-[max(0.5rem,env(safe-area-inset-left))] -translate-y-1/2 z-10 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 <ChevronLeft className="h-6 w-6" strokeWidth={1.75} />
@@ -151,7 +151,7 @@ export default function Lightbox({ images, index, onClose, onChange }: Props) {
               <button
                 type="button"
                 onClick={goNext}
-                aria-label="Next image"
+                aria-label="Image suivante"
                 className="absolute top-1/2 right-[max(0.5rem,env(safe-area-inset-right))] -translate-y-1/2 z-10 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 <ChevronRight className="h-6 w-6" strokeWidth={1.75} />

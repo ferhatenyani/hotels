@@ -47,18 +47,18 @@ export default function BookingSummary({
 }: Props) {
   const breakdown = computeBreakdown(room, q, selectedAddOns);
   const nightsLabel =
-    breakdown.nights === 1 ? "1 night" : `${breakdown.nights} nights`;
+    breakdown.nights === 1 ? "1 nuit" : `${breakdown.nights} nuits`;
   const guestsLabel =
     q.children > 0
-      ? `${q.adults} adult${q.adults === 1 ? "" : "s"} · ${q.children} child${q.children === 1 ? "" : "ren"}`
-      : `${q.adults} adult${q.adults === 1 ? "" : "s"}`;
+      ? `${q.adults} adulte${q.adults === 1 ? "" : "s"} · ${q.children} enfant${q.children === 1 ? "" : "s"}`
+      : `${q.adults} adulte${q.adults === 1 ? "" : "s"}`;
 
   return (
     <aside
-      aria-label="Your booking summary"
+      aria-label="Récapitulatif de votre réservation"
       className="rounded-2xl border border-ink/10 bg-white shadow-[0_24px_50px_-30px_rgba(21,19,22,0.18)] overflow-hidden"
     >
-      {/* Cover image */}
+      {/* Image de couverture */}
       <div className="relative h-[160px] md:h-[180px] bg-ink/5">
         <Image
           src={room.cover}
@@ -73,7 +73,7 @@ export default function BookingSummary({
         />
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
           <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-white/80">
-            Your stay
+            Votre séjour
           </p>
           <p className="mt-1 font-display text-[18px] md:text-[20px] font-medium text-white leading-tight tracking-tight">
             {room.name}
@@ -82,28 +82,28 @@ export default function BookingSummary({
       </div>
 
       <div className="p-5 md:p-6">
-        {/* Dates + party */}
+        {/* Dates + voyageurs */}
         <dl className="flex flex-col gap-4 text-[14px] font-sans">
           <SummaryRow
-            label="Check-in"
+            label="Arrivée"
             value={
-              q.checkIn ? format(q.checkIn, "EEE, d MMM yyyy") : "Not set"
+              q.checkIn ? format(q.checkIn, "EEE d MMM yyyy") : "Non définie"
             }
             editHref={editable ? bookingHref("search", q) : undefined}
           />
           <SummaryRow
-            label="Check-out"
+            label="Départ"
             value={
-              q.checkOut ? format(q.checkOut, "EEE, d MMM yyyy") : "Not set"
+              q.checkOut ? format(q.checkOut, "EEE d MMM yyyy") : "Non défini"
             }
             editHref={editable ? bookingHref("search", q) : undefined}
           />
           <SummaryRow
-            label="Length"
+            label="Durée"
             value={nightsLabel}
           />
           <SummaryRow
-            label="Guests"
+            label="Voyageurs"
             value={guestsLabel}
             editHref={editable ? bookingHref("search", q) : undefined}
           />
@@ -111,22 +111,22 @@ export default function BookingSummary({
 
         <span aria-hidden className="mt-5 mb-5 block h-px bg-ink/10" />
 
-        {/* Price breakdown */}
+        {/* Détail du prix */}
         <div className="flex flex-col gap-2.5 font-sans text-[13.5px] text-ink/75">
           <PriceLine
             label={`${room.name} · ${nightsLabel}`}
             amount={breakdown.roomSubtotal}
           />
           <PriceLine
-            label={`Tourism tax · ${breakdown.guests} guest${breakdown.guests === 1 ? "" : "s"}`}
+            label={`Taxe de séjour · ${breakdown.guests} voyageur${breakdown.guests === 1 ? "" : "s"}`}
             amount={breakdown.tourismTax}
           />
           {breakdown.addOnsTotal > 0 && (
-            <PriceLine label="Add-ons" amount={breakdown.addOnsTotal} />
+            <PriceLine label="Suppléments" amount={breakdown.addOnsTotal} />
           )}
           {breakdown.discount > 0 && (
             <PriceLine
-              label={breakdown.promoLabel ?? "Promo discount"}
+              label={breakdown.promoLabel ?? "Réduction promo"}
               amount={-breakdown.discount}
               tone="discount"
             />
@@ -144,8 +144,8 @@ export default function BookingSummary({
           </span>
         </div>
         <p className="mt-3 font-sans text-[11.5px] leading-[1.55] text-ink/60">
-          Includes the tourism tax. No third-party fees, no surprises at the
-          desk.
+          Taxe de séjour incluse. Pas de frais d&apos;intermédiaires, pas de
+          surprises à la réception.
         </p>
       </div>
     </aside>
@@ -173,13 +173,14 @@ function SummaryRow({
         {editHref && (
           <Link
             href={editHref}
-            // Pencil + label needs 44px touch height on mobile; px-1 stops it
-            // collapsing too narrow when the parent dl is constrained.
+            // Crayon + libellé nécessite 44px de hauteur tactile sur mobile ;
+            // px-1 empêche le bouton de se rétrécir quand le parent dl est
+            // contraint.
             className="shrink-0 inline-flex items-center gap-1 px-1 min-h-[44px] font-sans text-[11px] uppercase tracking-[0.18em] text-marine hover:text-marine/80 transition-colors"
-            aria-label={`Edit ${label.toLowerCase()}`}
+            aria-label={`Modifier ${label.toLowerCase()}`}
           >
             <Pencil className="h-3 w-3" strokeWidth={1.75} />
-            Edit
+            Modifier
           </Link>
         )}
       </dd>
@@ -214,8 +215,8 @@ function PriceLine({
 }
 
 /**
- * Mobile chip that collapses the summary into a tap-to-expand pill at the
- * top of the page. Wraps {@link BookingSummary} when open.
+ * Pastille mobile qui condense le récapitulatif en une pilule à dérouler en
+ * haut de page. Enveloppe {@link BookingSummary} quand ouverte.
  */
 export function BookingSummaryChip({
   room,
@@ -240,14 +241,14 @@ export function BookingSummaryChip({
       >
         <div className="flex flex-col min-w-0">
           <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/55 leading-none">
-            Total · {nights} night{nights === 1 ? "" : "s"}
+            Total · {nights} nuit{nights === 1 ? "" : "s"}
           </span>
           <span className="mt-1.5 font-display text-[18px] font-semibold text-ink leading-none">
             {formatDA(breakdown.total)}
           </span>
         </div>
         <span className="shrink-0 flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.18em] text-marine">
-          {open ? "Hide" : "Details"}
+          {open ? "Masquer" : "Détails"}
           {open ? (
             <ChevronUp className="h-3.5 w-3.5" strokeWidth={2} />
           ) : (

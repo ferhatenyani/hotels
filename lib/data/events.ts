@@ -1,12 +1,12 @@
-// Events & Meetings content — the hotel's real differentiator.
-// Numbers (498 m², seats 170, divisible into 2) are verbatim from the demo
-// content pack and the hotel's official site.
+// Contenu Événements & Réunions — le véritable atout différenciant.
+// Les chiffres (498 m², 170 places, divisible en 2) viennent du pack de
+// contenu démo.
 
 export type EventType = {
   slug: string;
   name: string;
   blurb: string;
-  /** Lucide icon name — keeps the section iconography consistent with the rest of the site. */
+  /** Nom d'icône Lucide — garde une iconographie cohérente avec le reste du site. */
   icon:
     | "Heart"
     | "Cake"
@@ -18,45 +18,45 @@ export type EventType = {
 
 export const eventTypes: EventType[] = [
   {
-    slug: "weddings",
-    name: "Weddings",
+    slug: "mariages",
+    name: "Mariages",
     blurb:
-      "The 498 m² hall, dressed for the day — seated dinners up to 170, with bespoke catering and the lake on the horizon.",
+      "La salle de 498 m², habillée pour le jour — dîners assis jusqu'à 170 invités, restauration sur mesure et l'horizon en toile de fond.",
     icon: "Heart",
   },
   {
-    slug: "engagements-baptisms",
-    name: "Engagements & Baptêmes",
+    slug: "fiancailles-baptemes",
+    name: "Fiançailles & Baptêmes",
     blurb:
-      "Smaller celebrations in either half of the divisible hall — a quieter room, the same care.",
+      "Des célébrations plus intimes dans l'une des moitiés de la salle divisible — une salle plus calme, le même soin.",
     icon: "Cake",
   },
   {
-    slug: "birthdays",
-    name: "Birthdays",
+    slug: "anniversaires",
+    name: "Anniversaires",
     blurb:
-      "From an intimate dinner to a full hall — we'll shape the room to the night you have in mind.",
+      "D'un dîner intime à une salle entière — nous adaptons l'espace à la soirée que vous imaginez.",
     icon: "PartyPopper",
   },
   {
     slug: "conferences",
-    name: "Conferences",
+    name: "Conférences",
     blurb:
-      "Equipped meeting rooms — projector, microphone, fast Wi-Fi — for boards, panels and seminars.",
+      "Salles de réunion équipées — vidéoprojecteur, microphone, Wi-Fi rapide — pour conseils, tables rondes et séminaires.",
     icon: "Mic",
   },
   {
-    slug: "seminars",
-    name: "Seminars & Off-sites",
+    slug: "seminaires",
+    name: "Séminaires & Off-sites",
     blurb:
-      "Adaptable rooms with coffee-break service, working lunches and the city on the doorstep.",
+      "Des salles modulables avec service pause-café, déjeuners de travail et la ville au pas de la porte.",
     icon: "Briefcase",
   },
   {
     slug: "concerts",
     name: "Concerts & Soirées",
     blurb:
-      "A history of live music — from Samir Khelfi to Yennayer parties with DJ Lydia, the hall holds a crowd well.",
+      "Une tradition de musique live — la salle accueille bien une foule, qu'il s'agisse d'un concert ou d'une soirée DJ.",
     icon: "Music",
   },
 ];
@@ -68,40 +68,40 @@ export type CapacitySetup = {
 };
 
 export const hallCapacity: CapacitySetup[] = [
-  { setup: "Banquet", capacity: "Up to 170 seated", note: "Full hall, round tables" },
-  { setup: "Theatre", capacity: "Up to 220 seated", note: "Conference-style" },
-  { setup: "Classroom", capacity: "Up to 110 seated", note: "Training-style" },
-  { setup: "U-shape", capacity: "Up to 60 seated", note: "Half-hall, board format" },
-  { setup: "Cocktail", capacity: "Up to 300 standing", note: "Reception format" },
-  { setup: "Divisible", capacity: "2 × ~85 seated", note: "Hall split into two" },
+  { setup: "Banquet", capacity: "Jusqu'à 170 assis", note: "Salle entière, tables rondes" },
+  { setup: "Théâtre", capacity: "Jusqu'à 220 assis", note: "Style conférence" },
+  { setup: "Classe", capacity: "Jusqu'à 110 assis", note: "Style formation" },
+  { setup: "En U", capacity: "Jusqu'à 60 assis", note: "Demi-salle, format conseil" },
+  { setup: "Cocktail", capacity: "Jusqu'à 300 debout", note: "Format réception" },
+  { setup: "Divisible", capacity: "2 × ~85 assis", note: "Salle séparée en deux" },
 ];
 
 export const meetingEquipment = [
-  "Video projector + drop-down screen",
-  "Wireless microphones (handheld & lapel)",
-  "Sound system, in-room mixing",
-  "Free, fast Wi-Fi throughout",
-  "Flipchart and markers",
-  "On-site technician on request",
-  "Coffee-break service",
-  "Bespoke catering (coffee, lunch, cocktail, dinner)",
+  "Vidéoprojecteur + écran déroulant",
+  "Microphones sans fil (main & cravate)",
+  "Système sonore, mixage en salle",
+  "Wi-Fi rapide et gratuit dans toute la salle",
+  "Tableau papier et marqueurs",
+  "Technicien sur place sur demande",
+  "Service pause-café",
+  "Restauration sur mesure (café, déjeuner, cocktail, dîner)",
 ];
 
 export const eventTimeline = [
   {
-    step: "Tell us about the day",
-    body: "Type of event, date, guest count, any catering or AV needs. Send a note or call the desk directly.",
+    step: "Parlez-nous du jour",
+    body: "Type d'événement, date, nombre d'invités, besoins en restauration ou audiovisuel. Envoyez un mot ou appelez la réception directement.",
   },
   {
-    step: "We propose a layout & quote",
-    body: "Hall configuration, room blocks for your guests, a quote you can share with stakeholders — usually within the day.",
+    step: "Nous proposons un agencement & un devis",
+    body: "Configuration de la salle, blocs de chambres pour vos invités, un devis à partager avec les parties prenantes — en général dans la journée.",
   },
   {
-    step: "Sign and we hold the date",
-    body: "A deposit holds the room. We'll share a checklist for everything from menus to flowers.",
+    step: "Vous signez, nous bloquons la date",
+    body: "Un acompte réserve la salle. Nous partageons une liste de vérification pour tout, des menus aux fleurs.",
   },
   {
-    step: "On the day, we run quietly",
-    body: "A discreet on-site team handles setup, service and breakdown — you stay with your guests.",
+    step: "Le jour J, nous opérons en coulisses",
+    body: "Une équipe discrète sur place s'occupe de l'installation, du service et du démontage — vous restez avec vos invités.",
   },
 ];

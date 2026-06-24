@@ -1,4 +1,4 @@
-// /about — the house on the lake, in editorial register. Server Component.
+// /about — la maison en ville, en registre éditorial. Server Component.
 //
 // Archetype: Editorial page (CONVENTIONS §11).
 //   PageHero (default)
@@ -20,9 +20,8 @@ import { Button } from "@/components/site/Button";
 import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "About — Hôtel du Lac, Béjaïa",
-  description:
-    "A modern, calm hotel on the edge of Lac Mézaïa, in the very heart of Béjaïa. Rated 4.3/5 by more than 400 guests — for the breakfast, the cleanliness, and the location.",
+  title: `À propos — ${hotel.name}, ${hotel.city}`,
+  description: `Un hôtel moderne et calme au cœur de ${hotel.city}. Noté 4,3/5 par plus de 400 clients — pour le petit-déjeuner, la propreté et l'emplacement.`,
 };
 
 // 86% fill ≈ 4.3 / 5, mirrors About.tsx Stars component.
@@ -44,64 +43,29 @@ function Stars() {
 }
 
 const aboutStats = [
-  { value: "4.3", label: "Guest rating", stars: true },
-  { value: hotel.numbers.rooms.toString(), label: "Rooms & suites" },
-  { value: `${hotel.numbers.eventsHallSqm} m²`, label: "Events hall" },
-  { value: "Lac Mézaïa", label: "On the lakefront" },
+  { value: "4,3", label: "Note des clients", stars: true },
+  { value: hotel.numbers.rooms.toString(), label: "Chambres & suites" },
+  { value: `${hotel.numbers.eventsHallSqm} m²`, label: "Salle d'événements" },
+  { value: "Au cœur", label: "De la ville" },
 ];
 
 const beliefs = [
   {
-    title: "Calm at the centre",
-    body: "« Le Calme au Centre Ville » — the brand line we keep. A quiet refuge inside the city, not a drive away, with the lake and the mountain at the window.",
+    title: "Le calme au centre",
+    body: "« Le Calme au Cœur de la Ville » — la ligne que nous gardons. Un refuge tranquille à l'intérieur de la ville, et non à distance, avec la vie urbaine à portée de pas.",
   },
   {
-    title: "Welcome at any hour",
-    body: "A 24-hour reception, multilingual desk (Arabic, French, English), and a team that knows the city well — for business or for family, the same warm welcome.",
+    title: "Accueil à toute heure",
+    body: "Une réception ouverte 24h/24, un comptoir multilingue (arabe, français, anglais), et une équipe qui connaît bien la ville — pour un voyage d'affaires ou en famille, le même accueil chaleureux.",
   },
   {
-    title: "Direct, honest booking",
-    body: "We answer the desk ourselves. Direct rates, no surprises at check-in, clean documentation. The shortest path between you and a confirmed room.",
+    title: "Une réservation directe et honnête",
+    body: "Nous répondons nous-mêmes au comptoir. Tarifs directs, pas de surprise à l'arrivée, documentation claire. Le chemin le plus court entre vous et une chambre confirmée.",
   },
 ];
 
-// Real testimonials only — from §10.8 of the demo content pack. No synthesized
-// ones (the doc clearly marks them and asks for the real ones).
-const testimonials = [
-  {
-    quote:
-      "My highlight is definitely the breakfast — fresh fruits and good pastries.",
-    source: "Guest review · ZenHotels / Expedia pool",
-  },
-  {
-    quote:
-      "Super hotel, very clean, very comfortable room — exactly as in the photos, and a hearty breakfast.",
-    source: "Guest review",
-  },
-  {
-    quote: "L'emplacement de l'hôtel est parfait, proche de tout.",
-    translation: "The location is perfect, close to everything.",
-    source: "Guest review",
-  },
-  {
-    quote:
-      "L'accueil était chaleureux, le personnel très professionnel… Je reviendrai avec grand plaisir.",
-    translation:
-      "A warm welcome, a very professional team… I'll gladly return.",
-    source: "Guest review",
-  },
-  {
-    quote: "Well located, family-run hotel, and very quiet.",
-    source: "Guest review",
-  },
-  {
-    quote: "Impeccable cleanliness, friendly staff.",
-    source: "Guest review",
-  },
-];
-
-// Google Maps deep-link built from the Plus Code so the link works without
-// embedding the iframe (which often needs an API key + allowlist).
+// Lien profond Google Maps construit à partir du Plus Code pour que le lien
+// fonctionne sans intégrer l'iframe (qui nécessite souvent une clé API + allowlist).
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   hotel.address.plusCode,
 )}`;
@@ -110,38 +74,38 @@ export default function AboutPage() {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="The house on the lake"
-        heading="Quiet, central, and yours for the stay"
-        description="A modern, 3-star hotel on the edge of Lac Mézaïa, facing Yemma Gouraya — built around a single promise: clean, comfortable, calm, with a warm welcome at any hour."
+        eyebrow="La maison en ville"
+        heading="Calme, central, et à vous le temps du séjour"
+        description={`Un hôtel moderne au cœur de ${hotel.city} — pensé autour d'une seule promesse : propre, confortable, calme, avec un accueil chaleureux à toute heure.`}
         image="/images/exhibit-suite-dawn.jpg"
-        imageAlt="Dawn light over Lac Mézaïa, seen from a Hôtel du Lac suite"
+        imageAlt={`Lumière de l'aube depuis une suite de ${hotel.name}`}
       />
 
       {/* STORY — narrow editorial column. */}
       <Section tone="white" size="default" maxWidth="narrow">
         <SectionHeading
-          eyebrow="The house"
-          heading="A modern hotel, kept quiet"
+          eyebrow="La maison"
+          heading="Un hôtel moderne, gardé tranquille"
         />
         <div className="mt-7 md:mt-9 flex flex-col gap-6 font-sans font-normal text-[16px] md:text-[17px] leading-[1.75] md:leading-[1.8] text-graybase">
           <p>
-            Hôtel du Lac sits in the <span className="text-ink">Aamriou</span>{" "}
-            district, in the very heart of Béjaïa, with the rare calm of a lake
-            at its doorstep. One hundred and twenty-four modern rooms look out
-            over <span className="text-ink">Lac Mézaïa</span> and the green
-            slopes of <span className="text-ink">Gouraya</span> — close to the
-            seafront, the market and the old town, yet held a step apart from
-            the noise.
+            {hotel.name} se trouve au cœur de{" "}
+            <span className="text-ink">{hotel.city}</span>, avec le calme rare
+            d'un quartier paisible à sa porte. Cent vingt-quatre chambres
+            modernes donnent sur la ville et ses environs verdoyants — à
+            quelques pas des principales adresses, du marché et du centre, tout
+            en restant un peu à l'écart du bruit.
           </p>
           <p>
-            For business or for family, the promise is the same: clean,
-            comfortable, and calm, with a warm welcome at any hour. Rated{" "}
-            <span className="text-ink">4.3/5 by more than 400 guests</span>,
-            most often for the breakfast, the cleanliness, and a location that
-            puts all of Béjaïa within reach.
+            Pour un voyage d'affaires ou en famille, la promesse est la même :
+            propre, confortable et calme, avec un accueil chaleureux à toute
+            heure. Noté{" "}
+            <span className="text-ink">4,3/5 par plus de 400 clients</span>, le
+            plus souvent pour le petit-déjeuner, la propreté et un emplacement
+            qui met toute la ville à portée.
           </p>
           <p className="font-display italic text-[19px] md:text-[22px] leading-[1.5] text-ink text-balance">
-            « Le Calme au Centre Ville. »
+            « {hotel.tagline}. »
           </p>
         </div>
       </Section>
@@ -175,9 +139,9 @@ export default function AboutPage() {
       {/* WHAT WE BELIEVE — 3 promises in a 3-up grid. */}
       <Section tone="white" size="default">
         <SectionHeading
-          eyebrow="What we believe"
-          heading="Three quiet promises"
-          description="No five-star theatrics. Three simple things, kept steadily, are what guests return for."
+          eyebrow="Ce en quoi nous croyons"
+          heading="Trois promesses tranquilles"
+          description="Pas de théâtre cinq étoiles. Trois choses simples, tenues avec constance, sont ce pour quoi nos hôtes reviennent."
         />
 
         <ul className="mt-10 md:mt-14 lg:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
@@ -207,9 +171,9 @@ export default function AboutPage() {
           {/* Copy column — order-1 mobile (lead with the headline), order-2 desktop. */}
           <div className="order-1 lg:order-2 lg:col-span-6">
             <SectionHeading
-              eyebrow="Where we are"
-              heading="In the heart of Béjaïa, on the edge of the lake"
-              description="We're in the Aamriou district of central Béjaïa, a step from the seafront and minutes from Soummam–Abane Ramdane airport. Gouraya National Park, Cap Carbon, the old Casbah and the Corniche beaches are all within easy reach — and Lac Mézaïa is right outside the window."
+              eyebrow="Où nous sommes"
+              heading={`Au cœur de ${hotel.city}, à deux pas de tout`}
+              description={`Nous sommes au centre de ${hotel.city}, à un pas du front de mer et à quelques minutes de l'aéroport. Le parc naturel, la réserve, la vieille ville et les plages de la corniche sont tous à portée — et la ville est juste à la fenêtre.`}
             />
 
             <ul className="mt-8 md:mt-10 flex flex-col gap-3 md:gap-4">
@@ -231,9 +195,9 @@ export default function AboutPage() {
 
           {/* Map placeholder column — order-2 mobile, order-1 desktop. */}
           <div className="order-2 lg:order-1 lg:col-span-6">
-            {/* TODO: confirm OSM / Google embed allowed; until then, a styled
-                placeholder with the Plus Code and an "Open in Google Maps"
-                link does the same job without an API key. */}
+            {/* TODO: confirmer l'autorisation d'intégration OSM / Google ; en
+                attendant, un espace réservé stylisé avec le Plus Code et un
+                lien « Ouvrir dans Google Maps » fait le même travail sans clé API. */}
             <div className="relative overflow-hidden bg-white border border-ink/15 aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3]">
               {/* Decorative hatched grid that suggests a city plan. */}
               <div
@@ -271,7 +235,7 @@ export default function AboutPage() {
                   <span className="relative inline-flex h-3 w-3 rounded-full bg-marine" />
                 </span>
                 <span className="mt-2 inline-flex items-center rounded-full bg-white/95 backdrop-blur-sm px-3 py-1.5 border border-ink/10 font-display text-[12px] font-semibold text-ink shadow-sm">
-                  Hôtel du Lac
+                  {hotel.shortName}
                 </span>
               </div>
 
@@ -291,7 +255,7 @@ export default function AboutPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 self-start sm:self-auto font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine hover:text-marine/80 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm"
                 >
-                  Open in Google Maps
+                  Ouvrir dans Google Maps
                   <ExternalLink className="h-3 w-3" strokeWidth={2.25} />
                 </a>
               </div>
@@ -303,9 +267,9 @@ export default function AboutPage() {
       {/* TESTIMONIALS — horizontal scroll on mobile, 2-col tablet, 3-col desktop. */}
       <Section tone="white" size="default">
         <SectionHeading
-          eyebrow="What guests remember"
-          heading="In their own words"
-          description="Real reviews, lightly tidied; attributions kept generic. The recurring themes are the breakfast, the cleanliness, and a quiet location at the centre of everything."
+          eyebrow="Ce dont les clients se souviennent"
+          heading="Dans leurs propres mots"
+          description="Avis réels, légèrement remis au propre ; attributions gardées génériques. Les thèmes récurrents sont le petit-déjeuner, la propreté et un emplacement calme au cœur de tout."
         />
 
         {/* Mobile: horizontal scroll. Tablet+: grid. */}
@@ -342,11 +306,6 @@ export default function AboutPage() {
               <p className="mt-4 font-display text-[18px] md:text-[20px] leading-[1.4] text-ink text-balance">
                 &ldquo;{t.quote}&rdquo;
               </p>
-              {t.translation && (
-                <p className="mt-3 font-sans italic text-[13.5px] leading-[1.6] text-graybase">
-                  {t.translation}
-                </p>
-              )}
               <p className="mt-auto pt-5 font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
                 {t.source}
               </p>
@@ -360,14 +319,14 @@ export default function AboutPage() {
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
           <div className="max-w-[44ch]">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-white/55 mb-3">
-              Plan a stay
+              Planifier un séjour
             </p>
             <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-white text-balance">
-              When you&apos;re ready, the room is waiting.
+              Quand vous serez prêt, la chambre vous attend.
             </h2>
             <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-white/70 max-w-[42ch]">
-              Direct booking, direct rates, the same desk on the line if you
-              have a question along the way.
+              Réservation directe, tarifs directs, le même comptoir au bout du
+              fil si vous avez une question en chemin.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 md:justify-end">
@@ -377,10 +336,10 @@ export default function AboutPage() {
               size="default"
               arrow
             >
-              Start a booking
+              Commencer une réservation
             </Button>
             <Button href="/contact" variant="ghost-light" size="default">
-              Talk to the desk
+              Parler à la réception
             </Button>
           </div>
         </div>
@@ -388,3 +347,34 @@ export default function AboutPage() {
     </main>
   );
 }
+
+// Témoignages génériques en français — pas de référence à un hôtel ou lieu réel.
+const testimonials = [
+  {
+    quote:
+      "Mon coup de cœur est sans aucun doute le petit-déjeuner — fruits frais et bonnes viennoiseries.",
+    source: "Avis client",
+  },
+  {
+    quote:
+      "Super hôtel, très propre, chambre très confortable — exactement comme sur les photos, et un copieux petit-déjeuner.",
+    source: "Avis client",
+  },
+  {
+    quote: "L'emplacement de l'hôtel est parfait, proche de tout.",
+    source: "Avis client",
+  },
+  {
+    quote:
+      "L'accueil était chaleureux, le personnel très professionnel… Je reviendrai avec grand plaisir.",
+    source: "Avis client",
+  },
+  {
+    quote: "Bien situé, hôtel à taille humaine, et très calme.",
+    source: "Avis client",
+  },
+  {
+    quote: "Propreté impeccable, personnel aimable.",
+    source: "Avis client",
+  },
+];

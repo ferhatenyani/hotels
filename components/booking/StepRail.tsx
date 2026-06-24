@@ -1,8 +1,9 @@
-// Step indicator for the booking funnel. Surfaces the user's position in
-// the 6-step flow so they always know how far they have left. Mobile reads
-// "Step 2 of 5 · Choose room" with a thin progress rule; tablet+ shows the
-// full chip rail. Past steps are still tappable so the user can edit
-// upstream choices (rule from UX guidelines: predictable back behavior).
+// Indicateur d'étape pour le tunnel de réservation. Montre la position de
+// l'utilisateur dans le parcours en 6 étapes. Sur mobile, on lit
+// « Étape 2 sur 5 · Choisir la chambre » avec une fine barre de
+// progression ; en tablette+, on affiche le rail complet de pastilles.
+// Les étapes passées restent cliquables pour permettre d'éditer les choix
+// précédents (règle UX : comportement de retour prévisible).
 
 "use client";
 
@@ -19,12 +20,12 @@ type Step = {
 };
 
 const steps: Step[] = [
-  { id: "search", label: "Dates & guests", shortLabel: "Dates" },
-  { id: "results", label: "Choose room", shortLabel: "Room" },
-  { id: "guest", label: "Your details", shortLabel: "Details" },
-  { id: "review", label: "Review", shortLabel: "Review" },
-  { id: "payment", label: "Payment", shortLabel: "Payment" },
-  { id: "confirmation", label: "Confirmation", shortLabel: "Done" },
+  { id: "search", label: "Dates & voyageurs", shortLabel: "Dates" },
+  { id: "results", label: "Choisir la chambre", shortLabel: "Chambre" },
+  { id: "guest", label: "Vos informations", shortLabel: "Infos" },
+  { id: "review", label: "Récapitulatif", shortLabel: "Récap" },
+  { id: "payment", label: "Paiement", shortLabel: "Paiement" },
+  { id: "confirmation", label: "Confirmation", shortLabel: "Terminé" },
 ];
 
 export default function StepRail() {
@@ -46,10 +47,10 @@ export default function StepRail() {
   return (
     <div className="border-b border-ink/10 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 py-3 md:py-4">
-        {/* MOBILE: compact "Step X of N · Label" + thin progress bar. */}
+        {/* MOBILE : « Étape X sur N · Libellé » compact + fine barre de progression. */}
         <div className="md:hidden flex items-center justify-between gap-3">
           <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-            Step {currentIndex + 1} of {steps.length}
+            Étape {currentIndex + 1} sur {steps.length}
           </p>
           <p className="font-display text-[14px] font-medium tracking-tight text-ink truncate">
             {current.label}
@@ -67,8 +68,9 @@ export default function StepRail() {
           />
         </div>
 
-        {/* TABLET+: chip rail. Past steps are links; current and future steps
-            render as plain spans (no back-skipping forward). */}
+        {/* TABLETTE+ : rail de pastilles. Les étapes passées sont des liens ;
+            l'étape actuelle et les suivantes sont de simples spans (pas
+            de saut en avant). */}
         <ol className="hidden md:flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.18em]">
           {steps.map((s, i) => {
             const isCurrent = i === currentIndex;
@@ -100,7 +102,7 @@ export default function StepRail() {
             return (
               <li key={s.id} className="inline-flex items-center gap-1.5">
                 {isPast ? (
-                  <Link href={bookingHref(s.id, q)} aria-label={`Go back to ${s.label}`}>
+                  <Link href={bookingHref(s.id, q)} aria-label={`Revenir à ${s.label}`}>
                     {node}
                   </Link>
                 ) : (

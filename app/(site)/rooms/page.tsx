@@ -26,11 +26,11 @@ import {
   bookingToSearchParams,
 } from "@/lib/booking/params";
 import { computeBreakdown } from "@/lib/booking/pricing";
+import { hotel } from "@/lib/data/hotel";
 
 export const metadata: Metadata = {
-  title: "Rooms & Suites — Hôtel du Lac, Béjaïa",
-  description:
-    "Six ways to rest above Lac Mézaïa, from a single room to a 102 m² apartment. Lake-view rooms in Hôtel du Lac, Béjaïa.",
+  title: `Chambres et Suites — ${hotel.name}, ${hotel.city}`,
+  description: `Six manières de se reposer chez ${hotel.name}, d'une chambre individuelle à un appartement de 102 m². Chambres avec vue à ${hotel.name}, ${hotel.city}.`,
 };
 
 export default async function RoomsPage(props: PageProps<"/rooms">) {
@@ -56,26 +56,26 @@ export default async function RoomsPage(props: PageProps<"/rooms">) {
   return (
     <main className="bg-white">
       <PageHero
-        eyebrow="Rooms & Suites"
-        heading="Where to rest, above the lake"
-        description="A modern hotel on the edge of Lac Mézaïa — every room facing the water and Yemma Gouraya beyond. Pick the shape of your stay; we'll keep the view consistent."
+        eyebrow="Chambres et Suites"
+        heading="Où se reposer, au cœur de la ville"
+        description={`Un hôtel moderne au cœur de ${hotel.city} — chaque chambre pensée pour le confort et la tranquillité. Choisissez la forme de votre séjour ; nous gardons la qualité constante.`}
         image="/images/exhibit-suite-dawn.jpg"
-        imageAlt="Dawn light over Lac Mézaïa, seen from a Hôtel du Lac suite"
+        imageAlt={`Lumière de l'aube vue depuis une suite à ${hotel.name}`}
         height="short"
       />
 
       <Section tone="white" size="default">
         <SectionHeading
-          eyebrow={hasParty ? "Filtered for your party" : "The catalogue"}
+          eyebrow={hasParty ? "Filtré pour votre groupe" : "Le catalogue"}
           heading={
             hasParty
-              ? `${list.length} room${list.length === 1 ? "" : "s"} that fit your stay`
-              : "Six rooms, one lake"
+              ? `${list.length} chambre${list.length === 1 ? "" : "s"} adaptée${list.length === 1 ? "" : "s"} à votre séjour`
+              : "Six chambres, une maison"
           }
           description={
             hasParty
-              ? "We've narrowed the list to rooms that sleep the party you entered. Adjust the dates or guest count anytime — the rest of the booking stays in place."
-              : "From a single room to a 102 m² apartment, every space looks out to the water. Pick the one that matches the trip."
+              ? "Nous avons filtré la liste pour ne montrer que les chambres qui accueillent le groupe que vous avez saisi. Ajustez les dates ou le nombre d'invités à tout moment — le reste de la réservation reste en place."
+              : "D'une chambre individuelle à un appartement de 102 m², chaque espace est pensé pour le confort. Choisissez celui qui correspond à votre voyage."
           }
         />
 
@@ -83,12 +83,12 @@ export default async function RoomsPage(props: PageProps<"/rooms">) {
         {(hasParty || hasDates) && (
           <div className="mt-8 md:mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 border border-ink/10 bg-cream/40 rounded-2xl px-4 py-3 md:px-5 md:py-4">
             <span className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-              Showing for
+              Affiché pour
             </span>
             <span className="font-sans text-[13px] md:text-[14px] text-ink">
-              {q.adults} adult{q.adults === 1 ? "" : "s"}
+              {q.adults} adulte{q.adults === 1 ? "" : "s"}
               {q.children > 0
-                ? ` · ${q.children} child${q.children === 1 ? "" : "ren"}`
+                ? ` · ${q.children} enfant${q.children === 1 ? "" : "s"}`
                 : ""}
             </span>
             {hasDates && q.checkIn && q.checkOut && (
@@ -104,7 +104,7 @@ export default async function RoomsPage(props: PageProps<"/rooms">) {
               href={changeHref}
               className="ml-auto inline-flex items-center gap-1 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine hover:text-marine/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm px-1"
             >
-              Change
+              Modifier
               <ArrowRight className="h-3 w-3" strokeWidth={2.25} />
             </Link>
           </div>
@@ -143,18 +143,17 @@ export default async function RoomsPage(props: PageProps<"/rooms">) {
         ) : (
           <div className="mt-10 md:mt-14 border border-ink/10 bg-cream/40 rounded-2xl px-6 py-10 md:px-10 md:py-14 text-center">
             <p className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
-              Nothing fits your party
+              Rien ne convient à votre groupe
             </p>
             <p className="mt-3 font-display text-[22px] md:text-[26px] text-ink leading-tight tracking-tight max-w-[28ch] mx-auto text-balance">
-              We have rooms for groups of up to four. For larger parties our
-              concierge can put two rooms side by side.
+              Nous proposons des chambres pour des groupes jusqu&apos;à quatre personnes. Pour des groupes plus importants, notre conciergerie peut mettre deux chambres côte à côte.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button href="/contact" variant="primary" size="default" arrow>
-                Talk to the concierge
+                Parler à la conciergerie
               </Button>
               <Button href={changeHref} variant="secondary" size="default">
-                Change party
+                Modifier le groupe
               </Button>
             </div>
           </div>
@@ -166,24 +165,21 @@ export default async function RoomsPage(props: PageProps<"/rooms">) {
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center md:gap-12">
           <div className="max-w-[44ch]">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-graybase mb-3">
-              Need a hand choosing?
+              Besoin d&apos;aide pour choisir ?
             </p>
             <h2 className="font-display font-medium text-[24px] md:text-[28px] lg:text-[32px] tracking-tight leading-[1.12] text-ink text-balance">
-              The concierge knows the house. Ask, and we'll match the room to
-              the trip.
+              La conciergerie connaît la maison. Demandez, et nous adapterons la chambre au voyage.
             </h2>
             <p className="mt-5 md:mt-6 font-sans text-[15px] md:text-[16px] leading-[1.7] text-graybase max-w-[42ch]">
-              Travelling on business, with the family, or for a weekend with
-              someone you love? A quick note and we'll point you to the right
-              room — and hold it while you decide.
+              En déplacement professionnel, en famille ou pour un week-end avec un proche ? Un petit mot et nous vous orienterons vers la bonne chambre — et la garderons pendant votre décision.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 md:justify-end">
             <Button href="/contact" variant="primary" size="default" arrow>
-              Talk to the concierge
+              Parler à la conciergerie
             </Button>
             <Button href="/booking/search" variant="secondary" size="default">
-              Start a booking
+              Démarrer une réservation
             </Button>
           </div>
         </div>

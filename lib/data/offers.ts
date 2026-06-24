@@ -1,122 +1,122 @@
-// Seasonal packages. Each offer carries a `promoCode` that the booking funnel
-// can read from the URL (?promo=…) and surface in the price breakdown — no
-// real discount engine, but the UI shows the intent end-to-end.
+// Offres saisonnières. Chaque offre porte un `promoCode` que l'entonnoir de
+// réservation peut lire depuis l'URL (?promo=…) et afficher dans le détail
+// de prix — pas de vrai moteur de remise, mais l'UI montre l'intention.
 
 export type Offer = {
   slug: string;
   name: string;
   tagline: string;
   description: string;
-  /** Plain-language perks shown as a bullet list. */
+  /** Avantages en langage simple, affichés en liste. */
   perks: string[];
-  /** Indicative discount label used on the card — e.g. "Save 15%" or "20% off + late check-out". */
+  /** Étiquette de remise indicative sur la carte — ex. « -15 % » ou « 20 % + check-out tardif ». */
   discountLabel: string;
-  /** Code submitted to /booking/search?promo=…  */
+  /** Code soumis à /booking/search?promo=…  */
   promoCode: string;
-  /** Stay constraints surfaced as small print on the card. */
+  /** Conditions de séjour affichées en petits caractères sur la carte. */
   conditions: string[];
-  /** When the offer is best — for the seasonal hint chip. */
+  /** Quand l'offre est la plus pertinente — pour le badge de saison. */
   seasonHint: string;
-  /** Lead image. */
+  /** Image principale. */
   image: string;
   imageAlt: string;
-  /** Cross-link target for the secondary CTA, if any. */
+  /** Cible de lien croisé pour le CTA secondaire, le cas échéant. */
   related?: { label: string; href: string };
 };
 
 export const offers: Offer[] = [
   {
-    slug: "long-weekend-on-the-lake",
-    name: "A Long Weekend on the Lake",
-    tagline: "Three nights, the second at our cost.",
+    slug: "long-week-end",
+    name: "Un Long Week-end",
+    tagline: "Trois nuits, la seconde à nos frais.",
     description:
-      "Stay three nights in a lake-view room — pay for two, plus a late check-out and a welcome breakfast in the room when you arrive.",
+      "Séjournez trois nuits dans une chambre avec vue — payez-en deux, plus un check-out tardif et un petit-déjeuner d'accueil servi en chambre à votre arrivée.",
     perks: [
-      "Third night included",
-      "Late check-out (14:00)",
-      "Welcome breakfast in the room",
-      "A bottle of local water and fruit on arrival",
+      "Troisième nuit incluse",
+      "Check-out tardif (14:00)",
+      "Petit-déjeuner d'accueil en chambre",
+      "Une bouteille d'eau locale et des fruits à l'arrivée",
     ],
-    discountLabel: "33% off · 3rd night free",
-    promoCode: "LAKE3",
+    discountLabel: "-33 % · 3e nuit offerte",
+    promoCode: "WEEK3",
     conditions: [
-      "Minimum 3 consecutive nights",
-      "Friday or Saturday arrival",
-      "Selected lake-view rooms only",
+      "Minimum 3 nuits consécutives",
+      "Arrivée vendredi ou samedi",
+      "Chambres avec vue sélectionnées uniquement",
     ],
-    seasonHint: "Year-round",
+    seasonHint: "Toute l'année",
     image: "/images/exhibit-suite-dawn.jpg",
-    imageAlt: "A lake-view suite at dawn",
-    related: { label: "Browse rooms", href: "/rooms" },
+    imageAlt: "Une suite avec vue à l'aube",
+    related: { label: "Voir les chambres", href: "/rooms" },
   },
   {
-    slug: "family-stay",
-    name: "Family Stay",
-    tagline: "Two adjoining rooms, breakfast for everyone.",
+    slug: "sejour-famille",
+    name: "Séjour en Famille",
+    tagline: "Deux chambres communicantes, le petit-déjeuner pour tous.",
     description:
-      "Book two rooms together at a reduced rate — for parents and children, two couples or a small family group.",
+      "Réservez deux chambres ensemble à un tarif réduit — pour parents et enfants, deux couples ou un petit groupe familial.",
     perks: [
-      "15% off the second room",
-      "Breakfast included for all",
-      "Family check-in: skip the front-desk queue",
-      "Children's amenities on arrival",
+      "-15 % sur la seconde chambre",
+      "Petit-déjeuner inclus pour tous",
+      "Check-in famille : évitez la file d'attente",
+      "Équipements pour enfants à l'arrivée",
     ],
-    discountLabel: "15% off the 2nd room",
-    promoCode: "FAMILY15",
+    discountLabel: "-15 % sur la 2e chambre",
+    promoCode: "FAMILLE15",
     conditions: [
-      "Two rooms booked under one name",
-      "Subject to adjoining-room availability",
+      "Deux chambres réservées au même nom",
+      "Sous réserve de chambres communicantes disponibles",
     ],
-    seasonHint: "School holidays",
+    seasonHint: "Vacances scolaires",
     image: "/images/exhibit-corner-suite.jpg",
-    imageAlt: "A family-sized suite",
-    related: { label: "See family rooms", href: "/rooms" },
+    imageAlt: "Une suite familiale",
+    related: { label: "Voir les chambres familiales", href: "/rooms" },
   },
   {
-    slug: "business-midweek",
-    name: "Business Midweek",
-    tagline: "Sunday-to-Thursday, with everything you need to work.",
+    slug: "affaires-semaine",
+    name: "Affaires en Semaine",
+    tagline: "Du dimanche au jeudi, avec tout ce qu'il faut pour travailler.",
     description:
-      "A flat midweek rate for two or more nights between Sunday and Thursday — Wi-Fi, parking, breakfast and a quiet desk, all in.",
+      "Un tarif unique en semaine pour deux nuits ou plus entre dimanche et jeudi — Wi-Fi, parking, petit-déjeuner et un bureau tranquille, tout inclus.",
     perks: [
-      "Free private parking",
-      "Breakfast included",
-      "Late check-out (13:00) if available",
-      "Express laundry on request",
+      "Parking privé gratuit",
+      "Petit-déjeuner inclus",
+      "Check-out tardif (13:00) si disponible",
+      "Blanchisserie express sur demande",
     ],
-    discountLabel: "10% off · midweek flat rate",
+    discountLabel: "-10 % · tarif fixe semaine",
     promoCode: "WORKWEEK10",
     conditions: [
-      "Sun, Mon, Tue, Wed, Thu nights only",
-      "Minimum 2 nights",
+      "Nuits du dim, lun, mar, mer, jeu uniquement",
+      "Minimum 2 nuits",
     ],
-    seasonHint: "Year-round",
+    seasonHint: "Toute l'année",
     image: "/images/exhibit-guest-room.jpg",
-    imageAlt: "A quiet desk in a lake-view room",
-    related: { label: "Plan a meeting", href: "/events" },
+    imageAlt: "Un bureau tranquille dans une chambre avec vue",
+    related: { label: "Organiser une réunion", href: "/events" },
   },
   {
-    slug: "wedding-party-block",
-    name: "Wedding Party Block",
-    tagline: "Hold a row of rooms for your guests.",
+    slug: "pack-mariage",
+    name: "Pack Mariage",
+    tagline: "Bloquez une rangée de chambres pour vos invités.",
     description:
-      "Planning a wedding in the 498 m² hall? Block 10+ rooms for your guests at a reduced rate — we'll set up a private check-in and a welcome note in each room.",
+      "Vous organisez un mariage dans la salle de 498 m² ? Bloquez 10 chambres ou plus pour vos invités à tarif réduit — nous organisons un check-in privé et un mot de bienvenue dans chaque chambre.",
     perks: [
-      "Rooms held under one master booking",
-      "Private check-in for the wedding party",
-      "Welcome note in each room",
-      "Special breakfast hours for late risers",
+      "Chambres bloquées sous une seule réservation principale",
+      "Check-in privé pour les invités du mariage",
+      "Mot de bienvenue dans chaque chambre",
+      "Horaires spéciaux du petit-déjeuner pour les lève-tard",
     ],
-    discountLabel: "Group rate · 10+ rooms",
-    promoCode: "WEDDING10",
+    discountLabel: "Tarif groupe · 10 chambres ou plus",
+    promoCode: "MARIAGE10",
     conditions: [
-      "Group booking of 10+ rooms",
-      "Linked to an event in the 498 m² hall",
+      "Réservation groupée de 10 chambres ou plus",
+      "Liée à un événement dans la salle de 498 m²",
     ],
-    seasonHint: "Wedding season",
+    seasonHint: "Saison des mariages",
     image: "/images/exhibit-salon.jpg",
-    imageAlt: "The 498 m² hall dressed for a wedding",
-    related: { label: "Talk to events", href: "/events" },
+    imageAlt: "La salle de 498 m² habillée pour un mariage",
+    related: { label: "Parler à l'équipe événements", href: "/events" },
   },
 ];
 

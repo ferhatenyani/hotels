@@ -1,7 +1,7 @@
-// Client subcomponent for /discover-bejaia — the category filter chip row +
-// the experience grid. Mobile single col, tablet 2-col, desktop 3-col.
-// Each card has a subtle hover lift; the cards link back to /discover-bejaia
-// for now (no detail page yet) so the IA stays consistent.
+// Sous-composant client pour /decouvrir — la rangée de filtres par catégorie
+// + la grille d'expériences. Mobile : une colonne, tablette : 2 colonnes,
+// desktop : 3 colonnes. Chaque carte renvoie vers /decouvrir pour l'instant
+// (pas de page détail) afin de garder l'arborescence cohérente.
 
 "use client";
 
@@ -14,14 +14,14 @@ import type { Experience } from "@/lib/data/experiences";
 
 type Category = Experience["category"];
 
-const categoryOrder: Category[] = ["Nature", "Heritage", "Coast", "In-house"];
+const categoryOrder: Category[] = ["Nature", "Patrimoine", "Côte", "À l'hôtel"];
 
 type Props = {
   experiences: Experience[];
 };
 
 export default function ExperienceList({ experiences }: Props) {
-  const [active, setActive] = useState<Category | "All">("All");
+  const [active, setActive] = useState<Category | "Tout">("Tout");
 
   // Only show category chips that actually exist in the data — keeps the row
   // honest if the data layer ever shrinks.
@@ -32,7 +32,7 @@ export default function ExperienceList({ experiences }: Props) {
 
   const list = useMemo(
     () =>
-      active === "All"
+      active === "Tout"
         ? experiences
         : experiences.filter((e) => e.category === active),
     [experiences, active],
@@ -44,7 +44,7 @@ export default function ExperienceList({ experiences }: Props) {
           wraps awkwardly. */}
       <div
         role="tablist"
-        aria-label="Filter by category"
+        aria-label="Filtrer par catégorie"
         className="
           flex items-center gap-2 overflow-x-auto pb-2 -mx-4 px-4
           sm:mx-0 sm:px-0 sm:flex-wrap sm:overflow-visible
@@ -53,12 +53,12 @@ export default function ExperienceList({ experiences }: Props) {
       >
         <span className="hidden md:inline-flex items-center gap-2 mr-2 font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink/55">
           <Filter className="h-3 w-3" strokeWidth={2} />
-          Filter
+          Filtrer
         </span>
         <Chip
-          active={active === "All"}
-          onClick={() => setActive("All")}
-          label="All"
+          active={active === "Tout"}
+          onClick={() => setActive("Tout")}
+          label="Tout"
           count={experiences.length}
         />
         {categories.map((c) => (
@@ -84,7 +84,7 @@ export default function ExperienceList({ experiences }: Props) {
       ) : (
         <div className="mt-10 border border-ink/10 bg-white px-6 py-10 text-center">
           <p className="font-sans text-[14px] text-graybase">
-            Nothing in that category yet — the list keeps growing.
+            Rien dans cette catégorie pour le moment — la liste s'allonge avec le temps.
           </p>
         </div>
       )}
