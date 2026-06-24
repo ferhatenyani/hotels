@@ -284,11 +284,16 @@ export default function Hero() {
       <div className="md:hidden h-[12svh] shrink-0" aria-hidden />
 
       <div className="px-4 h-[76svh] shrink-0 flex flex-col min-h-0 md:h-auto md:flex-1 md:p-3 lg:p-5">
-        <div className="relative w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] flex-1 min-h-0 md:rounded-xl lg:rounded-2xl">
+        {/* isolate + transform-gpu forces a new stacking/compositing context so
+            iOS/Android properly clip the <video>'s native layer to the rounded
+            corners — without it the video's GPU layer can briefly paint a gray
+            placeholder rectangle that bleeds past the radius on first load. */}
+        <div className="relative isolate w-full overflow-hidden rounded-2xl bg-ink shadow-[0_30px_80px_-30px_rgba(21,19,22,0.35)] flex-1 min-h-0 transform-gpu md:rounded-xl lg:rounded-2xl">
           <video
             ref={videoRef}
             aria-hidden
-            className={`absolute inset-0 h-full w-full object-cover will-change-transform transition-[opacity,filter] duration-[500ms] ease-out ${
+            poster="/images/hero-poster.jpg"
+            className={`absolute inset-0 h-full w-full object-cover bg-ink will-change-transform transition-[opacity,filter] duration-[500ms] ease-out ${
               videoReady ? "opacity-100 blur-[0px]" : "opacity-0 blur-[8px]"
             }`}
             autoPlay

@@ -100,43 +100,27 @@ export default function NavbarCentered() {
 
   return (
     <>
-      {/* MOBILE: floating pill at rest; once scrolled, snaps to an
-          edge-to-edge bar with no rounded corners. Single element with all
-          transitions in one place, mirroring the desktop pattern. */}
+      {/* MOBILE: two stacked bars (pill + edge-to-edge) crossfade with opacity
+          only — no layout-affecting properties animate, keeping the swap
+          GPU-cheap on phones. The inactive bar gets aria-hidden +
+          pointer-events-none so taps go through to the visible one. */}
       <header
+        aria-hidden={!overHero}
         className={cn(
-          "md:hidden fixed z-[60] grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 border border-ink/[0.08] transition-[top,left,right,height,border-radius] duration-300 ease-out",
-          overHero
-            ? "top-3 left-3 right-3 h-14 rounded-[28px]"
-            : "top-0 left-0 right-0 h-12 rounded-none",
+          "md:hidden fixed z-[60] top-3 left-3 right-3 h-14 rounded-[28px] grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 border border-ink/[0.08] transition-opacity duration-300 ease-out will-change-[opacity]",
+          overHero ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
       >
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            className="justify-self-start flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy active:bg-ink/[0.04]"
-          >
-            <span className="block h-[1.5px] w-5 bg-ink" />
-            <span className="block h-[1.5px] w-4 bg-ink" />
-            <span className="block h-[1.5px] w-5 bg-ink" />
-          </button>
-          <SmartLink
-            href="/"
-            sectionId="top"
-            className="justify-self-center font-display font-semibold text-[15px] tracking-tight text-ink whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
-          >
-            Hôtel du Lac
-          </SmartLink>
-          <SmartLink
-            href="/booking/search"
-            className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
-          >
-            Reserve
-            <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
-          </SmartLink>
+        <MobileBarContent onOpen={() => setOpen(true)} open={open} />
+      </header>
+      <header
+        aria-hidden={overHero}
+        className={cn(
+          "md:hidden fixed z-[60] top-0 left-0 right-0 h-12 grid grid-cols-3 items-center bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(21,19,22,0.18)] px-1.5 border-b border-ink/[0.08] transition-opacity duration-300 ease-out will-change-[opacity]",
+          overHero ? "opacity-0 pointer-events-none" : "opacity-100",
+        )}
+      >
+        <MobileBarContent onOpen={() => setOpen(true)} open={open} />
       </header>
 
       {/* TABLET/DESKTOP: when at the top of the hero, the bar tucks inside
@@ -328,6 +312,45 @@ export default function NavbarCentered() {
           </div>
         </nav>
       </div>
+    </>
+  );
+}
+
+function MobileBarContent({
+  onOpen,
+  open,
+}: {
+  onOpen: () => void;
+  open: boolean;
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label="Open menu"
+        aria-expanded={open}
+        aria-controls="mobile-menu"
+        className="justify-self-start flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy active:bg-ink/[0.04]"
+      >
+        <span className="block h-[1.5px] w-5 bg-ink" />
+        <span className="block h-[1.5px] w-4 bg-ink" />
+        <span className="block h-[1.5px] w-5 bg-ink" />
+      </button>
+      <SmartLink
+        href="/"
+        sectionId="top"
+        className="justify-self-center font-display font-semibold text-[15px] tracking-tight text-ink whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy rounded-sm"
+      >
+        Hôtel du Lac
+      </SmartLink>
+      <SmartLink
+        href="/booking/search"
+        className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
+      >
+        Reserve
+        <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
+      </SmartLink>
     </>
   );
 }
