@@ -143,7 +143,7 @@ export default function Events() {
                 scroll. On desktop, restored below stats via lg:order-2. */}
             <a
               href="#contact"
-              className="group/cta mt-7 inline-flex lg:hidden items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-7 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+              className="group/cta mt-7 inline-flex lg:hidden items-center justify-center gap-3 btn-text-md text-ink bg-cream rounded-full px-7 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
             >
               Organiser votre événement
               <svg
@@ -181,7 +181,7 @@ export default function Events() {
             {/* Desktop CTA — original position preserved. */}
             <a
               href="#contact"
-              className="group/cta mt-10 hidden lg:inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink bg-cream rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+              className="group/cta mt-10 hidden lg:inline-flex items-center justify-center gap-3 btn-text-md text-ink bg-cream rounded-full px-8 py-4 transition-colors duration-300 ease-out hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
             >
               Organiser votre événement
               <svg

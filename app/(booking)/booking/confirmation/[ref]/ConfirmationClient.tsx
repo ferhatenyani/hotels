@@ -117,21 +117,21 @@ export default function ConfirmationClient({ ref: bookingRef }: Props) {
         <div className="flex flex-wrap items-center gap-3">
           <a
             href={`tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}`}
-            className="inline-flex items-center justify-center gap-2 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-6 py-3.5 min-h-[48px] hover:bg-marine/90 transition-colors"
+            className="inline-flex items-center justify-center gap-2 btn-text-md text-white bg-marine border border-marine rounded-full px-6 py-3.5 min-h-[48px] hover:bg-marine/90 transition-colors"
           >
             <Phone className="h-4 w-4" strokeWidth={1.75} />
             {hotel.contact.phonePrimary}
           </a>
           <a
             href={`mailto:${hotel.contact.email}`}
-            className="inline-flex items-center justify-center gap-2 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/30 rounded-full px-6 py-3.5 min-h-[48px] hover:bg-ink hover:text-white transition-colors"
+            className="inline-flex items-center justify-center gap-2 btn-text-md text-ink border border-ink/30 rounded-full px-6 py-3.5 min-h-[48px] hover:bg-ink hover:text-white transition-colors"
           >
             <Mail className="h-4 w-4" strokeWidth={1.75} />
             Écrire à la réception
           </a>
           <Link
             href="/booking/lookup"
-            className="inline-flex items-center justify-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-ink/70 hover:text-ink min-h-[48px] px-2 transition-colors"
+            className="inline-flex items-center justify-center btn-text-md text-ink/70 hover:text-ink min-h-[48px] px-2 transition-colors"
           >
             Trouver une autre réservation
           </Link>
@@ -185,7 +185,7 @@ export default function ConfirmationClient({ ref: bookingRef }: Props) {
           <button
             type="button"
             onClick={onCopyRef}
-            className="inline-flex items-center gap-2 rounded-full border border-ink/25 px-4 py-2.5 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/75 hover:bg-ink hover:text-white hover:border-ink transition-colors"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/25 px-4 py-2.5 min-h-[44px] btn-text-sm text-ink/75 hover:bg-ink hover:text-white hover:border-ink transition-colors"
             aria-live="polite"
           >
             {copied ? (
@@ -269,7 +269,7 @@ export default function ConfirmationClient({ ref: bookingRef }: Props) {
             <a
               href={icsHref}
               download={`reservation-${bookingRef}.ics`}
-              className="inline-flex items-center gap-2 rounded-full bg-marine text-white px-5 py-3 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-marine/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-marine text-white px-5 py-3 min-h-[44px] btn-text-sm hover:bg-marine/90 transition-colors"
             >
               <CalendarPlus className="h-4 w-4" strokeWidth={1.75} />
               Ajouter au calendrier

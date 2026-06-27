@@ -99,7 +99,7 @@ export default async function ResultsPage(
         )}
         <Link
           href={modifySearchHref}
-          className="ml-auto inline-flex items-center gap-1 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine hover:text-marine/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm px-1"
+          className="ml-auto inline-flex items-center gap-1 min-h-[44px] btn-text-sm text-marine hover:text-marine/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm px-1"
         >
           Modifier la recherche
           <ArrowRight className="h-3 w-3" strokeWidth={2.25} />
@@ -162,7 +162,7 @@ export default async function ResultsPage(
             </Button>
             <a
               href={`tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}`}
-              className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine border border-marine/30 rounded-full px-5 py-2.5 min-h-[44px] hover:bg-marine hover:text-white transition-colors"
+              className="inline-flex items-center justify-center btn-text-sm text-marine border border-marine/30 rounded-full px-5 py-2.5 min-h-[44px] hover:bg-marine hover:text-white transition-colors"
             >
               Appeler {hotel.contact.phonePrimary}
             </a>

@@ -126,14 +126,14 @@ export default function RoomCard({
             {secondHref && (
               <Link
                 href={secondHref}
-                className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/70 px-4 py-2.5 max-md:min-h-[44px] transition-colors hover:text-ink"
+                className="inline-flex items-center justify-center btn-text-sm text-ink/70 px-4 py-2.5 max-md:min-h-[44px] transition-colors hover:text-ink"
               >
                 {secondaryLabel}
               </Link>
             )}
             <Link
               href={bookHref}
-              className="inline-flex items-center justify-center gap-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/25 rounded-full px-5 py-2.5 max-md:min-h-[44px] max-md:px-6 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+              className="inline-flex items-center justify-center gap-1.5 btn-text-sm text-ink border border-ink/25 rounded-full px-5 py-2.5 max-md:min-h-[44px] max-md:px-6 transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
             >
               {primaryLabel}
               <ArrowRight className="h-3 w-3" strokeWidth={2.25} />

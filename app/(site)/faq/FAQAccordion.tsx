@@ -226,7 +226,7 @@ export default function FAQAccordion() {
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="mt-6 inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/30 rounded-full px-5 py-3 min-h-[44px] transition-colors duration-300 ease-out hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+              className="mt-6 inline-flex items-center justify-center btn-text-sm text-ink border border-ink/30 rounded-full px-5 py-3 min-h-[44px] transition-colors duration-300 ease-out hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
             >
               Effacer la recherche
             </button>

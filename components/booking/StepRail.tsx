@@ -71,7 +71,7 @@ export default function StepRail() {
         {/* TABLETTE+ : rail de pastilles. Les étapes passées sont des liens ;
             l'étape actuelle et les suivantes sont de simples spans (pas
             de saut en avant). */}
-        <ol className="hidden md:flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.18em]">
+        <ol className="hidden md:flex items-center gap-1.5 btn-text-sm">
           {steps.map((s, i) => {
             const isCurrent = i === currentIndex;
             const isPast = i < currentIndex;

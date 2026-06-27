@@ -49,7 +49,7 @@ export default function NotFound() {
           </Link>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/70 hover:text-ink min-h-[44px] px-3 transition-colors"
+            className="inline-flex items-center gap-2 btn-text-sm text-ink/70 hover:text-ink min-h-[44px] px-3 transition-colors"
           >
             Accueil
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} />

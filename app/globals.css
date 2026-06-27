@@ -17,6 +17,10 @@
   --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Erode", ui-serif, Georgia, serif;
   --font-serif: "Erode", ui-serif, Georgia, serif;
+  /* Single source of truth for guest-side button/CTA typography.
+     Apply via .btn-text-sm / .btn-text-md / .btn-text-lg — do not
+     reach for font-sans + text-[12px] + tracking-[0.18em] one-offs. */
+  --font-button: "Inter", "Switzer", ui-sans-serif, system-ui, sans-serif;
   /* Extra breakpoint for large phones (used for heading scale, etc.). */
   --breakpoint-xs: 30rem;
 
@@ -179,6 +183,21 @@
 }
 
 @layer utilities {
+  /* Guest button typography scale — see --font-button.
+     Three tiers, no in-between sizes. Every CTA in the guest site routes
+     through one of these instead of inline font/size/tracking clusters. */
+  .btn-text-sm,
+  .btn-text-md,
+  .btn-text-lg {
+    font-family: var(--font-button);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-feature-settings: "cv11", "ss03", "case";
+  }
+  .btn-text-sm { font-size: 11px; letter-spacing: 0.18em; }
+  .btn-text-md { font-size: 12px; letter-spacing: 0.18em; }
+  .btn-text-lg { font-size: 14px; letter-spacing: 0.16em; }
+
   .grain {
     position: relative;
   }

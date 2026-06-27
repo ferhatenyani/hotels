@@ -230,7 +230,7 @@ export default function BookThisRoom({ room, initial }: Props) {
           type="submit"
           disabled={ctaDisabled}
           className={cn(
-            "group/btn inline-flex w-full items-center justify-center gap-2 min-h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine",
+            "group/btn inline-flex w-full items-center justify-center gap-2 min-h-[52px] rounded-full bg-marine text-white btn-text-md transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine",
             "disabled:opacity-40 disabled:pointer-events-none",
           )}
         >
@@ -298,7 +298,7 @@ export default function BookThisRoom({ room, initial }: Props) {
             }}
             disabled={overCapacity}
             className={cn(
-              "ml-auto inline-flex items-center justify-center gap-1.5 min-h-[52px] flex-1 max-w-[200px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine",
+              "ml-auto inline-flex items-center justify-center gap-1.5 min-h-[52px] flex-1 max-w-[200px] rounded-full bg-marine text-white btn-text-md transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine",
               "disabled:opacity-40 disabled:pointer-events-none",
             )}
           >

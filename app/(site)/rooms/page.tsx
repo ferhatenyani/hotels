@@ -102,7 +102,7 @@ export default async function RoomsPage(props: PageProps<"/rooms">) {
             )}
             <Link
               href={changeHref}
-              className="ml-auto inline-flex items-center gap-1 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine hover:text-marine/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm px-1"
+              className="ml-auto inline-flex items-center gap-1 min-h-[44px] btn-text-sm text-marine hover:text-marine/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm px-1"
             >
               Modifier
               <ArrowRight className="h-3 w-3" strokeWidth={2.25} />

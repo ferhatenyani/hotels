@@ -398,7 +398,7 @@ export default function SearchForm({
 
             <button
               type="submit"
-              className="group/cta h-[80px] w-[220px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+              className="group/cta h-[80px] w-[220px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white btn-text-md transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
               Voir les chambres
               <ArrowRight
@@ -495,7 +495,7 @@ export default function SearchForm({
           <button
             type="button"
             onClick={goToResults}
-            className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90"
+            className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white btn-text-md transition-colors active:bg-marine/90"
           >
             {chipDates !== "Ajouter des dates" && nights > 0
               ? `Voir les chambres · ${nights} nuit${nights > 1 ? "s" : ""}`
@@ -524,7 +524,7 @@ export default function SearchForm({
               type="button"
               onClick={continueFromCheckIn}
               disabled={!draftCheckIn}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
               Continuer
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
@@ -534,7 +534,7 @@ export default function SearchForm({
               type="button"
               onClick={continueFromCheckOut}
               disabled={!draftCheckOut}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
               Continuer
               {draftNights > 0 ? (
@@ -548,7 +548,7 @@ export default function SearchForm({
             <button
               type="button"
               onClick={commit}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px]"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md h-[52px]"
             >
               Voir les chambres
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />

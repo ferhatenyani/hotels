@@ -87,7 +87,7 @@ export default function DiningReservationForm() {
               </p>
               <button
                 type="submit"
-                className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink border border-ink/30 rounded-full px-8 py-4 max-md:min-h-[52px] transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+                className="group/cta inline-flex items-center justify-center gap-3 btn-text-md text-ink border border-ink/30 rounded-full px-8 py-4 max-md:min-h-[52px] transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
               >
                 Envoyer le mot
                 <svg

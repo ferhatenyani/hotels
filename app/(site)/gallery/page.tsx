@@ -46,13 +46,13 @@ export default function GalleryPage() {
           <div className="flex flex-wrap items-center gap-3">
             <a
               href="/booking/search"
-              className="inline-flex items-center justify-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-6 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+              className="inline-flex items-center justify-center gap-2 btn-text-sm text-white bg-marine border border-marine rounded-full px-6 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
             >
               Vérifier les disponibilités
             </a>
             <a
               href="/rooms"
-              className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink border border-ink/30 rounded-full px-6 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+              className="inline-flex items-center justify-center btn-text-sm text-ink border border-ink/30 rounded-full px-6 py-3.5 min-h-[48px] transition-colors duration-300 ease-out hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
             >
               Parcourir les chambres
             </a>

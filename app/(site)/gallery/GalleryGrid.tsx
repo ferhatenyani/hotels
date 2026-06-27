@@ -143,7 +143,7 @@ export default function GalleryGrid() {
                 setOpenIdx(null);
               }}
               className={cn(
-                "inline-flex items-center justify-center font-sans text-[11px] md:text-[12px] font-semibold uppercase tracking-[0.2em] rounded-full px-5 py-3 min-h-[44px] transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
+                "inline-flex items-center justify-center btn-text-sm md:btn-text-md rounded-full px-5 py-3 min-h-[44px] transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine",
                 isActive
                   ? "bg-marine text-white border border-marine"
                   : "bg-white text-ink border border-ink/20 hover:border-ink/40",

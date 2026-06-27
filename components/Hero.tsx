@@ -521,7 +521,7 @@ export default function Hero() {
 
                 <button
                   type="submit"
-                  className="group/cta h-[72px] w-[210px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white font-sans text-[12px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+                  className="group/cta h-[72px] w-[210px] shrink-0 inline-flex items-center justify-center gap-2.5 bg-marine text-white btn-text-md transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
                 >
                   Vérifier les disponibilités
                   <ArrowRight
@@ -662,7 +662,7 @@ export default function Hero() {
               type="button"
               onClick={continueFromCheckIn}
               disabled={!draftCheckIn}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
               Continuer
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
@@ -672,7 +672,7 @@ export default function Hero() {
               type="button"
               onClick={continueFromCheckOut}
               disabled={!draftCheckOut}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md h-[52px] transition-opacity disabled:opacity-40 disabled:pointer-events-none"
             >
               Continuer
               {draftNights > 0 ? (
@@ -686,7 +686,7 @@ export default function Hero() {
             <button
               type="button"
               onClick={commit}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] h-[52px]"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md h-[52px]"
             >
               Vérifier les disponibilités
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />

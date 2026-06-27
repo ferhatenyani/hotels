@@ -15,16 +15,13 @@ const leftLinks = [
   { label: "Événements", href: "/events", sectionId: "events" },
 ];
 
-const rightLinks = [
-  { label: "Contact", href: "/contact", sectionId: "contact" },
-];
-
 // Mobile menu surfaces every top-level route so the drawer is the full nav.
-const mobileExtraLinks = [
+const mobileExtraLinks: { label: string; href: string; sectionId?: string }[] = [
   { label: "Offres", href: "/offers" },
   { label: "Découvrir la région", href: "/decouvrir" },
   { label: "Galerie", href: "/gallery" },
   { label: "À propos", href: "/about" },
+  { label: "Contact", href: "/contact", sectionId: "contact" },
 ];
 
 export default function NavbarCentered() {
@@ -40,16 +37,11 @@ export default function NavbarCentered() {
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Off-home: skip the hero detection entirely and stay in compact mode.
     if (!onHome) {
       setOverHero(false);
       return;
     }
     const onScroll = () => {
-      // Tie the morph to scroll distance from the top, not the hero's
-      // viewport position — the bar should start morphing the instant the
-      // user scrolls, not after the hero leaves the viewport. 16px dead
-      // zone avoids flipping the state on accidental nudges.
       setOverHero(window.scrollY < 16);
     };
     onScroll();
@@ -61,7 +53,6 @@ export default function NavbarCentered() {
     };
   }, [onHome]);
 
-  // Lock body scroll while the mobile menu is open.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -71,7 +62,6 @@ export default function NavbarCentered() {
     };
   }, [open]);
 
-  // Esc to close the mobile menu.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -81,18 +71,10 @@ export default function NavbarCentered() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const allMobileLinks = [
-    ...leftLinks,
-    ...rightLinks,
-    ...mobileExtraLinks,
-  ];
+  const allMobileLinks = [...leftLinks, ...mobileExtraLinks];
 
   return (
     <>
-      {/* MOBILE: two stacked bars (pill + edge-to-edge) crossfade with opacity
-          only — no layout-affecting properties animate, keeping the swap
-          GPU-cheap on phones. The inactive bar gets aria-hidden +
-          pointer-events-none so taps go through to the visible one. */}
       <header
         aria-hidden={!overHero}
         className={cn(
@@ -112,9 +94,6 @@ export default function NavbarCentered() {
         <MobileBarContent onOpen={() => setOpen(true)} open={open} />
       </header>
 
-      {/* TABLET/DESKTOP: when at the top of the hero, the bar tucks inside
-          the video card's padding (matches md:p-3 / lg:p-5). Once scrolled,
-          it returns to a full-width bar at the very top. */}
       <header
         ref={navRef}
         className={cn(
@@ -124,12 +103,8 @@ export default function NavbarCentered() {
             : "top-0 left-0 right-0 h-[56px] bg-white/85 backdrop-blur-md border-b border-ink/10",
         )}
       >
-        {/* Horizontal padding matches the hero card's inner padding so the nav
-            items visually sit inside the video container, aligned with the
-            hero headline below. */}
         <nav className="relative flex h-full w-full items-center px-5 sm:px-10 lg:px-14">
-          {/* Left flank — desktop */}
-          <div className="hidden md:flex flex-1 items-center text-[11px] font-sans tracking-[0.18em] uppercase">
+          <div className="hidden md:flex flex-1 items-center btn-text-sm">
             {leftLinks.map((link, i) => (
               <span key={link.href} className="flex items-center">
                 {i > 0 && (
@@ -157,7 +132,6 @@ export default function NavbarCentered() {
             ))}
           </div>
 
-          {/* Center wordmark */}
           <div className="flex-1 flex flex-col items-center max-md:items-start">
             <SmartLink
               href="/"
@@ -183,48 +157,27 @@ export default function NavbarCentered() {
             </span>
           </div>
 
-          {/* Right flank — desktop */}
-          <div className="hidden md:flex flex-1 items-center justify-end text-[11px] font-sans tracking-[0.18em] uppercase">
-            {rightLinks.map((link) => (
-              <SmartLink
-                key={link.href}
-                href={link.href}
-                sectionId={link.sectionId}
-                className={cn(
-                  "inline-flex h-11 items-center px-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
-                  overHero
-                    ? "text-white hover:text-cream focus-visible:outline-white"
-                    : "text-ink hover:text-navy focus-visible:outline-navy",
-                )}
-              >
-                {link.label}
-              </SmartLink>
-            ))}
-            <span
-              aria-hidden
-              className={cn(
-                "mx-2 h-1 w-1 rounded-full transition-colors",
-                overHero ? "bg-white/60" : "bg-ink/40",
-              )}
-            />
+          {/* Right flank — desktop. Single Contact CTA, styled like a
+              button. Mobile pill bar + drawer keep the existing Réserver
+              actions untouched. */}
+          <div className="hidden md:flex flex-1 items-center justify-end btn-text-sm">
             <SmartLink
-              href="/booking/search"
+              href="/contact"
+              sectionId="contact"
               className={cn(
-                "inline-flex h-11 items-center gap-1.5 px-3 font-semibold rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
+                "inline-flex h-11 items-center gap-1.5 px-4 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
                 overHero
                   ? "bg-white text-ink hover:bg-cream focus-visible:outline-white"
-                  : "text-ink hover:text-navy focus-visible:outline-navy",
+                  : "bg-ink text-white hover:bg-navy focus-visible:outline-navy",
               )}
             >
-              Réserver
+              Contact
               <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
             </SmartLink>
           </div>
-
         </nav>
       </header>
 
-      {/* Full-screen mobile overlay menu */}
       <div
         id="mobile-menu"
         role="dialog"
@@ -256,34 +209,28 @@ export default function NavbarCentered() {
 
         <nav className="flex-1 overflow-y-auto px-6 pt-4 pb-8 flex flex-col">
           <ul className="flex flex-col">
-            {allMobileLinks.map((link, i) => {
-              const sectionId =
-                "sectionId" in link
-                  ? (link as { sectionId?: string }).sectionId
-                  : undefined;
-              return (
-                <li
-                  key={link.href}
-                  className={cn(
-                    "border-b border-ink/10",
-                    i === 0 && "border-t border-ink/10",
-                  )}
+            {allMobileLinks.map((link, i) => (
+              <li
+                key={link.href}
+                className={cn(
+                  "border-b border-ink/10",
+                  i === 0 && "border-t border-ink/10",
+                )}
+              >
+                <SmartLink
+                  href={link.href}
+                  sectionId={link.sectionId}
+                  onAfterClick={() => setOpen(false)}
+                  className="flex min-h-[60px] items-center justify-between font-display text-[28px] font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
                 >
-                  <SmartLink
-                    href={link.href}
-                    sectionId={sectionId}
-                    onAfterClick={() => setOpen(false)}
-                    className="flex min-h-[60px] items-center justify-between font-display text-[28px] font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
-                  >
-                    {link.label}
-                    <ArrowRight
-                      className="h-4 w-4 text-ink/40"
-                      strokeWidth={1.75}
-                    />
-                  </SmartLink>
-                </li>
-              );
-            })}
+                  {link.label}
+                  <ArrowRight
+                    className="h-4 w-4 text-ink/40"
+                    strokeWidth={1.75}
+                  />
+                </SmartLink>
+              </li>
+            ))}
           </ul>
 
           <div className="mt-auto pt-10">
@@ -293,7 +240,7 @@ export default function NavbarCentered() {
             <SmartLink
               href="/booking/search"
               onAfterClick={() => setOpen(false)}
-              className="mt-4 inline-flex w-full min-h-[56px] items-center justify-center gap-2 rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+              className="mt-4 inline-flex w-full min-h-[56px] items-center justify-center gap-2 rounded-full bg-marine text-white btn-text-md transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
             >
               Réserver
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
@@ -335,7 +282,7 @@ function MobileBarContent({
       </SmartLink>
       <SmartLink
         href="/booking/search"
-        className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
+        className="justify-self-end inline-flex h-10 items-center gap-1 rounded-full bg-marine text-white px-3.5 btn-text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine active:bg-marine/90"
       >
         Réserver
         <ArrowRight className="h-3 w-3" strokeWidth={2.5} />

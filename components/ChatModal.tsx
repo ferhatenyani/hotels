@@ -243,36 +243,34 @@ export default function ChatModal() {
           data-lenis-prevent
           className="scroll-dark flex-1 min-h-0 overflow-y-auto px-5 py-5"
         >
-          <ul className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             <Bubble side="bot">
-              Bienvenue. Comment puis-je vous aider aujourd'hui ?
+              Bienvenue à la conciergerie. Comment pouvons-nous vous aider ?
             </Bubble>
-            <Bubble side="user">
-              Auriez-vous une chambre avec vue pour deux le week-end prochain ?
-            </Bubble>
-            <Bubble side="bot">
-              Bien sûr — la Suite Senior (52 m², coin salon) et la Chambre Double
-              Vue Panoramique offrent toutes deux une belle vue. Souhaitez-vous
-              connaître les tarifs et disponibilités ?
-            </Bubble>
-            <li className="flex justify-start">
-              <div className="flex items-center gap-[5px] rounded-[12px] rounded-bl-[3px] bg-ink/[0.06] px-4 py-3">
-                {[0, 0.16, 0.32].map((delay, i) => (
-                  <span
-                    key={i}
-                    aria-hidden
-                    className="block h-[5px] w-[5px] rounded-full bg-ink/55"
-                    style={{
-                      animation:
-                        "chat-typing-dot 1.25s ease-in-out infinite",
-                      animationDelay: `${delay}s`,
-                    }}
-                  />
+
+            <div className="flex flex-col gap-2 pl-1">
+              <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-ink/45">
+                Suggestions
+              </p>
+              <ul className="flex flex-wrap gap-2">
+                {[
+                  "Réserver une chambre",
+                  "Voir les offres",
+                  "Nous contacter",
+                ].map((chip) => (
+                  <li key={chip}>
+                    <button
+                      type="button"
+                      className="inline-flex items-center rounded-full border border-ink/15 bg-white px-3.5 py-2 min-h-[36px] text-[13px] font-medium text-ink transition-colors hover:border-marine/50 hover:bg-marine/[0.06] hover:text-marine focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+                      style={{ fontFamily: "var(--font-sans)" }}
+                    >
+                      {chip}
+                    </button>
+                  </li>
                 ))}
-                <span className="sr-only">La conciergerie est en train d'écrire</span>
-              </div>
-            </li>
-          </ul>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <form

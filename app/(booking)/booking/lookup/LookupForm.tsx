@@ -113,14 +113,14 @@ export default function LookupForm() {
           <div className="mt-4 flex flex-wrap gap-3">
             <a
               href={`tel:${hotel.contact.phonePrimary.replace(/\s/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full bg-marine text-white px-5 py-2.5 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-marine/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-marine text-white px-5 py-2.5 min-h-[44px] btn-text-sm hover:bg-marine/90 transition-colors"
             >
               <Phone className="h-4 w-4" strokeWidth={1.75} />
               {hotel.contact.phonePrimary}
             </a>
             <a
               href={`mailto:${hotel.contact.email}`}
-              className="inline-flex items-center gap-2 rounded-full border border-ink/25 px-5 py-2.5 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/75 hover:bg-ink hover:text-white hover:border-ink transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-ink/25 px-5 py-2.5 min-h-[44px] btn-text-sm text-ink/75 hover:bg-ink hover:text-white hover:border-ink transition-colors"
             >
               <Mail className="h-4 w-4" strokeWidth={1.75} />
               Écrire à la réception
@@ -137,7 +137,7 @@ export default function LookupForm() {
         </p>
         <button
           type="submit"
-          className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+          className="group/cta inline-flex items-center justify-center gap-3 btn-text-md text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
         >
           Trouver ma réservation
           <ArrowRight
@@ -151,7 +151,7 @@ export default function LookupForm() {
       <div className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-ink/10 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <button
           type="submit"
-          className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90"
+          className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white btn-text-md transition-colors active:bg-marine/90"
         >
           Trouver ma réservation
           <ArrowRight className="h-4 w-4" strokeWidth={2.25} />

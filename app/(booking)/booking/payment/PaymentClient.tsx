@@ -350,7 +350,7 @@ export default function PaymentClient({ room, q }: Props) {
           <button
             type="submit"
             disabled={submitting}
-            className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine disabled:opacity-50"
+            className="group/cta inline-flex items-center justify-center gap-3 btn-text-md text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine disabled:opacity-50"
           >
             {submitting ? "Confirmation…" : "Confirmer la réservation"}
             <ArrowRight
@@ -365,7 +365,7 @@ export default function PaymentClient({ room, q }: Props) {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90 disabled:opacity-50"
+            className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white btn-text-md transition-colors active:bg-marine/90 disabled:opacity-50"
           >
             {submitting
               ? "Confirmation…"

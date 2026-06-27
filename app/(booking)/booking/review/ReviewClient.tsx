@@ -165,7 +165,7 @@ export default function ReviewClient({ room, q }: Props) {
               </div>
               <Link
                 href={bookingHref("results", q)}
-                className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white/95 hover:bg-white text-ink px-3.5 py-2 min-h-[44px] font-sans text-[10.5px] font-semibold uppercase tracking-[0.18em] backdrop-blur transition-colors"
+                className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white/95 hover:bg-white text-ink px-3.5 py-2 min-h-[44px] btn-text-sm backdrop-blur transition-colors"
               >
                 <Pencil className="h-3 w-3" strokeWidth={2} />
                 Changer de chambre
@@ -187,7 +187,7 @@ export default function ReviewClient({ room, q }: Props) {
             </p>
             <Link
               href={bookingHref("search", q)}
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-ink/20 px-3.5 py-1.5 min-h-[44px] font-sans text-[10.5px] uppercase tracking-[0.18em] text-ink/70 hover:text-ink hover:border-ink/40 transition-colors"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-ink/20 px-3.5 py-1.5 min-h-[44px] btn-text-sm text-ink/70 hover:text-ink hover:border-ink/40 transition-colors"
             >
               <Pencil className="h-3 w-3" strokeWidth={2} />
               Changer les dates
@@ -240,7 +240,7 @@ export default function ReviewClient({ room, q }: Props) {
             </div>
             <Link
               href={bookingHref("guest", q)}
-              className="shrink-0 inline-flex items-center gap-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-marine hover:text-marine/80 transition-colors min-h-[44px] px-1"
+              className="shrink-0 inline-flex items-center gap-1.5 btn-text-sm text-marine hover:text-marine/80 transition-colors min-h-[44px] px-1"
             >
               <Pencil className="h-3 w-3" strokeWidth={2} />
               Modifier les infos
@@ -375,7 +375,7 @@ export default function ReviewClient({ room, q }: Props) {
         <div className="hidden lg:flex items-center justify-between gap-6 pt-2">
           <Link
             href={bookingHref("guest", q)}
-            className="inline-flex items-center gap-2 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-ink/65 hover:text-ink transition-colors"
+            className="inline-flex items-center gap-2 btn-text-md text-ink/65 hover:text-ink transition-colors"
           >
             <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
             Retour aux infos
@@ -383,7 +383,7 @@ export default function ReviewClient({ room, q }: Props) {
           <button
             type="button"
             onClick={onContinue}
-            className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+            className="group/cta inline-flex items-center justify-center gap-3 btn-text-md text-white bg-marine border border-marine rounded-full px-8 py-4 transition-colors hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
           >
             Vers le paiement
             <ArrowRight
@@ -417,7 +417,7 @@ export default function ReviewClient({ room, q }: Props) {
         <button
           type="button"
           onClick={onContinue}
-          className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white font-sans text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors active:bg-marine/90"
+          className="w-full inline-flex items-center justify-center gap-2 h-[52px] rounded-full bg-marine text-white btn-text-md transition-colors active:bg-marine/90"
         >
           Vers le paiement
           <ArrowRight className="h-4 w-4" strokeWidth={2.25} />

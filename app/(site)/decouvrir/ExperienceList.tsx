@@ -110,7 +110,7 @@ function Chip({
       aria-selected={active}
       onClick={onClick}
       className={cn(
-        "shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2.5 min-h-[44px] font-sans text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine",
+        "shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2.5 min-h-[44px] btn-text-sm transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine",
         active
           ? "bg-marine text-white border border-marine"
           : "bg-white text-ink border border-ink/20 hover:border-ink/40",

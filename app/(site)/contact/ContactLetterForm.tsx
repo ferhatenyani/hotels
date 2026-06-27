@@ -83,7 +83,7 @@ export default function ContactLetterForm() {
               </p>
               <button
                 type="submit"
-                className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ink border border-ink/30 rounded-full px-8 py-4 min-h-[48px] transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+                className="group/cta inline-flex items-center justify-center gap-3 btn-text-md text-ink border border-ink/30 rounded-full px-8 py-4 min-h-[48px] transition-colors duration-300 ease-out hover:bg-marine hover:border-marine hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
               >
                 Envoyer la lettre
                 <svg
@@ -147,7 +147,7 @@ function SentConfirmation({ onReset }: { onReset: () => void }) {
       <button
         type="button"
         onClick={onReset}
-        className="mt-2 inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-marine hover:text-marine/80 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+        className="mt-2 inline-flex items-center gap-2 btn-text-sm text-marine hover:text-marine/80 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
       >
         Écrire une autre lettre
       </button>

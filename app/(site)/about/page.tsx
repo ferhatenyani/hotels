@@ -253,7 +253,7 @@ export default function AboutPage() {
                   href={mapsHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 self-start sm:self-auto font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-marine hover:text-marine/80 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm"
+                  className="inline-flex items-center gap-1.5 self-start sm:self-auto btn-text-sm text-marine hover:text-marine/80 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine rounded-sm"
                 >
                   Ouvrir dans Google Maps
                   <ExternalLink className="h-3 w-3" strokeWidth={2.25} />

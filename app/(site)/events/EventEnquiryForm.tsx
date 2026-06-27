@@ -119,7 +119,7 @@ export default function EventEnquiryForm() {
               </p>
               <button
                 type="submit"
-                className="group/cta inline-flex items-center justify-center gap-3 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-white bg-marine border border-marine rounded-full px-8 py-4 max-md:min-h-[52px] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
+                className="group/cta inline-flex items-center justify-center gap-3 btn-text-md text-white bg-marine border border-marine rounded-full px-8 py-4 max-md:min-h-[52px] transition-colors duration-300 ease-out hover:bg-marine/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-marine"
               >
                 Envoyer la demande
                 <svg

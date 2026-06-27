@@ -26,12 +26,12 @@ const variantClass: Record<Variant, string> = {
     "bg-transparent text-white border border-white/40 hover:bg-white hover:text-ink focus-visible:outline-white",
 };
 
+// Typography comes from the shared .btn-text-* tokens (see globals.css).
+// Sizes here own height/padding only — never font/letter-spacing.
 const sizeClass: Record<Size, string> = {
-  compact: "h-10 px-4 text-[10.5px] tracking-[0.18em]",
-  default:
-    "h-12 px-6 text-[11px] tracking-[0.18em] max-md:min-h-[48px] max-md:px-6",
-  large:
-    "h-14 px-8 text-[12px] tracking-[0.2em] max-md:min-h-[52px] max-md:px-6",
+  compact: "h-10 px-4 btn-text-sm",
+  default: "h-12 px-6 btn-text-md max-md:min-h-[48px] max-md:px-6",
+  large: "h-14 px-8 btn-text-lg max-md:min-h-[52px] max-md:px-6",
 };
 
 type CommonProps = {
@@ -54,8 +54,10 @@ type ButtonProps = CommonProps &
     href?: undefined;
   };
 
+// Font family / weight / case / tracking live in the .btn-text-* tokens
+// applied via sizeClass — keep this base purely structural.
 const baseClass =
-  "group/btn inline-flex items-center justify-center gap-2 font-sans font-semibold uppercase rounded-full transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 disabled:opacity-40 disabled:pointer-events-none";
+  "group/btn inline-flex items-center justify-center gap-2 rounded-full transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 disabled:opacity-40 disabled:pointer-events-none";
 
 // Polymorphic factory — keeps the prop-forwarding clean.
 export const Button = forwardRef<

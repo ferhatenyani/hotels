@@ -121,7 +121,7 @@ export default function PoliciesPage() {
               <a
                 key={p.id}
                 href={`#${p.id}`}
-                className="inline-flex items-center justify-center font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/70 border border-ink/15 rounded-full px-4 py-2.5 min-h-[44px] transition-colors hover:bg-ink hover:border-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
+                className="inline-flex items-center justify-center btn-text-sm text-ink/70 border border-ink/15 rounded-full px-4 py-2.5 min-h-[44px] transition-colors hover:bg-ink hover:border-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marine"
               >
                 {p.navLabel}
               </a>
